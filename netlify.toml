@@ -1,0 +1,8 @@
+# The game is one file (index.html at the repo root, which GitHub Pages serves too).
+# Netlify copies it into public/ so server code and node_modules are never published.
+[build]
+  command = "mkdir -p public && cp index.html public/index.html"
+  publish = "public"
+
+[functions]
+  directory = "netlify/functions"

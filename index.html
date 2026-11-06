@@ -913,6 +913,25 @@ function addXP(n){
 /* ---------- leaderboard (shared through the artifact's db) ---------- */
 const HEX = /^#[0-9A-Fa-f]{6}$/;
 const TROPHY_INK = `<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><g stroke="${INK}" stroke-width="2" stroke-linejoin="round"><path d="M4 5h3M17 5h3M4 5c0 4 2 6 4 6M20 5c0 4-2 6-4 6" fill="none"/><path d="M7 3h10v5a5 5 0 0 1-10 0z" fill="#FFD23F"/><path d="M12 13v4M8 21h8l-1-4H9z" fill="#FFB020"/></g></svg>`;
+// Two homes for shared data: Claude's db (inside claude.ai) or the Netlify game server (/api).
+let net = false, netToken = null, netTimer = null;
+const online = () => !!uid && (net || !!db);
+async function api(route, body = {}){
+  const r = await fetch('/api/' + route, { method: 'POST', headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({ id: uid, token: netToken, ...body }) });
+  if (!r.ok){ const e = new Error('api ' + r.status); e.code = r.status === 403 ? 'invalid_argument' : 'unavailable'; throw e; }
+  return r.json();
+}
+const shared = {
+  setScore: b => net ? api('score', { score: b }) : db.doc('scores/' + uid).set({ ...b, updated: Date.now() }),
+  deleteScore: () => net ? api('reset') : db.doc('scores/' + uid).delete(),
+  sendChallenge: (to, build) => { const now = Date.now();
+    return net ? api('challenge', { to, build }) : db.doc('challenges/' + pairId(uid, to)).set({ from: uid, to, status: 'pending', fromBuild: build, created: now, updated: now }); },
+  resolve: (c, won) => net ? api('resolve', { from: c.from, won, toName: save.robot.name })
+    : db.doc('challenges/' + c.id).update({ status: 'done', winner: won ? uid : c.from, toName: save.robot.name, toBuild: myBuild(), updated: Date.now() }),
+  decline: c => net ? api('decline', { from: c.from }) : db.doc('challenges/' + c.id).update({ status: 'declined', updated: Date.now() }),
+  claim: c => net ? api('claim', { to: c.to }) : db.doc('challenges/' + c.id).update({ claimed: true }),
+};
 let db = null, uid = null, boardRows = [], boardState = 'loading', canPost = true, lastPushed = null, pushTimer = null, pushing = false;
 function scoreBody(){
   return { name: save.robot.name, level: save.level, wins: save.wins,
@@ -946,7 +965,7 @@ function renderBoard(){
   const box = $('lb'); if (!box) return;
   box.textContent = '';
   const msg = t => { const p = document.createElement('p'); p.className = 'lbmsg'; p.textContent = t; box.appendChild(p); };
-  if (boardState === 'off'){ msg('The leaderboard and challenges work in the Claude version of the game. Your robot still saves on this device.'); return; }
+  if (boardState === 'off'){ msg("The leaderboard can't be reached from here. Your robot still saves on this device."); return; }
   if (boardState === 'loading'){ msg('Loading the leaderboard...'); return; }
   const rows = boardRows.slice().sort((a, b) => b.wins - a.wins || b.level - a.level || b.upgrades - a.upgrades);
   if (!rows.length){
@@ -962,12 +981,12 @@ function renderBoard(){
 }
 function schedulePush(){ clearTimeout(pushTimer); pushTimer = setTimeout(pushScore, 1200); }
 async function pushScore(){
-  if (!db || !uid || !canPost || pushing) return;
+  if (!online() || !canPost || pushing) return;
   if (save.wins + save.losses === 0) return;
   const body = scoreBody(), key = keyOf(body);
   if (key === lastPushed) return;
   pushing = true;
-  try { await db.doc('scores/' + uid).set({ ...body, updated: Date.now() }); lastPushed = key; }
+  try { await shared.setScore(body); lastPushed = key; if (net) netRefresh(); }
   catch (e){ if (e && (e.code === 'invalid_argument' || e.code === 'not_granted' || e.code === 'revoked')){ canPost = false; renderBoard(); } }
   pushing = false;
   if (canPost && keyOf(scoreBody()) !== lastPushed) schedulePush();
@@ -981,7 +1000,11 @@ async function initBoard(){
       if (user && (await user.can('data.write')) === false) canPost = false;
     }
   } catch (e){ db = null; }
-  if (!db || !uid){ boardState = 'off'; renderBoard(); return; }
+  if (!db || !uid){
+    db = null; uid = null;
+    if (!(window.claude && window.claude.use) && await initNet()) return;
+    boardState = 'off'; renderBoard(); return;
+  }
   const timer = setTimeout(() => { boardState = 'slow'; renderBoard(); }, 10000);
   db.collection('scores').orderBy('wins', 'desc').limit(200).onSnapshot(snap => {
     boardRows = snap.docs.map(d => cleanRow(d.id, d.data())).filter(Boolean);
@@ -993,6 +1016,44 @@ async function initBoard(){
   }, () => { clearTimeout(timer); boardState = 'slow'; renderBoard(); });
   schedulePush();
   startChallengeSubs();
+}
+
+/* ---------- Netlify game server: each device is a player ---------- */
+function randHex(n){ const a = new Uint8Array(n); crypto.getRandomValues(a); return [...a].map(b => b.toString(16).padStart(2, '0')).join(''); }
+async function initNet(){
+  try { const r = await fetch('/api/ping', { cache: 'no-store' }); if (!r.ok) return false; const j = await r.json(); if (!j || !j.ok) return false; }
+  catch (e){ return false; }
+  let id = null, token = null;
+  try { id = localStorage.getItem('merge-champion-player'); token = localStorage.getItem('merge-champion-token'); } catch (e){}
+  if (!/^p[0-9a-f]{16}$/.test(id || '') || !token){
+    id = 'p' + randHex(8); token = randHex(24);
+    try { localStorage.setItem('merge-champion-player', id); localStorage.setItem('merge-champion-token', token); } catch (e){}
+  }
+  net = true; uid = id; netToken = token;
+  await netRefresh();
+  netTimer = setInterval(netRefresh, 20000);
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) netRefresh(); });
+  schedulePush();
+  return true;
+}
+let netBusy = false;
+async function netRefresh(){
+  if (!net || netBusy) return;
+  netBusy = true;
+  try {
+    const d = await api('state');
+    boardRows = (d.board || []).map(r => cleanRow(r.id, r)).filter(Boolean);
+    const mine = (d.board || []).find(r => r.id === uid);
+    if (mine && lastPushed === null){ const r = cleanRow(uid, mine); if (r) lastPushed = keyOf(r); }
+    setIncoming((d.incoming || []).map(normChallenge).filter(c => c && c.status === 'pending' && c.from !== uid && freshChallenge(c)));
+    outgoing = (d.outgoing || []).map(normChallenge).filter(Boolean);
+    boardState = 'live';
+  } catch (e){
+    if (e && e.code === 'invalid_argument') canPost = false;
+    boardState = 'slow';
+  }
+  netBusy = false;
+  renderInbox(); renderBoard(); maybeShowResults();
 }
 
 /* ---------- challenges: ask another player to fight ----------
@@ -1018,20 +1079,23 @@ function robotFromBuild(b){
   const parts = r.parts.length ? r.parts : ['battery'];
   return buildRobot({ parts, lv: id => lvs[id] || 1, level: r.level, colors: r.colors, name: r.name });
 }
-function cleanChallenge(d){
-  const x = d.data();
+function cleanChallenge(d){ const x = d.data(); return x ? normChallenge({ ...x, id: d.id }) : null; }
+function setIncoming(list){
+  incoming = list;
+  incoming.forEach(c => {
+    const k = c.id + ':' + c.created;
+    if (!notified.has(k)){ notified.add(k); sfx('alarm'); toast(`${robotFromBuild(c.build).name} wants to fight you!`); }
+  });
+}
+function normChallenge(x){
   if (!x || typeof x.from !== 'string' || typeof x.to !== 'string') return null;
-  return { id: d.id, from: x.from, to: x.to, status: String(x.status || ''), build: x.fromBuild,
+  return { id: typeof x.id === 'string' ? x.id : pairId(x.from, x.to), from: x.from, to: x.to, status: String(x.status || ''), build: x.fromBuild,
            created: Number(x.created) || 0, updated: Number(x.updated) || 0,
            winner: typeof x.winner === 'string' ? x.winner : null, toName: String(x.toName || '').slice(0, 20), claimed: !!x.claimed };
 }
 function startChallengeSubs(){
   db.collection('challenges').where('to', '==', uid).onSnapshot(snap => {
-    incoming = snap.docs.map(cleanChallenge).filter(c => c && c.status === 'pending' && c.from !== uid && freshChallenge(c));
-    incoming.forEach(c => {
-      const k = c.id + ':' + c.created;
-      if (!notified.has(k)){ notified.add(k); sfx('alarm'); toast(`${robotFromBuild(c.build).name} wants to fight you!`); }
-    });
+    setIncoming(snap.docs.map(cleanChallenge).filter(c => c && c.status === 'pending' && c.from !== uid && freshChallenge(c)));
     renderInbox(); renderBoard();
   }, () => {});
   db.collection('challenges').where('from', '==', uid).onSnapshot(snap => {
@@ -1056,9 +1120,11 @@ function renderInbox(){
 $('inlist').addEventListener('click', e => {
   const a = e.target.closest('[data-acc]'), d = e.target.closest('[data-dec]');
   if (a){ const c = incoming.find(x => x.id === a.dataset.acc); if (c) acceptChallenge(c); }
-  if (d && db){
+  if (d && online()){
+    const c = incoming.find(x => x.id === d.dataset.dec); if (!c) return;
     sfx('remove');
-    db.doc('challenges/' + d.dataset.dec).update({ status: 'declined', updated: Date.now() }).catch(() => toast("Couldn't do that right now. Try again later."));
+    incoming = incoming.filter(x => x !== c); renderInbox(); renderBoard();
+    shared.decline(c).then(() => { if (net) netRefresh(); }).catch(() => toast("Couldn't do that right now. Try again later."));
   }
 });
 $('lb').addEventListener('click', e => {
@@ -1073,15 +1139,16 @@ function acceptChallenge(c){
 }
 async function resolveChallenge(won){
   const c = currentChallenge; currentChallenge = null;
-  if (!c || !db) return;
-  try { await db.doc('challenges/' + c.id).update({ status: 'done', winner: won ? uid : c.from, toName: save.robot.name, toBuild: myBuild(), updated: Date.now() }); }
+  if (!c || !online()) return;
+  incoming = incoming.filter(x => x.id !== c.id); renderInbox();
+  try { await shared.resolve(c, won); if (net) netRefresh(); }
   catch (e){}
 }
 async function sendChallenge(toId){
-  if (!db || !uid || toId === uid) return false;
+  if (!online() || toId === uid) return false;
   try {
-    const now = Date.now();
-    await db.doc('challenges/' + pairId(uid, toId)).set({ from: uid, to: toId, status: 'pending', fromBuild: myBuild(), created: now, updated: now });
+    await shared.sendChallenge(toId, myBuild());
+    if (net){ outgoing = outgoing.filter(c => c.to !== toId).concat([{ id: pairId(uid, toId), from: uid, to: toId, status: 'pending', created: Date.now(), updated: Date.now(), claimed: false }]); renderBoard(); netRefresh(); }
     sfx('reveal'); toast('Challenge sent!'); return true;
   } catch (e){
     if (e && e.code === 'invalid_argument') canPost = false;
@@ -1110,11 +1177,11 @@ function openPlayer(r){
   if (send) send.onclick = async () => { send.disabled = true; if (await sendChallenge(r.id)) setTimeout(() => { if (!overlay.hidden) openPlayer(r); }, 300); else send.disabled = false; };
 }
 function maybeShowResults(){
-  if (!db || !overlay.hidden || !$('battle').hidden) return;
+  if (!online() || !overlay.hidden || !$('battle').hidden) return;
   const c = outgoing.find(c => (c.status === 'done' || c.status === 'declined') && !c.claimed && !save.seen.includes(c.id + ':' + c.updated));
   if (!c) return;
   save.seen.push(c.id + ':' + c.updated); save.seen = save.seen.slice(-60);
-  db.doc('challenges/' + c.id).update({ claimed: true }).catch(() => {});
+  shared.claim(c).catch(() => {});
   if (c.status === 'declined'){ persist(); toast(`${nameOf(c.to)} said "not now" to your challenge.`); return; }
   const won = c.winner === uid, coins = won ? CHALLENGE_WIN_COINS : CHALLENGE_LOSS_COINS, start = save.coins, who = esc(c.toName || nameOf(c.to));
   save.coins += coins; persist(); renderRobot(); renderTray();
@@ -1979,7 +2046,7 @@ function defeat(){
 let resetArmed = false;
 $('resetBtn').addEventListener('click', e => {
   if (!resetArmed){ resetArmed = true; e.target.textContent = 'Tap again to wipe your robot and all progress'; setTimeout(() => { resetArmed = false; e.target.textContent = 'Start over'; }, 3500); return; }
-  if (db && uid) db.doc('scores/' + uid).delete().catch(() => {});
+  if (online()) shared.deleteScore().catch(() => {});
   lastPushed = null;
   save = freshSave(); persist(); resetArmed = false; e.target.textContent = 'Start over';
   renderAll(); openRename(true);

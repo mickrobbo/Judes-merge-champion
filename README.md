@@ -6,9 +6,14 @@ Build your own robot from everyday parts, paint it, give it a name, then battle 
 
 **Play:** https://mickrobbo.github.io/judes-merge-champion/
 
-- Everything is in one file: `index.html`. No build step.
-- Progress saves in the browser on each device.
-- The leaderboard and player challenges only work in the claude.ai version of the game (`claude-artifact.html` is that source).
+- The whole game is one file: `index.html`.
+- Progress (coins, parts, upgrades) saves in the browser on each device.
+- On Netlify, the leaderboard and player challenges run on a small server function, `netlify/functions/api.mjs`, which stores players and challenges in Netlify Blobs. Each device becomes a player automatically: no logins.
+- On GitHub Pages there is no server, so the game plays fully but the leaderboard shows a note instead.
+
+## Looking after the leaderboard
+
+Players and challenges are in **Netlify → Data & Storage → Blobs → `merge-champion`**. To remove a robot (for example a rude name), delete its `players/<id>` entry there.
 
 ## Adding to the game
 
