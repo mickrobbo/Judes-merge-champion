@@ -1,0 +1,1995 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#8FCFFF"><style>:root{color-scheme:light;padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom)}body{margin:0;font:14px system-ui}img{max-width:100%}[hidden]{display:none!important}</style></head><body><title>Jude's Merge Champion</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Lilita+One&display=swap" rel="stylesheet">
+<style>
+/* Layout: Garage = "My Robot" bay (left/top) + Parts and How-to panels (right/below).
+   Battle = HUD row, sky-and-grass stage, announcer bar, action panel in one 760px column.
+   Every panel shares one shape: paper fill, 4px ink outline, 24px corners, 6px ink drop shadow.
+   Deliberately single-theme: a bright cartoon toy look that stays the same on any host. */
+:root{
+  --sky:#BDE4FF;
+  --sky-deep:#8FCFFF;
+  --sun:#FFD23F;
+  --tomato:#FF4D5E;
+  --grape:#7B5CFF;
+  --mint:#2EC4A0;
+  --ink:#2B1D3A;
+  --paper:#FFFDF7;
+  --cloud:#EEF7FF;
+  --muted:#6C6283;
+  --off:#E3DEEE;
+  --off-ink:#8F87A6;
+  --display:'Lilita One','Arial Rounded MT Bold','Trebuchet MS',system-ui,sans-serif;
+  --body:'Baloo 2','Trebuchet MS',system-ui,sans-serif;
+  --radius:24px;
+  --shadow:0 6px 0 var(--ink);
+  color-scheme: light;
+}
+html,body{height:100%}
+body{
+  background-color:var(--sky);
+  background-image:
+    radial-gradient(circle at 20px 20px, rgba(255,255,255,.5) 2.5px, transparent 3.5px),
+    linear-gradient(180deg, var(--sky-deep) 0%, var(--sky) 45%, #DDF1FF 100%);
+  background-size:40px 40px, 100% 100%;
+  background-attachment:scroll, fixed;
+  color:var(--ink);font-family:var(--body);font-size:16px;font-weight:600;line-height:1.35;
+  overscroll-behavior:none;-webkit-tap-highlight-color:transparent;
+}
+*{box-sizing:border-box}
+button,input{font:inherit;color:inherit}
+h1,h2,h3,p{margin:0}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+#app{
+  max-width:1040px;margin:0 auto;min-height:100%;
+  padding-left:max(16px, env(safe-area-inset-left,0px));
+  padding-right:max(16px, env(safe-area-inset-right,0px));
+  padding-block:12px 28px;
+  display:flex;flex-direction:column;gap:16px;
+}
+.outline{ text-shadow:
+  3px 0 0 var(--ink),-3px 0 0 var(--ink),0 3px 0 var(--ink),0 -3px 0 var(--ink),
+  2px 2px 0 var(--ink),-2px -2px 0 var(--ink),2px -2px 0 var(--ink),-2px 2px 0 var(--ink),0 5px 0 var(--ink); }
+.panel{background:var(--paper);border:4px solid var(--ink);border-radius:var(--radius);box-shadow:var(--shadow)}
+
+/* ---------- header ---------- */
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:52px}
+.brand{display:flex;align-items:center;gap:10px;min-width:0}
+.brand svg{flex:0 0 auto;filter:drop-shadow(0 4px 0 var(--ink))}
+.logo{font-family:var(--display);font-weight:400;font-size:clamp(24px,6.4vw,40px);line-height:.95;letter-spacing:.01em;color:var(--sun);white-space:nowrap}
+.logo .ch{color:var(--tomato)}
+.logo .who{color:#fff}
+@media (max-width:620px){ .logo .ch{display:block} .logo{font-size:26px} }
+@media (max-width:430px){ .brand svg{display:none} }
+.hud-right{display:flex;gap:10px;align-items:center;flex-shrink:0}
+.pill{height:46px;display:inline-flex;align-items:center;gap:6px;background:var(--paper);border:3px solid var(--ink);border-radius:999px;padding:0 14px 0 8px;
+  font-family:var(--display);font-size:22px;box-shadow:0 4px 0 var(--ink);font-variant-numeric:tabular-nums}
+.pill.coins{position:relative;z-index:55}
+.icon-btn{width:46px;height:46px;border-radius:50%;border:3px solid var(--ink);background:var(--paper);box-shadow:0 4px 0 var(--ink);
+  display:grid;place-items:center;cursor:pointer;padding:0;flex:0 0 auto}
+.icon-btn.sm{width:40px;height:40px}
+.icon-btn:active{transform:translateY(3px);box-shadow:0 1px 0 var(--ink)}
+:focus-visible{outline:4px solid #fff;outline-offset:3px}
+.bump{animation:bump .35s ease-out}
+@keyframes bump{40%{transform:scale(1.22)}}
+
+/* ---------- buttons ---------- */
+.btn{font-family:var(--display);font-weight:400;font-size:22px;line-height:1.1;letter-spacing:.03em;color:#fff;background:var(--tomato);
+  border:4px solid var(--ink);border-radius:18px;padding:12px 22px;box-shadow:var(--shadow);cursor:pointer;
+  text-shadow:0 2px 0 rgba(43,29,58,.35);transition:transform .08s,box-shadow .08s;touch-action:manipulation;
+  display:inline-flex;align-items:center;justify-content:center;gap:8px}
+.btn:hover:not(:disabled){filter:brightness(1.05)}
+.btn:active:not(:disabled){transform:translateY(4px);box-shadow:0 2px 0 var(--ink)}
+.btn:disabled{background:var(--off);color:var(--off-ink);border-color:var(--off-ink);box-shadow:0 6px 0 var(--off-ink);cursor:not-allowed;text-shadow:none}
+.btn:disabled svg{opacity:.5}
+.btn.big{font-size:clamp(23px,6.2vw,30px);padding:12px 20px;width:100%;min-height:68px}
+.btn.green{background:var(--mint)}
+.btn.purple{background:var(--grape)}
+.btn.yellow{background:var(--sun);color:var(--ink);text-shadow:none}
+.btn.plain{background:var(--paper);color:var(--ink);text-shadow:none;font-size:19px;min-height:54px;width:100%}
+.btn.small{font-size:16px;padding:6px 12px;border-width:3px;border-radius:14px;box-shadow:0 4px 0 var(--ink);min-height:40px}
+.btn.small:active:not(:disabled){transform:translateY(3px);box-shadow:0 1px 0 var(--ink)}
+.btn.ready{animation:pulse 1.1s ease-in-out infinite}
+@keyframes pulse{50%{transform:scale(1.035)}}
+.btn .cost{display:inline-flex;align-items:center;gap:4px;background:rgba(255,255,255,.65);border:3px solid var(--ink);border-radius:999px;padding:1px 12px 1px 4px;font-size:.85em}
+.btn:disabled .cost{background:transparent;border-color:var(--off-ink)}
+
+/* ---------- garage ---------- */
+.workshop{display:grid;gap:20px;align-items:start}
+@media (min-width:860px){ .workshop{grid-template-columns:minmax(0,1fr) minmax(0,1fr)} .machine{position:sticky;top:12px} }
+.rcol{display:grid;gap:20px;min-width:0}
+
+.machine{position:relative;background:var(--sun);overflow:hidden;transition:transform .15s,background .15s}
+.machine.over{transform:scale(1.015);background:#FFE47A}
+.machine.shaking{animation:shake .12s linear 4}
+@keyframes shake{25%{transform:translate(-3px,2px) rotate(-.6deg)}75%{transform:translate(3px,-2px) rotate(.6deg)}}
+.phead{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 14px 8px 16px;background:var(--ink);color:var(--sun);min-height:52px}
+.phead h2{font-family:var(--display);font-weight:400;font-size:20px;letter-spacing:.1em;white-space:nowrap}
+.phead-r{display:flex;align-items:center;gap:10px}
+.lvl{background:var(--sun);color:var(--ink);border-radius:999px;padding:2px 12px 3px;font-family:var(--display);font-size:16px;letter-spacing:.04em;white-space:nowrap}
+.wins{display:inline-flex;align-items:center;gap:4px;color:#fff;font-family:var(--display);font-size:17px;font-variant-numeric:tabular-nums}
+.mbody{padding:14px 16px 32px;display:flex;flex-direction:column;gap:12px}
+.machine::after{content:"";position:absolute;left:0;right:0;bottom:0;height:14px;border-top:4px solid var(--ink);
+  background:repeating-linear-gradient(45deg,var(--ink) 0 10px,var(--sun) 10px 20px)}
+.namerow{display:flex;align-items:center;justify-content:center;gap:10px;min-width:0}
+.rname{font-family:var(--display);font-weight:400;font-size:clamp(24px,6.4vw,30px);line-height:1.1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.window{position:relative;height:clamp(200px,32vh,260px);border:4px solid var(--ink);border-radius:20px;overflow:hidden;
+  background:
+    linear-gradient(rgba(255,255,255,.18) 2px, transparent 2px) 0 0/24px 24px,
+    linear-gradient(90deg, rgba(255,255,255,.18) 2px, transparent 2px) 0 0/24px 24px,
+    linear-gradient(#5B6CFF,#3E4FD6)}
+.window .preview{position:absolute;top:6%;bottom:6%;left:50%;transform:translateX(-50%);aspect-ratio:200/240}
+.window .preview svg{width:100%;height:100%}
+.preview.pop svg{animation:popin .45s cubic-bezier(.3,1.6,.5,1)}
+.window .badge{position:absolute;top:10px;left:10px;max-width:calc(100% - 20px);background:var(--sun);border:3px solid var(--ink);border-radius:10px;padding:1px 10px;
+  font-family:var(--display);font-size:14px;transform:rotate(-3deg);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.window .paint{position:absolute;right:10px;bottom:10px}
+.xp{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:8px;align-items:center;font-family:var(--display);font-size:15px}
+.xpbar{height:18px;border:3px solid var(--ink);border-radius:9px;background:#fff;overflow:hidden}
+.xpbar i{display:block;height:100%;background:var(--grape);transition:width .6s}
+.xpnote{text-align:center;font-size:14px;font-weight:800;margin-top:-6px}
+
+.slots{display:grid;grid-template-columns:1fr 22px 1fr 22px 1fr;align-items:center;justify-items:center;gap:4px;padding-bottom:8px}
+.slot{width:100%;max-width:96px;aspect-ratio:1;border:4px dashed var(--ink);border-radius:20px;background:rgba(255,255,255,.55);
+  display:grid;place-items:center;position:relative;padding:0;cursor:default}
+.slot.filled{border-style:solid;background:var(--paper);box-shadow:0 5px 0 var(--ink);cursor:pointer}
+.slot.hover{background:#fff;border-color:var(--tomato)}
+.slot svg{width:66%;height:66%}
+.slot .num{font-family:var(--display);font-size:22px;color:rgba(43,29,58,.35)}
+.slot .x{position:absolute;top:-11px;right:-11px;width:28px;height:28px;border-radius:50%;background:var(--tomato);color:#fff;border:3px solid var(--ink);
+  display:grid;place-items:center;font-family:var(--display);font-size:16px;line-height:1}
+.slot .slv{position:absolute;bottom:-12px;left:50%;transform:translateX(-50%);background:var(--paper);border:2.5px solid var(--ink);border-radius:999px;
+  padding:0 8px;font-family:var(--display);font-size:13px;line-height:18px;white-space:nowrap}
+.slot.pop{animation:slotpop .3s ease-out}
+@keyframes slotpop{0%{transform:scale(.6)}70%{transform:scale(1.12)}100%{transform:scale(1)}}
+.plus{font-family:var(--display);font-size:26px;line-height:1}
+.hint{font-family:var(--display);font-size:clamp(17px,4.4vw,20px);text-align:center;min-height:2.4em;display:grid;place-items:center;text-wrap:balance;line-height:1.15}
+.mstats{display:grid;grid-template-columns:1fr 1fr;gap:10px 18px;background:var(--paper);border:3px solid var(--ink);border-radius:16px;padding:10px 14px 12px}
+.mstat{display:flex;flex-direction:column;gap:4px;min-width:0}
+.mstat .mtop{display:flex;justify-content:space-between;align-items:baseline;font-family:var(--display);font-size:15px}
+.mstat .mtop b{font-weight:400}
+.mstat .mtop span{font-variant-numeric:tabular-nums}
+.mbar{height:12px;border:2.5px solid var(--ink);border-radius:6px;background:#fff;overflow:hidden}
+.mbar i{display:block;height:100%;transition:width .5s}
+
+.parts .phead{background:var(--grape);color:#fff}
+.phead .count{font-family:var(--display);font-size:16px}
+.pbody{padding:14px 16px 18px;display:flex;flex-direction:column;gap:12px}
+.sect{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.sect h3{font-family:var(--display);font-weight:400;font-size:18px}
+.sect .count{font-family:var(--display);font-size:15px;color:var(--muted)}
+.lockchip{display:inline-flex;align-items:center;gap:5px;background:var(--ink);color:#fff;border-radius:999px;padding:2px 11px 3px;font-family:var(--display);font-size:13px;white-space:nowrap}
+.lockchip.open{background:var(--mint)}
+.rule{border:0;border-top:3px dashed rgba(43,29,58,.18);margin:4px 0 0}
+.tray-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:20px 8px;padding-bottom:10px}
+.tile{position:relative;background:var(--paper);border:3px solid var(--ink);border-radius:18px;box-shadow:0 4px 0 var(--ink);
+  padding:6px 3px 14px;display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;touch-action:pan-y;
+  user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;min-width:0;transition:transform .1s}
+.tile:hover{transform:translateY(-2px)}
+.tile:active{transform:translateY(3px);box-shadow:0 1px 0 var(--ink)}
+.tile.lift{transform:scale(.92);opacity:.6}
+.tile .ic{width:100%;max-width:64px;aspect-ratio:1;border-radius:50%;display:grid;place-items:center;background:color-mix(in srgb,var(--c) 30%,#fff)}
+.tile .ic svg{width:80%;height:80%}
+.tile .nm{font-family:var(--display);font-size:clamp(10.5px,2.8vw,14px);line-height:1.05;text-align:center;min-height:2.1em;display:grid;place-items:center}
+.tile .lv{position:absolute;bottom:-12px;left:50%;transform:translateX(-50%);background:var(--paper);border:2.5px solid var(--ink);border-radius:999px;
+  padding:0 7px;font-family:var(--display);font-size:12px;line-height:18px;white-space:nowrap}
+.tile .lv.up{background:var(--mint);color:#fff}
+.tile.on{background:#FFF1A8}
+.tile .tick{position:absolute;top:-10px;right:-7px;z-index:1;width:24px;height:24px;border-radius:50%;background:var(--mint);border:3px solid var(--ink);display:grid;place-items:center}
+.tile.dim{background:#F1EDF8}
+.tile.dim .ic{background:#DCD5EA}
+.tile.dim .ic svg{filter:grayscale(1);opacity:.45}
+.tile.dim .nm{color:var(--muted)}
+.lockbadge{position:absolute;top:-10px;right:-6px;z-index:1;display:inline-flex;align-items:center;gap:2px;background:var(--ink);color:#fff;border-radius:9px;padding:1px 6px 1px 4px;font-family:var(--display);font-size:12px}
+.tile.locked{background:var(--off);cursor:default;border-color:var(--off-ink);box-shadow:0 4px 0 var(--off-ink)}
+.tile.locked:hover{transform:none}
+.tile.locked .ic{background:#CFC8DF;font-family:var(--display);font-size:clamp(22px,6.5vw,34px);color:#fff}
+.tile.locked .nm{color:var(--off-ink)}
+.new{position:absolute;top:-10px;right:-6px;z-index:1;background:var(--tomato);color:#fff;border:3px solid var(--ink);border-radius:10px;
+  font-family:var(--display);font-size:12px;padding:0 6px;transform:rotate(8deg)}
+.pfoot{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.pfoot p{color:var(--muted);font-weight:700;font-size:15px}
+.ghost{position:fixed;z-index:100;pointer-events:none;transform:translate(-50%,-50%) scale(1.2) rotate(-8deg);filter:drop-shadow(0 8px 0 rgba(43,29,58,.35))}
+.parts,.board,.guide,.inbox{overflow:hidden}
+#workshop{display:flex;flex-direction:column;gap:20px}
+.board .phead,.inbox .phead{background:var(--tomato);color:#fff}
+button.lbrow{width:100%;text-align:left;cursor:pointer;font:inherit;color:inherit;box-shadow:0 3px 0 var(--ink);transition:transform .08s}
+button.lbrow:active{transform:translateY(2px);box-shadow:0 1px 0 var(--ink)}
+.lbsub.go{color:var(--tomato)}
+.inlist{padding:14px 16px 16px;display:grid;gap:12px}
+.inrow{display:grid;grid-template-columns:44px minmax(0,1fr);gap:10px 12px;align-items:center;background:#FFF1A8;border:3px solid var(--ink);border-radius:16px;padding:8px 12px 12px}
+.inbtns{grid-column:1/-1;display:grid;grid-template-columns:3fr 2fr;gap:10px}
+.inbtns .btn{white-space:nowrap}
+.rewards.one{grid-template-columns:1fr}
+.lb{padding:14px 16px 16px;display:flex;flex-direction:column;gap:8px}
+.lbrow{display:grid;grid-template-columns:34px 44px minmax(0,1fr) auto;gap:10px;align-items:center;background:var(--cloud);border:3px solid var(--ink);border-radius:16px;padding:6px 14px 6px 8px}
+.lbrow.me{background:#FFF1A8}
+.rank{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-family:var(--display);font-size:16px;background:var(--paper);border:3px solid var(--ink)}
+.rank.r1{background:#FFD23F}.rank.r2{background:#D6DEE7}.rank.r3{background:#F0A86E}
+.lbbot{width:44px;height:52px;display:block}
+.lbbot svg{width:100%;height:100%}
+.lbtxt{min-width:0}
+.lbname{font-family:var(--display);font-size:17px;line-height:1.15;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lbsub{font-size:13px;font-weight:800;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lbwins{display:flex;align-items:center;gap:4px;font-family:var(--display);font-size:22px;font-variant-numeric:tabular-nums}
+.lbmsg{text-align:center;color:var(--muted);font-weight:700;padding:8px 6px;text-wrap:balance}
+.lbgap{text-align:center;font-family:var(--display);color:var(--muted);line-height:.6;font-size:22px}
+.guide .phead{background:var(--mint);color:#fff}
+.steps{list-style:none;margin:0;padding:16px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.steps li{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;font-family:var(--display);font-size:clamp(14px,3.6vw,17px);line-height:1.1}
+.steps .n{width:30px;height:30px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;font-size:16px}
+.steps .pic{width:64px;height:64px;border-radius:18px;background:var(--cloud);border:3px solid var(--ink);display:grid;place-items:center}
+.steps .pic svg{width:42px;height:42px}
+.foot{display:flex;justify-content:center}
+.link-btn{background:none;border:none;color:var(--muted);font-weight:800;text-decoration:underline;cursor:pointer;padding:8px 12px}
+
+/* ---------- battle ---------- */
+.battle{width:100%;max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
+.hud{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:10px;align-items:center}
+.hpbox{padding:10px 12px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.hp-top{display:flex;align-items:center;gap:6px;min-width:0}
+.hpbox.right .hp-top{flex-direction:row-reverse}
+.lvchip{flex:0 0 auto;background:var(--grape);color:#fff;font-family:var(--display);font-size:13px;border:2px solid var(--ink);border-radius:8px;padding:0 6px;line-height:18px}
+.hpname{flex:1;font-family:var(--display);font-size:clamp(14px,3.8vw,19px);line-height:1.1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.hpbox.right .hpname{text-align:right}
+.mini{display:flex;gap:2px;flex:0 0 auto}
+.mini svg{width:22px;height:22px}
+@media (max-width:560px){ .mini{display:none} }
+.hpbar{height:28px;border:3px solid var(--ink);border-radius:14px;background:#fff;overflow:hidden;position:relative;display:flex}
+.hpbox.right .hpbar{justify-content:flex-end}
+.hpfill{height:100%;width:100%;background:var(--mint);transition:width .45s ease-out,background .3s;flex:0 0 auto}
+.hpfill.low{background:var(--sun)} .hpfill.crit{background:var(--tomato)}
+.hptext{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--display);font-size:15px;color:#fff;font-variant-numeric:tabular-nums;
+  text-shadow:2px 0 0 var(--ink),-2px 0 0 var(--ink),0 2px 0 var(--ink),0 -2px 0 var(--ink)}
+.statusrow{display:flex;gap:4px;height:20px;font-size:12px;font-weight:800;overflow:hidden}
+.hpbox.right .statusrow{justify-content:flex-end}
+.chip{background:var(--sun);border:2px solid var(--ink);border-radius:8px;padding:0 6px;line-height:16px;white-space:nowrap}
+.vs{width:54px;height:54px;border-radius:50%;background:var(--tomato);border:4px solid var(--ink);box-shadow:0 4px 0 var(--ink);
+  display:grid;place-items:center;font-family:var(--display);font-size:20px;color:#fff;transform:rotate(-6deg)}
+.arena{position:relative;height:clamp(240px,42vh,400px);overflow:hidden;
+  background:linear-gradient(#8FD6FF 0 58%, #79C96A 58% 60.5%, #62B758 60.5% 100%)}
+.arena::before{content:"";position:absolute;left:0;right:0;bottom:0;height:39.5%;
+  background:repeating-linear-gradient(90deg,rgba(255,255,255,.12) 0 32px,transparent 32px 64px)}
+.cloudy{position:absolute;background:#fff;border-radius:999px;opacity:.85}
+.cloudy::before{content:"";position:absolute;width:50%;aspect-ratio:1;background:inherit;border-radius:50%;left:18%;bottom:30%}
+.turn{position:absolute;top:12px;left:50%;transform:translateX(-50%);z-index:4;background:var(--paper);border:3px solid var(--ink);border-radius:999px;
+  box-shadow:0 4px 0 var(--ink);padding:3px 14px;font-family:var(--display);font-size:16px;white-space:nowrap}
+.turn.you{background:var(--sun)} .turn.them{background:#FFC9CF}
+.turn:empty{display:none}
+.fighter{position:absolute;bottom:7%;width:40%;max-width:220px;z-index:2;transition:opacity .3s}
+.fighter.left{left:5%} .fighter.right{right:5%}
+.fighter::after{content:"";position:absolute;left:14%;right:14%;bottom:-6px;height:14px;border-radius:50%;background:rgba(43,29,58,.22);z-index:-1}
+.bob{animation:bob 2.2s ease-in-out infinite}
+.fighter.right .bob{animation-delay:-1.1s}
+@keyframes bob{50%{transform:translateY(-6px)}}
+.flip{transform:scaleX(-1)}
+.bot{display:block;width:100%;height:auto;overflow:visible}
+.bot .prop{transform-box:fill-box;transform-origin:center;animation:prop .3s linear infinite}
+@keyframes prop{50%{transform:scaleX(.15)}}
+.bot .flame{transform-box:fill-box;transform-origin:top center;animation:flame .18s ease-in-out infinite alternate}
+@keyframes flame{to{transform:scaleY(.7)}}
+.announcer{background:var(--ink);color:#fff;border-radius:18px;border:4px solid var(--ink);box-shadow:0 6px 0 #160E21;min-height:64px;padding:8px 16px;
+  display:grid;place-items:center;text-align:center;font-family:var(--display);font-size:clamp(17px,4.4vw,21px);line-height:1.15;text-wrap:balance}
+.actions{padding:14px;display:flex;flex-direction:column;gap:12px}
+.specials{display:grid;gap:10px}
+.btn.special{background:var(--paper);color:var(--ink);text-shadow:none;font-size:clamp(14px,3.6vw,17px);padding:8px 6px 10px;
+  flex-direction:column;gap:4px;min-height:104px;text-align:center;line-height:1.05;min-width:0}
+.btn.special svg{width:38px;height:38px;flex:0 0 auto}
+.btn.special .sp-name{min-height:2.1em;display:grid;place-items:center}
+.btn.special.charged{background:var(--sun);animation:pulse 1s ease-in-out infinite}
+.pips{display:flex;gap:4px}
+.pips i{width:12px;height:12px;border-radius:50%;border:2px solid currentColor;background:transparent}
+.pips i.on{background:var(--tomato);border-color:var(--ink)}
+.charge-hint{text-align:center;font-size:14px;font-weight:700;color:var(--muted);min-height:1.35em}
+
+/* ---------- battle effects ---------- */
+.fx{position:absolute;left:0;top:0;transform:translate(-50%,-50%);pointer-events:none;z-index:6}
+.pop span{display:block;white-space:nowrap;font-family:var(--display);font-size:28px;color:#fff;letter-spacing:.02em;text-shadow:
+  3px 0 0 var(--ink),-3px 0 0 var(--ink),0 3px 0 var(--ink),0 -3px 0 var(--ink),2px 2px 0 var(--ink),-2px -2px 0 var(--ink),2px -2px 0 var(--ink),-2px 2px 0 var(--ink)}
+.pop.dmg span{color:var(--sun);font-size:34px}
+.pop.heal span{color:#7CF2B0}
+.pop.status span{font-size:22px}
+.pop.big span{font-size:40px;color:var(--tomato)}
+.bubble{border-radius:50%;border:4px solid #5BC0F8;background:radial-gradient(circle at 35% 30%,rgba(255,255,255,.9) 0 10%,rgba(91,192,248,.35) 11% 100%)}
+.beam{position:absolute;height:14px;border-radius:7px;background:linear-gradient(#FFC2DA,#FF3B7F 40%,#FF3B7F 60%,#FFC2DA);box-shadow:0 0 18px #FF3B7F;pointer-events:none;z-index:5}
+
+/* ---------- overlay cards ---------- */
+.overlay{position:fixed;inset:0;z-index:50;background:rgba(43,29,58,.62);display:flex;flex-direction:column;overflow-y:auto;
+  padding:calc(88px + env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) calc(20px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.card{position:relative;margin:auto;width:min(440px,100%);padding:44px 18px 20px;display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center;
+  animation:cardin .35s cubic-bezier(.3,1.4,.5,1)}
+@keyframes cardin{from{transform:translateY(30px) scale(.94);opacity:0}}
+.card.wide{width:min(520px,100%)}
+.close{position:absolute;top:14px;right:12px;width:40px;height:40px}
+.ribbon{position:absolute;top:0;left:50%;transform:translate(-50%,-55%) rotate(-2deg);white-space:nowrap;max-width:calc(100% - 20px);overflow:hidden;
+  font-family:var(--display);font-size:clamp(24px,7vw,32px);color:#fff;background:var(--tomato);border:4px solid var(--ink);border-radius:16px;
+  padding:4px 20px 6px;box-shadow:0 5px 0 var(--ink);text-shadow:0 3px 0 rgba(43,29,58,.4)}
+.ribbon.win{background:var(--mint)} .ribbon.lose,.ribbon.purple{background:var(--grape)}
+.stage{position:relative;width:100%;display:grid;place-items:center;padding:8px 0 4px}
+.stage::before{content:"";position:absolute;width:min(220px,62vw);aspect-ratio:1;border-radius:50%;
+  background:radial-gradient(circle,#FFF1A8 0 45%,#FFD23F 46% 62%,transparent 63%);top:50%;left:50%;transform:translate(-50%,-50%)}
+.bigbot{position:relative;width:min(180px,50vw)}
+.stage.small .bigbot{width:min(140px,40vw)}
+.stage.small::before{width:min(170px,48vw)}
+.popin{animation:popin .6s cubic-bezier(.3,1.6,.5,1)}
+@keyframes popin{0%{transform:scale(.2) rotate(-20deg);opacity:0}100%{transform:scale(1);opacity:1}}
+.botname{font-family:var(--display);font-weight:400;font-size:clamp(24px,6.8vw,30px);line-height:1.05;text-wrap:balance;overflow-wrap:anywhere}
+.box{width:100%;background:var(--cloud);border:3px solid var(--ink);border-radius:18px;padding:12px 14px;display:flex;flex-direction:column;gap:9px}
+.srow{display:grid;grid-template-columns:70px minmax(0,1fr) 62px;gap:10px;align-items:center;text-align:left}
+.srow b{font-family:var(--display);font-weight:400;font-size:17px}
+.srow .val{font-family:var(--display);font-size:18px;text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.srow .val em{font-style:normal;color:#14936F;font-size:14px;margin-left:3px}
+.sbar{height:20px;border:3px solid var(--ink);border-radius:10px;background:#fff;overflow:hidden}
+.sbar i{display:block;height:100%;transition:width .5s cubic-bezier(.3,1.3,.5,1)}
+.spec{width:100%;display:grid;grid-template-columns:44px minmax(0,1fr);gap:10px;align-items:center;background:var(--paper);border:3px solid var(--ink);border-radius:14px;padding:6px 12px 6px 8px;text-align:left}
+.spec svg{width:44px;height:44px}
+.spec b{font-family:var(--display);font-weight:400;font-size:18px;display:block;line-height:1.1}
+.spec span{font-size:14px;color:var(--muted);font-weight:700;line-height:1.2}
+.stack{display:grid;gap:12px;width:100%;margin-top:4px}
+.note{font-size:14px;color:var(--muted);font-weight:700;margin-top:-4px}
+.sheet-ic{width:128px;height:128px;border-radius:50%;background:color-mix(in srgb,var(--c) 30%,#fff);border:4px solid var(--ink);box-shadow:0 5px 0 var(--ink);display:grid;place-items:center}
+.sheet-ic svg{width:66%;height:66%}
+.tag{font-family:var(--display);font-size:14px;letter-spacing:.06em;background:var(--ink);color:var(--sun);border-radius:999px;padding:2px 12px}
+.lvrow{display:flex;align-items:baseline;gap:6px;font-family:var(--display)}
+.lvrow b{font-weight:400;font-size:24px} .lvrow span{color:var(--muted);font-size:17px}
+.pips10{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:4px;width:100%;margin-top:-6px}
+.pips10 i{height:14px;border-radius:5px;border:2.5px solid var(--ink);background:#fff}
+.pips10 i.on{background:var(--sun)}
+.lockmsg{width:100%;background:var(--off);border:3px dashed var(--off-ink);border-radius:16px;padding:12px;font-family:var(--display);font-size:18px;line-height:1.2;
+  display:flex;flex-direction:column;align-items:center;gap:4px}
+.lockmsg span{font-family:var(--body);font-size:14px;color:var(--muted);font-weight:700}
+.swap{display:flex;flex-direction:column;gap:8px;width:100%}
+.swaplbl{font-family:var(--display);font-size:17px}
+.swaprow{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.swapbtn{background:var(--paper);border:3px solid var(--ink);border-radius:16px;box-shadow:0 4px 0 var(--ink);padding:8px 4px;display:flex;flex-direction:column;align-items:center;gap:4px;
+  cursor:pointer;font-family:var(--display);font-size:14px;line-height:1.05;min-width:0}
+.swapbtn:active{transform:translateY(3px);box-shadow:0 1px 0 var(--ink)}
+.swapbtn svg{width:40px;height:40px}
+.namefield{display:flex;gap:8px;width:100%}
+.namefield input{flex:1;min-width:0;height:58px;font-family:var(--display);font-size:22px;border:4px solid var(--ink);border-radius:16px;padding:0 14px;background:#fff;color:var(--ink)}
+.namefield .icon-btn{width:58px;height:58px;border-radius:16px}
+.paintrow{display:flex;flex-direction:column;gap:8px;width:100%;text-align:left}
+.paintrow b{font-family:var(--display);font-weight:400;font-size:17px}
+.swatches{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px}
+.sw{aspect-ratio:1;width:100%;border-radius:50%;border:3px solid var(--ink);cursor:pointer;padding:0;box-shadow:0 3px 0 var(--ink)}
+.sw.sel{box-shadow:0 0 0 3px var(--paper),0 0 0 6px var(--ink)}
+.rewards{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%}
+.reward{background:var(--cloud);border:3px solid var(--ink);border-radius:16px;padding:8px;display:flex;align-items:center;justify-content:center;gap:10px;text-align:left}
+.reward b{font-family:var(--display);font-weight:400;font-size:28px;line-height:1}
+.reward span{font-size:14px;font-weight:800;color:var(--muted)}
+.levelup{background:var(--grape);color:#fff;font-family:var(--display);font-size:22px;border:3px solid var(--ink);border-radius:14px;padding:6px 16px;transform:rotate(-1.5deg);box-shadow:0 4px 0 var(--ink)}
+.newpart{display:flex;flex-direction:column;align-items:center;gap:4px;background:var(--cloud);border:3px dashed var(--ink);border-radius:20px;padding:10px 20px 12px;width:100%}
+.newpart .lbl{font-family:var(--display);color:var(--tomato);font-size:18px;letter-spacing:.06em}
+.newpart .nm{font-family:var(--display);font-size:22px}
+.iconrow{display:flex;gap:4px;flex-wrap:wrap;justify-content:center}
+.iconrow svg{width:40px;height:40px}
+.vsrow .iconrow svg{width:28px;height:28px}
+.muted{color:var(--muted);font-weight:700}
+.vsrow{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:8px;width:100%}
+.vsrow .side{display:flex;flex-direction:column;align-items:center;gap:6px;min-width:0}
+.vsrow .side .bot{width:min(140px,100%)}
+.vsrow .nm{font-family:var(--display);font-size:16px;line-height:1.1;min-height:2.2em;display:grid;place-items:center;text-wrap:balance;overflow-wrap:anywhere}
+.vsrow .tagline{font-size:13px;font-weight:800;color:var(--muted)}
+.vsbig{font-family:var(--display);font-size:44px;color:var(--sun)}
+.stars{display:flex;gap:6px;justify-content:center}
+.stars svg{width:44px;height:44px}
+.stars svg:nth-child(2){width:56px;height:56px;margin-top:-10px}
+.book{width:100%;display:grid;gap:8px}
+.book-row{display:grid;grid-template-columns:auto minmax(0,1fr);gap:12px;align-items:center;text-align:left;background:var(--cloud);border:3px solid var(--ink);border-radius:14px;padding:8px 12px}
+.book-row.found{background:#FFF6C9}
+.book-row .pair{display:flex;align-items:center;gap:2px;font-family:var(--display);font-size:18px}
+.book-row .pair svg{width:36px;height:36px}
+.book-row .q{width:36px;height:36px;border-radius:50%;background:#CFC8DF;color:#fff;display:grid;place-items:center;font-family:var(--display);font-size:20px}
+.book-row b{font-family:var(--display);font-weight:400;font-size:17px;display:block;line-height:1.1}
+.book-row span{font-size:14px;color:var(--muted);font-weight:700}
+.toast{position:fixed;left:50%;bottom:calc(22px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:70;background:var(--ink);color:#fff;
+  font-family:var(--display);font-size:18px;line-height:1.2;padding:10px 18px;border-radius:16px;border:3px solid #fff;box-shadow:0 5px 0 rgba(43,29,58,.5);
+  width:max-content;max-width:calc(100% - 32px);text-align:center;pointer-events:none}
+.toast.show{animation:toastin .3s cubic-bezier(.3,1.5,.5,1)}
+@keyframes toastin{from{transform:translate(-50%,30px);opacity:0}}
+.confetti{position:fixed;top:-20px;width:12px;height:16px;z-index:60;pointer-events:none;border:2px solid var(--ink);border-radius:3px}
+.spark{position:fixed;z-index:60;pointer-events:none;font-family:var(--display);font-size:30px;color:#fff}
+.flycoin{position:fixed;z-index:65;pointer-events:none}
+
+@media (max-width:380px){ .tray-grid{gap:18px 6px} }
+@media (prefers-reduced-motion: reduce){
+  .bob,.btn.ready,.btn.special.charged,.bot .prop,.bot .flame,.machine.shaking,.card,.popin,.preview.pop svg{animation:none!important}
+}
+</style>
+
+<div id="app">
+  <header class="top">
+    <div class="brand">
+      <svg viewBox="0 0 48 48" width="44" height="44" aria-hidden="true"><g stroke="#2B1D3A" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+        <path d="M24 9V4"/><circle cx="24" cy="4" r="3" fill="#FF4D5E"/>
+        <rect x="6" y="9" width="36" height="30" rx="10" fill="#7B5CFF"/><rect x="2" y="18" width="5" height="12" rx="2" fill="#FFD23F"/><rect x="41" y="18" width="5" height="12" rx="2" fill="#FFD23F"/>
+        <circle cx="17" cy="22" r="5" fill="#fff"/><circle cx="31" cy="22" r="5" fill="#fff"/><circle cx="18" cy="23" r="2" fill="#2B1D3A"/><circle cx="32" cy="23" r="2" fill="#2B1D3A"/>
+        <path d="M17 31q7 5 14 0" fill="none"/></g></svg>
+      <h1 class="logo outline"><span class="who">Jude's</span> Merge <span class="ch">Champion</span></h1>
+    </div>
+    <div class="hud-right">
+      <div class="pill coins" id="coinPill" title="Gold coins" aria-label="Gold coins"><span id="coinIcon"></span><b id="coinCount">0</b></div>
+      <button id="soundBtn" class="icon-btn" type="button" aria-label="Sound on"></button>
+    </div>
+  </header>
+
+  <main id="workshop" class="screen">
+    <section class="inbox panel" id="inbox" aria-label="Challenges" hidden>
+      <div class="phead"><h2>CHALLENGES!</h2></div>
+      <div class="inlist" id="inlist"></div>
+    </section>
+    <div class="workshop">
+      <section id="machine" class="machine panel" aria-label="My robot">
+        <div class="phead"><h2>MY ROBOT</h2><div class="phead-r"><span class="wins" id="winPill" title="Battles won"></span><span class="lvl" id="lvlBadge">LEVEL 1</span></div></div>
+        <div class="mbody">
+          <div class="namerow"><h3 class="rname" id="rname"></h3><button class="icon-btn sm" id="renameBtn" type="button" aria-label="Rename your robot"></button></div>
+          <div class="window" id="window">
+            <div class="preview" id="preview"></div>
+            <span class="badge" id="comboBadge" hidden></span>
+            <button class="icon-btn paint" id="paintBtn" type="button" aria-label="Paint your robot"></button>
+          </div>
+          <div class="xp"><span id="xpFrom">Lv 1</span><div class="xpbar"><i id="xpFill"></i></div><span id="xpTo">Lv 2</span></div>
+          <p class="xpnote" id="xpNote"></p>
+          <div class="slots">
+            <button class="slot" data-i="0" type="button"></button><span class="plus">+</span>
+            <button class="slot" data-i="1" type="button"></button><span class="plus">+</span>
+            <button class="slot" data-i="2" type="button"></button>
+          </div>
+          <p class="hint" id="hint"></p>
+          <div class="mstats" id="mstats"></div>
+          <button id="fightBtn" class="btn big ready" type="button">FIGHT!</button>
+        </div>
+      </section>
+
+      <div class="rcol">
+        <section class="parts panel" aria-label="Parts">
+          <div class="phead"><h2>PARTS</h2><span class="count" id="partCount"></span></div>
+          <div class="pbody" id="trays">
+            <div class="sect"><h3>Everyday parts</h3><span class="count" id="basicCount"></span></div>
+            <div class="tray-grid" id="trayBasic"></div>
+            <hr class="rule">
+            <div class="sect"><h3>Power parts</h3><span id="powerChip" class="lockchip"></span></div>
+            <div class="tray-grid" id="trayPower"></div>
+            <div class="pfoot">
+              <p id="comboCount"></p>
+              <button class="btn small yellow" id="bookBtn" type="button">Combo Book</button>
+            </div>
+          </div>
+        </section>
+        <section class="board panel" aria-label="Leaderboard">
+          <div class="phead"><h2>LEADERBOARD</h2><span class="count">Most wins</span></div>
+          <div class="lb" id="lb" aria-live="polite"><p class="lbmsg">Loading the leaderboard...</p></div>
+        </section>
+        <section class="guide panel" aria-label="How to play">
+          <div class="phead"><h2>HOW TO PLAY</h2></div>
+          <ol class="steps">
+            <li><span class="n">1</span><span class="pic" id="g1"></span>Fit up to 3 parts</li>
+            <li><span class="n">2</span><span class="pic" id="g2"></span>Win coins and XP</li>
+            <li><span class="n">3</span><span class="pic" id="g3"></span>Upgrade your parts</li>
+          </ol>
+        </section>
+      </div>
+    </div>
+    <footer class="foot"><button id="resetBtn" class="link-btn" type="button">Start over</button></footer>
+  </main>
+
+  <main id="battle" class="screen battle" hidden>
+    <div class="hud">
+      <div class="hpbox panel" id="pBox"></div>
+      <div class="vs">VS</div>
+      <div class="hpbox panel right" id="eBox"></div>
+    </div>
+    <div class="arena panel" id="arena">
+      <div class="cloudy" style="width:90px;height:26px;left:8%;top:14%"></div>
+      <div class="cloudy" style="width:64px;height:20px;right:12%;top:26%"></div>
+      <div class="turn" id="turn"></div>
+      <div class="fighter left" id="pF"></div>
+      <div class="fighter right" id="eF"></div>
+    </div>
+    <div class="announcer" id="log" aria-live="polite"></div>
+    <div class="actions panel" id="actions"></div>
+  </main>
+</div>
+
+<div id="overlay" class="overlay" hidden><div class="card panel" id="card" role="dialog" aria-modal="true"></div></div>
+<div id="toast" class="toast" role="status" hidden></div>
+
+<script>
+/* =====================================================================
+   MERGE CHAMPION
+   - Add a part: add an entry to OBJECTS and an icon to ICONS. Give it a
+     `special` that exists in SPECIALS (or write a new one there).
+     `starter:true` parts are owned from the start; other everyday parts
+     unlock one per win in list order; `power:true` parts unlock two per
+     robot level from POWER_LEVEL, in list order.
+   - Add a secret combo: add an entry to COMBOS.
+   - Tune the economy with the constants just below.
+   ===================================================================== */
+const INK = '#2B1D3A';
+const ROBOT_SLOTS = 3, POWER_LEVEL = 5, MAX_PART_LEVEL = 10, MAX_ROBOT_LEVEL = 20, ENERGY_MAX = 2;
+const STAT_MAX = 60, HP_MAX = 250, PART_STAT_MAX = 30;
+const upgradeCost = lvl => lvl + 1;          // Lv1→2 costs 2 coins, Lv2→3 costs 3 … Lv9→10 costs 10
+const xpNeeded = lvl => 10 + (lvl - 1) * 5;  // XP to go from this robot level to the next
+const WIN_XP = 10, LOSS_XP = 4, LOSS_COINS = 1;
+const winCoins = stars => 3 + stars;         // 4–6 coins per win
+
+const $ = id => document.getElementById(id);
+const pick = a => a[Math.floor(Math.random() * a.length)];
+const rand = (a,b) => a + Math.random() * (b - a);
+const clamp = (v,a,b) => Math.max(a, Math.min(b, v));
+const wait = ms => new Promise(r => setTimeout(r, ms));
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+const OBJECTS = [
+  // ---- everyday parts ----
+  {id:'toaster', name:'Toaster', color:'#FF8A5B', pow:6, spd:3, def:7, special:'toast', starter:true,
+   adj:['Toasty','Crispy','Crumby'], mid:'Crunch', noun:['Toaster','Crumbler','Toastbot']},
+  {id:'battery', name:'Battery', color:'#3FBF6A', pow:7, spd:5, def:3, special:'zap', starter:true,
+   adj:['Zappy','Sparky','Buzzy'], mid:'Zap', noun:['Zapper','Sparkbot','Volt']},
+  {id:'wheel', name:'Wheel', color:'#5B6CFF', pow:3, spd:9, def:4, special:'zoom', starter:true,
+   adj:['Zoomy','Speedy','Rolly'], mid:'Vroom', noun:['Roller','Racer','Wheelie']},
+  {id:'spring', name:'Spring', color:'#19C2C2', pow:4, spd:7, def:5, special:'bounce', starter:true,
+   adj:['Bouncy','Boingy','Wobbly'], mid:'Boing', noun:['Bouncer','Boingbot','Pogo']},
+  {id:'magnet', name:'Magnet', color:'#FF4D5E', pow:5, spd:4, def:6, special:'grab', starter:true,
+   adj:['Sticky','Grabby','Clingy'], mid:'Grab', noun:['Grabber','Magnetron','Clinger']},
+  {id:'gear', name:'Gear', color:'#FFB020', pow:5, spd:4, def:8, special:'shield',
+   adj:['Clanky','Cranky','Chunky'], mid:'Clank', noun:['Cogsworth','Clanker','Gearhead']},
+  {id:'duck', name:'Rubber Duck', color:'#FFD23F', pow:3, spd:6, def:6, special:'quack',
+   adj:['Squeaky','Quacky','Splashy'], mid:'Quack', noun:['Duckbot','Quacker','Squeaker']},
+  {id:'fan', name:'Fan', color:'#4FC3F7', pow:4, spd:6, def:5, special:'breeze',
+   adj:['Breezy','Windy','Whirly'], mid:'Whoosh', noun:['Blower','Whirlwind','Breezer']},
+  {id:'rocket', name:'Rocket', color:'#FF6FB5', pow:8, spd:8, def:2, special:'rocket',
+   adj:['Blasty','Turbo','Zoomin'], mid:'Blast', noun:['Blaster','Rocketeer','Jetbot']},
+  {id:'laser', name:'Laser', color:'#8B5CFF', pow:9, spd:6, def:2, special:'laser',
+   adj:['Lasery','Beamy','Glowy'], mid:'Pew', noun:['Beamer','Lasertron','Pew-Pew']},
+  {id:'vacuum', name:'Vacuum', color:'#7B5CFF', pow:5, spd:3, def:7, special:'suck',
+   adj:['Sucky','Dusty','Hoovery'], mid:'Slurp', noun:['Hoover','Duster','Slurper']},
+  {id:'sock', name:'Stinky Sock', color:'#9BE15D', pow:4, spd:6, def:4, special:'stink',
+   adj:['Stinky','Smelly','Pongy'], mid:'Pong', noun:['Sockbot','Stinker','Whiff']},
+  {id:'drill', name:'Drill', color:'#FF9F1C', pow:7, spd:4, def:4, special:'drill',
+   adj:['Drilly','Twisty','Screwy'], mid:'Drill', noun:['Driller','Borer','Screwball']},
+  {id:'clock', name:'Alarm Clock', color:'#FF4D5E', pow:4, spd:7, def:5, special:'alarm',
+   adj:['Ticky','Ringy','Sleepy'], mid:'Tick', noun:['Ticker','Ringer','Tocker']},
+  {id:'glove', name:'Boxing Glove', color:'#E8344A', pow:7, spd:5, def:4, special:'punch',
+   adj:['Punchy','Boxy','Bashy'], mid:'Bonk', noun:['Puncher','Boxer','Basher']},
+  // ---- power parts (need robot level 5) ----
+  {id:'volcano', name:'Volcano', color:'#FF6A2B', pow:10, spd:4, def:8, special:'lava', power:true,
+   adj:['Lava','Fiery','Molten'], mid:'Boom', noun:['Eruptor','Magma','Volcanix']},
+  {id:'storm', name:'Storm Cloud', color:'#8A93A6', pow:9, spd:8, def:5, special:'storm', power:true,
+   adj:['Stormy','Thundery','Rumbly'], mid:'Crack', noun:['Thunder','Stormer','Boomer']},
+  {id:'shark', name:'Shark', color:'#5B8DB8', pow:11, spd:7, def:4, special:'chomp', power:true,
+   adj:['Bitey','Chompy','Jawsy'], mid:'Chomp', noun:['Chomper','Sharko','Jaws']},
+  {id:'blackhole', name:'Black Hole', color:'#5A3FA0', pow:9, spd:6, def:7, special:'void', power:true,
+   adj:['Spacey','Cosmic','Swirly'], mid:'Void', noun:['Vortex','Gobbler','Nebula']},
+  {id:'unicorn', name:'Unicorn Horn', color:'#FF9ED2', pow:6, spd:7, def:9, special:'rainbow', power:true,
+   adj:['Sparkly','Magic','Rainbow'], mid:'Sparkle', noun:['Unibot','Prancer','Glitter']},
+  {id:'diamond', name:'Diamond', color:'#4FD1E8', pow:4, spd:5, def:13, special:'diamond', power:true,
+   adj:['Shiny','Bling','Glittery'], mid:'Bling', noun:['Gem','Diamondo','Crystal']},
+  {id:'meteor', name:'Meteor', color:'#B07A5A', pow:12, spd:6, def:4, special:'meteor', power:true,
+   adj:['Cosmic','Smashy','Starry'], mid:'Smash', noun:['Meteor','Crasher','Comet']},
+  {id:'timer', name:'Sand Timer', color:'#E0A040', pow:7, spd:9, def:6, special:'time', power:true,
+   adj:['Timey','Frozen','Sandy'], mid:'Freeze', noun:['Timekeeper','Sandman','Pauser']},
+  {id:'ghost', name:'Ghost', color:'#B8C4D0', pow:6, spd:12, def:4, special:'ghost', power:true,
+   adj:['Spooky','Boo','Ghostly'], mid:'Boo', noun:['Ghoulbot','Phantom','Spook']},
+  {id:'crown', name:'Crown', color:'#FFC300', pow:8, spd:6, def:8, special:'crown', power:true,
+   adj:['Royal','Kingly','Fancy'], mid:'Majesty', noun:['King','Queen','Ruler']},
+];
+const OBJ = Object.fromEntries(OBJECTS.map(o => [o.id, o]));
+// Power parts unlock two at a time: the first two at robot level 5, the next two at 6, and so on.
+const POWER_IDS = OBJECTS.filter(o => o.power).map(o => o.id), POWER_PER_LEVEL = 2;
+const powerLevel = id => POWER_LEVEL + Math.floor(POWER_IDS.indexOf(id) / POWER_PER_LEVEL);
+const nextPowerLevel = () => { const l = POWER_IDS.map(powerLevel).find(l => l > save.level); return l || null; };
+
+const COMBOS = [
+  {parts:['toaster','battery'], name:'Electric Toaster', pow:3},
+  {parts:['wheel','rocket'],    name:'Turbo Racer', spd:4},
+  {parts:['magnet','gear'],     name:'Mega Mech', def:4},
+  {parts:['battery','laser'],   name:'Overcharged Laser', pow:4},
+  {parts:['duck','spring'],     name:'Bouncy Bath Toy', spd:2, def:2},
+  {parts:['fan','rocket'],      name:'Hurricane', spd:3, pow:1},
+  {parts:['spring','wheel'],    name:'Pogo Wheels', spd:3},
+  {parts:['toaster','gear'],    name:'Breakfast Tank', def:3},
+  {parts:['sock','fan'],        name:'Stink Storm', pow:3},
+  {parts:['vacuum','drill'],    name:'Tool Box', pow:2, def:2},
+  {parts:['clock','glove'],     name:'Morning Boxer', pow:2, spd:2},
+  {parts:['volcano','meteor'],  name:'Fire From The Sky', pow:6},
+  {parts:['shark','duck'],      name:'Bath Time Shark', pow:3, spd:3},
+  {parts:['unicorn','crown'],   name:'Royal Unicorn', pow:2, def:4},
+  {parts:['ghost','clock'],     name:'Haunted Clock', spd:5},
+  {parts:['storm','battery'],   name:'Super Storm', pow:5},
+];
+const comboKey = c => c.parts.slice().sort().join('+');
+function findCombos(ids){ return COMBOS.filter(c => c.parts.every(p => ids.includes(p))); }
+
+/* ---------- part icons (64x64) ---------- */
+function gearPath(cx, cy, r1, r2, teeth){
+  let d = ''; const n = teeth * 4;
+  for (let i = 0; i < n; i++){
+    const a = i / n * Math.PI * 2 - Math.PI / n; const r = (i % 4 < 2) ? r2 : r1;
+    d += (i ? 'L' : 'M') + (cx + Math.cos(a) * r).toFixed(1) + ' ' + (cy + Math.sin(a) * r).toFixed(1);
+  }
+  return d + 'Z';
+}
+const ICONS = {
+  toaster:`<rect x="17" y="7" width="12" height="20" rx="4" fill="#F2B45A"/><rect x="34" y="10" width="12" height="18" rx="4" fill="#E39A3E"/>
+    <rect x="7" y="22" width="47" height="30" rx="11" fill="#D6DEE7"/><rect x="54" y="30" width="6" height="10" rx="2" fill="#FF4D5E"/>
+    <circle cx="23" cy="37" r="2.5" fill="${INK}" stroke="none"/><circle cx="38" cy="37" r="2.5" fill="${INK}" stroke="none"/>
+    <path d="M26 43q4 3 8 0" fill="none"/><rect x="13" y="52" width="8" height="5" rx="2" fill="${INK}"/><rect x="40" y="52" width="8" height="5" rx="2" fill="${INK}"/>`,
+  battery:`<rect x="26" y="6" width="12" height="8" rx="2" fill="#D6DEE7"/><rect x="15" y="13" width="34" height="44" rx="7" fill="#3FBF6A"/>
+    <path d="M35 20L24 37H32L28 50L41 31H33Z" fill="#FFD23F"/>`,
+  wheel:`<circle cx="32" cy="32" r="25" fill="#3A3550"/><path d="M32 9v6M32 49v6M9 32h6M49 32h6M16 16l4 4M44 44l4 4M48 16l-4 4M16 48l4-4" stroke="#6E6890"/>
+    <circle cx="32" cy="32" r="12" fill="#D6DEE7"/><circle cx="32" cy="32" r="4.5" fill="#5B6CFF"/>`,
+  spring:`<path d="M16 10H48L16 21L48 32L16 43L48 54H16" fill="none" stroke="${INK}" stroke-width="10"/>
+    <path d="M16 10H48L16 21L48 32L16 43L48 54H16" fill="none" stroke="#9FE6E6" stroke-width="5"/>`,
+  magnet:`<path d="M18 9V32a14 14 0 0 0 28 0V9" fill="none" stroke="${INK}" stroke-width="17"/>
+    <path d="M18 12V32a14 14 0 0 0 28 0V12" fill="none" stroke="#FF4D5E" stroke-width="10" stroke-linecap="butt"/>
+    <path d="M18 7V16M46 7V16" stroke="#D6DEE7" stroke-width="10" stroke-linecap="butt"/>
+    <path d="M6 6l4 4M58 6l-4 4M4 18h5M60 18h-5" stroke="#FFB020" stroke-width="3"/>`,
+  gear:`<path d="${gearPath(32,32,18,27,8)}" fill="#FFB020"/><circle cx="32" cy="32" r="8" fill="#FFF3D6"/>`,
+  rocket:`<path d="M22 34L11 50H22Z" fill="#FF4D5E"/><path d="M42 34L53 50H42Z" fill="#FF4D5E"/>
+    <path d="M25 50h14l-7 11z" fill="#FFB020"/><path d="M32 3C45 14 46 33 42 50H22C18 33 19 14 32 3Z" fill="#FDF7FF"/>
+    <circle cx="32" cy="25" r="6.5" fill="#5BC0F8"/><path d="M24 14h16" fill="none" stroke="#FF6FB5" stroke-width="4"/>`,
+  laser:`<path d="M49 30H62" stroke="#FF3B7F" stroke-width="6"/><rect x="38" y="25" width="12" height="10" rx="3" fill="#D6DEE7"/>
+    <rect x="5" y="20" width="37" height="19" rx="8" fill="#8B5CFF"/><rect x="11" y="37" width="12" height="17" rx="4" fill="#6A3FE0"/>
+    <circle cx="20" cy="29.5" r="3.5" fill="#FFD23F"/><circle cx="31" cy="29.5" r="2.5" fill="#fff"/>`,
+  duck:`<path d="M50 34l9-6-2 12z" fill="#FFD23F"/><ellipse cx="35" cy="42" rx="21" ry="14" fill="#FFD23F"/>
+    <circle cx="22" cy="23" r="12" fill="#FFD23F"/><path d="M11 21L2 25L11 29Z" fill="#FF8A2B"/>
+    <circle cx="19" cy="20" r="2.5" fill="${INK}" stroke="none"/><path d="M30 40q8 8 16 0" fill="none"/>`,
+  fan:`<path d="M32 44V55" stroke-width="5"/><rect x="19" y="53" width="26" height="7" rx="3.5" fill="#4FC3F7"/>
+    <circle cx="32" cy="28" r="23" fill="#E6F7FF"/>
+    <ellipse cx="32" cy="17" rx="6" ry="10" fill="#4FC3F7"/><ellipse cx="32" cy="17" rx="6" ry="10" fill="#4FC3F7" transform="rotate(120 32 28)"/>
+    <ellipse cx="32" cy="17" rx="6" ry="10" fill="#4FC3F7" transform="rotate(240 32 28)"/><circle cx="32" cy="28" r="4.5" fill="${INK}"/>`,
+  vacuum:`<path d="M44 30C54 26 58 16 52 8" fill="none" stroke="${INK}" stroke-width="8"/><path d="M44 30C54 26 58 16 52 8" fill="none" stroke="#B8C4D0" stroke-width="3.5"/>
+    <rect x="42" y="2" width="18" height="9" rx="3" fill="#D6DEE7"/>
+    <rect x="6" y="26" width="42" height="26" rx="13" fill="#7B5CFF"/>
+    <circle cx="18" cy="38" r="5" fill="#FFD23F"/><path d="M30 34h10M30 42h10" fill="none"/>
+    <circle cx="16" cy="54" r="5" fill="#3A3550"/><circle cx="38" cy="54" r="5" fill="#3A3550"/>`,
+  sock:`<path d="M46 6q5 5 0 10q-5 5 0 10" fill="none" stroke="#7DCB4A" stroke-width="3"/><path d="M56 10q5 5 0 10q-5 5 0 10" fill="none" stroke="#7DCB4A" stroke-width="3"/>
+    <path d="M14 4H36V32L48 41C54 46 51 58 42 58H24C18 58 14 54 14 48Z" fill="#fff" stroke="none"/>
+    <path d="M14 12H36M14 20H36" fill="none" stroke="#FF4D5E" stroke-width="5" stroke-linecap="butt"/>
+    <path d="M14 4H36V32L48 41C54 46 51 58 42 58H24C18 58 14 54 14 48Z" fill="none"/>`,
+  drill:`<path d="M46 18L62 23L46 28Z" fill="#B8C4D0"/><path d="M50 19.5l2 7M55 21l1.5 4" fill="none" stroke-width="2"/>
+    <rect x="38" y="16" width="10" height="14" rx="3" fill="#D6DEE7"/>
+    <rect x="16" y="28" width="14" height="22" rx="4" fill="#3A3550"/>
+    <rect x="4" y="12" width="38" height="20" rx="9" fill="#FF9F1C"/>
+    <rect x="10" y="48" width="26" height="10" rx="4" fill="#FF9F1C"/>
+    <circle cx="14" cy="22" r="3" fill="#fff"/>`,
+  clock:`<path d="M18 50l-6 9M46 50l6 9" fill="none"/>
+    <circle cx="13" cy="13" r="8" fill="#FFD23F"/><circle cx="51" cy="13" r="8" fill="#FFD23F"/>
+    <circle cx="32" cy="34" r="22" fill="#FF4D5E"/><circle cx="32" cy="34" r="15" fill="#fff"/>
+    <path d="M32 34V24M32 34l7 5" fill="none"/><circle cx="32" cy="34" r="2" fill="${INK}"/>`,
+  glove:`<rect x="22" y="44" width="26" height="15" rx="4" fill="#fff"/>
+    <path d="M18 30C18 15 27 7 38 7C50 7 58 15 58 27C58 38 51 46 42 46H28C21 46 18 40 18 30Z" fill="#E8344A"/>
+    <path d="M18 28C10 26 6 34 10 40C13 44 19 43 22 40" fill="#E8344A"/>
+    <path d="M30 18q8-4 16 2" fill="none" stroke="#FF8A96" stroke-width="3"/>
+    <path d="M28 51h14" fill="none"/>`,
+  volcano:`<circle cx="16" cy="10" r="4" fill="#FFB020"/><circle cx="48" cy="7" r="3.5" fill="#FFB020"/>
+    <path d="M24 22C20 14 28 10 32 3C36 10 44 14 40 22Z" fill="#FF4D5E"/>
+    <path d="M4 58L22 22H42L60 58Z" fill="#8A5A3C"/>
+    <path d="M22 22H42L39 30C36 27 33 34 30 30C28 27 26 32 25 28Z" fill="#FF6A2B"/>`,
+  storm:`<path d="M17 38H47A11 11 0 0 0 47 16A15 15 0 0 0 21 12A12 12 0 0 0 17 38Z" fill="#8A93A6"/>
+    <path d="M34 34L25 49H32L28 62L42 44H35L39 34Z" fill="#FFD23F"/>
+    <path d="M14 44l-3 7M50 44l-3 7" fill="none" stroke="#4FC3F7" stroke-width="3.5"/>`,
+  shark:`<path d="M26 22L33 6L40 22Z" fill="#5B8DB8"/>
+    <path d="M4 36C14 22 34 18 50 26L60 16L58 34L60 50L50 42C34 50 14 48 4 36Z" fill="#5B8DB8"/>
+    <path d="M6 37C16 44 32 46 46 41C32 40 18 40 6 37Z" fill="#fff" stroke-width="2"/>
+    <path d="M9 37l3 4 3-4 3 4 3-4" fill="none" stroke-width="2"/>
+    <circle cx="17" cy="30" r="2.5" fill="${INK}" stroke="none"/>
+    <path d="M28 30q2 4 0 8M33 30q2 4 0 8" fill="none" stroke-width="2"/>`,
+  blackhole:`<ellipse cx="32" cy="32" rx="29" ry="11" fill="#B794FF" transform="rotate(-20 32 32)"/>
+    <circle cx="32" cy="32" r="14" fill="#1A1028"/>
+    <g transform="rotate(-20 32 32)"><path d="M3 32A29 11 0 0 0 61 32" fill="none" stroke="${INK}" stroke-width="9"/><path d="M3 32A29 11 0 0 0 61 32" fill="none" stroke="#B794FF" stroke-width="4"/></g>
+    <circle cx="10" cy="10" r="2.2" fill="#FFD23F" stroke="none"/><circle cx="54" cy="54" r="2.2" fill="#FFD23F" stroke="none"/><circle cx="52" cy="10" r="1.6" fill="#B794FF" stroke="none"/>`,
+  unicorn:`<path d="M32 3L45 52H19Z" fill="#FFE3F1" stroke="none"/>
+    <path d="M28 18L37 14M25 30L41 24M22 42L44 35" fill="none" stroke="#FF6FB5" stroke-width="3.5"/>
+    <path d="M32 3L45 52H19Z" fill="none"/>
+    <rect x="13" y="50" width="38" height="10" rx="5" fill="#FFD23F"/>
+    <path d="M8 14l2 4 4 2-4 2-2 4-2-4-4-2 4-2z" fill="#fff" stroke-width="2"/><path d="M55 24l1.5 3 3 1.5-3 1.5-1.5 3-1.5-3-3-1.5 3-1.5z" fill="#fff" stroke-width="2"/>`,
+  diamond:`<path d="M16 10H48L60 24L32 58L4 24Z" fill="#7FE3FF"/>
+    <path d="M4 24H60M16 10L24 24L32 58L40 24L48 10M24 24L32 10L40 24" fill="none" stroke-width="2.5"/>
+    <path d="M12 21l4-6" fill="none" stroke="#fff" stroke-width="3"/>`,
+  meteor:`<path d="M4 12L28 32M12 4L34 26M2 26L22 40" fill="none" stroke="${INK}" stroke-width="10"/>
+    <path d="M4 12L28 32M12 4L34 26M2 26L22 40" fill="none" stroke="#FFB020" stroke-width="5"/>
+    <circle cx="40" cy="40" r="19" fill="#B07A5A"/>
+    <circle cx="35" cy="35" r="4.5" fill="#8A5A3C" stroke-width="2"/><circle cx="47" cy="44" r="3.5" fill="#8A5A3C" stroke-width="2"/><circle cx="38" cy="49" r="2.5" fill="#8A5A3C" stroke-width="2"/>`,
+  timer:`<path d="M16 12H48C48 24 36 28 36 32C36 36 48 40 48 52H16C16 40 28 36 28 32C28 28 16 24 16 12Z" fill="#E6F7FF"/>
+    <path d="M21 17H43C41 23 35 25 32 29C29 25 23 23 21 17Z" fill="#FFD23F" stroke-width="2"/>
+    <path d="M20 50C21 43 27 40 32 40C37 40 43 43 44 50Z" fill="#FFD23F" stroke-width="2"/>
+    <path d="M32 31V40" fill="none" stroke="#E0A400" stroke-width="2"/>
+    <rect x="10" y="4" width="44" height="8" rx="3" fill="#B8742A"/><rect x="10" y="52" width="44" height="8" rx="3" fill="#B8742A"/>`,
+  ghost:`<path d="M12 58V28a20 20 0 0 1 40 0V58l-7-6-6 6-7-6-6 6-7-6z" fill="#fff"/>
+    <ellipse cx="25" cy="28" rx="4" ry="6" fill="${INK}" stroke="none"/><ellipse cx="39" cy="28" rx="4" ry="6" fill="${INK}" stroke="none"/>
+    <ellipse cx="32" cy="42" rx="4" ry="5" fill="${INK}" stroke="none"/>
+    <circle cx="18" cy="37" r="3" fill="#FF9DB8" stroke="none"/><circle cx="46" cy="37" r="3" fill="#FF9DB8" stroke="none"/>`,
+  crown:`<path d="M6 22L18 36L32 12L46 36L58 22L52 50H12Z" fill="#FFD23F"/>
+    <rect x="10" y="48" width="44" height="10" rx="3" fill="#FFB020"/>
+    <circle cx="6" cy="20" r="4.5" fill="#FF4D5E"/><circle cx="32" cy="10" r="4.5" fill="#7B5CFF"/><circle cx="58" cy="20" r="4.5" fill="#2EC4A0"/>
+    <circle cx="32" cy="38" r="5" fill="#FF4D5E"/><circle cx="20" cy="53" r="2" fill="#fff" stroke="none"/><circle cx="44" cy="53" r="2" fill="#fff" stroke="none"/>`,
+};
+function iconInner(id){ return `<g stroke="${INK}" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">${ICONS[id] || ''}</g>`; }
+function iconSvg(id, size){ return `<svg viewBox="0 0 64 64" width="${size}" height="${size}" aria-hidden="true">${iconInner(id)}</svg>`; }
+
+/* ---------- UI icons ---------- */
+const COIN = s => `<svg viewBox="0 0 24 24" width="${s}" height="${s}" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#FFD23F" stroke="${INK}" stroke-width="2.2"/><circle cx="12" cy="12" r="6.2" fill="none" stroke="#E0A400" stroke-width="2"/><path d="M12 8.6v6.8" stroke="#B57F00" stroke-width="2.4" stroke-linecap="round"/></svg>`;
+const XPI = s => `<svg viewBox="0 0 24 24" width="${s}" height="${s}" aria-hidden="true"><path d="M12 1.5l3 6.4 7 .9-5.2 4.8 1.4 7L12 17.1 5.8 20.6l1.4-7L2 8.8l7-.9z" fill="#7B5CFF" stroke="${INK}" stroke-width="2" stroke-linejoin="round"/></svg>`;
+const UP = s => `<svg viewBox="0 0 24 24" width="${s}" height="${s}" aria-hidden="true"><path d="M12 3l8 9h-5v9H9v-9H4z" fill="#2EC4A0" stroke="${INK}" stroke-width="2.2" stroke-linejoin="round"/></svg>`;
+const TICK = `<svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M5 12l5 5 9-10" fill="none" stroke="#fff" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+const LOCK = s => `<svg viewBox="0 0 24 24" width="${s}" height="${s}" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2.5" fill="currentColor"/><path d="M8 11V8a4 4 0 0 1 8 0v3" fill="none" stroke="currentColor" stroke-width="2.6"/></svg>`;
+const TROPHY = `<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><g stroke="#fff" stroke-width="2" stroke-linejoin="round"><path d="M4 5h3M17 5h3M4 5c0 4 2 6 4 6M20 5c0 4-2 6-4 6" fill="none"/><path d="M7 3h10v5a5 5 0 0 1-10 0z" fill="#FFD23F"/><path d="M12 13v4M8 21h8l-1-4H9z" fill="#FFB020"/></g></svg>`;
+const CLOSE = `<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="${INK}" stroke-width="3.2" stroke-linecap="round"/></svg>`;
+const PENCIL = `<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><g stroke="${INK}" stroke-width="2" stroke-linejoin="round"><path d="M4 20l1.2-5L16 4.2l3.8 3.8L9 18.8z" fill="#FFD23F"/><path d="M4 20l1.2-5 3.8 3.8z" fill="#FFB8A0"/><path d="M14 6.2l3.8 3.8" fill="none"/></g></svg>`;
+const PALETTE = `<svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18c1.5 0 2-1 2-2s-1-1.5-1-2.5 1-1.5 2-1.5h2a4 4 0 0 0 4-4c0-4.5-4-8-9-8z" fill="#FFF3D6" stroke="${INK}" stroke-width="2" stroke-linejoin="round"/><g stroke="${INK}" stroke-width="1.4"><circle cx="7.5" cy="11" r="1.8" fill="#FF4D5E"/><circle cx="10" cy="6.8" r="1.8" fill="#FFD23F"/><circle cx="14.8" cy="6.8" r="1.8" fill="#2EC4A0"/><circle cx="17.6" cy="10.6" r="1.8" fill="#5B6CFF"/></g></svg>`;
+const DICE = `<svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="#fff" stroke="${INK}" stroke-width="2.2"/><g fill="${INK}"><circle cx="8" cy="8" r="1.7"/><circle cx="16" cy="8" r="1.7"/><circle cx="12" cy="12" r="1.7"/><circle cx="8" cy="16" r="1.7"/><circle cx="16" cy="16" r="1.7"/></g></svg>`;
+const STAR = on => `<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 3l6.5 13.5 14.5 2-10.5 10 2.5 14.5L24 36l-13 7 2.5-14.5L3 18.5l14.5-2z" fill="${on ? '#FFD23F' : '#E3DEEE'}" stroke="${INK}" stroke-width="3.5" stroke-linejoin="round"/></svg>`;
+const TOAST_SVG = `<svg viewBox="0 0 40 40" width="40" height="40"><path d="M8 14a10 8 0 0 1 24 0v18H8z" fill="#F2B45A" stroke="${INK}" stroke-width="3" stroke-linejoin="round"/><path d="M12 16a7 5 0 0 1 16 0v12H12z" fill="#FFE2A8"/></svg>`;
+const SPARK_SVG = `<svg viewBox="0 0 40 40" width="44" height="44"><path d="M20 2l5 13 13 5-13 5-5 13-5-13-13-5 13-5z" fill="#FFD23F" stroke="${INK}" stroke-width="3" stroke-linejoin="round"/></svg>`;
+const BOLT_SVG = `<svg viewBox="0 0 60 90" width="70" height="105"><path d="M38 2L8 50H28L18 88L54 34H33Z" fill="#FFE94A" stroke="${INK}" stroke-width="4" stroke-linejoin="round"/></svg>`;
+const LAVA_SVG = `<svg viewBox="0 0 40 40" width="48" height="48"><path d="M20 4c8 6 14 12 14 20a14 14 0 0 1-28 0c0-8 6-14 14-20z" fill="#FF6A2B" stroke="${INK}" stroke-width="3" stroke-linejoin="round"/><path d="M14 24a6 6 0 0 0 6 6" fill="none" stroke="#FFD23F" stroke-width="3" stroke-linecap="round"/></svg>`;
+
+/* ---------- robot drawing (built from parts + paint colours) ---------- */
+function robotSVG(r){
+  const P = r.parts.map(id => OBJ[id]).filter(Boolean);
+  const has = id => r.parts.includes(id);
+  const C = r.colors || {
+    body: P[0] ? P[0].color : '#9AA6B2',
+    head: (P[1] || P[0] || {color:'#FFD23F'}).color,
+    limbs: (P[2] || P[1] || P[0] || {color:'#FF4D5E'}).color };
+  const cB = C.body, cH = C.head, cL = C.limbs;
+  const S = `stroke="${INK}" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"`;
+  const headId = P.length > 1 ? P[1].id : P.length ? P[0].id : '';
+  let out = '';
+
+  if (has('shark')) out += `<path d="M50 104L30 64L74 96Z" fill="#5B8DB8" ${S}/>`;
+  if (has('rocket')) out += `<g ${S}><path d="M28 154L36 178L44 154Z" fill="#FFB020" class="flame"/>
+    <rect x="22" y="100" width="28" height="56" rx="10" fill="#FF6FB5"/><path d="M22 108Q36 78 50 108Z" fill="#FDF7FF"/></g>`;
+
+  // legs
+  if (has('wheel')){
+    out += `<g ${S}><rect x="58" y="168" width="84" height="20" rx="10" fill="${cL}"/>
+      <circle cx="66" cy="208" r="24" fill="#3A3550"/><circle cx="66" cy="208" r="9" fill="#D6DEE7"/>
+      <circle cx="134" cy="208" r="24" fill="#3A3550"/><circle cx="134" cy="208" r="9" fill="#D6DEE7"/></g>`;
+  } else if (has('spring')){
+    [72,128].forEach(x => {
+      const d = `M${x} 168L${x-14} 178L${x+14} 188L${x-14} 198L${x+14} 208L${x} 216`;
+      out += `<path d="${d}" fill="none" stroke="${INK}" stroke-width="11" stroke-linejoin="round"/>
+        <path d="${d}" fill="none" stroke="#9FE6E6" stroke-width="5" stroke-linejoin="round"/>
+        <rect x="${x-22}" y="212" width="44" height="18" rx="9" fill="${cL}" ${S}/>`;
+    });
+  } else if (has('rocket')){
+    out += `<g ${S}><path d="M64 204L74 230L84 204Z" fill="#FFB020" class="flame"/><path d="M116 204L126 230L136 204Z" fill="#FFB020" class="flame"/>
+      <path d="M58 170h32l-4 34h-24z" fill="${cL}"/><path d="M110 170h32l-4 34h-24z" fill="${cL}"/></g>`;
+  } else {
+    out += `<g ${S}><rect x="62" y="168" width="26" height="38" rx="8" fill="#B8C4D0"/><rect x="112" y="168" width="26" height="38" rx="8" fill="#B8C4D0"/>
+      <rect x="52" y="202" width="44" height="22" rx="11" fill="${cL}"/><rect x="104" y="202" width="44" height="22" rx="11" fill="${cL}"/></g>`;
+  }
+
+  const magnetHand = (x,y) => `<path d="M${x-12} ${y-6}v8a12 12 0 0 0 24 0v-8" fill="none" stroke="${INK}" stroke-width="15" stroke-linecap="round"/>
+    <path d="M${x-12} ${y-4}v6a12 12 0 0 0 24 0v-6" fill="none" stroke="#FF4D5E" stroke-width="8"/>`;
+  const claw = (x,y) => `<circle cx="${x}" cy="${y}" r="12" fill="#D6DEE7" ${S}/><path d="M${x-6} ${y+3}l6 6 6-6" fill="none" ${S} stroke-width="3"/>`;
+  const drillHand = (x,y) => `<rect x="${x-9}" y="${y-10}" width="18" height="10" rx="3" fill="#D6DEE7" ${S} stroke-width="3"/><path d="M${x-7} ${y}H${x+7}L${x} ${y+22}Z" fill="#B8C4D0" ${S} stroke-width="3"/>`;
+  const gloveHand = (x,y) => `<rect x="${x-12}" y="${y-16}" width="24" height="9" rx="3" fill="#fff" ${S} stroke-width="3"/><circle cx="${x}" cy="${y+4}" r="15" fill="#E8344A" ${S}/><path d="M${x-6} ${y-2}q6-4 12 0" fill="none" stroke="#FF8A96" stroke-width="3" stroke-linecap="round"/>`;
+
+  // back arm
+  out += `<rect x="24" y="106" width="24" height="54" rx="12" fill="${cL}" ${S}/>` + (has('drill') ? drillHand(36,166) : has('magnet') ? magnetHand(36,166) : claw(36,166));
+  // neck + body
+  out += `<rect x="86" y="80" width="28" height="18" rx="4" fill="#B8C4D0" ${S}/>`;
+  out += `<rect x="45" y="92" width="110" height="84" rx="24" fill="${cB}" ${S}/>`;
+  out += `<rect x="60" y="104" width="80" height="58" rx="14" fill="#FFFDF7" stroke="${INK}" stroke-width="3"/>`;
+  const n = P.length, sz = 26, gap = 1, total = n*sz + Math.max(0, n-1)*gap; const x0 = 100 - total/2;
+  P.forEach((p,i) => { out += `<svg x="${x0 + i*(sz+gap)}" y="109" width="${sz}" height="${sz}" viewBox="0 0 64 64">${iconInner(p.id)}</svg>`; });
+  out += `<g stroke="${INK}" stroke-width="2.5"><circle cx="84" cy="150" r="4.5" fill="#FF4D5E"/><circle cx="100" cy="150" r="4.5" fill="#FFD23F"/><circle cx="116" cy="150" r="4.5" fill="#2EC4A0"/></g>`;
+  out += `<g fill="${INK}"><circle cx="56" cy="104" r="3"/><circle cx="144" cy="104" r="3"/><circle cx="56" cy="164" r="3"/><circle cx="144" cy="164" r="3"/></g>`;
+
+  // front arm
+  if (has('laser')){
+    out += `<g ${S}><rect x="146" y="110" width="22" height="22" rx="8" fill="${cL}"/><rect x="150" y="112" width="40" height="24" rx="10" fill="#8B5CFF"/>
+      <rect x="188" y="118" width="10" height="12" rx="3" fill="#D6DEE7"/><circle cx="166" cy="124" r="4" fill="#FFD23F" stroke-width="2.5"/></g>`;
+  } else {
+    out += `<rect x="152" y="106" width="24" height="54" rx="12" fill="${cL}" ${S}/>` + (has('glove') ? gloveHand(164,170) : has('magnet') ? magnetHand(164,166) : claw(164,166));
+  }
+
+  if (has('gear')) out += `<path d="${gearPath(56,58,9,14,6)}" fill="#FFB020" ${S} stroke-width="3"/><path d="${gearPath(144,58,9,14,6)}" fill="#FFB020" ${S} stroke-width="3"/>`;
+
+  // head
+  let headTop = 28, eyes = [[84,54],[116,54]], mouth = true;
+  if (headId === 'toaster'){
+    out += `<g ${S}><rect x="70" y="8" width="22" height="30" rx="6" fill="#F2B45A"/><rect x="106" y="12" width="22" height="26" rx="6" fill="#E39A3E"/>
+      <rect x="54" y="26" width="92" height="62" rx="14" fill="${cH}"/><rect x="146" y="40" width="8" height="14" rx="3" fill="#FF4D5E"/></g>`;
+    headTop = null;
+  } else if (headId === 'duck'){
+    out += `<g ${S}><circle cx="100" cy="56" r="36" fill="${cH}"/><path d="M130 58q26-4 28 8q-4 10-28 6z" fill="#FF8A2B"/></g>`;
+    headTop = 20; eyes = [[94,48],[118,48]]; mouth = false;
+  } else {
+    out += `<rect x="58" y="28" width="84" height="60" rx="22" fill="${cH}" ${S}/>`;
+  }
+  if (headTop !== null){
+    const t = headTop;
+    if (has('crown')) out += `<g ${S} stroke-width="3.5"><path d="M74 ${t+2}L78 ${t-22}L90 ${t-8}L100 ${t-28}L110 ${t-8}L122 ${t-22}L126 ${t+2}Z" fill="#FFD23F"/>
+      <circle cx="100" cy="${t-28}" r="5" fill="#7B5CFF" stroke-width="2.5"/><circle cx="78" cy="${t-22}" r="4" fill="#FF4D5E" stroke-width="2.5"/><circle cx="122" cy="${t-22}" r="4" fill="#2EC4A0" stroke-width="2.5"/></g>`;
+    else if (has('unicorn')) out += `<g ${S} stroke-width="3.5"><path d="M91 ${t+2}L100 ${t-38}L109 ${t+2}Z" fill="#FFE3F1"/><path d="M95 ${t-12}L105 ${t-16}M93 ${t-2}L107 ${t-6}" fill="none" stroke="#FF6FB5" stroke-width="3"/></g>`;
+    else if (has('fan')) out += `<g ${S}><path d="M100 ${t}V${t-16}" fill="none"/><ellipse class="prop" cx="100" cy="${t-19}" rx="32" ry="6" fill="#4FC3F7"/><circle cx="100" cy="${t-18}" r="4" fill="${INK}"/></g>`;
+    else if (has('battery')) out += `<g ${S}><path d="M100 ${t}V${t-12}" fill="none"/><path d="M104 ${t-26}L93 ${t-12}H101L97 ${t-2}L109 ${t-17}H101Z" fill="#FFD23F" stroke-width="3"/></g>`;
+    else out += `<g ${S}><path d="M100 ${t}V${t-14}" fill="none"/><circle cx="100" cy="${t-18}" r="7" fill="${cL}"/></g>`;
+  }
+
+  // face
+  if (has('laser')){
+    const y = eyes[0][1];
+    out += `<rect x="${eyes[0][0]-18}" y="${y-10}" width="${eyes[1][0]-eyes[0][0]+36}" height="20" rx="10" fill="#FF3B7F" ${S}/>
+      <rect x="${eyes[0][0]-10}" y="${y-5}" width="20" height="5" rx="2.5" fill="#fff" opacity=".85"/>`;
+  } else {
+    eyes.forEach(([x,y]) => {
+      out += `<circle cx="${x}" cy="${y}" r="11" fill="#fff" ${S} stroke-width="3"/><circle cx="${x+3}" cy="${y+1}" r="5" fill="${INK}"/><circle cx="${x+5}" cy="${y-1}" r="1.8" fill="#fff"/>`;
+    });
+    if (has('rocket') || has('shark')) out += `<path d="M${eyes[0][0]-10} ${eyes[0][1]-17}L${eyes[0][0]+8} ${eyes[0][1]-11}M${eyes[1][0]+10} ${eyes[1][1]-17}L${eyes[1][0]-8} ${eyes[1][1]-11}" ${S} fill="none"/>`;
+  }
+  if ((has('duck') || has('unicorn')) && headId !== 'duck') out += `<circle cx="72" cy="68" r="5" fill="#FF9DB8"/><circle cx="128" cy="68" r="5" fill="#FF9DB8"/>`;
+  if (mouth){
+    if (has('shark')) out += `<path d="M82 70H118L114 80L110 72L106 80L102 72L98 80L94 72L90 80L86 72Z" fill="#fff" ${S} stroke-width="3"/>`;
+    else if (has('gear') || has('magnet') || headId === 'toaster')
+      out += `<rect x="82" y="70" width="36" height="10" rx="4" fill="${INK}"/><path d="M91 70v10M100 70v10M109 70v10" stroke="#fff" stroke-width="2"/>`;
+    else out += `<path d="M86 72Q100 84 114 72" fill="none" ${S}/>`;
+  }
+  return `<svg viewBox="0 0 200 240" class="bot" aria-hidden="true">${out}</svg>`;
+}
+
+/* ---------- names + stats ---------- */
+function makeName(P){
+  let n = P.length >= 3 ? `${pick(P[0].adj)} ${P[1].mid}-${pick(P[2].noun)}`
+        : P.length === 2 ? `${pick(P[0].adj)} ${pick(P[1].noun)}`
+        : `${pick(P[0].adj)} ${pick(P[0].noun)}`;
+  if (n.length < 16 && Math.random() < .35) n += ' ' + pick(['3000','Jr.','Max','XL','II']);
+  return n;
+}
+const partLevel = id => (save.levels && save.levels[id]) || 1;
+const lvScale = lvl => 1 + .15 * (lvl - 1);
+function partStats(id, lvl){
+  const o = OBJ[id], k = lvScale(lvl);
+  return { pow: Math.round(o.pow * k), spd: Math.round(o.spd * k), def: Math.round(o.def * k) };
+}
+function isUsable(id){ return OBJ[id].power ? save.level >= powerLevel(id) : save.unlocked.includes(id); }
+function buildRobot({parts, lv, level, colors, name}){
+  let pow = 0, spd = 0, def = 0;
+  parts.forEach(id => { const s = partStats(id, lv(id)); pow += s.pow; spd += s.spd; def += s.def; });
+  const combos = findCombos(parts);
+  combos.forEach(c => { pow += c.pow || 0; spd += c.spd || 0; def += c.def || 0; });
+  const hp = 30 + Math.round(def * 1.5) + parts.length * 6 + (level - 1) * 5;
+  return { parts: parts.slice(), name, colors, level, pow, spd, def, hp, combos,
+           specials: [...new Set(parts.map(id => OBJ[id].special))] };
+}
+function myRobot(){
+  return buildRobot({ parts: save.robot.parts, lv: partLevel, level: save.level, colors: save.robot.colors, name: save.robot.name });
+}
+function makeEnemy(){
+  const pool = OBJECTS.filter(o => !o.power || isUsable(o.id)).map(o => o.id);
+  const count = save.wins < 1 ? 2 : 3;
+  const ids = [];
+  while (ids.length < count){ const id = pick(pool); if (!ids.includes(id)) ids.push(id); }
+  const mine = save.robot.parts.length ? save.robot.parts.reduce((s, id) => s + partLevel(id), 0) / save.robot.parts.length : 1;
+  const target = Math.min(mine + 1, 1 + save.wins * .35);
+  const lvs = {}; ids.forEach(id => lvs[id] = clamp(Math.round(target + rand(-1, .5)), 1, MAX_PART_LEVEL));
+  const r = buildRobot({ parts: ids, lv: id => lvs[id], level: save.level, colors: null, name: makeName(ids.map(i => OBJ[i])) });
+  const m = Math.min(1, .78 + save.wins * .03);
+  r.pow = Math.round(r.pow * m); r.spd = Math.round(r.spd * m); r.def = Math.round(r.def * m);
+  r.hp = Math.round(r.hp * (m * .5 + .5));
+  return r;
+}
+
+/* ---------- saving ---------- */
+const SAVE_KEY = 'merge-champion-v2';
+const STARTERS = OBJECTS.filter(o => o.starter).map(o => o.id);
+function freshSave(){
+  const parts = ['battery','spring'];
+  return { coins: 0, wins: 0, losses: 0, xp: 0, level: 1, unlocked: STARTERS.slice(), fresh: [], combos: [], seen: [], levels: {}, welcomed: false,
+           robot: { name: makeName(parts.map(id => OBJ[id])), colors: { body:'#5B6CFF', head:'#FFD23F', limbs:'#FF4D5E' }, parts } };
+}
+let save = freshSave();
+try {
+  const s = JSON.parse(localStorage.getItem(SAVE_KEY));
+  if (s && s.robot){ save = Object.assign(freshSave(), s); }
+  else {
+    const old = JSON.parse(localStorage.getItem('merge-champion-v1'));
+    if (old && Array.isArray(old.unlocked)){
+      save.unlocked = [...new Set([...STARTERS, ...old.unlocked.filter(id => OBJ[id] && !OBJ[id].power)])];
+      save.wins = old.wins || 0; save.coins = save.wins * 3; addXP(save.wins * WIN_XP);
+    }
+  }
+} catch (e) {}
+save.robot.parts = save.robot.parts.filter(id => OBJ[id]).slice(0, ROBOT_SLOTS);
+if (!Array.isArray(save.seen)) save.seen = [];
+save.robot.colors = Object.assign({ body:'#5B6CFF', head:'#FFD23F', limbs:'#FF4D5E' }, save.robot.colors);
+function persist(){ try { localStorage.setItem(SAVE_KEY, JSON.stringify(save)); } catch (e) {} schedulePush(); }
+function addXP(n){
+  const before = save.level; save.xp += n;
+  while (save.level < MAX_ROBOT_LEVEL && save.xp >= xpNeeded(save.level)){ save.xp -= xpNeeded(save.level); save.level++; }
+  if (save.level >= MAX_ROBOT_LEVEL) save.xp = 0;
+  const power = POWER_IDS.filter(id => powerLevel(id) > before && powerLevel(id) <= save.level);
+  power.forEach(id => { if (!save.fresh.includes(id)) save.fresh.push(id); });
+  return { levelUp: save.level > before, power };
+}
+
+/* ---------- leaderboard (shared through the artifact's db) ---------- */
+const HEX = /^#[0-9A-Fa-f]{6}$/;
+const TROPHY_INK = `<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><g stroke="${INK}" stroke-width="2" stroke-linejoin="round"><path d="M4 5h3M17 5h3M4 5c0 4 2 6 4 6M20 5c0 4-2 6-4 6" fill="none"/><path d="M7 3h10v5a5 5 0 0 1-10 0z" fill="#FFD23F"/><path d="M12 13v4M8 21h8l-1-4H9z" fill="#FFB020"/></g></svg>`;
+let db = null, uid = null, boardRows = [], boardState = 'loading', canPost = true, lastPushed = null, pushTimer = null, pushing = false;
+function scoreBody(){
+  return { name: save.robot.name, level: save.level, wins: save.wins,
+           upgrades: Object.values(save.levels).reduce((s, v) => s + (v - 1), 0),
+           parts: save.robot.parts.slice(), colors: { body: save.robot.colors.body, head: save.robot.colors.head, limbs: save.robot.colors.limbs } };
+}
+const keyOf = b => JSON.stringify([b.name, b.level, b.wins, b.upgrades, b.parts, b.colors.body, b.colors.head, b.colors.limbs]);
+function cleanRow(id, d){
+  if (!d || typeof d !== 'object') return null;
+  const num = (v, max) => clamp(Math.floor(Number(v) || 0), 0, max);
+  const c = d.colors && typeof d.colors === 'object' ? d.colors : {};
+  const colors = {}; ['body','head','limbs'].forEach(k => colors[k] = HEX.test(c[k]) ? c[k] : '#9AA6B2');
+  const parts = Array.isArray(d.parts) ? [...new Set(d.parts.filter(p => typeof p === 'string' && OBJ[p]))].slice(0, ROBOT_SLOTS) : [];
+  return { id, name: String(d.name || 'Mystery Robot').slice(0, 20), level: num(d.level, MAX_ROBOT_LEVEL) || 1,
+           wins: num(d.wins, 999999), upgrades: num(d.upgrades, 1000), parts, colors };
+}
+function lbRow(r, i){
+  const el = document.createElement('button');
+  el.type = 'button';
+  el.className = 'lbrow' + (r.id === uid ? ' me' : '');
+  el.dataset.uid = r.id;
+  const inc = incoming.find(c => c.from === r.id), out = pendingTo(r.id);
+  const sub = r.id === uid ? `Level ${r.level} · You!` : inc ? 'Wants to fight you!' : out ? 'Challenge sent!' : `Lv ${r.level} · Tap to fight`;
+  el.innerHTML = `<span class="rank${i < 3 ? ' r' + (i + 1) : ''}">${i + 1}</span><span class="lbbot">${robotSVG(r)}</span>
+    <div class="lbtxt"><div class="lbname"></div><div class="lbsub${inc ? ' go' : ''}">${sub}</div></div>
+    <span class="lbwins" title="Wins">${TROPHY_INK}${r.wins}</span>`;
+  el.querySelector('.lbname').textContent = r.name;
+  return el;
+}
+function renderBoard(){
+  const box = $('lb'); if (!box) return;
+  box.textContent = '';
+  const msg = t => { const p = document.createElement('p'); p.className = 'lbmsg'; p.textContent = t; box.appendChild(p); };
+  if (boardState === 'off'){ msg('The leaderboard and challenges work in the Claude version of the game. Your robot still saves on this device.'); return; }
+  if (boardState === 'loading'){ msg('Loading the leaderboard...'); return; }
+  const rows = boardRows.slice().sort((a, b) => b.wins - a.wins || b.level - a.level || b.upgrades - a.upgrades);
+  if (!rows.length){
+    msg(boardState === 'slow' ? "Can't reach the leaderboard right now. Your robot still saves on this device." : 'No robots on the board yet. Win a battle to be first!');
+    return;
+  }
+  rows.slice(0, 10).forEach((r, i) => box.appendChild(lbRow(r, i)));
+  const me = rows.findIndex(r => r.id === uid);
+  if (me >= 10){ const g = document.createElement('div'); g.className = 'lbgap'; g.textContent = '···'; box.appendChild(g); box.appendChild(lbRow(rows[me], me)); }
+  if (me < 0 && canPost && save.wins + save.losses === 0) msg('Fight a battle to put your robot on the board!');
+  if (!canPost) msg('You can see the board, but adding your robot needs Contributor access to this game.');
+  if (boardState === 'slow') msg('The leaderboard may be out of date.');
+}
+function schedulePush(){ clearTimeout(pushTimer); pushTimer = setTimeout(pushScore, 1200); }
+async function pushScore(){
+  if (!db || !uid || !canPost || pushing) return;
+  if (save.wins + save.losses === 0) return;
+  const body = scoreBody(), key = keyOf(body);
+  if (key === lastPushed) return;
+  pushing = true;
+  try { await db.doc('scores/' + uid).set({ ...body, updated: Date.now() }); lastPushed = key; }
+  catch (e){ if (e && (e.code === 'invalid_argument' || e.code === 'not_granted' || e.code === 'revoked')){ canPost = false; renderBoard(); } }
+  pushing = false;
+  if (canPost && keyOf(scoreBody()) !== lastPushed) schedulePush();
+}
+async function initBoard(){
+  try {
+    if (window.claude && window.claude.use){
+      db = await window.claude.use('db');
+      const user = await window.claude.use('user');
+      uid = user ? await user.id() : null;
+      if (user && (await user.can('data.write')) === false) canPost = false;
+    }
+  } catch (e){ db = null; }
+  if (!db || !uid){ boardState = 'off'; renderBoard(); return; }
+  const timer = setTimeout(() => { boardState = 'slow'; renderBoard(); }, 10000);
+  db.collection('scores').orderBy('wins', 'desc').limit(200).onSnapshot(snap => {
+    boardRows = snap.docs.map(d => cleanRow(d.id, d.data())).filter(Boolean);
+    const mine = snap.docs.find(d => d.id === uid);
+    if (mine && lastPushed === null){ const r = cleanRow(uid, mine.data()); if (r) lastPushed = keyOf(r); }
+    if (!snap.metadata.fromCache){ clearTimeout(timer); boardState = 'live'; }
+    else if (boardState === 'loading') boardState = 'live';
+    renderBoard();
+  }, () => { clearTimeout(timer); boardState = 'slow'; renderBoard(); });
+  schedulePush();
+  startChallengeSubs();
+}
+
+/* ---------- challenges: ask another player to fight ----------
+   A challenge is one document per pair (challenges/<from>__<to>) carrying
+   a snapshot of the sender's robot. The other player fights that robot
+   when they next play; the result goes back to the sender. */
+const CHALLENGE_DAYS = 14, CHALLENGE_WIN_COINS = 3, CHALLENGE_LOSS_COINS = 1;
+let incoming = [], outgoing = [], currentChallenge = null;
+const notified = new Set();
+const pairId = (a, b) => `${a}__${b}`;
+const freshChallenge = c => Date.now() - c.created < CHALLENGE_DAYS * 864e5;
+const pendingTo = id => outgoing.find(c => c.to === id && c.status === 'pending' && freshChallenge(c));
+const nameOf = id => (boardRows.find(r => r.id === id) || {}).name || 'Your friend';
+function myBuild(){
+  const lvs = {}; save.robot.parts.forEach(id => lvs[id] = partLevel(id));
+  return { name: save.robot.name, level: save.level, parts: save.robot.parts.slice(),
+           colors: { body: save.robot.colors.body, head: save.robot.colors.head, limbs: save.robot.colors.limbs }, lvs };
+}
+function robotFromBuild(b){
+  const r = cleanRow('x', b) || cleanRow('x', {});
+  const src = b && b.lvs && typeof b.lvs === 'object' ? b.lvs : {};
+  const lvs = {}; r.parts.forEach(id => lvs[id] = clamp(Math.floor(Number(src[id]) || 1), 1, MAX_PART_LEVEL));
+  const parts = r.parts.length ? r.parts : ['battery'];
+  return buildRobot({ parts, lv: id => lvs[id] || 1, level: r.level, colors: r.colors, name: r.name });
+}
+function cleanChallenge(d){
+  const x = d.data();
+  if (!x || typeof x.from !== 'string' || typeof x.to !== 'string') return null;
+  return { id: d.id, from: x.from, to: x.to, status: String(x.status || ''), build: x.fromBuild,
+           created: Number(x.created) || 0, updated: Number(x.updated) || 0,
+           winner: typeof x.winner === 'string' ? x.winner : null, toName: String(x.toName || '').slice(0, 20), claimed: !!x.claimed };
+}
+function startChallengeSubs(){
+  db.collection('challenges').where('to', '==', uid).onSnapshot(snap => {
+    incoming = snap.docs.map(cleanChallenge).filter(c => c && c.status === 'pending' && c.from !== uid && freshChallenge(c));
+    incoming.forEach(c => {
+      const k = c.id + ':' + c.created;
+      if (!notified.has(k)){ notified.add(k); sfx('alarm'); toast(`${robotFromBuild(c.build).name} wants to fight you!`); }
+    });
+    renderInbox(); renderBoard();
+  }, () => {});
+  db.collection('challenges').where('from', '==', uid).onSnapshot(snap => {
+    outgoing = snap.docs.map(cleanChallenge).filter(Boolean);
+    renderBoard(); maybeShowResults();
+  }, () => {});
+}
+function renderInbox(){
+  const list = $('inlist');
+  $('inbox').hidden = !incoming.length;
+  list.textContent = '';
+  incoming.slice().sort((a, b) => a.created - b.created).forEach(c => {
+    const r = robotFromBuild(c.build);
+    const el = document.createElement('div'); el.className = 'inrow';
+    el.innerHTML = `<span class="lbbot">${robotSVG(r)}</span>
+      <div class="lbtxt"><div class="lbname"></div><div class="lbsub go">Level ${r.level} · wants to fight you!</div></div>
+      <div class="inbtns"><button class="btn green small" type="button" data-acc="${c.id}">Fight!</button><button class="btn plain small" type="button" data-dec="${c.id}">Not now</button></div>`;
+    el.querySelector('.lbname').textContent = r.name;
+    list.appendChild(el);
+  });
+}
+$('inlist').addEventListener('click', e => {
+  const a = e.target.closest('[data-acc]'), d = e.target.closest('[data-dec]');
+  if (a){ const c = incoming.find(x => x.id === a.dataset.acc); if (c) acceptChallenge(c); }
+  if (d && db){
+    sfx('remove');
+    db.doc('challenges/' + d.dataset.dec).update({ status: 'declined', updated: Date.now() }).catch(() => toast("Couldn't do that right now. Try again later."));
+  }
+});
+$('lb').addEventListener('click', e => {
+  const b = e.target.closest('button.lbrow'); if (!b) return;
+  const r = boardRows.find(x => x.id === b.dataset.uid); if (!r) return;
+  sfx('pop'); openPlayer(r);
+});
+function acceptChallenge(c){
+  if (!save.robot.parts.length){ toast('Put a part on your robot first!'); return; }
+  hideOverlay(); sfx('pop');
+  startBattle(myRobot(), robotFromBuild(c.build), c);
+}
+async function resolveChallenge(won){
+  const c = currentChallenge; currentChallenge = null;
+  if (!c || !db) return;
+  try { await db.doc('challenges/' + c.id).update({ status: 'done', winner: won ? uid : c.from, toName: save.robot.name, toBuild: myBuild(), updated: Date.now() }); }
+  catch (e){}
+}
+async function sendChallenge(toId){
+  if (!db || !uid || toId === uid) return false;
+  try {
+    const now = Date.now();
+    await db.doc('challenges/' + pairId(uid, toId)).set({ from: uid, to: toId, status: 'pending', fromBuild: myBuild(), created: now, updated: now });
+    sfx('reveal'); toast('Challenge sent!'); return true;
+  } catch (e){
+    if (e && e.code === 'invalid_argument') canPost = false;
+    toast("Couldn't send the challenge. Try again later."); return false;
+  }
+}
+function openPlayer(r){
+  if (r.id === uid){ toast("That's your robot!"); return; }
+  const inc = incoming.find(c => c.from === r.id), out = pendingTo(r.id), nm = esc(r.name);
+  let body;
+  if (inc) body = `<p class="muted">${nm} already wants to fight you!</p><button class="btn big green ready" id="pAccept" type="button">Fight now!</button>`;
+  else if (out) body = `<p class="muted">Challenge sent! When ${nm} plays next, they will fight your robot. You'll see who won here.</p>`;
+  else if (!canPost) body = `<p class="muted">Sending challenges needs Contributor access to this game.</p>`;
+  else if (!save.robot.parts.length) body = `<p class="muted">Put a part on your robot first!</p>`;
+  else body = `<p class="muted">When ${nm} plays next, they fight your robot. If your robot wins, you get ${CHALLENGE_WIN_COINS} coins!</p><button class="btn big ready" id="pSend" type="button">Send challenge!</button>`;
+  const me = myRobot();
+  showOverlay(`<div class="ribbon purple">CHALLENGE</div>
+    <div class="vsrow">
+      <div class="side">${robotSVG(me)}<span class="nm">${esc(me.name)}</span><span class="tagline">YOU · LEVEL ${save.level}</span></div>
+      <div class="vsbig outline">VS</div>
+      <div class="side"><div class="flip" style="width:min(140px,100%)">${robotSVG(r)}</div><span class="nm">${nm}</span><span class="tagline">LEVEL ${r.level} · ${r.wins} WIN${r.wins === 1 ? '' : 'S'}</span></div>
+    </div>
+    <div class="stack">${body}</div>`, { dismiss: true, wide: true });
+  if (inc) $('pAccept').onclick = () => acceptChallenge(inc);
+  const send = $('pSend');
+  if (send) send.onclick = async () => { send.disabled = true; if (await sendChallenge(r.id)) setTimeout(() => { if (!overlay.hidden) openPlayer(r); }, 300); else send.disabled = false; };
+}
+function maybeShowResults(){
+  if (!db || !overlay.hidden || !$('battle').hidden) return;
+  const c = outgoing.find(c => (c.status === 'done' || c.status === 'declined') && !c.claimed && !save.seen.includes(c.id + ':' + c.updated));
+  if (!c) return;
+  save.seen.push(c.id + ':' + c.updated); save.seen = save.seen.slice(-60);
+  db.doc('challenges/' + c.id).update({ claimed: true }).catch(() => {});
+  if (c.status === 'declined'){ persist(); toast(`${nameOf(c.to)} said "not now" to your challenge.`); return; }
+  const won = c.winner === uid, coins = won ? CHALLENGE_WIN_COINS : CHALLENGE_LOSS_COINS, start = save.coins, who = esc(c.toName || nameOf(c.to));
+  save.coins += coins; persist(); renderRobot(); renderTray();
+  sfx(won ? 'win' : 'lose'); if (won) confetti();
+  showOverlay(`<div class="ribbon ${won ? 'win' : 'lose'}">${won ? 'YOUR ROBOT WON!' : 'YOUR ROBOT LOST'}</div>
+    <div class="stage small"><div class="bigbot popin">${robotSVG(myRobot())}</div></div>
+    <h2 class="botname">${who} fought your robot</h2>
+    <p class="muted">${won ? 'Your robot won the fight all by itself!' : 'They won this time. Upgrade your parts and challenge them again!'}</p>
+    <div class="rewards one"><div class="reward" id="coinReward">${COIN(36)}<div><b>+${coins}</b><br><span>coin${coins === 1 ? '' : 's'}</span></div></div></div>
+    <div class="stack"><button class="btn big green" id="resOk" type="button">${won ? 'Yay!' : 'OK'}</button><button class="btn plain" id="resAgain" type="button">Challenge them again</button></div>`);
+  flyCoins(coins, $('coinReward'), start);
+  $('resOk').onclick = hideOverlay;
+  $('resAgain').onclick = async () => { hideOverlay(); await sendChallenge(c.to); };
+}
+
+/* ---------- sound (Web Audio, no files needed) ---------- */
+let actx = null, soundOn = true;
+try { soundOn = localStorage.getItem('merge-champion-sound') !== 'off'; } catch (e) {}
+function ac(){
+  if (!actx){ const C = window.AudioContext || window.webkitAudioContext; if (!C) return null; actx = new C(); }
+  if (actx.state === 'suspended') actx.resume();
+  return actx;
+}
+function tone(f, dur, type = 'square', vol = .07, to = null, delay = 0){
+  const c = ac(); if (!c) return;
+  const t = c.currentTime + delay, o = c.createOscillator(), g = c.createGain();
+  o.type = type; o.frequency.setValueAtTime(f, t); if (to) o.frequency.exponentialRampToValueAtTime(to, t + dur);
+  g.gain.setValueAtTime(vol, t); g.gain.exponentialRampToValueAtTime(.0001, t + dur);
+  o.connect(g).connect(c.destination); o.start(t); o.stop(t + dur + .05);
+}
+function noise(dur, vol = .15){
+  const c = ac(); if (!c) return;
+  const b = c.createBuffer(1, Math.floor(c.sampleRate * dur), c.sampleRate), d = b.getChannelData(0);
+  for (let i = 0; i < d.length; i++) d[i] = (Math.random() * 2 - 1) * (1 - i / d.length);
+  const s = c.createBufferSource(), g = c.createGain(); s.buffer = b; g.gain.value = vol; s.connect(g).connect(c.destination); s.start();
+}
+const SOUNDS = {
+  drop:    () => tone(300, .12, 'triangle', .15, 650),
+  remove:  () => tone(500, .1, 'triangle', .12, 250),
+  full:    () => tone(180, .15, 'square', .06),
+  merge:   () => [0,.07,.14,.21].forEach((d,i) => tone(330 + i*130, .1, 'square', .05, null, d)),
+  reveal:  () => [523,659,784].forEach((f,i) => tone(f, .18, 'triangle', .12, null, i*.09)),
+  coin:    () => { tone(988, .07, 'square', .045); tone(1319, .14, 'square', .045, null, .07); },
+  upgrade: () => [392,523,659,784,1046].forEach((f,i) => tone(f, .12, 'triangle', .13, null, i*.06)),
+  levelup: () => [523,659,784,1046,784,1046].forEach((f,i) => tone(f, .16, 'square', .05, null, i*.1)),
+  hit:     () => { noise(.12, .22); tone(170, .12, 'square', .07, 60); },
+  miss:    () => tone(900, .15, 'sine', .07, 300),
+  pop:     () => tone(520, .1, 'sine', .14, 950),
+  zap:     () => { noise(.25, .15); tone(90, .3, 'sawtooth', .07, 400); },
+  whoosh:  () => noise(.35, .1),
+  boing:   () => tone(180, .4, 'sine', .16, 760),
+  magnet:  () => tone(300, .45, 'triangle', .1, 1000),
+  shield:  () => tone(400, .3, 'sine', .12, 800),
+  quack:   () => { tone(520, .12, 'sawtooth', .07, 320); tone(500, .12, 'sawtooth', .07, 300, .16); },
+  heal:    () => [0,.1,.2].forEach((d,i) => tone(600 + i*200, .16, 'sine', .09, null, d)),
+  rocket:  () => { noise(.5, .12); tone(110, .5, 'sawtooth', .05, 500); },
+  laser:   () => tone(1500, .4, 'sawtooth', .05, 180),
+  chomp:   () => { noise(.1, .25); tone(140, .15, 'square', .08, 70); },
+  alarm:   () => [0,.12,.24,.36].forEach(d => tone(1400, .08, 'square', .05, null, d)),
+  freeze:  () => tone(1800, .5, 'sine', .08, 600),
+  stink:   () => { noise(.4, .08); tone(120, .4, 'sawtooth', .04, 90); },
+  ko:      () => tone(400, .6, 'square', .06, 60),
+  win:     () => [523,659,784,1046,1318].forEach((f,i) => tone(f, .22, 'square', .05, null, i*.11)),
+  lose:    () => [392,330,262,196].forEach((f,i) => tone(f, .3, 'triangle', .12, null, i*.2)),
+};
+function sfx(n){ if (!soundOn) return; try { SOUNDS[n] && SOUNDS[n](); } catch (e) {} }
+const soundBtn = $('soundBtn');
+function renderSound(){
+  soundBtn.setAttribute('aria-label', soundOn ? 'Sound on' : 'Sound off');
+  soundBtn.innerHTML = `<svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><g stroke="${INK}" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M4 9h4l5-4v14l-5-4H4z" fill="${soundOn ? '#FFD23F' : '#C9C3D8'}"/>
+    ${soundOn ? '<path d="M16 9a4 4 0 0 1 0 6M18.5 6.5a7.5 7.5 0 0 1 0 11" fill="none"/>' : '<path d="M16 9l5 6M21 9l-5 6" fill="none"/>'}</g></svg>`;
+}
+soundBtn.addEventListener('click', () => {
+  soundOn = !soundOn; try { localStorage.setItem('merge-champion-sound', soundOn ? 'on' : 'off'); } catch (e) {}
+  renderSound(); sfx('pop');
+});
+
+/* ---------- overlay + toast ---------- */
+const overlay = $('overlay'), card = $('card');
+let overlayDismiss = false;
+function showOverlay(html, opts = {}){
+  card.className = 'card panel' + (opts.wide ? ' wide' : '');
+  card.innerHTML = (opts.dismiss ? `<button class="icon-btn close" id="closeX" type="button" aria-label="Close">${CLOSE}</button>` : '') + html;
+  overlayDismiss = !!opts.dismiss;
+  if (opts.dismiss) $('closeX').onclick = hideOverlay;
+  if (overlay.hidden){ overlay.hidden = false; overlay.scrollTop = 0; }
+  else if (!opts.keepScroll) overlay.scrollTop = 0;
+}
+function hideOverlay(){ overlay.hidden = true; card.innerHTML = ''; overlayDismiss = false; setTimeout(maybeShowResults, 500); }
+overlay.addEventListener('click', e => { if (e.target === overlay && overlayDismiss) hideOverlay(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && !overlay.hidden && overlayDismiss) hideOverlay(); });
+let toastTimer;
+function toast(msg){
+  const t = $('toast'); t.textContent = msg; t.hidden = false;
+  t.classList.remove('show'); void t.offsetWidth; t.classList.add('show');
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => t.hidden = true, 2600);
+}
+function bump(el){ el.classList.remove('bump'); void el.offsetWidth; el.classList.add('bump'); }
+
+/* ---------- garage ---------- */
+const machine = $('machine'), windowEl = $('window');
+const slotEls = [...document.querySelectorAll('.slot')];
+
+function renderAll(pop = -1){ renderHeader(); renderRobot(pop); renderTray(); }
+function renderHeader(){ $('coinCount').textContent = save.coins; }
+function hintText(){
+  const parts = save.robot.parts, n = parts.length;
+  if (n === 0) return 'Tap a part below to fit it on your robot!';
+  if (n === 1) return 'Add more parts to make it stronger!';
+  if (n === 2) return 'Room for one more part!';
+  const costs = parts.filter(id => partLevel(id) < MAX_PART_LEVEL).map(id => upgradeCost(partLevel(id)));
+  if (costs.length && save.coins >= Math.min(...costs)) return 'You have coins! Tap a part to upgrade it.';
+  return 'Ready to fight!';
+}
+function mstat(label, v, max, color){
+  return `<div class="mstat"><div class="mtop"><b>${label}</b><span>${v}</span></div><div class="mbar"><i style="width:${Math.min(100, v / max * 100)}%;background:${color}"></i></div></div>`;
+}
+function renderRobot(popIndex = -1){
+  const r = myRobot(), parts = save.robot.parts;
+  $('rname').textContent = save.robot.name;
+  $('lvlBadge').textContent = `LEVEL ${save.level}`;
+  $('winPill').innerHTML = `${TROPHY}${save.wins}`;
+  const maxed = save.level >= MAX_ROBOT_LEVEL, need = xpNeeded(save.level);
+  $('xpFill').style.width = (maxed ? 100 : save.xp / need * 100) + '%';
+  $('xpFrom').textContent = `Lv ${save.level}`;
+  $('xpTo').textContent = maxed ? 'MAX' : `Lv ${save.level + 1}`;
+  $('xpNote').textContent = maxed ? 'Top level! You are a Merge Champion!'
+    : nextPowerLevel() === save.level + 1 ? `${need - save.xp} XP to level ${save.level + 1}  ·  New Power Parts there!`
+    : `${need - save.xp} XP to level ${save.level + 1}`;
+  const prev = $('preview');
+  prev.innerHTML = robotSVG(r);
+  prev.classList.toggle('pop', popIndex >= 0);
+  const badge = $('comboBadge');
+  badge.hidden = !r.combos.length;
+  if (r.combos.length) badge.textContent = `Combo: ${r.combos.map(c => c.name).join(' + ')}`;
+  slotEls.forEach((el, i) => {
+    const id = parts[i];
+    el.className = 'slot' + (id ? ' filled' : '') + (i === popIndex ? ' pop' : '');
+    el.innerHTML = id ? `${iconSvg(id, '66%')}<span class="x" aria-hidden="true">×</span><span class="slv">Lv ${partLevel(id)}</span>` : `<span class="num">${i + 1}</span>`;
+    el.setAttribute('aria-label', id ? `Take off ${OBJ[id].name}` : `Empty slot ${i + 1}`);
+  });
+  $('hint').textContent = hintText();
+  $('mstats').innerHTML = mstat('Power', r.pow, STAT_MAX, '#FF4D5E') + mstat('Speed', r.spd, STAT_MAX, '#5B6CFF')
+    + mstat('Armour', r.def, STAT_MAX, '#2EC4A0') + mstat('Health', r.hp, HP_MAX, '#FF6FB5');
+  const fb = $('fightBtn');
+  fb.disabled = parts.length === 0;
+  fb.classList.toggle('ready', parts.length > 0);
+}
+function tileHTML(o){
+  const usable = isUsable(o.id);
+  if (o.power && !usable) return `<button class="tile dim" type="button" data-lock="${o.id}" style="--c:${o.color}" aria-label="${o.name}, needs robot level ${powerLevel(o.id)}">
+      <span class="lockbadge">${LOCK(12)}${powerLevel(o.id)}</span><span class="ic">${iconSvg(o.id, 56)}</span><span class="nm">${o.name}</span></button>`;
+  if (!usable) return `<button class="tile locked" type="button" data-hidden="1" aria-label="Locked part"><span class="ic">?</span><span class="nm">Locked</span></button>`;
+  const lv = partLevel(o.id), on = save.robot.parts.includes(o.id);
+  const canUp = lv < MAX_PART_LEVEL && save.coins >= upgradeCost(lv);
+  const corner = save.fresh.includes(o.id) ? '<span class="new">NEW!</span>' : on ? `<span class="tick">${TICK}</span>` : '';
+  return `<button class="tile${on ? ' on' : ''}" type="button" data-id="${o.id}" style="--c:${o.color}" aria-label="${o.name}, level ${lv}${on ? ', on your robot' : ''}">
+    ${corner}<span class="ic">${iconSvg(o.id, 56)}</span><span class="nm">${o.name}</span><span class="lv${canUp ? ' up' : ''}">${canUp ? '▲ ' : ''}Lv ${lv}</span></button>`;
+}
+function renderTray(){
+  const basic = OBJECTS.filter(o => !o.power), power = OBJECTS.filter(o => o.power);
+  $('trayBasic').innerHTML = basic.map(tileHTML).join('');
+  $('trayPower').innerHTML = power.map(tileHTML).join('');
+  const have = OBJECTS.filter(o => isUsable(o.id)).length;
+  $('partCount').textContent = `${have} / ${OBJECTS.length}`;
+  $('basicCount').textContent = `${basic.filter(o => isUsable(o.id)).length} / ${basic.length}`;
+  const pOpen = power.filter(o => isUsable(o.id)).length, nxt = nextPowerLevel(), chip = $('powerChip');
+  chip.className = 'lockchip' + (pOpen ? ' open' : '');
+  chip.innerHTML = !pOpen ? `${LOCK(13)} Starts at Level ${POWER_LEVEL}` : !nxt ? 'ALL UNLOCKED!' : `${pOpen} / ${power.length} · more at Lv ${nxt}`;
+  $('comboCount').textContent = `Secret combos found: ${save.combos.length} of ${COMBOS.length}`;
+}
+
+function sparksAt(el){
+  const r = el.getBoundingClientRect(), cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+  const glyphs = ['★','✦','✷','✶'], colors = ['#fff','#FF4D5E','#FFD23F','#2EC4A0'];
+  for (let i = 0; i < 16; i++){
+    const s = document.createElement('div'); s.className = 'spark'; s.textContent = pick(glyphs);
+    s.style.color = pick(colors); s.style.left = cx + 'px'; s.style.top = cy + 'px';
+    document.body.appendChild(s);
+    const a = Math.random() * Math.PI * 2, dist = rand(70, 170);
+    s.animate([{transform:'translate(-50%,-50%) scale(.4)',opacity:1},
+               {transform:`translate(calc(-50% + ${Math.cos(a)*dist}px), calc(-50% + ${Math.sin(a)*dist}px)) scale(1.3) rotate(180deg)`,opacity:0}],
+      {duration: rand(500, 900), easing: 'ease-out'}).finished.then(() => s.remove());
+  }
+}
+function shakeMachine(){ machine.classList.remove('shaking'); void machine.offsetWidth; machine.classList.add('shaking'); }
+function equip(id, slot = null){
+  const parts = save.robot.parts;
+  if (!isUsable(id)) return;
+  if (parts.includes(id)){
+    if (slot === null) return;
+    const from = parts.indexOf(id), to = Math.min(slot, parts.length - 1);
+    [parts[from], parts[to]] = [parts[to], parts[from]];
+    sfx('drop'); persist(); renderAll(to); return;
+  }
+  let at;
+  if (slot !== null && slot < parts.length){ parts[slot] = id; at = slot; }
+  else if (parts.length < ROBOT_SLOTS){ parts.push(id); at = parts.length - 1; }
+  else { sfx('full'); shakeMachine(); toast('Your robot is full! Drop the part on a slot to swap.'); return; }
+  if (save.fresh.includes(id)) save.fresh = save.fresh.filter(x => x !== id);
+  sfx('merge'); shakeMachine(); sparksAt(windowEl);
+  const found = findCombos(parts).filter(c => !save.combos.includes(comboKey(c)));
+  found.forEach(c => save.combos.push(comboKey(c)));
+  persist(); renderAll(at);
+  if (found.length) setTimeout(() => { sfx('reveal'); toast(`Secret combo found: ${found[0].name}!`); }, 450);
+}
+function unequip(i){
+  if (!save.robot.parts[i]) return;
+  save.robot.parts.splice(i, 1); sfx('remove'); persist(); renderAll();
+}
+slotEls.forEach((el, i) => el.addEventListener('click', () => unequip(i)));
+$('fightBtn').addEventListener('click', () => { if (save.robot.parts.length) { sfx('pop'); startBattle(myRobot()); } });
+$('renameBtn').innerHTML = PENCIL; $('paintBtn').innerHTML = PALETTE;
+$('renameBtn').addEventListener('click', () => openRename(false));
+$('paintBtn').addEventListener('click', openPaint);
+$('coinIcon').innerHTML = COIN(28);
+
+// drag and drop: mouse drags straight away, touch needs a short press-and-hold so the page can still scroll
+const trays = $('trays');
+let drag = null, suppressClick = false;
+trays.addEventListener('pointerdown', e => {
+  const tile = e.target.closest('.tile[data-id]'); if (!tile || e.button > 0) return;
+  const touch = e.pointerType === 'touch';
+  drag = { id: tile.dataset.id, tile, x0: e.clientX, y0: e.clientY, x: e.clientX, y: e.clientY, ghost: null, slot: null, armed: !touch, moved: false };
+  if (touch) drag.timer = setTimeout(() => {
+    if (!drag || drag.moved) return;
+    drag.armed = true; tile.classList.add('lift'); startGhost(drag.x, drag.y);
+  }, 280);
+});
+trays.addEventListener('contextmenu', e => { if (e.target.closest('.tile')) e.preventDefault(); });
+function startGhost(x, y){
+  drag.ghost = document.createElement('div'); drag.ghost.className = 'ghost';
+  drag.ghost.innerHTML = iconSvg(drag.id, 76); document.body.appendChild(drag.ghost);
+  drag.ghost.style.left = x + 'px'; drag.ghost.style.top = y + 'px';
+  ac(); sfx('pop');
+}
+window.addEventListener('pointermove', e => {
+  if (!drag) return;
+  drag.x = e.clientX; drag.y = e.clientY;
+  const far = Math.hypot(e.clientX - drag.x0, e.clientY - drag.y0) > 8;
+  if (far) drag.moved = true;
+  if (!drag.armed){ if (far){ clearTimeout(drag.timer); drag = null; } return; }
+  if (!drag.ghost){ if (!far) return; startGhost(e.clientX, e.clientY); }
+  e.preventDefault();
+  drag.ghost.style.left = e.clientX + 'px'; drag.ghost.style.top = e.clientY + 'px';
+  const under = document.elementFromPoint(e.clientX, e.clientY);
+  machine.classList.toggle('over', !!(under && under.closest('#machine')));
+  const s = under && under.closest('.slot');
+  if (drag.slot && drag.slot !== s) drag.slot.classList.remove('hover');
+  drag.slot = s || null; if (s) s.classList.add('hover');
+}, { passive: false });
+document.addEventListener('touchmove', e => { if (drag && drag.armed) e.preventDefault(); }, { passive: false });
+function endDrag(e, cancelled){
+  if (!drag) return;
+  const d = drag; drag = null; clearTimeout(d.timer);
+  d.tile.classList.remove('lift'); machine.classList.remove('over');
+  if (d.slot) d.slot.classList.remove('hover');
+  if (!d.ghost) return; // plain tap: the click handler opens the part card
+  d.ghost.remove(); suppressClick = true; setTimeout(() => suppressClick = false, 80);
+  if (cancelled) return;
+  if (!d.moved){ openPart(d.id); return; }
+  const under = document.elementFromPoint(e.clientX, e.clientY);
+  const s = under && under.closest('.slot');
+  if (s) equip(d.id, +s.dataset.i);
+  else if (under && under.closest('#machine')) equip(d.id);
+}
+window.addEventListener('pointerup', e => endDrag(e, false));
+window.addEventListener('pointercancel', e => endDrag(e, true));
+trays.addEventListener('click', e => {
+  if (suppressClick) return;
+  const t = e.target.closest('.tile'); if (!t) return;
+  if (t.dataset.id) { sfx('pop'); openPart(t.dataset.id); }
+  else if (t.dataset.lock) { sfx('pop'); openPart(t.dataset.lock); }
+  else { sfx('full'); toast('Win battles to unlock more parts!'); }
+});
+
+/* ---------- part card (equip + upgrade) ---------- */
+function specChip(k){
+  const s = SPECIALS[k];
+  return `<div class="spec">${iconSvg(s.icon, 44)}<div><b>${s.name}</b><span>${s.desc}</span></div></div>`;
+}
+function openPart(id, upgraded = false){
+  const o = OBJ[id], usable = isUsable(id), lv = partLevel(id), max = lv >= MAX_PART_LEVEL;
+  if (save.fresh.includes(id)){ save.fresh = save.fresh.filter(x => x !== id); persist(); renderTray(); }
+  const now = partStats(id, lv), nxt = max ? now : partStats(id, lv + 1);
+  const row = (label, key, color) => `<div class="srow"><b>${label}</b><div class="sbar"><i style="width:${Math.min(100, now[key] / PART_STAT_MAX * 100)}%;background:${color}"></i></div>
+    <span class="val">${now[key]}${usable && !max && nxt[key] > now[key] ? `<em>+${nxt[key] - now[key]}</em>` : ''}</span></div>`;
+  let actions;
+  if (!usable){
+    actions = `<div class="lockmsg">${LOCK(30)}Reach Robot Level ${powerLevel(id)} to use this part!<span>Your robot is level ${save.level}. Win battles to earn XP.</span></div>`;
+  } else {
+    const parts = save.robot.parts, on = parts.includes(id), cost = upgradeCost(lv);
+    let equipHTML;
+    if (on) equipHTML = `<button class="btn plain" id="offBtn" type="button">Take it off my robot</button>`;
+    else if (parts.length < ROBOT_SLOTS) equipHTML = `<button class="btn big green" id="onBtn" type="button">Put it on my robot</button>`;
+    else equipHTML = `<div class="swap"><p class="swaplbl">Your robot is full. Swap it for:</p><div class="swaprow">${parts.map((p, i) =>
+      `<button class="swapbtn" type="button" data-swap="${i}" aria-label="Swap for ${OBJ[p].name}">${iconSvg(p, 40)}<span>${OBJ[p].name}</span></button>`).join('')}</div></div>`;
+    const short = cost - save.coins;
+    const upHTML = max ? `<button class="btn big green" type="button" disabled>MAX LEVEL!</button>`
+      : `<button class="btn big yellow" id="upBtn" type="button" ${short > 0 ? 'disabled' : ''}>${UP(30)} Upgrade <span class="cost">${COIN(24)}${cost}</span></button>
+         <p class="note">${short > 0 ? `You need ${short} more coin${short === 1 ? '' : 's'}. Win battles to get coins!` : `Level ${lv + 1} makes it stronger.`}</p>`;
+    actions = (on ? upHTML + equipHTML : equipHTML + upHTML);
+  }
+  showOverlay(`<div class="ribbon purple">${o.name.toUpperCase()}</div>
+    <div class="sheet-ic${upgraded ? ' bump' : ''}" id="sheetIc" style="--c:${o.color}">${iconSvg(id, 84)}</div>
+    ${o.power ? '<span class="tag">POWER PART</span>' : ''}
+    <div class="lvrow"><b>Level ${lv}</b><span>of ${MAX_PART_LEVEL}</span></div>
+    <div class="pips10" aria-hidden="true">${Array.from({length: MAX_PART_LEVEL}, (_, i) => `<i class="${i < lv ? 'on' : ''}"></i>`).join('')}</div>
+    <div class="box">${row('Power','pow','#FF4D5E')}${row('Speed','spd','#5B6CFF')}${row('Armour','def','#2EC4A0')}</div>
+    ${specChip(o.special)}
+    <div class="stack">${actions}</div>`, { dismiss: true, keepScroll: upgraded });
+  const on = $('onBtn'), off = $('offBtn'), up = $('upBtn');
+  if (on) on.onclick = () => { hideOverlay(); equip(id); };
+  if (off) off.onclick = () => { hideOverlay(); unequip(save.robot.parts.indexOf(id)); };
+  card.querySelectorAll('[data-swap]').forEach(b => b.onclick = () => { hideOverlay(); equip(id, +b.dataset.swap); });
+  if (up) up.onclick = () => {
+    const c = upgradeCost(partLevel(id));
+    if (save.coins < c) return;
+    save.coins -= c; save.levels[id] = partLevel(id) + 1;
+    persist(); sfx('upgrade'); renderAll(); bump($('coinPill'));
+    openPart(id, true);
+    sparksAt($('sheetIc'));
+    toast(`${o.name} is now level ${save.levels[id]}!`);
+  };
+}
+
+/* ---------- name + paint ---------- */
+function openRename(first){
+  showOverlay(`<div class="ribbon">${first ? 'MEET YOUR ROBOT!' : 'NAME IT!'}</div>
+    <div class="stage small"><div class="bigbot popin">${robotSVG(myRobot())}</div></div>
+    ${first ? '<p class="muted">Welcome to Jude&rsquo;s Merge Champion! This robot is yours. It goes into every battle with you and gets stronger as you play. Give it a name!</p>' : ''}
+    <form id="nameForm" class="namefield">
+      <label for="nameInput" class="sr">Robot name</label>
+      <input id="nameInput" maxlength="20" autocomplete="off" spellcheck="false" value="${esc(save.robot.name)}">
+      <button type="button" class="icon-btn" id="diceBtn" aria-label="Pick a random name">${DICE}</button>
+    </form>
+    <div class="stack"><button class="btn big green ready" id="saveName" type="submit" form="nameForm">${first ? "Let's go!" : 'Save name'}</button></div>`,
+    { dismiss: !first });
+  const input = $('nameInput');
+  $('diceBtn').onclick = () => {
+    const ids = save.robot.parts.length ? save.robot.parts : ['battery','spring'];
+    input.value = makeName(ids.map(i => OBJ[i])); sfx('pop'); bump($('diceBtn'));
+  };
+  $('nameForm').onsubmit = e => {
+    e.preventDefault();
+    const v = input.value.trim().replace(/\s+/g, ' ');
+    if (v) save.robot.name = v.slice(0, 20);
+    if (first) save.welcomed = true;
+    persist(); hideOverlay(); renderRobot(); sfx('reveal');
+  };
+}
+const SWATCHES = ['#FF4D5E','#FF8A2B','#FFD23F','#8BD346','#2EC4A0','#4FC3F7','#5B6CFF','#7B5CFF','#FF6FB5','#F2F4F7','#9AA6B2','#4A3F5C'];
+const SWATCH_NAMES = ['red','orange','yellow','lime','green','sky blue','blue','purple','pink','white','grey','dark purple'];
+const ZONES = [['body','Body'],['head','Head'],['limbs','Arms and feet']];
+function openPaint(){
+  const c = save.robot.colors;
+  showOverlay(`<div class="ribbon purple">PAINT SHOP</div>
+    <div class="stage small"><div class="bigbot" id="paintPrev">${robotSVG(myRobot())}</div></div>
+    ${ZONES.map(([k, label]) => `<div class="paintrow"><b>${label}</b><div class="swatches" role="radiogroup" aria-label="${label} colour">${SWATCHES.map((s, i) =>
+      `<button type="button" class="sw${c[k] === s ? ' sel' : ''}" role="radio" aria-checked="${c[k] === s}" data-zone="${k}" data-col="${s}" style="background:${s}" aria-label="${label}: ${SWATCH_NAMES[i]}"></button>`).join('')}</div></div>`).join('')}
+    <div class="stack"><button class="btn big green" id="paintDone" type="button">Done</button><button class="btn plain" id="paintRandom" type="button">Surprise me!</button></div>`,
+    { dismiss: true });
+  const refresh = () => {
+    $('paintPrev').innerHTML = robotSVG(myRobot());
+    card.querySelectorAll('.sw').forEach(b => { const sel = save.robot.colors[b.dataset.zone] === b.dataset.col; b.classList.toggle('sel', sel); b.setAttribute('aria-checked', sel); });
+    persist(); renderRobot();
+  };
+  card.querySelectorAll('.sw').forEach(b => b.onclick = () => { save.robot.colors[b.dataset.zone] = b.dataset.col; sfx('pop'); refresh(); });
+  $('paintRandom').onclick = () => { ZONES.forEach(([k]) => save.robot.colors[k] = pick(SWATCHES)); sfx('boing'); refresh(); bump($('paintPrev')); };
+  $('paintDone').onclick = () => { hideOverlay(); sfx('reveal'); };
+}
+
+/* ---------- combo book ---------- */
+function bonusText(c){
+  return [c.pow && `+${c.pow} Power`, c.spd && `+${c.spd} Speed`, c.def && `+${c.def} Armour`].filter(Boolean).join('  ');
+}
+function showBook(){
+  const rows = COMBOS.map(c => {
+    const found = save.combos.includes(comboKey(c));
+    return `<div class="book-row${found ? ' found' : ''}">
+      <div class="pair">${found ? c.parts.map(p => iconSvg(p, 36)).join('<span>+</span>') : '<span class="q">?</span><span>+</span><span class="q">?</span>'}</div>
+      <div><b>${found ? c.name : 'Secret combo'}</b><span>${found ? bonusText(c) : 'Put the right 2 parts together to find it!'}</span></div></div>`;
+  }).join('');
+  showOverlay(`<div class="ribbon purple">COMBO BOOK</div>
+    <p class="muted">You found ${save.combos.length} of ${COMBOS.length}. Some parts work better together!</p>
+    <div class="book">${rows}</div>
+    <div class="stack"><button class="btn big yellow" id="closeBook" type="button">Back to my robot</button></div>`, { wide: true, dismiss: true });
+  $('closeBook').onclick = hideOverlay;
+}
+$('bookBtn').addEventListener('click', () => { sfx('pop'); showBook(); });
+
+/* ---------- battle effects ---------- */
+const arena = $('arena');
+function center(f){
+  const r = f.svg.getBoundingClientRect(), A = arena.getBoundingClientRect();
+  return { x: r.left - A.left + r.width / 2, y: r.top - A.top + r.height * .45, w: r.width, h: r.height };
+}
+function fx(html, x, y, cls = ''){
+  const d = document.createElement('div'); d.className = 'fx ' + cls; d.innerHTML = html;
+  d.style.left = x + 'px'; d.style.top = y + 'px'; arena.appendChild(d); return d;
+}
+function popText(f, text, cls = 'status'){
+  const c = center(f), el = fx(`<span>${text}</span>`, c.x + rand(-14, 14), c.y - c.h * .3, 'pop ' + cls);
+  el.animate([{transform:'translate(-50%,-50%) scale(.5)',opacity:0},{transform:'translate(-50%,-90%) scale(1.15)',opacity:1,offset:.2},
+              {transform:'translate(-50%,-200%) scale(1)',opacity:0}],{duration:1200,easing:'ease-out'}).finished.then(() => el.remove());
+}
+const dirOf = f => f.side === 'player' ? 1 : -1;
+const flipIf = (cond, html) => cond ? `<div style="transform:scaleX(-1)">${html}</div>` : html;
+async function lunge(f){
+  const d = dirOf(f);
+  f.el.animate([{transform:'translateX(0)'},{transform:`translateX(${d*-14}px) rotate(${d*-4}deg)`,offset:.3},
+    {transform:`translateX(${d*60}px) rotate(${d*8}deg)`,offset:.6},{transform:'translateX(0)'}],{duration:480,easing:'ease-in-out'});
+  await wait(290);
+}
+function hitFlash(f){
+  f.svg.animate([{filter:'none'},{filter:'brightness(2.2) saturate(0)'},{filter:'none'},{filter:'brightness(1.8) saturate(0)'},{filter:'none'}],{duration:360});
+  const d = dirOf(f);
+  f.el.animate([{transform:'translateX(0)'},{transform:`translateX(${d*-16}px) rotate(${d*-6}deg)`},{transform:`translateX(${d*6}px)`},{transform:'translateX(0)'}],{duration:340});
+}
+async function projectile(a, b, html, dur = 450, rot = 0, spin = 360, arc = 40){
+  const s = center(a), t = center(b), el = fx(html, s.x, s.y);
+  await el.animate([{transform:`translate(-50%,-50%) translate(0,0) rotate(${rot}deg)`},
+    {transform:`translate(-50%,-50%) translate(${(t.x-s.x)/2}px,${(t.y-s.y)/2 - arc}px) rotate(${rot+spin/2}deg)`},
+    {transform:`translate(-50%,-50%) translate(${t.x-s.x}px,${t.y-s.y}px) rotate(${rot+spin}deg)`}],{duration:dur,easing:'linear'}).finished;
+  el.remove();
+}
+async function beam(a, b){
+  const s = center(a), t = center(b), el = document.createElement('div'); el.className = 'beam';
+  const y = s.y - s.h * .12;
+  el.style.left = Math.min(s.x, t.x) + 'px'; el.style.top = (y - 7) + 'px'; el.style.width = Math.abs(t.x - s.x) + 'px';
+  el.style.transformOrigin = s.x < t.x ? 'left center' : 'right center';
+  arena.appendChild(el);
+  await el.animate([{transform:'scaleX(0)'},{transform:'scaleX(1)'}],{duration:180,easing:'ease-out'}).finished;
+  el.animate([{opacity:1,transform:'scaleY(1)'},{opacity:1,transform:'scaleY(1.6)'},{opacity:0,transform:'scaleY(.2)'}],{duration:500}).finished.then(() => el.remove());
+  await wait(120);
+}
+async function bolt(f){
+  const c = center(f), el = fx(BOLT_SVG, c.x + rand(-12, 12), c.y - c.h * .35);
+  await el.animate([{opacity:0,transform:'translate(-50%,-80%) scale(.6)'},{opacity:1,transform:'translate(-50%,-50%) scale(1)',offset:.2},
+    {opacity:.2},{opacity:1},{opacity:.2},{opacity:0}],{duration:480}).finished;
+  el.remove();
+}
+async function bubble(f){
+  const c = center(f), s = Math.round(c.w * .95), el = fx(`<div class="bubble" style="width:${s}px;height:${s}px"></div>`, c.x, c.y + c.h*.05);
+  el.animate([{transform:'translate(-50%,-50%) scale(0)',opacity:1},{transform:'translate(-50%,-50%) scale(1.1)',opacity:1,offset:.3},
+    {transform:'translate(-50%,-50%) scale(1)',opacity:.9,offset:.7},{transform:'translate(-50%,-50%) scale(1.2)',opacity:0}],{duration:1100}).finished.then(() => el.remove());
+  await wait(500);
+}
+async function jump(f){
+  await f.el.animate([{transform:'translateY(0) scaleY(1)'},{transform:'translateY(6px) scaleY(.85)',offset:.15},{transform:'translateY(-70px) scaleY(1.08)',offset:.5},
+    {transform:'translateY(4px) scaleY(.9)',offset:.85},{transform:'translateY(0) scaleY(1)'}],{duration:620,easing:'ease-in-out'}).finished;
+}
+async function zoomAnim(f){
+  const d = dirOf(f);
+  await f.el.animate([{transform:'translateX(0)',filter:'none'},{transform:`translateX(${d*-40}px)`,filter:'blur(3px)'},{transform:`translateX(${d*30}px)`,filter:'blur(3px)'},
+    {transform:`translateX(${d*-20}px)`},{transform:'translateX(0)',filter:'none'}],{duration:520}).finished;
+}
+async function dodgeAnim(f){
+  sfx('miss');
+  await f.el.animate([{transform:'translateY(0)'},{transform:'translateY(-46px) rotate(-6deg)'},{transform:'translateY(0)'}],{duration:380,easing:'ease-out'}).finished;
+}
+function hearts(f){
+  const c = center(f);
+  for (let i = 0; i < 5; i++){
+    const el = fx(`<span style="font-size:${rand(22,34)}px;color:#FF6FB5;font-family:var(--display);text-shadow:0 2px 0 ${INK}">♥</span>`, c.x + rand(-c.w*.35, c.w*.35), c.y + rand(-10, 30));
+    el.animate([{transform:'translate(-50%,-50%) scale(.3)',opacity:0},{transform:'translate(-50%,-50%) scale(1)',opacity:1,offset:.3},
+      {transform:`translate(-50%,-50%) translateY(-${rand(60,100)}px)`,opacity:0}],{duration:rand(900,1300),delay:i*90,easing:'ease-out'}).finished.then(() => el.remove());
+  }
+}
+async function spinIcon(f, id, size = 64){
+  const c = center(f), el = fx(iconSvg(id, size), c.x, c.y - c.h * .55);
+  await el.animate([{transform:'translate(-50%,-50%) rotate(0) scale(.4)',opacity:0},{transform:'translate(-50%,-50%) rotate(360deg) scale(1.1)',opacity:1,offset:.4},
+    {transform:'translate(-50%,-50%) rotate(900deg) scale(1)',opacity:0}],{duration:900}).finished;
+  el.remove();
+}
+async function puff(f, color){
+  const c = center(f);
+  for (let i = 0; i < 7; i++){
+    const s = Math.round(rand(30, 54));
+    const el = fx(`<div style="width:${s}px;height:${s}px;border-radius:50%;background:${color};border:3px solid ${INK}"></div>`, c.x + rand(-c.w*.35, c.w*.35), c.y + rand(-c.h*.25, c.h*.3));
+    el.animate([{transform:'translate(-50%,-50%) scale(.2)',opacity:0},{transform:'translate(-50%,-50%) scale(1)',opacity:.9,offset:.3},
+      {transform:'translate(-50%,-75%) scale(1.3)',opacity:0}],{duration:1100,delay:i*60,fill:'backwards'}).finished.then(() => el.remove());
+  }
+  await wait(600);
+}
+async function meteorFall(a, b){
+  const t = center(b), d = dirOf(a), sx = t.x - d * 150, sy = -60;
+  const el = fx(flipIf(d < 0, iconSvg('meteor', 84)), sx, sy);
+  await el.animate([{transform:'translate(-50%,-50%)'},{transform:`translate(calc(-50% + ${t.x-sx}px), calc(-50% + ${t.y-sy}px))`}],{duration:600,easing:'ease-in'}).finished;
+  el.remove();
+}
+function shakeArena(){
+  arena.animate([{transform:'translate(0,0)'},{transform:'translate(-6px,3px)'},{transform:'translate(6px,-3px)'},{transform:'translate(-4px,2px)'},{transform:'translate(0,0)'}],{duration:320});
+}
+async function ko(f){
+  sfx('ko'); popText(f, 'K.O.!', 'big');
+  const d = dirOf(f);
+  await f.el.animate([{transform:'rotate(0) translateY(0)',opacity:1},{transform:`rotate(${d*-85}deg) translate(${d*-30}px,40px)`,opacity:.45}],{duration:700,easing:'ease-in',fill:'forwards'}).finished;
+}
+
+/* ---------- special abilities (one per part) ---------- */
+const DEFENSIVE = ['breeze','shield','rainbow','diamond'];
+function poison(f, turns, dmg, label){ f.poison = turns; f.poisonDmg = dmg; f.poisonName = label; popText(f, label.toUpperCase() + '!'); updateHP(); }
+const SPECIALS = {
+  toast:  {name:'Toast Toss', desc:'Throws two hot toasts', icon:'toaster',
+    async run(a,b){ for (let i = 0; i < 2 && b.hp > 0; i++){ sfx('pop'); await strike(a,b,{mult:.7, anim:() => projectile(a,b,TOAST_SVG,420,0,dirOf(a)*540)}); await wait(120); } }},
+  zap:    {name:'Super Zap', desc:'Zaps them so they miss a turn', icon:'battery',
+    async run(a,b){ sfx('zap'); await bolt(b); const d = await strike(a,b,{mult:1.2, canDodge:false, anim:() => wait(0)});
+      if (d > 0 && b.hp > 0){ b.stun = Math.max(b.stun, 1); popText(b,'STUNNED!'); } }},
+  zoom:   {name:'Zoom Dodge', desc:'So fast the next hit misses', icon:'wheel',
+    async run(a,b){ sfx('whoosh'); await zoomAnim(a); a.dodge = Math.max(a.dodge, 1); popText(a,'Too fast!'); await wait(250); await strike(a,b,{mult:.7}); }},
+  bounce: {name:'Boing Bounce', desc:'Bounces the next hit back', icon:'spring',
+    async run(a,b){ sfx('boing'); await jump(a); a.reflect = true; popText(a,'Bouncy!'); await wait(200); await strike(a,b,{mult:.7}); }},
+  grab:   {name:'Power Grab', desc:"Steals the enemy's power", icon:'magnet',
+    async run(a,b){ sfx('magnet'); const s = Math.min(3, Math.max(0, b.pow - 2));
+      await projectile(b,a,SPARK_SVG,520,0,180,20); b.pow -= s; a.pow += s;
+      if (s){ popText(b,`-${s} POWER`); popText(a,`+${s} POWER`,'heal'); }
+      await wait(300); await strike(a,b,{mult:.8}); }},
+  shield: {name:'Gear Shield', desc:'Blocks most of the next hit', icon:'gear',
+    async run(a){ sfx('shield'); await bubble(a); a.shield = Math.max(a.shield, 1); popText(a,'SHIELD UP!'); heal(a, Math.round(a.maxHp * .08)); await wait(300); }},
+  quack:  {name:'Quack Attack', desc:'Confuses them so they might hit themselves', icon:'duck',
+    async run(a,b){ sfx('quack'); popText(a,'QUACK!','big'); await projectile(a,b,flipIf(dirOf(a) > 0, iconSvg('duck',46)),500,0,0,60);
+      b.confused = true; popText(b,'Confused?!'); await wait(250); await strike(a,b,{mult:.6, anim:() => wait(0)}); }},
+  breeze: {name:'Cool Breeze', desc:'Heals your robot', icon:'fan',
+    async run(a){ sfx('heal'); await spinIcon(a,'fan'); heal(a, Math.round(a.maxHp * .25)); await wait(400); }},
+  rocket: {name:'Rocket Punch', desc:'A super mega hit', icon:'rocket',
+    async run(a,b){ sfx('rocket'); await strike(a,b,{mult:1.9, anim:() => projectile(a,b,iconSvg('rocket',56),520,dirOf(a)*90,0,10)}); shakeArena(); }},
+  laser:  {name:'Laser Beam', desc:'Blasts right through armour', icon:'laser',
+    async run(a,b){ sfx('laser'); await beam(a,b); await strike(a,b,{mult:1.4, pierce:true, canDodge:false, anim:() => wait(0)}); }},
+  suck:   {name:'Super Suck', desc:'Sucks up their health for you', icon:'vacuum',
+    async run(a,b){ sfx('whoosh'); await projectile(b,a,SPARK_SVG,500,0,180,10);
+      const d = await strike(a,b,{mult:.9, anim:() => wait(0)}); if (d > 0) heal(a, Math.ceil(d * .6)); }},
+  stink:  {name:'Stink Cloud', desc:'So stinky it hurts for 3 turns', icon:'sock',
+    async run(a,b){ sfx('stink'); await puff(b,'#B5E86B');
+      await strike(a,b,{mult:.5, canDodge:false, anim:() => wait(0)});
+      if (b.hp > 0) poison(b, 3, Math.round(2 + a.pow * .12), 'Stinky'); }},
+  drill:  {name:'Drill Through', desc:'Hits and breaks their armour', icon:'drill',
+    async run(a,b){ sfx('zap'); const d = await strike(a,b,{mult:1, anim:() => projectile(a,b,flipIf(dirOf(a) < 0, iconSvg('drill',52)),420,0,0,0)});
+      if (d > 0 && b.hp > 0){ const cut = Math.min(b.def, 4); b.def -= cut; if (cut) popText(b,`-${cut} ARMOUR`); } }},
+  alarm:  {name:'Wake Up!', desc:'Hits, then you go again', icon:'clock',
+    async run(a,b){ sfx('alarm'); await spinIcon(a,'clock'); await strike(a,b,{mult:.7});
+      if (b.hp > 0){ a.extra = true; popText(a,'GO AGAIN!'); } }},
+  punch:  {name:'Triple Punch', desc:'Three quick punches', icon:'glove',
+    async run(a,b){ for (let i = 0; i < 3 && b.hp > 0; i++){ sfx('chomp'); await strike(a,b,{mult:.5, anim:() => projectile(a,b,flipIf(dirOf(a) > 0, iconSvg('glove',42)),300,0,0,6)}); await wait(80); } }},
+  lava:   {name:'Lava Blast', desc:'A big hit that burns for 3 turns', icon:'volcano',
+    async run(a,b){ sfx('rocket'); const d = await strike(a,b,{mult:1.3, anim:() => projectile(a,b,LAVA_SVG,560,0,360,80)}); shakeArena();
+      if (d > 0 && b.hp > 0) poison(b, 3, Math.round(3 + a.pow * .12), 'Burning'); }},
+  storm:  {name:'Thunderstorm', desc:'Three lightning bolts that might stun', icon:'storm',
+    async run(a,b){ for (let i = 0; i < 3 && b.hp > 0; i++){ sfx('zap'); await bolt(b); await strike(a,b,{mult:.55, canDodge:false, anim:() => wait(0)}); }
+      if (b.hp > 0 && Math.random() < .4){ b.stun = Math.max(b.stun, 1); popText(b,'STUNNED!'); } }},
+  chomp:  {name:'Shark Bite', desc:'Bites harder when they are hurt', icon:'shark',
+    async run(a,b){ sfx('chomp'); const m = 1 + (1 - b.hp / b.maxHp) * 1.6;
+      await strike(a,b,{mult:m, anim:() => projectile(a,b,flipIf(dirOf(a) > 0, iconSvg('shark',64)),420,0,0,30)}); }},
+  void:   {name:'Black Hole', desc:'Sucks away their power and speed', icon:'blackhole',
+    async run(a,b){ sfx('magnet'); await spinIcon(b,'blackhole',80);
+      const sp = Math.min(4, Math.max(0, b.pow - 2)), ss = Math.min(3, Math.max(0, b.spd - 2));
+      b.pow -= sp; a.pow += sp; b.spd -= ss; a.spd += ss;
+      if (sp) popText(b,`-${sp} POWER`); if (ss){ await wait(250); popText(b,`-${ss} SPEED`); }
+      await wait(300); await strike(a,b,{mult:.9}); }},
+  rainbow:{name:'Rainbow Magic', desc:'Big heal, cures stink and burns, adds a shield', icon:'unicorn',
+    async run(a){ sfx('heal'); await spinIcon(a,'unicorn'); a.poison = 0; heal(a, Math.round(a.maxHp * .35));
+      await bubble(a); a.shield = Math.max(a.shield, 1); popText(a,'SHIELD UP!'); updateHP(); }},
+  diamond:{name:'Diamond Skin', desc:'Blocks most of the next 2 hits', icon:'diamond',
+    async run(a){ sfx('shield'); await bubble(a); a.shield = 2; popText(a,'DIAMOND SKIN!'); updateHP(); await wait(300); }},
+  meteor: {name:'Meteor Smash', desc:'The biggest hit of all', icon:'meteor',
+    async run(a,b){ sfx('rocket'); await strike(a,b,{mult:2.2, anim:() => meteorFall(a,b)}); shakeArena(); }},
+  time:   {name:'Time Stop', desc:'Freezes them and drains their charge', icon:'timer',
+    async run(a,b){ sfx('freeze'); await spinIcon(b,'timer');
+      await strike(a,b,{mult:.8, canDodge:false, anim:() => wait(0)});
+      if (b.hp > 0){ b.stun = Math.max(b.stun, 1); b.energy = 0; popText(b,'FROZEN!'); } }},
+  ghost:  {name:'Ghost Mode', desc:'Spooky! Dodges the next 2 hits', icon:'ghost',
+    async run(a,b){ sfx('whoosh'); a.dodge = 2; a.ghostly = true; popText(a,'BOO!','big'); updateHP(); await wait(500); await strike(a,b,{mult:.7}); }},
+  crown:  {name:'Royal Power', desc:'Your power goes way up', icon:'crown',
+    async run(a,b){ sfx('reveal'); await spinIcon(a,'crown'); const up = Math.max(3, Math.round(a.pow * .4)); a.pow += up;
+      popText(a,`+${up} POWER`,'heal'); await wait(300); await strike(a,b,{mult:.8}); }},
+};
+
+/* ---------- battle logic ---------- */
+let P = null, E = null, busy = false, battleRobot = null, enemyRobot = null;
+const logEl = $('log'), actionsEl = $('actions'), turnEl = $('turn');
+function setLog(t){ logEl.textContent = t; }
+function setTurn(who){
+  turnEl.className = 'turn' + (who === 'you' ? ' you' : who === 'them' ? ' them' : '');
+  turnEl.textContent = who === 'you' ? 'YOUR TURN' : who === 'them' ? 'ENEMY TURN' : '';
+}
+function fighter(robot, side){
+  return { robot, side, name: robot.name, hp: robot.hp, maxHp: robot.hp, pow: robot.pow, spd: robot.spd, def: robot.def,
+           energy: 0, dodge: 0, reflect: false, shield: 0, stun: 0, confused: false, poison: 0, poisonDmg: 0, poisonName: '',
+           extra: false, ghostly: false, el: null, svg: null };
+}
+function hpBox(f){
+  return `<div class="hp-top"><span class="lvchip">Lv ${f.robot.level}</span><span class="hpname">${esc(f.name)}</span><span class="mini">${f.robot.parts.map(id => iconSvg(id, 22)).join('')}</span></div>
+    <div class="hpbar"><div class="hpfill" id="${f.side}Fill"></div><span class="hptext" id="${f.side}Num"></span></div>
+    <div class="statusrow" id="${f.side}Status"></div>`;
+}
+function updateHP(){
+  [P, E].forEach(f => {
+    const pct = Math.max(0, f.hp / f.maxHp * 100), fill = $(f.side + 'Fill');
+    fill.style.width = pct + '%'; fill.className = 'hpfill' + (pct < 25 ? ' crit' : pct < 55 ? ' low' : '');
+    $(f.side + 'Num').textContent = `${f.hp} / ${f.maxHp}`;
+    const st = [f.shield > 0 && (f.shield > 1 ? `Shield x${f.shield}` : 'Shield'), f.dodge > 0 && 'Dodge', f.reflect && 'Bounce',
+                f.stun > 0 && 'Frozen', f.confused && 'Confused', f.poison > 0 && f.poisonName].filter(Boolean);
+    $(f.side + 'Status').innerHTML = st.map(s => `<span class="chip">${s}</span>`).join('');
+    f.el.style.opacity = (f.ghostly && f.dodge > 0 && f.hp > 0) ? '.55' : '';
+  });
+}
+function hurt(f, dmg){
+  f.hp = Math.max(0, f.hp - dmg); sfx('hit'); hitFlash(f); popText(f, '-' + dmg, 'dmg');
+  if (dmg >= 22) shakeArena();
+  updateHP();
+}
+function heal(f, n){
+  const real = Math.min(n, f.maxHp - f.hp); f.hp += real; hearts(f);
+  if (real > 0) popText(f, '+' + real, 'heal');
+  updateHP();
+}
+async function strike(a, b, o = {}){
+  if (o.anim) await o.anim(); else await lunge(a);
+  const canDodge = o.canDodge !== false;
+  if (canDodge && b.dodge > 0){ b.dodge--; popText(b, 'MISSED!'); updateHP(); await dodgeAnim(b); return 0; }
+  if (canDodge && Math.random() < clamp((b.spd - a.spd) * .015 + .06, .03, .22)){ popText(b, 'Missed!'); await dodgeAnim(b); return 0; }
+  let dmg = (3 + a.pow * .8) * rand(.85, 1.15) * (o.mult || 1) - (o.pierce ? 0 : b.def * .3);
+  dmg = Math.max(2, Math.round(dmg));
+  if (b.shield > 0){ b.shield--; dmg = Math.max(1, Math.round(dmg * .3)); popText(b, 'BLOCKED!'); sfx('shield'); }
+  hurt(b, dmg);
+  if (b.reflect && b.hp > 0){
+    b.reflect = false; await wait(260); popText(b, 'BOING!'); sfx('boing');
+    await projectile(b, a, iconSvg('spring', 40), 380, 0, 360, 30);
+    hurt(a, Math.max(1, Math.round(dmg * .6)));
+  }
+  updateHP();
+  return dmg;
+}
+async function takeTurn(a, b, action){
+  if (a.poison > 0){
+    a.poison--; setLog(`${a.name} is ${a.poisonName.toLowerCase()}!`);
+    if (a.poisonName === 'Stinky') await puff(a, '#B5E86B'); else await wait(250);
+    hurt(a, a.poisonDmg); await wait(500);
+    if (a.hp <= 0) return;
+  }
+  if (a.stun > 0){
+    a.stun--; setLog(`${a.name} is frozen and can't move!`); popText(a, 'Frozen...');
+    await a.el.animate([{transform:'rotate(0)'},{transform:'rotate(-8deg)'},{transform:'rotate(8deg)'},{transform:'rotate(0)'}],{duration:700}).finished;
+    updateHP(); return;
+  }
+  if (a.confused){
+    a.confused = false; updateHP();
+    if (Math.random() < .6){
+      setLog(`${a.name} is confused and bonks itself!`); popText(a, '???');
+      await a.el.animate([{transform:'rotate(0)'},{transform:'rotate(25deg)'},{transform:'rotate(-25deg)'},{transform:'rotate(0)'}],{duration:600}).finished;
+      hurt(a, Math.max(2, Math.round(a.pow * .4))); await wait(300); return;
+    }
+  }
+  if (action === 'bash'){
+    setLog(`${a.name} goes BASH!`);
+    await strike(a, b);
+    a.energy = Math.min(ENERGY_MAX, a.energy + 1);
+  } else {
+    const s = SPECIALS[action]; a.energy = 0;
+    setLog(`${a.name} uses ${s.name.toUpperCase()}!`);
+    await s.run(a, b);
+  }
+  updateHP();
+}
+function enemyChoice(){
+  if (E.energy < ENERGY_MAX || !E.robot.specials.length) return 'bash';
+  const sp = E.robot.specials, low = E.hp / E.maxHp < .45;
+  const heals = sp.filter(k => k === 'breeze' || k === 'rainbow');
+  if (low && heals.length) return pick(heals);
+  const attack = sp.filter(k => !DEFENSIVE.includes(k));
+  return pick(attack.length ? attack : sp);
+}
+function renderActions(){
+  const n = P.robot.specials.length;
+  actionsEl.innerHTML = `<button class="btn big" type="button" data-act="bash">BASH!</button>
+    <div class="specials" style="grid-template-columns:repeat(${n},minmax(0,1fr))">${P.robot.specials.map(k => `<button class="btn special" type="button" data-act="${k}" aria-label="${SPECIALS[k].name}">
+      ${iconSvg(SPECIALS[k].icon, 38)}<span class="sp-name">${SPECIALS[k].name}</span><span class="pips" aria-hidden="true">${'<i></i>'.repeat(ENERGY_MAX)}</span></button>`).join('')}</div>
+    <p class="charge-hint" id="chargeHint"></p>`;
+}
+function updateActions(){
+  const charged = P.energy >= ENERGY_MAX;
+  actionsEl.querySelectorAll('button').forEach(b => {
+    const isSpecial = b.dataset.act !== 'bash';
+    b.disabled = busy || (isSpecial && !charged);
+    if (isSpecial){
+      b.classList.toggle('charged', charged && !busy);
+      b.querySelectorAll('.pips i').forEach((p, i) => p.classList.toggle('on', i < P.energy));
+    } else b.classList.toggle('ready', !busy && !charged);
+  });
+  const left = ENERGY_MAX - P.energy;
+  $('chargeHint').textContent = charged ? 'Powers charged! Tap one to use it.' : `BASH ${left} more time${left === 1 ? '' : 's'} to charge your powers`;
+}
+actionsEl.addEventListener('click', e => {
+  const b = e.target.closest('button[data-act]'); if (b && !b.disabled) playerAct(b.dataset.act);
+});
+async function enemyPhase(){
+  let again = true;
+  while (again){
+    setTurn('them'); await wait(350);
+    await takeTurn(E, P, enemyChoice());
+    if (E.hp <= 0 || P.hp <= 0) return;
+    again = E.extra; E.extra = false;
+    if (again) await wait(300);
+  }
+}
+function readyPlayer(msg){
+  busy = false; setTurn('you'); updateActions();
+  setLog(msg || (P.energy >= ENERGY_MAX ? 'Special power ready! Tap a glowing button!' : 'Your turn! Tap BASH!'));
+}
+async function playerAct(action){
+  if (busy) return; busy = true; updateActions();
+  await takeTurn(P, E, action);
+  if (await checkEnd()) return;
+  if (P.extra){ P.extra = false; return readyPlayer('Ring ring! You get another turn!'); }
+  await enemyPhase();
+  if (await checkEnd()) return;
+  while (P.stun > 0){
+    setTurn('you'); await wait(350); await takeTurn(P, E, 'bash');
+    if (await checkEnd()) return;
+    await enemyPhase();
+    if (await checkEnd()) return;
+  }
+  readyPlayer();
+}
+async function checkEnd(){
+  if (E.hp > 0 && P.hp > 0) return false;
+  setTurn(''); updateHP();
+  if (E.hp <= 0){ await ko(E); await wait(300); victory(); }
+  else { await ko(P); await wait(300); defeat(); }
+  return true;
+}
+function showScreen(name){
+  $('workshop').hidden = name !== 'workshop'; $('battle').hidden = name !== 'battle';
+  window.scrollTo(0, 0);
+}
+function backToGarage(){ currentChallenge = null; hideOverlay(); showScreen('workshop'); renderAll(); }
+function startBattle(robot, foe, challenge = null){
+  currentChallenge = challenge;
+  battleRobot = robot; enemyRobot = foe || makeEnemy();
+  P = fighter(battleRobot, 'player'); E = fighter(enemyRobot, 'enemy');
+  $('pBox').innerHTML = hpBox(P); $('eBox').innerHTML = hpBox(E);
+  [[P, $('pF')], [E, $('eF')]].forEach(([f, el]) => {
+    el.getAnimations().forEach(a => a.cancel());
+    el.style.opacity = '';
+    el.innerHTML = `<div class="bob"><div class="${f.side === 'enemy' ? 'flip' : ''}">${robotSVG(f.robot)}</div></div>`;
+    f.el = el; f.svg = el.querySelector('svg');
+  });
+  arena.querySelectorAll('.fx,.beam').forEach(n => n.remove());
+  renderActions(); busy = true; setTurn(''); updateHP(); updateActions(); setLog('Get ready...');
+  showScreen('battle');
+  const icons = r => `<div class="iconrow">${r.parts.map(id => iconSvg(id, 28)).join('')}</div>`;
+  showOverlay(`<div class="ribbon">${currentChallenge ? 'CHALLENGE!' : 'BATTLE ' + (save.wins + save.losses + 1)}</div>
+    <div class="vsrow">
+      <div class="side">${robotSVG(P.robot)}<span class="nm">${esc(P.name)}</span>${icons(P.robot)}<span class="tagline">YOU · LEVEL ${P.robot.level}</span></div>
+      <div class="vsbig outline">VS</div>
+      <div class="side"><div class="flip" style="width:min(140px,100%)">${robotSVG(E.robot)}</div><span class="nm">${esc(E.name)}</span>${icons(E.robot)}<span class="tagline">${currentChallenge ? 'PLAYER' : 'ENEMY'} · LEVEL ${E.robot.level}</span></div>
+    </div>
+    <div class="stack"><button class="btn big ready" id="goBtn" type="button">GO!</button><button class="btn plain" id="fleeBtn" type="button">Back to my robot</button></div>`, { wide: true });
+  $('fleeBtn').onclick = backToGarage;
+  $('goBtn').onclick = async () => {
+    hideOverlay(); sfx('pop');
+    if (E.spd > P.spd){
+      setLog(`${E.name} is faster and goes first!`); await wait(700);
+      await enemyPhase();
+      if (await checkEnd()) return;
+    }
+    readyPlayer();
+  };
+}
+function confetti(){
+  const colors = ['#FF4D5E','#FFD23F','#2EC4A0','#7B5CFF','#5BC0F8','#FF6FB5'];
+  for (let i = 0; i < 70; i++){
+    const c = document.createElement('div'); c.className = 'confetti';
+    c.style.left = rand(0, 100) + 'vw'; c.style.background = pick(colors);
+    document.body.appendChild(c);
+    c.animate([{transform:`translateY(0) rotate(0)`},{transform:`translate(${rand(-80,80)}px, 110vh) rotate(${rand(360,1080)}deg)`}],
+      {duration:rand(1800,3200),delay:rand(0,500),easing:'cubic-bezier(.3,.6,.6,1)'}).finished.then(() => c.remove());
+  }
+}
+function flyCoins(n, fromEl, startCount){
+  const pill = $('coinPill').getBoundingClientRect(), f = fromEl.getBoundingClientRect();
+  const fx0 = f.left + f.width / 2, fy0 = f.top + f.height / 2;
+  const dx = pill.left + 22 - fx0, dy = pill.top + pill.height / 2 - fy0;
+  let shown = startCount;
+  $('coinCount').textContent = startCount;
+  for (let i = 0; i < n; i++){
+    const c = document.createElement('div'); c.className = 'flycoin'; c.innerHTML = COIN(32);
+    c.style.left = fx0 + 'px'; c.style.top = fy0 + 'px'; document.body.appendChild(c);
+    c.animate([{transform:'translate(-50%,-50%) scale(.6)'},
+               {transform:`translate(calc(-50% + ${dx*.35}px), calc(-50% + ${dy*.35 - 50}px)) scale(1.25)`, offset:.4},
+               {transform:`translate(calc(-50% + ${dx}px), calc(-50% + ${dy}px)) scale(.8)`}],
+      {duration:850, delay:500 + i*140, easing:'ease-in', fill:'backwards'}).finished.then(() => {
+        c.remove(); shown++; $('coinCount').textContent = shown; sfx('coin'); bump($('coinPill'));
+      });
+  }
+}
+function rewardsHTML(coins, xp){
+  return `<div class="rewards"><div class="reward" id="coinReward">${COIN(36)}<div><b>+${coins}</b><br><span>coin${coins === 1 ? '' : 's'}</span></div></div>
+    <div class="reward">${XPI(36)}<div><b>+${xp}</b><br><span>XP</span></div></div></div>`;
+}
+function extrasHTML(lv, next){
+  return (lv.levelUp ? `<div class="levelup">LEVEL UP! Your robot is level ${save.level}</div>` : '')
+    + (lv.power.length ? `<div class="newpart"><span class="lbl">NEW POWER PART${lv.power.length > 1 ? 'S' : ''}!</span><div class="iconrow">${lv.power.map(id => iconSvg(id, 64)).join('')}</div><span class="nm">${lv.power.map(id => OBJ[id].name).join(' + ')}</span></div>` : '')
+    + (next ? `<div class="newpart"><span class="lbl">NEW PART!</span><span class="popin">${iconSvg(next.id, 80)}</span><span class="nm">${next.name}</span></div>` : '');
+}
+function victory(){
+  const ch = currentChallenge; if (ch) resolveChallenge(true);
+  const startCoins = save.coins;
+  save.wins++;
+  const hpLeft = P.hp / P.maxHp, stars = hpLeft > .6 ? 3 : hpLeft > .25 ? 2 : 1;
+  const coins = winCoins(stars);
+  save.coins += coins;
+  const lv = addXP(WIN_XP);
+  const next = OBJECTS.find(o => !o.power && !save.unlocked.includes(o.id));
+  if (next){ save.unlocked.push(next.id); save.fresh.push(next.id); }
+  persist(); renderRobot(); renderTray();
+  sfx('win'); confetti();
+  if (lv.levelUp) setTimeout(() => sfx('levelup'), 900);
+  const isNew = !!(next || lv.power.length);
+  showOverlay(`<div class="ribbon win">YOU WIN!</div>
+    <div class="stars">${[0,1,2].map(i => STAR(i < stars)).join('')}</div>
+    <div class="stage small"><div class="bigbot popin">${robotSVG(battleRobot)}</div></div>
+    <h2 class="botname">${esc(save.robot.name)}</h2>
+    ${ch ? `<p class="muted">You beat ${esc(enemyRobot.name)}, a real player's robot!</p>` : ''}
+    ${rewardsHTML(coins, WIN_XP)}
+    ${extrasHTML(lv, next)}
+    <div class="stack">
+      <button class="btn big green ready" id="toWorkshop" type="button">${isNew ? 'Try my new parts' : 'Upgrade my robot'}</button>
+      <button class="btn plain" id="nextFight" type="button">Fight again</button>
+    </div>`);
+  flyCoins(coins, $('coinReward'), startCoins);
+  $('toWorkshop').onclick = backToGarage;
+  $('nextFight').onclick = () => { hideOverlay(); renderAll(); startBattle(myRobot()); };
+}
+function defeat(){
+  const ch = currentChallenge; if (ch) resolveChallenge(false);
+  const startCoins = save.coins;
+  save.losses++;
+  save.coins += LOSS_COINS;
+  const lv = addXP(LOSS_XP);
+  persist(); renderRobot(); renderTray();
+  sfx('lose');
+  if (lv.levelUp) setTimeout(() => sfx('levelup'), 1000);
+  showOverlay(`<div class="ribbon lose">KNOCKED OUT!</div>
+    <div class="stage small"><div class="bigbot popin"><div class="flip">${robotSVG(enemyRobot)}</div></div></div>
+    <h2 class="botname">${esc(enemyRobot.name)} wins this time</h2>
+    ${ch ? '<p class="muted">That was a real player\'s robot. Their owner will find out they won!</p>' : ''}
+    ${rewardsHTML(LOSS_COINS, LOSS_XP)}
+    ${extrasHTML(lv, null)}
+    <p class="muted">Use your coins to upgrade parts, or try a different mix. Then come back!</p>
+    <div class="stack">
+      <button class="btn big green ready" id="toWorkshop" type="button">Upgrade my robot</button>
+      <button class="btn plain" id="rematch" type="button">Rematch</button>
+    </div>`);
+  flyCoins(LOSS_COINS, $('coinReward'), startCoins);
+  $('toWorkshop').onclick = backToGarage;
+  $('rematch').onclick = () => { hideOverlay(); renderAll(); startBattle(myRobot(), enemyRobot); };
+}
+
+/* ---------- reset ---------- */
+let resetArmed = false;
+$('resetBtn').addEventListener('click', e => {
+  if (!resetArmed){ resetArmed = true; e.target.textContent = 'Tap again to wipe your robot and all progress'; setTimeout(() => { resetArmed = false; e.target.textContent = 'Start over'; }, 3500); return; }
+  if (db && uid) db.doc('scores/' + uid).delete().catch(() => {});
+  lastPushed = null;
+  save = freshSave(); persist(); resetArmed = false; e.target.textContent = 'Start over';
+  renderAll(); openRename(true);
+});
+
+/* ---------- go ---------- */
+$('g1').innerHTML = iconSvg('magnet', 42);
+$('g2').innerHTML = COIN(42);
+$('g3').innerHTML = UP(42);
+renderSound(); renderAll(); renderBoard(); initBoard();
+if (!save.welcomed) openRename(true);
+</script>
+</body></html>
