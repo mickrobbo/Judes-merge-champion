@@ -16,7 +16,9 @@ const PART_IDS = new Set([
   "vacuum", "sock", "drill", "clock", "glove",
   "volcano", "storm", "shark", "blackhole", "unicorn", "diamond", "meteor", "timer", "ghost", "crown",
 ]);
-const STYLE_IDS = new Set(["classic", "knight", "shadow", "pilot", "scout"]);
+const STYLE_IDS = new Set(["classic", "knight", "shadow", "pilot", "scout", "commando"]);
+const GUN_IDS = new Set(["pea", "minigun", "flame", "rocket", "freeze", "mega"]);
+const VEHICLE_IDS = new Set(["tank", "car", "jet", "rocket"]);
 const WEAPON_IDS = new Set(["blue", "green", "purple", "red", "gold", "twin"]);
 const HEX = /^#[0-9a-fA-F]{6}$/;
 const PLAYER_ID = /^p[0-9a-f]{16}$/;
@@ -44,7 +46,8 @@ function cleanBuild(b) {
   const lvs = {};
   for (const p of parts) lvs[p] = num(src[p], 1, 10);
   return { name: cleanName(b.name), level: num(b.level, 1, 20), parts, colors, lvs,
-           style: STYLE_IDS.has(b.style) ? b.style : "classic", weapon: WEAPON_IDS.has(b.weapon) ? b.weapon : null };
+           style: STYLE_IDS.has(b.style) ? b.style : "classic", weapon: WEAPON_IDS.has(b.weapon) ? b.weapon : null,
+           gun: GUN_IDS.has(b.gun) ? b.gun : null, vehicle: VEHICLE_IDS.has(b.vehicle) ? b.vehicle : null };
 }
 
 async function auth(store, id, token) {
@@ -99,7 +102,7 @@ export default async (req) => {
     case "score": {
       const s = body.score && typeof body.score === "object" ? body.score : {};
       const b = cleanBuild(s);
-      me.rec.score = { name: b.name, level: b.level, parts: b.parts, colors: b.colors, style: b.style, weapon: b.weapon,
+      me.rec.score = { name: b.name, level: b.level, parts: b.parts, colors: b.colors, style: b.style, weapon: b.weapon, gun: b.gun, vehicle: b.vehicle,
                        wins: num(s.wins, 0, 999999), upgrades: num(s.upgrades, 0, 1000), updated: now };
       await store.setJSON(me.key, me.rec);
       return json({ ok: true });

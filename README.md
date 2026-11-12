@@ -34,5 +34,7 @@ Open `index.html` and look near the top of the `<script>`:
 - `SPECIALS` – what each part's special move does.
 - `COMBOS` – secret combos.
 - `WEAPONS` – laser swords (colour, stats, price, special move). Their special moves are in `SPECIALS` too.
-- `STYLES` – robot styles (Classic, Star Knight, Shadow Lord, Rocket Pilot, Scrap Scout), drawn in `robotSVG`.
+- `STYLES` – robot styles (Classic, Star Knight, Shadow Lord, Rocket Pilot, Scrap Scout, Commando), drawn in `robotSVG`.
+- `GUNS` – blasters for the FIRE! button (ammo per battle); what each one does is in `GUN_FIRE`.
+- `VEHICLES` – transform forms (tank, race car, jet, rocket), unlocked by robot level; their attacks are in `VEHICLE_ATTACK` and drawings in `vehicleSVG`.
 - The economy constants (coin rewards, upgrade cost, XP per level) sit just above.

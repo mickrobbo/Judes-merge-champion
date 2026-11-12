@@ -283,6 +283,17 @@ button.lbrow:active{transform:translateY(2px);box-shadow:0 1px 0 var(--ink)}
 .pips{display:flex;gap:4px}
 .pips i{width:12px;height:12px;border-radius:50%;border:2px solid currentColor;background:transparent}
 .pips i.on{background:var(--tomato);border-color:var(--ink)}
+.mainacts{display:grid;grid-template-columns:repeat(auto-fit,minmax(0,1fr));gap:10px}
+.firebtn,.morphbtn{min-height:62px;padding:6px 8px;font-size:clamp(15px,4.1vw,21px);justify-content:flex-start;gap:6px;text-align:left}
+.firebtn{background:#FF8A2B}
+.morphbtn{background:#5E7A33}
+.firebtn svg{flex:0 0 auto;filter:drop-shadow(0 2px 0 rgba(43,29,58,.4))}
+.morphbtn .vic{flex:0 0 auto;width:34px;height:42px}
+.morphbtn .vic svg{width:100%;height:100%}
+.fl{display:flex;flex-direction:column;line-height:1;min-width:0}
+.fl small{font-size:12px;letter-spacing:0;opacity:.9;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ammo{display:flex;gap:3px;margin-top:4px;font-size:12px;font-family:var(--body);font-weight:800}
+.ammo i{width:8px;height:14px;border-radius:3px;background:#FFD23F;border:2px solid var(--ink)}
 .charge-hint{text-align:center;font-size:14px;font-weight:700;color:var(--muted);min-height:1.35em}
 
 /* ---------- battle effects ---------- */
@@ -353,7 +364,7 @@ button.lbrow:active{transform:translateY(2px);box-shadow:0 1px 0 var(--ink)}
 .namefield .icon-btn{width:58px;height:58px;border-radius:16px}
 .paintrow{display:flex;flex-direction:column;gap:8px;width:100%;text-align:left}
 .paintrow b{font-family:var(--display);font-weight:400;font-size:17px}
-.swatches{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px}
+.swatches{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px}
 .sw{aspect-ratio:1;width:100%;border-radius:50%;border:3px solid var(--ink);cursor:pointer;padding:0;box-shadow:0 3px 0 var(--ink)}
 .sw.sel{box-shadow:0 0 0 3px var(--paper),0 0 0 6px var(--ink)}
 .rewards{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%}
@@ -397,6 +408,23 @@ button.lbrow:active{transform:translateY(2px);box-shadow:0 1px 0 var(--ink)}
 /* laser swords + styles */
 .bot .blade{animation:hum .11s steps(2) infinite}
 @keyframes hum{50%{opacity:.86}}
+.armslots{display:grid;gap:10px}
+.weaponslot.form{background:#3E5522}
+.weaponslot.form .wic{background:radial-gradient(circle at 50% 50%,rgba(255,255,255,.18),transparent 70%),#2B3D18}
+.weaponslot.form .wic svg{width:46px;height:54px}
+.armtabs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px}
+.armtab{font-family:var(--display);font-size:17px;color:#BDB6E0;background:#251D4D;border:3px solid #0A0718;border-radius:14px;padding:8px 6px;cursor:pointer}
+.armtab[aria-selected="true"]{background:#7FF3FF;color:var(--ink)}
+.vehicles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;width:100%}
+.vcard{position:relative;background:var(--cloud);border:3px solid var(--ink);border-radius:18px;box-shadow:0 4px 0 var(--ink);padding:8px 8px 10px;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;font:inherit;color:var(--ink);min-width:0}
+.vcard .vpic{width:100%;max-width:130px;aspect-ratio:200/240}
+.vcard .vpic svg{width:100%;height:100%}
+.vcard b{font-family:var(--display);font-weight:400;font-size:18px;line-height:1.1}
+.vcard span{font-size:13px;font-weight:700;color:var(--muted);line-height:1.2}
+.vcard.sel{background:#FFF1A8;box-shadow:0 0 0 3px var(--paper),0 0 0 6px var(--ink)}
+.vcard.locked{background:var(--off);cursor:default}
+.vcard.locked .vpic{filter:grayscale(1);opacity:.45}
+.vcard .vlock{position:absolute;top:8px;right:8px;display:inline-flex;align-items:center;gap:3px;background:var(--ink);color:#fff;border-radius:9px;padding:1px 7px;font-family:var(--display);font-size:13px}
 .weaponslot{display:grid;grid-template-columns:56px minmax(0,1fr) auto;gap:12px;align-items:center;width:100%;text-align:left;cursor:pointer;
   background:#1E1A3A;color:#fff;border:4px solid var(--ink);border-radius:18px;box-shadow:0 5px 0 var(--ink);padding:6px 14px 6px 8px;font:inherit}
 .weaponslot:active{transform:translateY(3px);box-shadow:0 2px 0 var(--ink)}
@@ -430,7 +458,7 @@ button.lbrow:active{transform:translateY(2px);box-shadow:0 1px 0 var(--ink)}
 .sword-stage{width:100%;height:170px;border:3px solid var(--ink);border-radius:18px;display:grid;place-items:center}
 .sword-stage svg{width:150px;height:150px}
 .ovl-grid{width:100%;border:3px solid var(--ink);border-radius:18px;padding:16px 12px 12px}
-.styles{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+.styles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
 .stylebtn{background:var(--cloud);border:3px solid var(--ink);border-radius:14px;box-shadow:0 3px 0 var(--ink);padding:4px 2px 6px;cursor:pointer;
   display:flex;flex-direction:column;align-items:center;gap:2px;font-family:var(--display);font-size:11.5px;line-height:1.05;color:var(--ink);min-width:0}
 .stylebtn .sb{width:100%;max-width:56px;aspect-ratio:200/240}
@@ -454,6 +482,16 @@ button.lbrow:active{transform:translateY(2px);box-shadow:0 1px 0 var(--ink)}
 .arena[data-theme="desert"] .sun{display:block;left:10%;top:9%;width:58px;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,#FFF6C9,#FFD23F 60%);
   border:3px solid #E0A400;box-shadow:0 0 40px rgba(255,210,63,.8)}
 .flash{position:absolute;inset:0;background:#fff;z-index:7;pointer-events:none}
+.arena .sandbags,.arena .flagpole{display:none;position:absolute;pointer-events:none;z-index:1}
+.arena[data-theme="base"]{background:
+  radial-gradient(ellipse 60px 22px at 18% 80%,rgba(62,85,34,.55),transparent 70%),radial-gradient(ellipse 70px 24px at 62% 72%,rgba(62,85,34,.5),transparent 70%),
+  radial-gradient(ellipse 54px 20px at 84% 92%,rgba(90,70,48,.45),transparent 70%),radial-gradient(ellipse 50px 18px at 40% 95%,rgba(90,70,48,.4),transparent 70%),
+  linear-gradient(#A9C6D9 0 58%, #8A9A55 58% 60.5%, #7A8C48 60.5% 100%)}
+.arena[data-theme="base"]::before{background:repeating-linear-gradient(90deg,rgba(255,255,255,.07) 0 36px,transparent 36px 72px)}
+.arena[data-theme="base"] .sandbags{display:block;left:0;right:0;top:calc(58% - 20px);height:24px;
+  background:radial-gradient(ellipse 21px 11px at 22px 13px,#C8B27A 0 82%,#2B1D3A 86% 96%,transparent 100%) 0 0/44px 24px repeat-x}
+.arena[data-theme="base"] .flagpole{display:block;left:7%;top:12%;width:4px;height:calc(46% - 20px);background:#2B1D3A}
+.arena[data-theme="base"] .flagpole::after{content:"";position:absolute;left:4px;top:0;width:40px;height:26px;background:#FF4D5E;border:3px solid #2B1D3A;border-radius:0 6px 6px 0}
 .installbar{display:grid;grid-template-columns:52px minmax(0,1fr) auto auto;gap:10px;align-items:center;padding:10px 10px 10px 12px;background:#FFF1A8}
 .installbar img{border-radius:12px;border:3px solid var(--ink);display:block}
 .installbar b{font-family:var(--display);font-weight:400;font-size:19px;display:block;line-height:1.1}
@@ -486,7 +524,7 @@ button.lbrow:active{transform:translateY(2px);box-shadow:0 1px 0 var(--ink)}
 @keyframes wiggle{0%,70%,100%{transform:rotate(0)}75%{transform:rotate(-6deg)}85%{transform:rotate(6deg)}92%{transform:rotate(-3deg)}}
 @media (max-width:380px){ .tray-grid{gap:18px 6px} }
 @media (prefers-reduced-motion: reduce){
-  .bob,.btn.ready,.btn.special.charged,.bot .prop,.bot .flame,.bot .blade,.bot .eyes,.chest.closed,.stars svg,.machine.shaking,.card,.popin,.preview.pop svg{animation:none!important}
+  .bob,.armslots .ready,.btn.ready,.btn.special.charged,.bot .prop,.bot .flame,.bot .blade,.bot .eyes,.chest.closed,.stars svg,.machine.shaking,.card,.popin,.preview.pop svg{animation:none!important}
 }
 </style>
 
@@ -555,7 +593,11 @@ button.lbrow:active{transform:translateY(2px);box-shadow:0 1px 0 var(--ink)}
             <button class="slot" data-i="1" type="button"></button><span class="plus">+</span>
             <button class="slot" data-i="2" type="button"></button>
           </div>
-          <button class="weaponslot" id="weaponSlot" type="button"></button>
+          <div class="armslots">
+            <button class="weaponslot" id="weaponSlot" type="button"></button>
+            <button class="weaponslot" id="gunSlot" type="button"></button>
+            <button class="weaponslot form" id="formSlot" type="button"></button>
+          </div>
           <p class="hint" id="hint"></p>
           <div class="mstats" id="mstats"></div>
           <button id="fightBtn" class="btn big ready" type="button">FIGHT!</button>
@@ -577,10 +619,12 @@ button.lbrow:active{transform:translateY(2px);box-shadow:0 1px 0 var(--ink)}
             </div>
           </div>
         </section>
-        <section class="armoury panel" aria-label="Laser swords">
-          <div class="phead"><h2>LASER SWORDS</h2><span class="count" id="swordCount"></span></div>
-          <div class="abody"><div class="sword-grid" id="swordGrid"></div>
-            <p class="anote">Buy swords with gold coins. Your robot holds one sword, and it adds a new special move.</p></div>
+        <section class="armoury panel" aria-label="Armoury">
+          <div class="phead"><h2>ARMOURY</h2><span class="count" id="swordCount"></span></div>
+          <div class="abody">
+            <div class="armtabs" role="tablist"><button type="button" role="tab" class="armtab" data-tab="swords">Laser Swords</button><button type="button" role="tab" class="armtab" data-tab="guns">Blasters</button></div>
+            <div class="sword-grid" id="swordGrid"></div>
+            <p class="anote" id="armNote"></p></div>
         </section>
         <section class="board panel" aria-label="Leaderboard">
           <div class="phead"><h2>LEADERBOARD</h2><span class="count">Most wins</span></div>
@@ -608,7 +652,7 @@ button.lbrow:active{transform:translateY(2px);box-shadow:0 1px 0 var(--ink)}
     <div class="arena panel" id="arena">
       <div class="cloudy" style="width:90px;height:26px;left:8%;top:14%"></div>
       <div class="cloudy" style="width:64px;height:20px;right:12%;top:26%"></div>
-      <div class="sun"></div><div class="planet"></div>
+      <div class="sun"></div><div class="planet"></div><div class="sandbags"></div><div class="flagpole"></div>
       <div class="turn" id="turn"></div>
       <div class="fighter left" id="pF"></div>
       <div class="fighter right" id="eF"></div>
@@ -737,6 +781,28 @@ const WEAPONS = [
   {id:'twin',   name:'Twin Blades',  color:'#2EF0E0', pow:8, spd:4, def:0, cost:40, special:'twinstorm'},
 ];
 const WEAPON = Object.fromEntries(WEAPONS.map(w => [w.id, w]));
+
+// Blasters: held in the robot's front hand. FIRE! uses ammo, which refills every battle.
+const GUNS = [
+  {id:'pea',     name:'Pea Blaster',     color:'#2EC4A0', pow:1, spd:0, def:0, cost:0,  ammo:4, desc:'Fires three bouncy peas'},
+  {id:'minigun', name:'Mini-Gun',        color:'#6E7884', pow:2, spd:0, def:0, cost:12, ammo:3, desc:'Six super-fast shots'},
+  {id:'flame',   name:'Flame Thrower',   color:'#FF8A2B', pow:2, spd:0, def:0, cost:18, ammo:3, desc:'A blast of fire that burns for 3 turns'},
+  {id:'rocket',  name:'Rocket Launcher', color:'#6B8E3A', pow:3, spd:0, def:0, cost:26, ammo:2, desc:'A huge explosion that smashes through shields'},
+  {id:'freeze',  name:'Freeze Ray',      color:'#4FC3F7', pow:2, spd:2, def:0, cost:32, ammo:2, desc:'Freezes them so they miss a turn'},
+  {id:'mega',    name:'Mega Cannon',     color:'#7B5CFF', pow:4, spd:0, def:0, cost:45, ammo:1, desc:'One giant laser blast'},
+];
+const GUN = Object.fromEntries(GUNS.map(g => [g.id, g]));
+
+// Vehicle forms: TRANSFORM! once per battle to become a vehicle for a few turns.
+const FORM_TURNS = 3;
+const VEHICLES = [
+  {id:'tank',   name:'Battle Tank', level:1, attack:'Tank Shell',  desc:'Super tough armour and a big cannon shell', boost:{def:.6}},
+  {id:'car',    name:'Turbo Racer', level:2, attack:'Turbo Ram',   desc:'Super fast, rams them twice',               boost:{spd:.8}},
+  {id:'jet',    name:'Sky Jet',     level:3, attack:'Air Strike',  desc:'Flies so high that hits often miss. Drops bombs', boost:{spd:.5}, dodge:.25},
+  {id:'rocket', name:'Star Rocket', level:4, attack:'Rocket Dive', desc:'Huge power, smashes right into them',       boost:{pow:.4}},
+];
+const VEHICLE = Object.fromEntries(VEHICLES.map(v => [v.id, v]));
+
 function findCombos(ids){ return COMBOS.filter(c => c.parts.every(p => ids.includes(p))); }
 
 /* ---------- part icons (64x64) ---------- */
@@ -890,6 +956,7 @@ const STYLES = [
   {id:'shadow',  name:'Shadow Lord'},
   {id:'pilot',   name:'Rocket Pilot'},
   {id:'scout',   name:'Scrap Scout'},
+  {id:'commando', name:'Commando'},
 ];
 const STYLE = Object.fromEntries(STYLES.map(s => [s.id, s]));
 // A filled shape with soft shading, a highlight and an ink outline on top.
@@ -919,12 +986,99 @@ function weaponIcon(id, size){
     : swordSVG(id, 40, 120, 40, 100);
   return `<svg viewBox="0 0 64 64" width="${size}" height="${size}" aria-hidden="true" style="overflow:visible"><g transform="scale(.45)">${body}</g></svg>`;
 }
+// A blaster held at (x,y), pointing right.
+function gunSVG(gid, x, y, k = 1){
+  if (!GUN[gid]) return '';
+  const S = `stroke="${INK}" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"`;
+  const sh = (tag, a, fill) => shaded(tag, a, fill, 3);
+  let g = '';
+  if (gid === 'pea'){
+    g = sh('rect', 'x="-8" y="-15" width="40" height="18" rx="9"', '#2EC4A0') + sh('rect', 'x="30" y="-12" width="16" height="12" rx="4"', '#D6DEE7')
+      + sh('circle', 'cx="8" cy="-20" r="8"', '#9BE15D') + `<circle cx="5" cy="-23" r="2.5" fill="#fff"/>`;
+  } else if (gid === 'minigun'){
+    g = `<path d="M-4 4 q10 16 28 8" fill="none" stroke="${INK}" stroke-width="10" stroke-linecap="round"/><path d="M-4 4 q10 16 28 8" fill="none" stroke="#FFC93C" stroke-width="5" stroke-dasharray="3 3"/>`
+      + sh('rect', 'x="-10" y="-20" width="32" height="26" rx="6"', '#6E7884')
+      + [-18,-11,-4].map(yy => `<rect x="20" y="${yy}" width="30" height="6" rx="3" fill="#C9D3DD" ${S} stroke-width="2.5"/>`).join('')
+      + `<rect x="46" y="-21" width="6" height="26" rx="2" fill="#3A3550" ${S} stroke-width="2.5"/><rect x="-2" y="-27" width="14" height="8" rx="2" fill="#3A3550" ${S} stroke-width="2.5"/>`;
+  } else if (gid === 'flame'){
+    g = sh('rect', 'x="-20" y="-36" width="16" height="30" rx="7"', '#FF4D5E') + `<path d="M-6 -30 q12 -6 14 14" fill="none" ${S}/>`
+      + sh('rect', 'x="-6" y="-16" width="36" height="14" rx="6"', '#FF8A2B') + sh('rect', 'x="28" y="-14" width="16" height="10" rx="3"', '#D6DEE7')
+      + `<path class="flame" d="M44 -9 q10 -7 15 0 q-5 7 -15 0z" fill="#FFD23F" ${S} stroke-width="2"/>`;
+  } else if (gid === 'rocket'){
+    g = sh('rect', 'x="-24" y="-28" width="72" height="18" rx="5"', '#6B8E3A')
+      + `<rect x="-24" y="-28" width="8" height="18" rx="2" fill="#3A3550" ${S}/><path d="M4 -28v18M32 -28v18" stroke="${INK}" stroke-width="2.5"/>`
+      + `<path d="M48 -26 L64 -19 L48 -12 Z" fill="#FF4D5E" ${S}/><rect x="10" y="-36" width="12" height="8" rx="2" fill="#3A3550" ${S}/>`
+      + `<rect x="0" y="-10" width="8" height="12" rx="2" fill="#4E6B2A" ${S}/>`;
+  } else if (gid === 'freeze'){
+    g = `<path d="M4 -16 l6 -9 l6 9" fill="#BFF6FF" ${S}/>` + sh('rect', 'x="-8" y="-16" width="34" height="18" rx="8"', '#4FC3F7')
+      + `<rect x="24" y="-13" width="10" height="12" fill="#D6DEE7" ${S}/>`
+      + `<ellipse cx="38" cy="-7" rx="6" ry="13" fill="#BFF6FF" ${S}/><circle cx="38" cy="-7" r="5" fill="#E8FDFF" filter="url(#mcGlow)"/><circle cx="38" cy="-7" r="3" fill="#fff"/>`;
+  } else if (gid === 'mega'){
+    g = sh('rect', 'x="-14" y="-25" width="46" height="31" rx="10"', '#7B5CFF') + `<rect x="30" y="-17" width="20" height="14" rx="4" fill="#3A3550" ${S}/>`
+      + `<rect x="48" y="-20" width="6" height="20" rx="2" fill="#C9D3DD" ${S} stroke-width="2.5"/>`
+      + `<circle cx="9" cy="-10" r="9" fill="#E7B8FF" filter="url(#mcGlow)"/><circle cx="9" cy="-10" r="7" fill="#E7B8FF" ${S} stroke-width="2.5"/><circle cx="7" cy="-12" r="2.5" fill="#fff"/>`;
+  }
+  return `<g transform="translate(${x} ${y}) scale(${k})">${g}</g>`;
+}
+function gunIcon(id, size){
+  if (!GUN[id]) return '';
+  return `<svg viewBox="0 0 64 64" width="${size}" height="${size}" aria-hidden="true" style="overflow:visible"><g transform="translate(17 44) scale(.74)">${gunSVG(id, 0, 0)}</g></svg>`;
+}
+
+// The robot's vehicle form, painted in the robot's colours, facing right.
+function vehicleSVG(r){
+  const v = VEHICLE[r.vehicle] ? r.vehicle : 'tank';
+  const C = r.colors || { body: '#6B8E3A', head: '#9AA6B2', limbs: '#3A3550' };
+  const cB = C.body, cH = C.head, cL = C.limbs;
+  const S = `stroke="${INK}" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"`;
+  const eyes = (x, y, k = 1) => `<g class="eyes" style="animation-delay:-${(Math.random() * 4.6).toFixed(2)}s">` + [0, 1].map(i => {
+      const cx = x + i * 22 * k;
+      return `<circle cx="${cx}" cy="${y}" r="${9 * k}" fill="#fff" ${S} stroke-width="3"/><circle cx="${cx + 3 * k}" cy="${y + 1}" r="${4.5 * k}" fill="${INK}"/><circle cx="${cx + 4.5 * k}" cy="${y - 1.5}" r="${1.7 * k}" fill="#fff"/>`;
+    }).join('') + '</g>';
+  const star = (x, y, s = 1, fill = '#fff') => `<path transform="translate(${x} ${y}) scale(${s})" d="M0 -10 l3 6.5 7 .8 -5.2 4.8 1.4 7 -6.2-3.6 -6.2 3.6 1.4-7 -5.2-4.8 7-.8z" fill="${fill}" stroke="${INK}" stroke-width="2"/>`;
+  const camo = `<g opacity=".3" fill="${INK}"><path d="M52 160 q10 -8 20 0 q-4 10 -18 6z"/><path d="M118 166 q12 -6 22 2 q-6 8 -20 4z"/><path d="M84 176 q8 -4 14 2 q-4 4 -12 2z"/></g>`;
+  let out = `<ellipse cx="100" cy="234" rx="80" ry="7" fill="${INK}" opacity=".16"/>`;
+  if (v === 'tank'){
+    out += shaded('rect', 'x="118" y="117" width="72" height="13" rx="4"', '#8E99A6') + `<rect x="184" y="113" width="12" height="21" rx="3" fill="#3A3550" ${S} stroke-width="3"/>`;
+    out += shaded('rect', 'x="14" y="182" width="172" height="44" rx="22"', '#3A3550');
+    [38, 69, 100, 131, 162].forEach(x => { out += shaded('circle', `cx="${x}" cy="204" r="13"`, '#9AA6B2', 3) + `<circle cx="${x}" cy="204" r="4" fill="${INK}"/>`; });
+    out += shaded('path', 'd="M22 184 L40 146 H160 L178 184 Z"', cB) + camo + star(150, 166, .95);
+    out += `<rect x="84" y="95" width="32" height="12" rx="4" fill="${cL}" ${S} stroke-width="3"/>`;
+    out += shaded('path', 'd="M56 147 Q58 104 100 102 Q142 104 144 147 Z"', cH) + eyes(84, 128);
+  } else if (v === 'car'){
+    out += `<path d="M-14 166 H6 M-20 182 H2 M-12 198 H8" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity=".85"/>`;
+    out += `<path d="M6 160 H34 V171 H12 Z" fill="${cL}" ${S} stroke-width="3"/><path d="M20 171 V180" ${S}/>`;
+    out += shaded('path', 'd="M14 204 Q12 172 40 168 L70 142 Q80 134 100 134 H134 Q150 136 160 152 L182 164 Q194 170 194 188 L192 204 Z"', cB);
+    out += `<path d="M20 190 H188" stroke="${INK}" stroke-width="12" stroke-linecap="round"/><path d="M20 190 H188" stroke="${cH}" stroke-width="6" stroke-linecap="round"/>`;
+    out += `<path d="M78 146 L96 141 H128 Q139 143 145 152 L151 162 H72 Z" fill="#BFF6FF" ${S} stroke-width="3"/>` + eyes(94, 153, .8);
+    [52, 152].forEach(x => { out += `<circle cx="${x}" cy="208" r="24" fill="#3A3550" ${S}/><circle cx="${x}" cy="208" r="24" fill="url(#mcShine)"/>` + shaded('circle', `cx="${x}" cy="208" r="10"`, '#D6DEE7', 3); });
+    out += `<circle cx="116" cy="176" r="11" fill="#fff" ${S} stroke-width="3"/>` + star(116, 177, .7, '#FF4D5E');
+  } else if (v === 'jet'){
+    out += `<path class="flame" d="M24 130 L-6 120 L4 130 L-6 140 Z" fill="#FFB020" ${S} stroke-width="3"/>`;
+    out += shaded('path', 'd="M28 118 L44 70 L68 70 L66 118 Z"', cH, 3.5);
+    out += shaded('path', 'd="M74 136 L46 172 H74 L106 138 Z"', cL, 3.5);
+    out += shaded('path', 'd="M22 114 H140 Q186 116 198 132 Q186 148 140 150 H22 Q12 132 22 114 Z"', cB);
+    out += `<path d="M116 118 Q150 110 174 126 Q150 132 116 132 Z" fill="#BFF6FF" ${S} stroke-width="3"/>` + eyes(126, 124, .6);
+    out += shaded('path', 'd="M72 140 L48 196 H82 L118 142 Z"', cL, 3.5) + star(88, 132, .8);
+    out += `<rect x="58" y="180" width="26" height="8" rx="4" fill="#FF4D5E" ${S} stroke-width="2.5"/>`;
+  } else {
+    out += `<path class="flame" d="M32 118 L-8 104 L4 132 L-8 160 L32 146 Z" fill="#FFB020" ${S} stroke-width="3"/><path class="flame" d="M30 124 L6 116 L14 132 L6 148 L30 140 Z" fill="#FFE94A"/>`;
+    out += shaded('path', 'd="M42 106 L22 74 H54 L74 108 Z"', cL, 3.5) + shaded('path', 'd="M42 158 L22 190 H54 L74 156 Z"', cL, 3.5);
+    out += shaded('path', 'd="M30 106 H130 Q178 108 198 132 Q178 156 130 158 H30 Q20 132 30 106 Z"', cB);
+    out += `<path d="M150 107 Q182 112 198 132 Q182 152 150 157 Q162 132 150 107 Z" fill="${cH}" ${S} stroke-width="3"/>`;
+    out += `<rect x="58" y="106" width="10" height="52" fill="${cH}" ${S} stroke-width="3"/>`;
+    out += `<circle cx="110" cy="132" r="21" fill="#3A3550" ${S} stroke-width="3"/><circle cx="110" cy="132" r="16" fill="#BFF6FF"/>` + eyes(100, 132, .7);
+  }
+  return `<svg viewBox="0 0 200 240" class="bot vehicle" aria-hidden="true" style="overflow:visible">${out}</svg>`;
+}
+
 function robotSVG(r){
   const ids = r.parts || [];
   const P = ids.map(id => OBJ[id]).filter(Boolean);
   const has = id => ids.includes(id);
   const style = STYLE[r.style] ? r.style : 'classic';
   const wpn = WEAPON[r.weapon] ? r.weapon : null;
+  const gun = GUN[r.gun] ? r.gun : null;
   const C = r.colors || {
     body: P[0] ? P[0].color : '#9AA6B2',
     head: (P[1] || P[0] || {color:'#FFD23F'}).color,
@@ -974,12 +1128,15 @@ function robotSVG(r){
 
   // back arm (holds the second sword for Twin Blades)
   out += shaded('rect', 'x="24" y="106" width="24" height="54" rx="12"', cL);
-  if (wpn === 'twin') out += swordSVG(wpn, 36, 168, -12) + fist(36, 166);
+  if (wpn && (wpn === 'twin' || gun)) out += swordSVG(wpn, 36, 168, -12) + fist(36, 166);
   else out += has('drill') ? drillHand(36,166) : has('magnet') ? magnetHand(36,166) : claw(36,166);
 
   // neck + body
   out += shaded('rect', 'x="86" y="80" width="28" height="18" rx="4"', '#B8C4D0');
   out += shaded('rect', 'x="45" y="92" width="110" height="84" rx="24"', cB);
+  if (style === 'commando') out += `<g fill="#3E5522" opacity=".38"><path d="M50 112 q12 -10 24 0 q-6 12 -22 8z"/><path d="M128 100 q14 -6 22 6 q-10 8 -22 2z"/><path d="M54 160 q10 -8 22 0 q-8 8 -20 4z"/><path d="M128 152 q12 -4 18 8 q-10 6 -18 0z"/></g>
+    <path d="M148 100 L52 172" stroke="${INK}" stroke-width="14" stroke-linecap="round"/><path d="M148 100 L52 172" stroke="#5A4630" stroke-width="8" stroke-linecap="round"/>
+    <path d="M140 106 L60 166" stroke="#FFC93C" stroke-width="5" stroke-dasharray="4 6"/>`;
   if (style === 'pilot') out += `<path d="M52 100 L148 172" stroke="${INK}" stroke-width="14" stroke-linecap="round"/><path d="M52 100 L148 172" stroke="#7A5A3A" stroke-width="8" stroke-linecap="round"/>`;
   if (style === 'shadow') out += `<path d="M58 168 L100 150 L142 168" fill="none" stroke="#FF3B4E" stroke-width="4" opacity=".8"/>`;
   out += `<rect x="60" y="104" width="80" height="58" rx="14" fill="#FFFDF7" stroke="${INK}" stroke-width="3"/><rect x="62" y="106" width="76" height="22" rx="11" fill="url(#mcShine)"/>`;
@@ -989,7 +1146,9 @@ function robotSVG(r){
   out += `<g fill="${INK}"><circle cx="56" cy="104" r="3"/><circle cx="144" cy="104" r="3"/><circle cx="56" cy="164" r="3"/><circle cx="144" cy="164" r="3"/></g>`;
 
   // front arm: a sword if the robot has one, otherwise its part hand
-  if (wpn){
+  if (gun){
+    out += shaded('rect', 'x="152" y="106" width="24" height="54" rx="12"', cL) + gunSVG(gun, 160, 174, 1.35) + fist(164, 166);
+  } else if (wpn){
     out += shaded('rect', 'x="152" y="106" width="24" height="54" rx="12"', cL) + swordSVG(wpn, 164, 168, 10) + fist(164, 166);
   } else if (has('laser')){
     out += `<g ${S}><rect x="146" y="110" width="22" height="22" rx="8" fill="${cL}"/></g>` + shaded('rect', 'x="150" y="112" width="40" height="24" rx="10"', '#8B5CFF')
@@ -1025,6 +1184,15 @@ function robotSVG(r){
       + `<path d="M88 72 Q100 80 112 72" fill="none" ${S} stroke-width="3.5"/>
          <circle cx="100" cy="56" r="40" fill="url(#mcGlass)" stroke="${INK}" stroke-width="3.5"/>
          <path d="M72 38 Q84 22 102 20" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity=".9"/>`;
+  } else if (style === 'commando'){
+    out += shaded('rect', 'x="60" y="40" width="80" height="50" rx="18"', cH)
+      + `<path d="M58 58 V80 M142 58 V80" stroke="${INK}" stroke-width="3"/>`
+      + shaded('path', 'd="M50 58 Q50 12 100 10 Q150 12 150 58 Z"', '#5E7A33')
+      + `<path d="M64 48 Q100 18 136 48 M72 28 L130 54 M128 28 L70 54" stroke="#3E5522" stroke-width="2.5" fill="none" opacity=".75"/>
+         <path d="M42 58 H158" stroke="${INK}" stroke-width="13" stroke-linecap="round"/><path d="M44 58 H156" stroke="#4E6B2A" stroke-width="6" stroke-linecap="round"/>
+         <path transform="translate(100 34) scale(1.1)" d="M0 -10 l3 6.5 7 .8 -5.2 4.8 1.4 7 -6.2-3.6 -6.2 3.6 1.4-7 -5.2-4.8 7-.8z" fill="#FFD23F" stroke="${INK}" stroke-width="2"/>
+         <g class="eyes" style="animation-delay:-${(Math.random() * 4.6).toFixed(2)}s">${[84,116].map(x => `<circle cx="${x}" cy="72" r="9" fill="#fff" ${S} stroke-width="3"/><circle cx="${x+2}" cy="73" r="4.5" fill="${INK}"/>`).join('')}</g>
+         <path d="M72 62 L94 66 M128 62 L106 66" ${S} stroke-width="3.5"/><path d="M90 84 H110" ${S} stroke-width="3.5"/>`;
   } else if (style === 'scout'){
     out += `<path d="M126 30 L132 -4" stroke="${INK}" stroke-width="3"/><path d="M132 -4 L150 2 L132 9 Z" fill="#FF4D5E" ${S} stroke-width="2.5"/>`
       + shaded('rect', 'x="56" y="28" width="88" height="62" rx="10"', cH)
@@ -1091,23 +1259,27 @@ function partStats(id, lvl){
   return { pow: Math.round(o.pow * k), spd: Math.round(o.spd * k), def: Math.round(o.def * k) };
 }
 function isUsable(id){ return OBJ[id].power ? save.level >= powerLevel(id) : save.unlocked.includes(id); }
-function buildRobot({parts, lv, level, colors, name, weapon = null, style = 'classic'}){
+function buildRobot({parts, lv, level, colors, name, weapon = null, style = 'classic', gun = null, vehicle = null}){
   let pow = 0, spd = 0, def = 0;
   parts.forEach(id => { const s = partStats(id, lv(id)); pow += s.pow; spd += s.spd; def += s.def; });
   const combos = findCombos(parts);
   combos.forEach(c => { pow += c.pow || 0; spd += c.spd || 0; def += c.def || 0; });
   const w = WEAPON[weapon] || null;
   if (w){ pow += w.pow; spd += w.spd; def += w.def; }
-  const hp = 30 + Math.round(def * 1.5) + parts.length * 6 + (level - 1) * 5;
+  const g = GUN[gun] || null;
+  if (g){ pow += g.pow; spd += g.spd; def += g.def; }
+  const hp = Math.round((30 + Math.round(def * 1.5) + parts.length * 6 + (level - 1) * 5) * 1.25);
   const specials = [...new Set(parts.map(id => OBJ[id].special))];
   if (w) specials.push(w.special);
   return { parts: parts.slice(), name, colors, level, pow, spd, def, hp, combos, specials,
-           weapon: w ? w.id : null, style: STYLE[style] ? style : 'classic' };
+           weapon: w ? w.id : null, style: STYLE[style] ? style : 'classic', gun: g ? g.id : null, vehicle: VEHICLE[vehicle] ? vehicle : null };
 }
 const myWeapon = () => save.robot.weapon && save.weapons.includes(save.robot.weapon) ? save.robot.weapon : null;
+const myGun = () => save.robot.gun && save.guns.includes(save.robot.gun) ? save.robot.gun : null;
+const myVehicle = () => VEHICLE[save.robot.vehicle] && save.level >= VEHICLE[save.robot.vehicle].level ? save.robot.vehicle : null;
 function myRobot(){
   return buildRobot({ parts: save.robot.parts, lv: partLevel, level: save.level, colors: save.robot.colors, name: save.robot.name,
-                      weapon: myWeapon(), style: save.robot.style });
+                      weapon: myWeapon(), style: save.robot.style, gun: myGun(), vehicle: myVehicle() });
 }
 const BOSS_EVERY = 5;
 const BOSS_NAMES = ['Mega Destructo','King Krusher','Titan Doom-Bot','Lord Clank-a-Lot','Captain Kaboom','Omega Grumble'];
@@ -1127,7 +1299,9 @@ function makeEnemy(opts = {}){
   const r = buildRobot({ parts: ids, lv: id => lvs[id], level: save.level,
                          colors: boss ? { body:'#3A2E55', head:'#5A4680', limbs:'#FF3B4E' } : null,
                          name: boss ? pick(BOSS_NAMES) : makeName(ids.map(i => OBJ[i])),
-                         weapon, style: boss ? 'shadow' : pick(STYLES).id });
+                         weapon, style: boss ? 'shadow' : pick(STYLES).id,
+                         gun: boss ? pick(['rocket','mega','minigun']) : save.wins >= 2 && Math.random() < .5 ? pick(GUNS.slice(0, clamp(1 + Math.floor(save.wins / 3), 1, GUNS.length))).id : null,
+                         vehicle: boss ? 'tank' : save.wins >= 1 && Math.random() < .5 ? pick(VEHICLES.filter(v => v.level <= save.level + 1)).id : null });
   const m = Math.min(1, .78 + save.wins * .03);
   r.pow = Math.round(r.pow * m); r.spd = Math.round(r.spd * m); r.def = Math.round(r.def * m);
   r.hp = Math.round(r.hp * (m * .5 + .5));
@@ -1141,8 +1315,8 @@ const STARTERS = OBJECTS.filter(o => o.starter).map(o => o.id);
 function freshSave(){
   const parts = ['battery','spring'];
   return { coins: 0, wins: 0, losses: 0, xp: 0, level: 1, unlocked: STARTERS.slice(), fresh: [], combos: [], seen: [], levels: {}, welcomed: false,
-           weapons: ['blue'],
-           robot: { name: makeName(parts.map(id => OBJ[id])), colors: { body:'#5B6CFF', head:'#FFD23F', limbs:'#FF4D5E' }, parts, weapon: 'blue', style: 'classic' } };
+           weapons: ['blue'], guns: ['pea'],
+           robot: { name: makeName(parts.map(id => OBJ[id])), colors: { body:'#5B6CFF', head:'#FFD23F', limbs:'#FF4D5E' }, parts, weapon: 'blue', style: 'classic', gun: 'pea', vehicle: 'tank' } };
 }
 let save = freshSave();
 try {
@@ -1162,6 +1336,10 @@ if (typeof save.streak !== 'number') save.streak = 0;
 if (!Array.isArray(save.weapons)) save.weapons = ['blue'];
 save.weapons = save.weapons.filter(id => WEAPON[id]);
 if (!('weapon' in save.robot)) save.robot.weapon = 'blue';
+if (!Array.isArray(save.guns)) save.guns = ['pea'];
+save.guns = save.guns.filter(id => GUN[id]);
+if (!('gun' in save.robot)) save.robot.gun = 'pea';
+if (!VEHICLE[save.robot.vehicle]) save.robot.vehicle = 'tank';
 if (!STYLE[save.robot.style]) save.robot.style = 'classic';
 save.robot.colors = Object.assign({ body:'#5B6CFF', head:'#FFD23F', limbs:'#FF4D5E' }, save.robot.colors);
 function persist(){ try { localStorage.setItem(SAVE_KEY, JSON.stringify(save)); } catch (e) {} schedulePush(); }
@@ -1201,9 +1379,9 @@ function scoreBody(){
   return { name: save.robot.name, level: save.level, wins: save.wins,
            upgrades: Object.values(save.levels).reduce((s, v) => s + (v - 1), 0),
            parts: save.robot.parts.slice(), colors: { body: save.robot.colors.body, head: save.robot.colors.head, limbs: save.robot.colors.limbs },
-           style: save.robot.style, weapon: myWeapon() };
+           style: save.robot.style, weapon: myWeapon(), gun: myGun(), vehicle: myVehicle() };
 }
-const keyOf = b => JSON.stringify([b.name, b.level, b.wins, b.upgrades, b.parts, b.colors.body, b.colors.head, b.colors.limbs, b.style || 'classic', b.weapon || null]);
+const keyOf = b => JSON.stringify([b.name, b.level, b.wins, b.upgrades, b.parts, b.colors.body, b.colors.head, b.colors.limbs, b.style || 'classic', b.weapon || null, b.gun || null, b.vehicle || null]);
 function cleanRow(id, d){
   if (!d || typeof d !== 'object') return null;
   const num = (v, max) => clamp(Math.floor(Number(v) || 0), 0, max);
@@ -1212,7 +1390,8 @@ function cleanRow(id, d){
   const parts = Array.isArray(d.parts) ? [...new Set(d.parts.filter(p => typeof p === 'string' && OBJ[p]))].slice(0, ROBOT_SLOTS) : [];
   return { id, name: String(d.name || 'Mystery Robot').slice(0, 20), level: num(d.level, MAX_ROBOT_LEVEL) || 1,
            wins: num(d.wins, 999999), upgrades: num(d.upgrades, 1000), parts, colors,
-           style: STYLE[d.style] ? d.style : 'classic', weapon: WEAPON[d.weapon] ? d.weapon : null };
+           style: STYLE[d.style] ? d.style : 'classic', weapon: WEAPON[d.weapon] ? d.weapon : null,
+           gun: GUN[d.gun] ? d.gun : null, vehicle: VEHICLE[d.vehicle] ? d.vehicle : null };
 }
 function lbRow(r, i){
   const el = document.createElement('button');
@@ -1337,14 +1516,14 @@ function myBuild(){
   const lvs = {}; save.robot.parts.forEach(id => lvs[id] = partLevel(id));
   return { name: save.robot.name, level: save.level, parts: save.robot.parts.slice(),
            colors: { body: save.robot.colors.body, head: save.robot.colors.head, limbs: save.robot.colors.limbs }, lvs,
-           style: save.robot.style, weapon: myWeapon() };
+           style: save.robot.style, weapon: myWeapon(), gun: myGun(), vehicle: myVehicle() };
 }
 function robotFromBuild(b){
   const r = cleanRow('x', b) || cleanRow('x', {});
   const src = b && b.lvs && typeof b.lvs === 'object' ? b.lvs : {};
   const lvs = {}; r.parts.forEach(id => lvs[id] = clamp(Math.floor(Number(src[id]) || 1), 1, MAX_PART_LEVEL));
   const parts = r.parts.length ? r.parts : ['battery'];
-  return buildRobot({ parts, lv: id => lvs[id] || 1, level: r.level, colors: r.colors, name: r.name, weapon: r.weapon, style: r.style });
+  return buildRobot({ parts, lv: id => lvs[id] || 1, level: r.level, colors: r.colors, name: r.name, weapon: r.weapon, style: r.style, gun: r.gun, vehicle: r.vehicle });
 }
 function cleanChallenge(d){ const x = d.data(); return x ? normChallenge({ ...x, id: d.id }) : null; }
 function setIncoming(list){
@@ -1520,6 +1699,11 @@ const SOUNDS = {
   siren:   () => [0,.3,.6,.9].forEach((d,i) => tone(i % 2 ? 660 : 880, .28, 'square', .05, null, d)),
   chest:   () => [523,659,784,1046,1318,1568].forEach((f,i) => tone(f, .14, 'triangle', .12, null, i*.07)),
   star:    () => tone(1046, .14, 'triangle', .11),
+  pew:     () => tone(900, .12, 'square', .05, 300),
+  mg:      () => { for (let i = 0; i < 6; i++) setTimeout(() => { noise(.05, .16); tone(180, .04, 'square', .04); }, i * 85); },
+  flame:   () => { noise(.7, .12); tone(90, .7, 'sawtooth', .04, 60); },
+  charge:  () => tone(200, .6, 'sawtooth', .05, 1200),
+  transform: () => { [0,.08,.16,.24,.32].forEach((d,i) => tone(220 + i * 140, .07, 'square', .06, null, d)); setTimeout(() => noise(.15, .15), 380); },
 };
 function sfx(n){ if (!soundOn) return; try { SOUNDS[n] && SOUNDS[n](); } catch (e) {} }
 const soundBtn = $('soundBtn');
@@ -1586,20 +1770,82 @@ function swordTile(w){
   return `<button class="stile${on ? ' on' : ''}" type="button" data-sword="${w.id}" aria-label="${w.name}${on ? ', holding' : owned ? ', owned' : ', costs ' + w.cost + ' coins'}">
     <span class="ic">${weaponIcon(w.id, 62)}</span><span class="nm">${w.name}</span>${tag}</button>`;
 }
+let armTab = 'swords';
+function gunTile(g){
+  const owned = save.guns.includes(g.id), on = myGun() === g.id;
+  const tag = on ? '<span class="price hold">Holding</span>' : owned ? '<span class="price own">Owned</span>'
+    : `<span class="price${save.coins < g.cost ? ' cant' : ''}">${COIN(16)}${g.cost}</span>`;
+  return `<button class="stile${on ? ' on' : ''}" type="button" data-gun="${g.id}" aria-label="${g.name}${on ? ', holding' : owned ? ', owned' : ', costs ' + g.cost + ' coins'}">
+    <span class="ic">${gunIcon(g.id, 62)}</span><span class="nm">${g.name}</span>${tag}</button>`;
+}
+const armGrid = () => armTab === 'guns' ? GUNS.map(gunTile).join('') : WEAPONS.map(swordTile).join('');
+const armNoteText = () => armTab === 'guns'
+  ? 'Blasters give your robot a FIRE! button in battle. Ammo refills every battle.'
+  : 'Laser swords add power and a new special move.';
 function renderSwords(){
-  $('swordGrid').innerHTML = WEAPONS.map(swordTile).join('');
-  $('swordCount').textContent = `${save.weapons.length} / ${WEAPONS.length}`;
+  $('swordGrid').innerHTML = armGrid();
+  $('armNote').textContent = armNoteText();
+  document.querySelectorAll('.armtab').forEach(t => t.setAttribute('aria-selected', t.dataset.tab === armTab));
+  $('swordCount').textContent = `${save.weapons.length + save.guns.length} / ${WEAPONS.length + GUNS.length}`;
   const w = WEAPON[myWeapon()], slot = $('weaponSlot');
   slot.innerHTML = w ? `<span class="wic">${weaponIcon(w.id, 48)}</span><span><b>${w.name}</b><span class="ws">Laser sword · +${w.pow} power</span></span><span class="chg">Change</span>`
                      : `<span class="wic"></span><span><b>No sword</b><span class="ws">Tap to pick a laser sword</span></span><span class="chg">Pick</span>`;
   slot.setAttribute('aria-label', w ? `Laser sword: ${w.name}. Change sword` : 'Pick a laser sword');
+  const g = GUN[myGun()], gs = $('gunSlot');
+  gs.innerHTML = g ? `<span class="wic">${gunIcon(g.id, 48)}</span><span><b>${g.name}</b><span class="ws">Blaster · ${g.ammo} shot${g.ammo === 1 ? '' : 's'} a battle</span></span><span class="chg">Change</span>`
+                   : `<span class="wic"></span><span><b>No blaster</b><span class="ws">Tap to pick a blaster</span></span><span class="chg">Pick</span>`;
+  gs.setAttribute('aria-label', g ? `Blaster: ${g.name}. Change blaster` : 'Pick a blaster');
+  const v = VEHICLE[myVehicle()], fs = $('formSlot');
+  fs.innerHTML = `<span class="wic">${v ? vehicleSVG({ ...myRobot(), vehicle: v.id }) : ''}</span><span><b>${v ? 'Transforms into: ' + v.name : 'No vehicle form'}</b><span class="ws">${v ? 'Tap TRANSFORM in battle' : 'Tap to pick one'}</span></span><span class="chg">Change</span>`;
+  fs.setAttribute('aria-label', v ? `Vehicle form: ${v.name}. Change vehicle` : 'Pick a vehicle form');
 }
-function openArmoury(){
-  showOverlay(`<div class="ribbon purple">LASER SWORDS</div>
-    <p class="muted">You have ${save.coins} coin${save.coins === 1 ? '' : 's'}. Tap a sword to see what it does.</p>
-    <div class="ovl-grid abody"><div class="sword-grid">${WEAPONS.map(swordTile).join('')}</div></div>
+function openArmoury(tab){
+  if (tab) armTab = tab;
+  showOverlay(`<div class="ribbon purple">ARMOURY</div>
+    <p class="muted">You have ${save.coins} coin${save.coins === 1 ? '' : 's'}. Tap a weapon to see what it does.</p>
+    <div class="ovl-grid abody"><div class="armtabs" role="tablist"><button type="button" role="tab" class="armtab" data-tab="swords">Laser Swords</button><button type="button" role="tab" class="armtab" data-tab="guns">Blasters</button></div>
+      <div class="sword-grid" id="ovlGrid">${armGrid()}</div></div>
     <div class="stack"><button class="btn plain" id="armDone" type="button">Back to my robot</button></div>`, { dismiss: true, wide: true });
+  document.querySelectorAll('.armtab').forEach(t => t.setAttribute('aria-selected', t.dataset.tab === armTab));
   $('armDone').onclick = hideOverlay;
+}
+function openGun(id){
+  const g = GUN[id], owned = save.guns.includes(id), on = myGun() === id, short = g.cost - save.coins;
+  const row = (label, v, color) => `<div class="srow"><b>${label}</b><div class="sbar"><i style="width:${Math.min(100, v / 10 * 100)}%;background:${color}"></i></div><span class="val">${v ? '+' + v : '–'}</span></div>`;
+  let actions;
+  if (on) actions = `<button class="btn plain" id="gOff" type="button">Put the blaster away</button>`;
+  else if (owned) actions = `<button class="btn big green ready" id="gOn" type="button">Hold this blaster</button>`;
+  else actions = `<button class="btn big yellow" id="gBuy" type="button" ${short > 0 ? 'disabled' : ''}>Buy <span class="cost">${COIN(24)}${g.cost}</span></button>
+    <p class="note">${short > 0 ? `You need ${short} more coin${short === 1 ? '' : 's'}. Win battles to get coins!` : `You have ${save.coins} coins.`}</p>`;
+  showOverlay(`<div class="ribbon purple">${g.name.toUpperCase()}</div>
+    <div class="sword-stage">${gunIcon(id, 150)}</div>
+    <span class="tag">BLASTER</span>
+    <div class="box">${row('Power', g.pow, '#FF4D5E')}${row('Speed', g.spd, '#5B6CFF')}
+      <div class="srow"><b>Ammo</b><div class="ammo">${'<i></i>'.repeat(g.ammo)}</div><span class="val">${g.ammo}</span></div></div>
+    <div class="spec">${gunIcon(id, 44)}<div><b>FIRE!</b><span>${g.desc}. ${g.ammo} shot${g.ammo === 1 ? '' : 's'} every battle.</span></div></div>
+    <div class="stack">${actions}</div>`, { dismiss: true });
+  const hold = () => { save.robot.gun = id; persist(); sfx('pew'); hideOverlay(); renderAll(0); sparksAt(windowEl); toast(`${g.name} ready!`); };
+  if ($('gOn')) $('gOn').onclick = hold;
+  if ($('gOff')) $('gOff').onclick = () => { save.robot.gun = null; persist(); sfx('remove'); hideOverlay(); renderAll(); };
+  if ($('gBuy')) $('gBuy').onclick = () => { if (save.coins < g.cost) return; save.coins -= g.cost; save.guns.push(id); bump($('coinPill')); hold(); };
+}
+function openForms(){
+  const me = myRobot();
+  showOverlay(`<div class="ribbon purple">TRANSFORM</div>
+    <p class="muted">In battle, tap TRANSFORM to turn into your vehicle for ${FORM_TURNS} turns. You can do it once each battle.</p>
+    <div class="vehicles">${VEHICLES.map(v => {
+      const locked = save.level < v.level, sel = myVehicle() === v.id;
+      return `<button class="vcard${sel ? ' sel' : ''}${locked ? ' locked' : ''}" type="button" data-vehicle="${v.id}" ${locked ? 'aria-disabled="true"' : ''}>
+        ${locked ? `<span class="vlock">${LOCK(12)} Lv ${v.level}</span>` : ''}
+        <span class="vpic">${vehicleSVG({ ...me, vehicle: v.id })}</span><b>${v.name}</b><span>${v.attack}: ${v.desc}</span></button>`;
+    }).join('')}</div>
+    <div class="stack"><button class="btn plain" id="formDone" type="button">Back to my robot</button></div>`, { dismiss: true, wide: true });
+  card.querySelectorAll('[data-vehicle]').forEach(b => b.onclick = () => {
+    const v = VEHICLE[b.dataset.vehicle];
+    if (save.level < v.level){ sfx('full'); toast(`Reach robot level ${v.level} to unlock the ${v.name}!`); return; }
+    save.robot.vehicle = v.id; persist(); sfx('transform'); hideOverlay(); renderAll(); toast(`Your robot can transform into a ${v.name}!`);
+  });
+  $('formDone').onclick = hideOverlay;
 }
 function openWeapon(id){
   const w = WEAPON[id], owned = save.weapons.includes(id), on = myWeapon() === id, short = w.cost - save.coins;
@@ -1624,8 +1870,11 @@ function openWeapon(id){
   };
 }
 document.addEventListener('click', e => {
-  const t = e.target.closest('[data-sword]'); if (!t) return;
-  sfx('pop'); openWeapon(t.dataset.sword);
+  const tab = e.target.closest('.armtab');
+  if (tab){ armTab = tab.dataset.tab; sfx('pop'); renderSwords(); if ($('ovlGrid')) $('ovlGrid').innerHTML = armGrid();
+    document.querySelectorAll('.armtab').forEach(t => t.setAttribute('aria-selected', t.dataset.tab === armTab)); return; }
+  const t = e.target.closest('[data-sword]'); if (t){ sfx('pop'); openWeapon(t.dataset.sword); return; }
+  const g = e.target.closest('[data-gun]'); if (g){ sfx('pop'); openGun(g.dataset.gun); }
 });
 function renderHeader(){ $('coinCount').textContent = save.coins; }
 function hintText(){
@@ -1739,7 +1988,9 @@ slotEls.forEach((el, i) => el.addEventListener('click', () => unequip(i)));
 $('fightBtn').addEventListener('click', () => { if (save.robot.parts.length) { sfx('pop'); startBattle(myRobot(), nextFoe()); } });
 $('renameBtn').innerHTML = PENCIL; $('paintBtn').innerHTML = PALETTE;
 $('renameBtn').addEventListener('click', () => openRename(false));
-$('weaponSlot').addEventListener('click', () => { sfx('pop'); openArmoury(); });
+$('weaponSlot').addEventListener('click', () => { sfx('pop'); openArmoury('swords'); });
+$('gunSlot').addEventListener('click', () => { sfx('pop'); openArmoury('guns'); });
+$('formSlot').addEventListener('click', () => { sfx('pop'); openForms(); });
 $('paintBtn').addEventListener('click', openPaint);
 $('coinIcon').innerHTML = COIN(28);
 
@@ -1878,8 +2129,8 @@ function openRename(first){
     persist(); hideOverlay(); renderRobot(); sfx('reveal');
   };
 }
-const SWATCHES = ['#FF4D5E','#FF8A2B','#FFD23F','#8BD346','#2EC4A0','#4FC3F7','#5B6CFF','#7B5CFF','#FF6FB5','#F2F4F7','#9AA6B2','#4A3F5C'];
-const SWATCH_NAMES = ['red','orange','yellow','lime','green','sky blue','blue','purple','pink','white','grey','dark purple'];
+const SWATCHES = ['#FF4D5E','#FF8A2B','#FFD23F','#8BD346','#2EC4A0','#4FC3F7','#5B6CFF','#7B5CFF','#FF6FB5','#F2F4F7','#9AA6B2','#4A3F5C','#6B8E3A','#C8B27A'];
+const SWATCH_NAMES = ['red','orange','yellow','lime','green','sky blue','blue','purple','pink','white','grey','dark purple','army green','sand'];
 const ZONES = [['body','Body'],['head','Head'],['limbs','Arms and feet']];
 function openPaint(){
   const c = save.robot.colors;
@@ -2064,6 +2315,131 @@ async function ko(f){
   await f.el.animate([{transform:'rotate(0) translateY(0)',opacity:1},{transform:`rotate(${d*-85}deg) translate(${d*-30}px,40px)`,opacity:.45}],{duration:700,easing:'ease-in',fill:'forwards'}).finished;
 }
 
+/* ---------- blasters + transforming in battle ---------- */
+const PEA_SVG = `<svg viewBox="0 0 20 20" width="22" height="22"><circle cx="10" cy="10" r="7.5" fill="#9BE15D" stroke="${INK}" stroke-width="2.5"/><circle cx="7.5" cy="7.5" r="2" fill="#fff"/></svg>`;
+const BULLET_SVG = `<svg viewBox="0 0 26 10" width="26" height="10"><rect x="1" y="1" width="24" height="8" rx="4" fill="#FFD23F" stroke="${INK}" stroke-width="2"/><rect x="15" y="1" width="10" height="8" rx="4" fill="#FFB020" stroke="${INK}" stroke-width="2"/></svg>`;
+const SHELL_SVG = `<svg viewBox="0 0 34 16" width="34" height="16"><rect x="1" y="2" width="22" height="12" rx="3" fill="#B8C4D0" stroke="${INK}" stroke-width="2.5"/><path d="M23 2 Q33 8 23 14 Z" fill="#6E7884" stroke="${INK}" stroke-width="2.5"/></svg>`;
+const MISSILE_SVG = `<svg viewBox="-16 0 76 24" width="76" height="24" style="overflow:visible"><path d="M-14 12 L0 5 L0 19 Z" fill="#FFB020" stroke="${INK}" stroke-width="2"/>
+  <rect x="0" y="6" width="40" height="12" rx="4" fill="#6B8E3A" stroke="${INK}" stroke-width="2.5"/><path d="M40 6 L56 12 L40 18 Z" fill="#FF4D5E" stroke="${INK}" stroke-width="2.5"/>
+  <path d="M4 6 L0 0 H10 L13 6 Z M4 18 L0 24 H10 L13 18 Z" fill="#4E6B2A" stroke="${INK}" stroke-width="2"/></svg>`;
+const BOMB_SVG = `<svg viewBox="0 0 24 34" width="24" height="34"><path d="M6 4 H18 L14 10 H10 Z" fill="#6E7884" stroke="${INK}" stroke-width="2"/><ellipse cx="12" cy="21" rx="9" ry="12" fill="#3A3550" stroke="${INK}" stroke-width="2.5"/><circle cx="9" cy="17" r="2.5" fill="#fff" opacity=".6"/></svg>`;
+
+// where a fighter's blaster (or tank cannon) fires from, in arena pixels
+function muzzle(f){
+  const r = f.svg.getBoundingClientRect(), A = arena.getBoundingClientRect(), d = dirOf(f);
+  const fx0 = f.transformed && f.form === 'tank' ? .98 : 1.06, fy0 = f.transformed && f.form === 'tank' ? .515 : .66;
+  const x = r.left - A.left + (d > 0 ? fx0 : 1 - fx0) * r.width;
+  return { x, y: r.top - A.top + fy0 * r.height };
+}
+async function shot(a, b, html, dur = 300, arc = 0, from = null){
+  const m = from || muzzle(a), t = center(b), el = fx(html, m.x, m.y);
+  const tx = t.x + rand(-8, 8) - m.x, ty = t.y + rand(-14, 14) - m.y;
+  await el.animate([{transform:'translate(-50%,-50%)'},
+    {transform:`translate(calc(-50% + ${tx / 2}px), calc(-50% + ${ty / 2 - arc}px))`},
+    {transform:`translate(calc(-50% + ${tx}px), calc(-50% + ${ty}px))`}],{duration:dur,easing:'linear'}).finished;
+  el.remove();
+}
+function muzzleFlash(a){
+  const m = muzzle(a);
+  const el = fx(`<svg viewBox="0 0 40 40" width="40" height="40"><path d="M20 2l5 12 13 6-13 6-5 12-5-12-13-6 13-6z" fill="#FFE94A" stroke="${INK}" stroke-width="2.5"/></svg>`, m.x, m.y);
+  el.animate([{transform:'translate(-50%,-50%) scale(.4)',opacity:1},{transform:'translate(-50%,-50%) scale(1.25)',opacity:0}],{duration:200}).finished.then(() => el.remove());
+}
+async function flameStream(a, b){
+  const m = muzzle(a), t = center(b);
+  for (let i = 0; i < 18; i++){
+    const s = Math.round(rand(16, 36));
+    const el = fx(`<div style="width:${s}px;height:${s}px;border-radius:50%;background:radial-gradient(circle,#FFF3B0,${pick(['#FFB020','#FF8A2B','#FF4D5E'])} 70%);box-shadow:0 0 12px #FF8A2B"></div>`, m.x, m.y);
+    const tx = t.x + rand(-22, 22) - m.x, ty = t.y + rand(-26, 26) - m.y;
+    el.animate([{transform:'translate(-50%,-50%) scale(.35)',opacity:1},{transform:`translate(calc(-50% + ${tx}px), calc(-50% + ${ty}px)) scale(1.6)`,opacity:.1}],
+      {duration:430,delay:i * 26,easing:'ease-out',fill:'backwards'}).finished.then(() => el.remove());
+  }
+  await wait(540);
+}
+function explosion(b, big = true){
+  const c = center(b), size = big ? 130 : 90;
+  const el = fx(`<div style="width:${size}px;height:${size}px;border-radius:50%;background:radial-gradient(circle,#fff 0 18%,#FFE94A 34%,#FF8A2B 58%,rgba(255,77,94,0) 72%)"></div>`, c.x, c.y);
+  el.animate([{transform:'translate(-50%,-50%) scale(.2)',opacity:1},{transform:'translate(-50%,-50%) scale(1.5)',opacity:.95,offset:.4},{transform:'translate(-50%,-50%) scale(1.9)',opacity:0}],
+    {duration:650,easing:'ease-out'}).finished.then(() => el.remove());
+  burst(b, big ? 18 : 10); sfx('boom'); shakeArena();
+}
+async function gunBeam(a, b, color, width){
+  const m = muzzle(a), t = center(b), el = document.createElement('div');
+  el.style.cssText = `position:absolute;left:${Math.min(m.x, t.x)}px;top:${m.y - width / 2}px;width:${Math.abs(t.x - m.x)}px;height:${width}px;border-radius:${width}px;`
+    + `background:linear-gradient(#fff,${color} 35%,${color} 65%,#fff);box-shadow:0 0 22px ${color};pointer-events:none;z-index:5;transform-origin:${m.x < t.x ? 'left' : 'right'} center`;
+  arena.appendChild(el);
+  await el.animate([{transform:'scaleX(0)'},{transform:'scaleX(1)'}],{duration:200,easing:'ease-out'}).finished;
+  el.animate([{opacity:1,transform:'scaleY(1)'},{opacity:1,transform:'scaleY(1.5)'},{opacity:0,transform:'scaleY(.2)'}],{duration:520}).finished.then(() => el.remove());
+  await wait(120);
+}
+async function chargeUp(a){
+  const m = muzzle(a);
+  const el = fx(`<div style="width:44px;height:44px;border-radius:50%;background:radial-gradient(circle,#fff,#B46BFF 70%);box-shadow:0 0 26px #B46BFF"></div>`, m.x, m.y);
+  await el.animate([{transform:'translate(-50%,-50%) scale(.2)'},{transform:'translate(-50%,-50%) scale(1.5)'}],{duration:620,easing:'ease-in'}).finished;
+  el.remove();
+}
+async function bombDrop(b){
+  const c = center(b), el = fx(BOMB_SVG, c.x + rand(-20, 20), -30);
+  await el.animate([{transform:'translate(-50%,-50%)'},{transform:`translate(-50%,-50%) translateY(${c.y + 30}px)`}],{duration:380,easing:'ease-in'}).finished;
+  el.remove(); explosion(b, false);
+}
+async function dash(a, b, spin = false){
+  const d = dirOf(a), dist = Math.abs(center(b).x - center(a).x) * .62;
+  await a.el.animate([{transform:'translateX(0)'},{transform:`translateX(${-d * 18}px)`,offset:.2},
+    {transform:`translateX(${d * dist}px)${spin ? ` rotate(${d * 20}deg)` : ''}`,offset:.55},{transform:'translateX(0)'}],{duration:560,easing:'ease-in-out'}).finished;
+}
+
+// FIRE! for each blaster
+const GUN_FIRE = {
+  pea: async (a, b) => { for (let i = 0; i < 3 && b.hp > 0; i++){ sfx('pew'); await strike(a, b, {mult:.45, anim: () => shot(a, b, PEA_SVG, 260, 18)}); } },
+  minigun: async (a, b) => { sfx('mg');
+    for (let i = 0; i < 6 && b.hp > 0; i++) await strike(a, b, {mult:.3, anim: async () => { muzzleFlash(a); await shot(a, b, BULLET_SVG, 150); }}); },
+  flame: async (a, b) => { sfx('flame');
+    const d = await strike(a, b, {mult:.9, canDodge:false, anim: () => flameStream(a, b)});
+    if (d > 0 && b.hp > 0) poison(b, 3, Math.round(3 + a.pow * .1), 'Burning'); },
+  rocket: async (a, b) => { sfx('rocket');
+    await strike(a, b, {mult:2, blast:true, anim: async () => { muzzleFlash(a); await shot(a, b, flipIf(dirOf(a) < 0, MISSILE_SVG), 500, 26); explosion(b); }}); },
+  freeze: async (a, b) => { sfx('freeze');
+    const d = await strike(a, b, {mult:.8, canDodge:false, anim: () => gunBeam(a, b, '#7FF3FF', 12)});
+    if (d > 0 && b.hp > 0){ b.stun = Math.max(b.stun, 1); popText(b, 'FROZEN!'); puff(b, '#BFF6FF'); } },
+  mega: async (a, b) => { sfx('charge'); await chargeUp(a);
+    await strike(a, b, {mult:2.4, pierce:true, canDodge:false, anim: () => gunBeam(a, b, '#B46BFF', 22)}); explosion(b); },
+};
+// The attack a vehicle does instead of BASH
+const VEHICLE_ATTACK = {
+  tank: async (a, b) => { await strike(a, b, {mult:1.4, anim: async () => {
+      sfx('boom'); a.el.animate([{transform:'translateX(0)'},{transform:`translateX(${-dirOf(a) * 12}px)`},{transform:'translateX(0)'}],{duration:260});
+      await shot(a, b, flipIf(dirOf(a) < 0, SHELL_SVG), 260, 8); explosion(b, false); }}); },
+  car: async (a, b) => { for (let i = 0; i < 2 && b.hp > 0; i++){ sfx('whoosh'); await strike(a, b, {mult:.75, anim: () => dash(a, b)}); } },
+  jet: async (a, b) => { for (let i = 0; i < 3 && b.hp > 0; i++){ sfx('pew'); await strike(a, b, {mult:.5, canDodge:false, anim: () => bombDrop(b)}); } },
+  rocket: async (a, b) => { sfx('rocket'); await strike(a, b, {mult:1.6, anim: () => dash(a, b, true)}); shakeArena(); },
+};
+async function morph(f, toVehicle){
+  sfx('transform');
+  await f.el.animate([{transform:'scale(1) rotate(0)'},{transform:'scale(.55,1.25) rotate(180deg)'},{transform:'scale(1) rotate(360deg)'}],{duration:560,easing:'ease-in-out'}).finished;
+  const inner = f.el.querySelector('.bob > div');
+  inner.innerHTML = toVehicle ? vehicleSVG({ ...f.robot, vehicle: f.form }) : robotSVG(f.robot);
+  f.svg = inner.querySelector('svg');
+  burst(f, 14);
+}
+function formBoost(f, sign){
+  const v = VEHICLE[f.form]; if (!v) return;
+  if (sign > 0) f.boostAmt = { pow: Math.round(f.pow * (v.boost.pow || 0)), spd: Math.round(f.spd * (v.boost.spd || 0)), def: Math.round(f.def * (v.boost.def || 0)) + (v.boost.def ? 3 : 0) };
+  const k = f.boostAmt || { pow:0, spd:0, def:0 };
+  f.pow += sign * k.pow; f.spd += sign * k.spd; f.def += sign * k.def;
+}
+async function transformIn(a){
+  const v = VEHICLE[a.form];
+  a.usedForm = true; a.transformed = true; a.formTurns = FORM_TURNS;
+  setLog(`${a.name} transforms into a ${v.name.toUpperCase()}!`);
+  popText(a, 'TRANSFORM!', 'big', -40);
+  await morph(a, true); formBoost(a, 1); updateHP();
+}
+async function transformOut(a){
+  formBoost(a, -1); a.transformed = false;
+  setLog(`${a.name} changes back into a robot.`);
+  await morph(a, false); updateHP();
+}
+
 /* ---------- special abilities (one per part) ---------- */
 const DEFENSIVE = ['breeze','shield','rainbow','diamond'];
 function poison(f, turns, dmg, label){ f.poison = turns; f.poisonDmg = dmg; f.poisonName = label; popText(f, label.toUpperCase() + '!'); updateHP(); }
@@ -2168,7 +2544,8 @@ function setTurn(who){
 }
 function fighter(robot, side){
   return { robot, side, name: robot.name, hp: robot.hp, maxHp: robot.hp, pow: robot.pow, spd: robot.spd, def: robot.def,
-           energy: 0, dodge: 0, reflect: false, shield: 0, stun: 0, confused: false, poison: 0, poisonDmg: 0, poisonName: '',
+           energy: 0, ammo: GUN[robot.gun] ? GUN[robot.gun].ammo : 0, form: robot.vehicle || null, usedForm: false, transformed: false, formTurns: 0,
+           dodge: 0, reflect: false, shield: 0, stun: 0, confused: false, poison: 0, poisonDmg: 0, poisonName: '',
            extra: false, ghostly: false, el: null, svg: null };
 }
 function hpBox(f){
@@ -2216,12 +2593,13 @@ async function strike(a, b, o = {}){
   else { await lunge(a); if (a.robot.weapon){ sfx('saber'); slash(a, b); } }
   const canDodge = o.canDodge !== false;
   if (canDodge && b.dodge > 0){ b.dodge--; popText(b, 'MISSED!'); updateHP(); await dodgeAnim(b); return 0; }
-  if (canDodge && Math.random() < clamp((b.spd - a.spd) * .015 + .06, .03, .22)){ popText(b, 'Missed!'); await dodgeAnim(b); return 0; }
+  const flyDodge = b.transformed && VEHICLE[b.form] ? (VEHICLE[b.form].dodge || 0) : 0;
+  if (canDodge && Math.random() < clamp((b.spd - a.spd) * .015 + .06, .03, .22) + flyDodge){ popText(b, 'Missed!'); await dodgeAnim(b); return 0; }
   let dmg = (3 + a.pow * .8) * rand(.85, 1.15) * (o.mult || 1) - (o.pierce ? 0 : b.def * .3);
   dmg = Math.max(2, Math.round(dmg));
   let crit = Math.random() < clamp(.1 + (a.spd - b.spd) * .006, .06, .25);
   if (crit) dmg = Math.round(dmg * 1.6);
-  if (b.shield > 0){ b.shield--; crit = false; dmg = Math.max(1, Math.round(dmg * .3)); popText(b, 'BLOCKED!'); sfx('shield'); }
+  if (b.shield > 0 && !o.blast){ b.shield--; crit = false; dmg = Math.max(1, Math.round(dmg * .3)); popText(b, 'BLOCKED!'); sfx('shield'); }
   hurt(b, dmg, crit);
   if (b.reflect && b.hp > 0){
     b.reflect = false; await wait(260); popText(b, 'BOING!'); sfx('boing');
@@ -2251,19 +2629,36 @@ async function takeTurn(a, b, action){
       hurt(a, Math.max(2, Math.round(a.pow * .4))); await wait(300); return;
     }
   }
-  if (action === 'bash'){
+  if (action === 'transform' && a.form && !a.usedForm){
+    await transformIn(a);
+    await wait(150);
+    action = 'bash';
+  }
+  if (action === 'bash' && a.transformed){
+    const v = VEHICLE[a.form];
+    setLog(`${a.name} uses ${v.attack.toUpperCase()}!`);
+    await VEHICLE_ATTACK[a.form](a, b);
+    a.energy = Math.min(ENERGY_MAX, a.energy + 1);
+  } else if (action === 'bash'){
     setLog(`${a.name} goes BASH!`);
     await strike(a, b);
     a.energy = Math.min(ENERGY_MAX, a.energy + 1);
-  } else {
+  } else if (action === 'fire' && a.ammo > 0 && GUN[a.robot.gun]){
+    const g = GUN[a.robot.gun]; a.ammo--;
+    setLog(`${a.name} fires the ${g.name.toUpperCase()}!`);
+    await GUN_FIRE[g.id](a, b);
+    a.energy = Math.min(ENERGY_MAX, a.energy + 1);
+  } else if (SPECIALS[action]){
     const s = SPECIALS[action]; a.energy = 0;
     setLog(`${a.name} uses ${s.name.toUpperCase()}!`);
     await s.run(a, b);
   }
   updateHP();
+  if (a.transformed && a.hp > 0 && b.hp > 0 && --a.formTurns <= 0){ await wait(250); await transformOut(a); }
 }
 function enemyChoice(){
-  if (E.energy < ENERGY_MAX || !E.robot.specials.length) return 'bash';
+  if (E.form && !E.usedForm && Math.random() < .35) return 'transform';
+  if (E.energy < ENERGY_MAX || !E.robot.specials.length) return E.ammo > 0 && !E.transformed && Math.random() < .45 ? 'fire' : 'bash';
   const sp = E.robot.specials, low = E.hp / E.maxHp < .45;
   const heals = sp.filter(k => k === 'breeze' || k === 'rainbow');
   if (low && heals.length) return pick(heals);
@@ -2272,14 +2667,23 @@ function enemyChoice(){
 }
 function renderActions(){
   const n = P.robot.specials.length;
-  actionsEl.innerHTML = `<button class="btn big" type="button" data-act="bash">BASH!</button>
+  const g = GUN[P.robot.gun], v = VEHICLE[P.form];
+  actionsEl.innerHTML = `<button class="btn big" type="button" data-act="bash" id="bashBtn">BASH!</button>
+    ${g || v ? `<div class="mainacts">
+      ${g ? `<button class="btn firebtn" type="button" data-act="fire">${gunIcon(g.id, 34)}<span class="fl">FIRE!<span class="ammo" id="ammoPips"></span></span></button>` : ''}
+      ${v ? `<button class="btn morphbtn" type="button" data-act="transform"><span class="vic">${vehicleSVG({ ...P.robot, vehicle: v.id })}</span><span class="fl">TRANSFORM<small>${v.name}</small></span></button>` : ''}
+    </div>` : ''}
     <div class="specials" style="grid-template-columns:repeat(${n <= 3 ? n : 2},minmax(0,1fr))">${P.robot.specials.map(k => `<button class="btn special" type="button" data-act="${k}" aria-label="${SPECIALS[k].name}">
       ${specIcon(k, 38)}<span class="sp-name">${SPECIALS[k].name}</span><span class="pips" aria-hidden="true">${'<i></i>'.repeat(ENERGY_MAX)}</span></button>`).join('')}</div>
     <p class="charge-hint" id="chargeHint"></p>`;
 }
 function updateActions(){
   const charged = P.energy >= ENERGY_MAX;
-  actionsEl.querySelectorAll('button').forEach(b => {
+  const fire = actionsEl.querySelector('[data-act="fire"]'), morphB = actionsEl.querySelector('[data-act="transform"]');
+  if (fire){ fire.disabled = busy || P.ammo <= 0 || P.transformed; $('ammoPips').innerHTML = P.ammo > 0 ? '<i></i>'.repeat(P.ammo) : 'empty'; }
+  if (morphB){ morphB.disabled = busy || P.usedForm; morphB.classList.toggle('ready', !busy && !P.usedForm); }
+  $('bashBtn').textContent = P.transformed ? `${VEHICLE[P.form].attack.toUpperCase()}!` : 'BASH!';
+  actionsEl.querySelectorAll('button.special, #bashBtn').forEach(b => {
     const isSpecial = b.dataset.act !== 'bash';
     b.disabled = busy || (isSpecial && !charged);
     if (isSpecial){
@@ -2305,7 +2709,7 @@ async function enemyPhase(){
 }
 function readyPlayer(msg){
   busy = false; setTurn('you'); updateActions();
-  setLog(msg || (P.energy >= ENERGY_MAX ? 'Special power ready! Tap a glowing button!' : 'Your turn! Tap BASH!'));
+  setLog(msg || (P.energy >= ENERGY_MAX ? 'Special power ready! Tap a glowing button!' : P.transformed ? `${VEHICLE[P.form].name} mode! ${P.formTurns} turn${P.formTurns === 1 ? '' : 's'} left` : P.ammo > 0 ? 'Your turn! BASH or FIRE!' : 'Your turn! Tap BASH!'));
 }
 async function playerAct(action){
   if (busy) return; busy = true; updateActions();
@@ -2347,7 +2751,7 @@ function startBattle(robot, foe, challenge = null){
     f.el = el; f.svg = el.querySelector('svg');
   });
   arena.querySelectorAll('.fx,.beam,.flash').forEach(n => n.remove());
-  arena.dataset.theme = pick(['sky','space','desert']);
+  arena.dataset.theme = pick(['sky','space','desert','base']);
   renderActions(); busy = true; setTurn(''); updateHP(); updateActions(); setLog('Get ready...');
   showScreen('battle');
   const icons = r => `<div class="iconrow">${r.parts.map(id => iconSvg(id, 28)).join('')}</div>`;
