@@ -1,3 +1,5 @@
+<img src="brand/logo.png" alt="Jude's Merge Champion" width="520">
+
 # Jude's Merge Champion
 
 A robot building and battle game designed by Jude (age 8).
@@ -14,6 +16,15 @@ Build your own robot from everyday parts, paint it, give it a name, then battle 
 ## Looking after the leaderboard
 
 Players and challenges are in **Netlify → Data & Storage → Blobs → `merge-champion`**. To remove a robot (for example a rude name), delete its `players/<id>` entry there.
+
+## Installing as an app
+
+The Netlify site is an installable web app. In Chrome on a phone, open the site and tap **Install** (or ⋮ → **Install app** / **Add to Home screen**). It opens full screen with its own icon and still loads without internet; the leaderboard needs a connection.
+
+- `manifest.webmanifest` – app name, colours and icons.
+- `sw.js` – offline support. Bump `CACHE` when you want installed copies to refresh their saved files.
+- `icons/` – app icons (normal, maskable for Android, Apple touch icon, favicon).
+- `brand/` – the logo (`logo.svg`, `logo.png`).
 
 ## Adding to the game
 

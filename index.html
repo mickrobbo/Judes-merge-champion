@@ -1,4 +1,4 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#8FCFFF"><style>:root{color-scheme:light;padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom)}body{margin:0;font:14px system-ui}img{max-width:100%}[hidden]{display:none!important}</style></head><body><title>Jude's Merge Champion</title>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#7B5CFF"><link rel="manifest" href="manifest.webmanifest"><link rel="icon" type="image/png" sizes="48x48" href="icons/favicon-48.png"><link rel="icon" type="image/svg+xml" href="icons/icon.svg"><link rel="apple-touch-icon" href="icons/apple-touch-icon.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Merge Champ"><meta name="description" content="Build, paint and upgrade your own battle robot, then fight to become the Merge Champion."><style>:root{color-scheme:light;padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom)}body{margin:0;font:14px system-ui}img{max-width:100%}[hidden]{display:none!important}</style></head><body><title>Jude's Merge Champion</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -58,12 +58,12 @@ h1,h2,h3,p{margin:0}
 /* ---------- header ---------- */
 .top{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:52px}
 .brand{display:flex;align-items:center;gap:10px;min-width:0}
-.brand svg{flex:0 0 auto;filter:drop-shadow(0 4px 0 var(--ink))}
+.brand .appicon{flex:0 0 auto;border-radius:12px;box-shadow:0 0 0 3px var(--ink),0 5px 0 3px var(--ink)}
 .logo{font-family:var(--display);font-weight:400;font-size:clamp(24px,6.4vw,40px);line-height:.95;letter-spacing:.01em;color:var(--sun);white-space:nowrap}
 .logo .ch{color:var(--tomato)}
 .logo .who{color:#fff}
 @media (max-width:620px){ .logo .ch{display:block} .logo{font-size:26px} }
-@media (max-width:430px){ .brand svg{display:none} }
+@media (max-width:430px){ .brand .appicon{display:none} }
 .hud-right{display:flex;gap:10px;align-items:center;flex-shrink:0}
 .pill{height:46px;display:inline-flex;align-items:center;gap:6px;background:var(--paper);border:3px solid var(--ink);border-radius:999px;padding:0 14px 0 8px;
   font-family:var(--display);font-size:22px;box-shadow:0 4px 0 var(--ink);font-variant-numeric:tabular-nums}
@@ -454,6 +454,11 @@ button.lbrow:active{transform:translateY(2px);box-shadow:0 1px 0 var(--ink)}
 .arena[data-theme="desert"] .sun{display:block;left:10%;top:9%;width:58px;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,#FFF6C9,#FFD23F 60%);
   border:3px solid #E0A400;box-shadow:0 0 40px rgba(255,210,63,.8)}
 .flash{position:absolute;inset:0;background:#fff;z-index:7;pointer-events:none}
+.installbar{display:grid;grid-template-columns:52px minmax(0,1fr) auto auto;gap:10px;align-items:center;padding:10px 10px 10px 12px;background:#FFF1A8}
+.installbar img{border-radius:12px;border:3px solid var(--ink);display:block}
+.installbar b{font-family:var(--display);font-weight:400;font-size:19px;display:block;line-height:1.1}
+.installbar span{font-size:13px;font-weight:700;color:var(--muted);line-height:1.2;display:block}
+@media (max-width:400px){ .installbar span{display:none} }
 /* game feel */
 .hpfill{position:relative;z-index:1}
 .hptrail{position:absolute;top:0;bottom:0;left:0;background:#FFE08A;transition:width .55s ease-in .35s}
@@ -496,11 +501,24 @@ button.lbrow:active{transform:translateY(2px);box-shadow:0 1px 0 var(--ink)}
 <div id="app">
   <header class="top">
     <div class="brand">
-      <svg viewBox="0 0 48 48" width="44" height="44" aria-hidden="true"><g stroke="#2B1D3A" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
-        <path d="M24 9V4"/><circle cx="24" cy="4" r="3" fill="#FF4D5E"/>
-        <rect x="6" y="9" width="36" height="30" rx="10" fill="#7B5CFF"/><rect x="2" y="18" width="5" height="12" rx="2" fill="#FFD23F"/><rect x="41" y="18" width="5" height="12" rx="2" fill="#FFD23F"/>
-        <circle cx="17" cy="22" r="5" fill="#fff"/><circle cx="31" cy="22" r="5" fill="#fff"/><circle cx="18" cy="23" r="2" fill="#2B1D3A"/><circle cx="32" cy="23" r="2" fill="#2B1D3A"/>
-        <path d="M17 31q7 5 14 0" fill="none"/></g></svg>
+      <svg viewBox="0 0 512 512" width="48" height="48" class="appicon" aria-hidden="true"><defs>
+  <linearGradient id="hdr-bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8B6BFF"/><stop offset="1" stop-color="#3E4FD6"/></linearGradient>
+  <radialGradient id="hdr-glowc" cx=".5" cy=".55" r=".5"><stop offset="0" stop-color="#FFE58A" stop-opacity=".95"/><stop offset=".55" stop-color="#FFD23F" stop-opacity=".35"/><stop offset="1" stop-color="#FFD23F" stop-opacity="0"/></radialGradient>
+  <linearGradient id="hdr-shine" x1="0" y1="0" x2=".5" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".6"/><stop offset=".45" stop-color="#fff" stop-opacity=".05"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+  <linearGradient id="hdr-shade" x1="0" y1="0" x2="0" y2="1"><stop offset=".5" stop-color="#2B1D3A" stop-opacity="0"/><stop offset="1" stop-color="#2B1D3A" stop-opacity=".28"/></linearGradient>
+  <linearGradient id="hdr-metal" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#7E8996"/><stop offset=".35" stop-color="#F4F7FA"/><stop offset=".6" stop-color="#B8C4D0"/><stop offset="1" stop-color="#5F6975"/></linearGradient>
+  <filter id="hdr-blur" x="-1" y="-1" width="3" height="3"><feGaussianBlur stdDeviation="9"/></filter>
+</defs>
+<rect width="512" height="512" rx="112" fill="url(#hdr-bg)"/><clipPath id="hdr-clipbg"><rect width="512" height="512" rx="112"/></clipPath><g clip-path="url(#hdr-clipbg)"><path d="M256 280 L676.0 280.0 L667.9 361.9 Z M256 280 L644.0 440.7 L605.2 513.3 Z M256 280 L553.0 577.0 L489.3 629.2 Z M256 280 L416.7 668.0 L337.9 691.9 Z M256 280 L256.0 700.0 L174.1 691.9 Z M256 280 L95.3 668.0 L22.7 629.2 Z M256 280 L-41.0 577.0 L-93.2 513.3 Z M256 280 L-132.0 440.7 L-155.9 361.9 Z M256 280 L-164.0 280.0 L-155.9 198.1 Z M256 280 L-132.0 119.3 L-93.2 46.7 Z M256 280 L-41.0 -17.0 L22.7 -69.2 Z M256 280 L95.3 -108.0 L174.1 -131.9 Z M256 280 L256.0 -140.0 L337.9 -131.9 Z M256 280 L416.7 -108.0 L489.3 -69.2 Z M256 280 L553.0 -17.0 L605.2 46.7 Z M256 280 L644.0 119.3 L667.9 198.1 Z" fill="#fff" opacity=".09"/><circle cx="256" cy="280" r="230" fill="url(#hdr-glowc)"/><circle cx="70" cy="90" r="5" fill="#fff" opacity=".85"/><circle cx="440" cy="70" r="6" fill="#fff" opacity=".85"/><circle cx="90" cy="420" r="4" fill="#fff" opacity=".85"/><circle cx="455" cy="400" r="5" fill="#fff" opacity=".85"/><circle cx="400" cy="150" r="3" fill="#fff" opacity=".85"/><circle cx="120" cy="170" r="3" fill="#fff" opacity=".85"/></g><g clip-path="url(#hdr-clipbg)"><g transform="translate(446 448) rotate(-7)">
+  <rect x="-21" y="-388" width="42" height="330" rx="21" fill="#3FA9FF" filter="url(#hdr-blur)" opacity=".95"/>
+  <rect x="-14" y="-386" width="28" height="326" rx="14" fill="#3FA9FF"/>
+  <rect x="-6.5" y="-382" width="13" height="318" rx="6.5" fill="#fff"/>
+  <rect x="-17" y="-40" width="34" height="84" rx="7" fill="url(#hdr-metal)" stroke="#2B1D3A" stroke-width="8"/>
+  <path d="M-17 0h34M-17 16h34M-17 32h34" stroke="#2B1D3A" stroke-width="6"/>
+  <rect x="-23" y="-62" width="46" height="22" rx="6" fill="#7D8794" stroke="#2B1D3A" stroke-width="8"/>
+</g><path d="M300 420 Q392 452 440 438" fill="none" stroke="#2B1D3A" stroke-width="40" stroke-linecap="round"/><path d="M300 420 Q392 452 440 438" fill="none" stroke="#FF4D5E" stroke-width="24" stroke-linecap="round"/><g transform="translate(-26 0)"><rect x="104" y="262" width="44" height="76" rx="16" fill="#FF4D5E"/><rect x="104" y="262" width="44" height="76" rx="16" fill="url(#hdr-shade)"/><rect x="104" y="262" width="44" height="76" rx="16" fill="url(#hdr-shine)"/><rect x="104" y="262" width="44" height="76" rx="16" fill="none" stroke="#2B1D3A" stroke-width="12" stroke-linejoin="round"/><rect x="364" y="262" width="44" height="76" rx="16" fill="#FF4D5E"/><rect x="364" y="262" width="44" height="76" rx="16" fill="url(#hdr-shade)"/><rect x="364" y="262" width="44" height="76" rx="16" fill="url(#hdr-shine)"/><rect x="364" y="262" width="44" height="76" rx="16" fill="none" stroke="#2B1D3A" stroke-width="12" stroke-linejoin="round"/><path d="M170 196 L182 112 L222 152 L256 92 L290 152 L330 112 L342 196 Z" fill="#FFD23F" stroke="#2B1D3A" stroke-width="12" stroke-linejoin="round"/>
+<path d="M170 196 L182 112 L222 152 L256 92 L290 152 L330 112 L342 196 Z" fill="url(#hdr-shine)"/>
+<circle cx="256" cy="92" r="15" fill="#FF4D5E" stroke="#2B1D3A" stroke-width="9"/><circle cx="182" cy="112" r="12" fill="#2EC4A0" stroke="#2B1D3A" stroke-width="8"/><circle cx="330" cy="112" r="12" fill="#2EC4A0" stroke="#2B1D3A" stroke-width="8"/><rect x="132" y="184" width="248" height="200" rx="66" fill="#FFD23F"/><rect x="132" y="184" width="248" height="200" rx="66" fill="url(#hdr-shade)"/><rect x="132" y="184" width="248" height="200" rx="66" fill="url(#hdr-shine)"/><rect x="132" y="184" width="248" height="200" rx="66" fill="none" stroke="#2B1D3A" stroke-width="14" stroke-linejoin="round"/><circle cx="206" cy="270" r="36" fill="#fff" stroke="#2B1D3A" stroke-width="11"/><circle cx="215" cy="274" r="18" fill="#2B1D3A"/><circle cx="221" cy="266" r="7" fill="#fff"/><circle cx="306" cy="270" r="36" fill="#fff" stroke="#2B1D3A" stroke-width="11"/><circle cx="315" cy="274" r="18" fill="#2B1D3A"/><circle cx="321" cy="266" r="7" fill="#fff"/><circle cx="170" cy="322" r="14" fill="#FF8FB1" opacity=".85"/><circle cx="342" cy="322" r="14" fill="#FF8FB1" opacity=".85"/><path d="M212 330 Q256 372 300 330" fill="none" stroke="#2B1D3A" stroke-width="13" stroke-linecap="round"/><rect x="176" y="392" width="160" height="70" rx="22" fill="#5B6CFF"/><rect x="176" y="392" width="160" height="70" rx="22" fill="url(#hdr-shade)"/><rect x="176" y="392" width="160" height="70" rx="22" fill="url(#hdr-shine)"/><rect x="176" y="392" width="160" height="70" rx="22" fill="none" stroke="#2B1D3A" stroke-width="12" stroke-linejoin="round"/><g stroke="#2B1D3A" stroke-width="6"><circle cx="226" cy="428" r="10" fill="#FF4D5E"/><circle cx="256" cy="428" r="10" fill="#FFD23F"/><circle cx="286" cy="428" r="10" fill="#2EC4A0"/></g></g><circle cx="446" cy="440" r="26" fill="#D6DEE7" stroke="#2B1D3A" stroke-width="11"/><circle cx="446" cy="440" r="26" fill="url(#hdr-shine)"/></g></svg>
       <h1 class="logo outline"><span class="who">Jude's</span> Merge <span class="ch">Champion</span></h1>
     </div>
     <div class="hud-right">
@@ -510,6 +528,12 @@ button.lbrow:active{transform:translateY(2px);box-shadow:0 1px 0 var(--ink)}
   </header>
 
   <main id="workshop" class="screen">
+    <div class="installbar panel" id="installBar" hidden>
+      <img src="icons/icon-192.png" alt="" width="52" height="52">
+      <div class="itxt"><b>Get the app!</b><span>Put Jude's Merge Champion on your home screen.</span></div>
+      <button class="btn small green" id="installBtn" type="button">Install</button>
+      <button class="icon-btn sm" id="installNo" type="button" aria-label="Not now"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="#2B1D3A" stroke-width="3.2" stroke-linecap="round"/></svg></button>
+    </div>
     <section class="inbox panel" id="inbox" aria-label="Challenges" hidden>
       <div class="phead"><h2>CHALLENGES!</h2></div>
       <div class="inlist" id="inlist"></div>
@@ -2471,6 +2495,30 @@ $('resetBtn').addEventListener('click', e => {
   lastPushed = null;
   save = freshSave(); persist(); resetArmed = false; e.target.textContent = 'Start over';
   renderAll(); openRename(true);
+});
+
+/* ---------- installable app (Netlify / GitHub Pages only) ---------- */
+let installPrompt = null;
+const onRealSite = () => !window.claude && /^https?:$/.test(location.protocol) && 'serviceWorker' in navigator;
+if (onRealSite()){
+  window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
+  window.addEventListener('beforeinstallprompt', e => {
+    e.preventDefault(); installPrompt = e;
+    let skipped = false; try { skipped = localStorage.getItem('merge-champion-install-skip') === '1'; } catch (err) {}
+    if (!skipped) $('installBar').hidden = false;
+  });
+  window.addEventListener('appinstalled', () => { $('installBar').hidden = true; installPrompt = null; toast('Installed! Look for the robot on your home screen.'); });
+}
+$('installBtn').addEventListener('click', async () => {
+  if (!installPrompt) return;
+  installPrompt.prompt();
+  const { outcome } = await installPrompt.userChoice;
+  installPrompt = null; $('installBar').hidden = true;
+  if (outcome === 'accepted') sfx('reveal');
+});
+$('installNo').addEventListener('click', () => {
+  $('installBar').hidden = true;
+  try { localStorage.setItem('merge-champion-install-skip', '1'); } catch (err) {}
 });
 
 /* ---------- go ---------- */
