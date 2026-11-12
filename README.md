@@ -47,3 +47,13 @@ The leaderboard has a **Manage** button that only the game's manager sees.
 - **Claude version:** the artifact's owner sees Manage automatically.
 
 Each removal needs a second tap to confirm. There is also a button that removes everyone not seen for 30 days. A removed player who plays again comes back on the board.
+
+## Profiles (website)
+
+Each robot saves to the game server as well as the phone. The **Player** panel in the garage shows:
+
+- **Profile code:** a 6-character code. Type it on another phone ("I have a code") to play the same robot there. Progress syncs both ways; the newest save wins.
+- **Other players on this phone:** switch between robots. With more than one, the game asks "Who's playing?" when it opens.
+- **New player:** starts a fresh robot without losing the current one.
+
+Making a new code stops the old one working. Phones already signed in stay signed in.

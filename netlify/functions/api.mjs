@@ -9,6 +9,8 @@
 //   players/<id>          { id, tokenHash, created, score? }
 //   in/<to>/<from>        a challenge, as the receiving player sees it
 //   out/<from>/<to>       the same challenge, as the sending player sees it
+//   saves/<id>            { save, savedAt } – the player's whole game, so it can move between phones
+//   codes/<sha256(code)>  { id } – a profile code that signs a new phone in as that player
 //
 // The game's owner can remove old players with the "admin" route. It needs the
 // ADMIN_KEY environment variable set in Netlify (Project configuration →
@@ -26,7 +28,10 @@ const VEHICLE_IDS = new Set(["tank", "car", "jet", "rocket"]);
 const WEAPON_IDS = new Set(["blue", "green", "purple", "red", "gold", "twin"]);
 const HEX = /^#[0-9a-fA-F]{6}$/;
 const PLAYER_ID = /^p[0-9a-f]{16}$/;
-const MAX_BODY = 8000;
+const MAX_BODY = 40000;
+const MAX_SAVE = 32000;
+const CODE_ABC = "ABCDEFGHJKMNPQRSTUVWXYZ23456789"; // no 0/O or 1/I/L, easy to read out
+const MAX_DEVICES = 8;
 const BOARD_SIZE = 100;
 const CHALLENGE_DAYS = 14;
 
@@ -61,7 +66,7 @@ async function auth(store, id, token) {
   const hash = await sha256(token);
   const rec = await store.get(key, { type: "json" });
   if (!rec) return { key, rec: { id, tokenHash: hash, created: Date.now() }, isNew: true };
-  if (rec.tokenHash !== hash) return null;
+  if (rec.tokenHash !== hash && !(Array.isArray(rec.tokenHashes) && rec.tokenHashes.includes(hash))) return null;
   return { key, rec, isNew: false };
 }
 
@@ -78,7 +83,20 @@ async function isAdmin(key) {
   return (await sha256("mc-admin:" + key.trim())) === (await sha256("mc-admin:" + real));
 }
 
+const normCode = c => String(c ?? "").toUpperCase().replace(/[^A-Z0-9]/g, "");
+function newCode() {
+  const a = new Uint8Array(6); crypto.getRandomValues(a);
+  return [...a].map(b => CODE_ABC[b % CODE_ABC.length]).join("");
+}
+function newToken() {
+  const a = new Uint8Array(24); crypto.getRandomValues(a);
+  return [...a].map(b => b.toString(16).padStart(2, "0")).join("");
+}
+
 async function removePlayer(store, id) {
+  const rec = await store.get(`players/${id}`, { type: "json" });
+  if (rec?.codeHash) await store.delete(`codes/${rec.codeHash}`);
+  await store.delete(`saves/${id}`);
   const { blobs: mine } = await store.list({ prefix: `in/${id}/` });
   const { blobs: sent } = await store.list({ prefix: `out/${id}/` });
   const keys = [`players/${id}`, ...mine.map(b => b.key), ...sent.map(b => b.key),
@@ -112,6 +130,20 @@ export default async (req) => {
     return json({ error: "Unknown admin action." }, 400);
   }
 
+  // Sign this phone in as an existing player, using their profile code.
+  if (route === "login") {
+    const code = normCode(body.code);
+    if (code.length !== 6) return json({ error: "Codes have 6 letters and numbers." }, 400);
+    const link = await store.get(`codes/${await sha256(code)}`, { type: "json" });
+    const rec = link && await store.get(`players/${link.id}`, { type: "json" });
+    if (!rec) return json({ error: "No robot has that code." }, 404);
+    const token = newToken();
+    rec.tokenHashes = [...(Array.isArray(rec.tokenHashes) ? rec.tokenHashes : []), await sha256(token)].slice(-MAX_DEVICES);
+    await store.setJSON(`players/${rec.id}`, rec);
+    const saved = await store.get(`saves/${rec.id}`, { type: "json" });
+    return json({ ok: true, id: rec.id, token, save: saved?.save ?? null, savedAt: saved?.savedAt ?? 0 });
+  }
+
   const me = await auth(store, body.id, body.token);
   if (!me) return json({ error: "Not allowed." }, 403);
   const now = Date.now();
@@ -139,8 +171,38 @@ export default async (req) => {
       return json({ ok: true });
     }
 
+    case "cloudsave": {
+      if (!body.save || typeof body.save !== "object" || Array.isArray(body.save)) return json({ error: "Bad save." }, 400);
+      const text = JSON.stringify(body.save);
+      if (text.length > MAX_SAVE) return json({ error: "Save too big." }, 413);
+      await claimIdentity();
+      await store.setJSON(`saves/${me.rec.id}`, { save: body.save, savedAt: num(body.savedAt, 0, 1e13) || now });
+      return json({ ok: true });
+    }
+
+    case "cloudload": {
+      const saved = me.isNew ? null : await store.get(`saves/${me.rec.id}`, { type: "json" });
+      return json({ save: saved?.save ?? null, savedAt: saved?.savedAt ?? 0, hasCode: !!me.rec.codeHash });
+    }
+
+    case "code": {
+      // Make (or replace) this player's profile code. The old code stops working.
+      await claimIdentity();
+      if (me.rec.codeHash) await store.delete(`codes/${me.rec.codeHash}`);
+      let code, hash;
+      for (let i = 0; i < 5; i++) {
+        code = newCode(); hash = await sha256(code);
+        if (!(await store.get(`codes/${hash}`))) break;
+      }
+      await store.setJSON(`codes/${hash}`, { id: me.rec.id, created: now });
+      me.rec.codeHash = hash;
+      await store.setJSON(me.key, me.rec);
+      return json({ ok: true, code });
+    }
+
     case "reset": {
-      if (!me.isNew) await store.delete(me.key);
+      // Starting over takes the robot off the board but keeps the player's profile code.
+      if (!me.isNew) { delete me.rec.score; await store.setJSON(me.key, me.rec); }
       return json({ ok: true });
     }
 

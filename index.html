@@ -217,6 +217,34 @@ button.lbrow:active{transform:translateY(2px);box-shadow:0 1px 0 var(--ink)}
 .lbsub{font-size:13px;font-weight:800;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .lbwins{display:flex;align-items:center;gap:4px;font-family:var(--display);font-size:22px;font-variant-numeric:tabular-nums}
 .lbmsg{text-align:center;color:var(--muted);font-weight:700;padding:8px 6px;text-wrap:balance}
+.profile{overflow:hidden}
+.profile .phead{background:var(--grape);color:#fff}
+.pf{padding:14px 16px 16px;display:flex;flex-direction:column;gap:10px}
+.pfme,.pfcode{display:grid;grid-template-columns:44px minmax(0,1fr);gap:10px;align-items:center;background:var(--cloud);border:3px solid var(--ink);border-radius:16px;padding:6px 12px 6px 8px}
+.pfcode{grid-template-columns:minmax(0,1fr) auto;padding:10px 12px;background:#FFF1A8}
+.pfcode .lbtxt{display:flex;flex-direction:column}
+.codeval{font-family:var(--display);font-weight:400;font-size:26px;letter-spacing:.12em;line-height:1.1}
+.pfhow{font-family:var(--display);font-weight:400;font-size:17px;line-height:1.15}
+.pillbtn{font-family:var(--display);font-size:15px;background:#fff;color:var(--ink);border:3px solid var(--ink);border-radius:999px;padding:4px 14px;cursor:pointer;white-space:nowrap;box-shadow:0 3px 0 var(--ink)}
+.pillbtn.go{background:var(--mint);color:#fff}
+.pflbl{margin:4px 0 0;font-weight:800;color:var(--muted);font-size:14px}
+.pflist{display:flex;flex-direction:column;gap:8px}
+.pfrow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:center}
+.pfpick{display:grid;grid-template-columns:44px minmax(0,1fr) auto;gap:10px;align-items:center;background:var(--paper);border:3px solid var(--ink);border-radius:16px;padding:6px 10px 6px 8px;cursor:pointer;text-align:left;font:inherit;color:var(--ink)}
+.pfx{min-width:40px;height:40px;border-radius:999px;border:3px solid var(--ink);background:#fff;display:grid;place-items:center;cursor:pointer;font-family:var(--display);font-size:13px;color:var(--ink);padding:0 8px}
+.pfx svg{width:16px;height:16px}
+.pfx.sure{background:var(--tomato);color:#fff}
+.pfbtns{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.pfbtns .btn{font-size:clamp(14px,4vw,18px);padding-inline:8px}
+.bigcode{font-family:var(--display);font-size:clamp(40px,12vw,56px);letter-spacing:.14em;margin:0;line-height:1.1;user-select:all}
+.codein{text-align:center;font-family:var(--display);font-size:30px;letter-spacing:.14em;text-transform:uppercase}
+.whogrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;width:100%}
+.whobtn{display:flex;flex-direction:column;align-items:center;gap:6px;background:var(--cloud);border:4px solid var(--ink);border-radius:20px;padding:12px 8px;cursor:pointer;box-shadow:0 5px 0 var(--ink);font:inherit;color:var(--ink)}
+.whobtn.on{background:#FFF1A8}
+.whobtn:active{transform:translateY(3px);box-shadow:0 2px 0 var(--ink)}
+.whobot{width:84px;aspect-ratio:200/240}
+.whobot svg{width:100%;height:100%}
+.whobtn b{font-family:var(--display);font-weight:400;font-size:18px;line-height:1.1;text-align:center;overflow-wrap:anywhere}
 .bossnext{margin:6px 0 0;text-align:center;font-weight:800;font-size:14px;color:var(--muted)}
 .lbmanage{font-family:var(--display);font-size:14px;background:var(--paper);color:var(--ink);border:3px solid var(--ink);border-radius:999px;padding:2px 12px;cursor:pointer;box-shadow:0 3px 0 var(--ink)}
 .lbmanage:active{transform:translateY(2px);box-shadow:0 1px 0 var(--ink)}
@@ -639,6 +667,10 @@ button.lbrow:active{transform:translateY(2px);box-shadow:0 1px 0 var(--ink)}
             <div class="armtabs" role="tablist"><button type="button" role="tab" class="armtab" data-tab="swords">Laser Swords</button><button type="button" role="tab" class="armtab" data-tab="guns">Blasters</button></div>
             <div class="sword-grid" id="swordGrid"></div>
             <p class="anote" id="armNote"></p></div>
+        </section>
+        <section class="profile panel" id="profilePanel" aria-label="Player" hidden>
+          <div class="phead"><h2>PLAYER</h2><span class="count">Your robot on any phone</span></div>
+          <div class="pf" id="profileBox"></div>
         </section>
         <section class="board panel" aria-label="Leaderboard">
           <div class="phead"><h2>LEADERBOARD</h2><button class="lbmanage" id="lbManage" type="button" hidden>Manage</button><span class="count">Most wins</span></div>
@@ -1341,9 +1373,36 @@ function freshSave(){
            weapons: ['blue'], guns: ['pea'],
            robot: { name: makeName(parts.map(id => OBJ[id])), colors: { body:'#5B6CFF', head:'#FFD23F', limbs:'#FF4D5E' }, parts, weapon: 'blue', style: 'classic', gun: null, vehicle: 'tank' } };
 }
+
+/* Profiles: each phone can hold several players, and a player can move to another phone with a profile code.
+   Every profile has its own save (SAVE_KEY:<id>) and its own game-server identity (id + secret token). */
+const PROFILES_KEY = 'merge-champion-profiles', ACTIVE_KEY = 'merge-champion-active';
+const PID = /^p[0-9a-f]{16}$/;
+const lsGet = k => { try { return localStorage.getItem(k); } catch (e){ return null; } };
+const lsSet = (k, v) => { try { localStorage.setItem(k, v); return true; } catch (e){ return false; } };
+const lsDel = k => { try { localStorage.removeItem(k); } catch (e){} };
+let profiles = [];
+try { profiles = JSON.parse(lsGet(PROFILES_KEY)) || []; } catch (e){}
+profiles = Array.isArray(profiles) ? profiles.filter(p => p && PID.test(p.id) && typeof p.token === 'string') : [];
+if (!profiles.length){
+  // first run of this version: the robot already on this phone becomes the first profile
+  let id = lsGet('merge-champion-player'), token = lsGet('merge-champion-token');
+  if (!PID.test(id || '') || !token){ id = 'p' + randHex(8); token = randHex(24); }
+  profiles = [{ id, token }];
+  const legacy = lsGet(SAVE_KEY);
+  if (legacy && !lsGet(SAVE_KEY + ':' + id)) lsSet(SAVE_KEY + ':' + id, legacy);
+  lsSet(PROFILES_KEY, JSON.stringify(profiles));
+}
+let activeId = lsGet(ACTIVE_KEY);
+if (!profiles.some(p => p.id === activeId)) activeId = profiles[0].id;
+const profile = profiles.find(p => p.id === activeId);
+const MY_SAVE_KEY = SAVE_KEY + ':' + activeId;
+const saveProfiles = () => lsSet(PROFILES_KEY, JSON.stringify(profiles));
+const lookOf = s => ({ name: s.robot.name, colors: s.robot.colors, parts: s.robot.parts, style: s.robot.style, weapon: s.robot.weapon || null, gun: s.robot.gun || null });
+
 let save = freshSave();
 try {
-  const s = JSON.parse(localStorage.getItem(SAVE_KEY));
+  const s = JSON.parse(lsGet(MY_SAVE_KEY));
   if (s && s.robot){ save = Object.assign(freshSave(), s); }
   else {
     const old = JSON.parse(localStorage.getItem('merge-champion-v1'));
@@ -1368,7 +1427,12 @@ if (save.robot.gun && save.robot.weapon) save.robot.weapon = null; // one weapon
 if (!VEHICLE[save.robot.vehicle]) save.robot.vehicle = 'tank';
 if (!STYLE[save.robot.style]) save.robot.style = 'classic';
 save.robot.colors = Object.assign({ body:'#5B6CFF', head:'#FFD23F', limbs:'#FF4D5E' }, save.robot.colors);
-function persist(){ try { localStorage.setItem(SAVE_KEY, JSON.stringify(save)); } catch (e) {} schedulePush(); }
+function persist(){
+  save.savedAt = Date.now();
+  lsSet(MY_SAVE_KEY, JSON.stringify(save));
+  profile.look = lookOf(save); saveProfiles();
+  schedulePush(); scheduleCloud();
+}
 function addXP(n){
   const before = save.level; save.xp += n;
   while (save.level < MAX_ROBOT_LEVEL && save.xp >= xpNeeded(save.level)){ save.xp -= xpNeeded(save.level); save.level++; }
@@ -1387,7 +1451,7 @@ const online = () => !!uid && (net || !!db);
 async function api(route, body = {}){
   const r = await fetch('/api/' + route, { method: 'POST', headers: { 'content-type': 'application/json' },
     body: JSON.stringify({ id: uid, token: netToken, ...body }) });
-  if (!r.ok){ const e = new Error('api ' + r.status); e.code = r.status === 403 ? 'invalid_argument' : 'unavailable'; throw e; }
+  if (!r.ok){ const e = new Error('api ' + r.status); e.code = r.status === 403 ? 'invalid_argument' : 'unavailable'; e.status = r.status; throw e; }
   return r.json();
 }
 const shared = {
@@ -1562,18 +1626,151 @@ function checkAdminHash(){
 }
 window.addEventListener('hashchange', checkAdminHash);
 
+/* ---------- profiles on the website: cloud save, profile codes, switching players ---------- */
+let cloudTimer = null, cloudDirty = false;
+function scheduleCloud(){ if (!net) return; cloudDirty = true; clearTimeout(cloudTimer); cloudTimer = setTimeout(pushCloud, 2500); }
+async function pushCloud(keepalive = false){
+  if (!net || !cloudDirty) return;
+  cloudDirty = false; clearTimeout(cloudTimer);
+  try {
+    const r = await fetch('/api/cloudsave', { method: 'POST', headers: { 'content-type': 'application/json' }, keepalive,
+      body: JSON.stringify({ id: uid, token: netToken, save, savedAt: save.savedAt || Date.now() }) });
+    if (!r.ok) cloudDirty = true;
+  } catch (e){ cloudDirty = true; }
+}
+document.addEventListener('visibilitychange', () => { if (document.hidden) pushCloud(true); });
+async function syncCloud(){
+  try {
+    const d = await api('cloudload');
+    const mine = save.savedAt || 0, theirs = d.savedAt || 0;
+    if (d.save && d.save.robot && theirs > mine + 2000){
+      let pulled = null; try { pulled = sessionStorage.getItem('mc-pulled'); } catch (e){}
+      if (pulled !== String(theirs)){
+        try { sessionStorage.setItem('mc-pulled', String(theirs)); } catch (e){}
+        d.save.savedAt = theirs;
+        lsSet(MY_SAVE_KEY, JSON.stringify(d.save)); profile.look = lookOf(d.save); saveProfiles();
+        location.reload(); return true;
+      }
+    }
+    if ((!d.save || mine > theirs) && (save.welcomed || save.wins + save.losses > 0)){ cloudDirty = true; pushCloud(); }
+  } catch (e){}
+  return false;
+}
+const fmtCode = c => c.slice(0, 3) + ' ' + c.slice(3);
+const normCode = c => String(c || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
+function newProfile(){
+  const p = { id: 'p' + randHex(8), token: randHex(24) };
+  profiles.push(p); saveProfiles(); return p;
+}
+async function switchProfile(id){
+  await pushCloud();
+  try { sessionStorage.setItem('mc-picked', '1'); } catch (e){}
+  lsSet(ACTIVE_KEY, id); location.reload();
+}
+function renderProfile(){
+  const box = $('profileBox'); if (!box || !net) return;
+  const others = profiles.filter(p => p.id !== activeId);
+  box.innerHTML = `<div class="pfme"><span class="lbbot">${robotSVG(myRobot())}</span>
+      <div class="lbtxt"><div class="lbname" id="pfName"></div><div class="lbsub">Playing on this phone now</div></div></div>
+    <div class="pfcode">${profile.code
+      ? `<div class="lbtxt"><span class="lbsub">Profile code</span><b class="codeval">${fmtCode(profile.code)}</b></div><button class="pillbtn" id="pfCode" type="button">Show</button>`
+      : `<div class="lbtxt"><b class="pfhow">Play this robot on another phone</b><span class="lbsub">Get a profile code, then type it on the other phone.</span></div><button class="pillbtn go" id="pfCode" type="button">Get my code</button>`}</div>
+    ${others.length ? `<p class="pflbl">Other players on this phone</p><div class="pflist">${others.map(p => `<div class="pfrow">
+      <button class="pfpick" type="button" data-pf="${p.id}"><span class="lbbot">${p.look ? robotSVG(p.look) : ''}</span><span class="lbname" data-pfn="${p.id}"></span><span class="pillbtn go">Play</span></button>
+      <button class="pfx" type="button" data-pfx="${p.id}" aria-label="Remove from this phone">${CLOSE}</button></div>`).join('')}</div>` : ''}
+    <div class="pfbtns"><button class="btn plain" id="pfLogin" type="button">I have a code</button><button class="btn plain" id="pfAdd" type="button">New player</button></div>`;
+  $('pfName').textContent = save.robot.name;
+  others.forEach(p => { const n = box.querySelector(`[data-pfn="${p.id}"]`); if (n) n.textContent = p.look ? p.look.name : 'A robot'; });
+  $('pfCode').onclick = () => { sfx('pop'); profile.code ? showCode() : makeCode(); };
+  $('pfLogin').onclick = () => { sfx('pop'); openLogin(); };
+  $('pfAdd').onclick = () => { sfx('pop'); openNewPlayer(); };
+  box.querySelectorAll('[data-pf]').forEach(b => b.onclick = () => { sfx('pop'); switchProfile(b.dataset.pf); });
+  box.querySelectorAll('[data-pfx]').forEach(b => b.onclick = () => {
+    const p = profiles.find(x => x.id === b.dataset.pfx); if (!p) return;
+    if (!b.classList.contains('sure')){ b.classList.add('sure'); b.textContent = p.code ? 'Remove?' : 'Remove? No code!'; return; }
+    profiles = profiles.filter(x => x !== p); saveProfiles(); lsDel(SAVE_KEY + ':' + p.id); sfx('remove'); renderProfile();
+    toast(`${p.look ? p.look.name : 'That robot'} was taken off this phone`);
+  });
+}
+async function makeCode(again = false){
+  try {
+    const d = await api('code');
+    profile.code = normCode(d.code); saveProfiles(); renderProfile(); showCode(true);
+  } catch (e){ sfx('full'); toast("Couldn't get a code right now. Try again"); }
+}
+function showCode(isNew = false){
+  showOverlay(`<div class="ribbon purple">PROFILE CODE</div>
+    <div class="stage small"><div class="bigbot popin">${robotSVG(myRobot())}</div></div>
+    <p class="muted"><b id="codeName"></b>'s code is</p>
+    <p class="bigcode">${fmtCode(profile.code)}</p>
+    <p class="muted">${isNew ? 'Take a photo of it or write it down! ' : ''}On another phone, open Jude's Merge Champion, tap <b>I have a code</b> and type it in. Your robot, coins and parts come too.</p>
+    <p class="note">Keep it secret. Anyone with this code can play as your robot.</p>
+    <div class="stack"><button class="btn big green" id="codeOk" type="button">Got it!</button>
+      <button class="btn plain" id="codeNew" type="button">Make a new code</button></div>`, { dismiss: true });
+  $('codeName').textContent = save.robot.name;
+  $('codeOk').onclick = hideOverlay;
+  $('codeNew').onclick = e => {
+    if (!e.target.dataset.sure){ e.target.dataset.sure = '1'; e.target.textContent = 'Tap again. The old code will stop working'; return; }
+    makeCode(true);
+  };
+}
+function openLogin(){
+  showOverlay(`<div class="ribbon purple">I HAVE A CODE</div>
+    <p class="muted">Type the profile code from your other phone to play your robot here.</p>
+    <input class="admkey codein" id="codeIn" type="text" inputmode="text" autocomplete="off" autocapitalize="characters" spellcheck="false" maxlength="9" placeholder="ABC 123" aria-label="Profile code">
+    <p class="note" id="codeMsg"></p>
+    <div class="stack"><button class="btn big green" id="codeGo" type="button">Play my robot</button></div>`, { dismiss: true });
+  const go = async () => {
+    const code = normCode($('codeIn').value);
+    if (code.length !== 6){ $('codeMsg').textContent = 'Codes have 6 letters and numbers.'; return; }
+    $('codeGo').disabled = true; $('codeMsg').textContent = 'Finding your robot...';
+    try {
+      const d = await api('login', { code });
+      let p = profiles.find(x => x.id === d.id);
+      if (p) p.token = d.token; else { p = { id: d.id, token: d.token }; profiles.push(p); }
+      p.code = code;
+      if (d.save && d.save.robot){ d.save.savedAt = d.savedAt || d.save.savedAt; lsSet(SAVE_KEY + ':' + d.id, JSON.stringify(d.save)); p.look = lookOf(d.save); }
+      saveProfiles(); sfx('levelup');
+      $('codeMsg').textContent = `Found ${p.look ? p.look.name : 'your robot'}!`;
+      setTimeout(() => switchProfile(d.id), 700);
+    } catch (e){
+      $('codeGo').disabled = false; sfx('full');
+      $('codeMsg').textContent = e && e.status === 404 ? "No robot has that code. Check it and try again." : "Couldn't check the code right now. Try again.";
+    }
+  };
+  $('codeGo').onclick = go;
+  $('codeIn').addEventListener('keydown', e => { if (e.key === 'Enter') go(); });
+  setTimeout(() => { try { $('codeIn').focus(); } catch (e){} }, 100);
+}
+function openNewPlayer(){
+  showOverlay(`<div class="ribbon purple">NEW PLAYER</div>
+    <p class="muted">Start a brand new robot on this phone. ${esc(save.robot.name)} stays here too. Switch back any time from the Player panel.</p>
+    <div class="stack"><button class="btn big green" id="npGo" type="button">Start a new robot</button>
+      <button class="btn plain" id="npNo" type="button">Cancel</button></div>`, { dismiss: true });
+  $('npNo').onclick = hideOverlay;
+  $('npGo').onclick = () => switchProfile(newProfile().id);
+}
+// With more than one player on the phone, ask who is playing when the game opens.
+function maybeAskWho(){
+  if (profiles.length < 2 || !save.welcomed || !overlay.hidden) return;
+  let picked = null; try { picked = sessionStorage.getItem('mc-picked'); } catch (e){}
+  if (picked) return;
+  try { sessionStorage.setItem('mc-picked', '1'); } catch (e){}
+  showOverlay(`<div class="ribbon purple">WHO'S PLAYING?</div>
+    <div class="whogrid">${profiles.map(p => `<button class="whobtn${p.id === activeId ? ' on' : ''}" type="button" data-who="${p.id}">
+      <span class="whobot">${p.look ? robotSVG(p.look) : ''}</span><b data-whon="${p.id}"></b></button>`).join('')}</div>`, { wide: true });
+  profiles.forEach(p => { const n = card.querySelector(`[data-whon="${p.id}"]`); if (n) n.textContent = p.id === activeId ? save.robot.name : p.look ? p.look.name : 'A robot'; });
+  card.querySelectorAll('[data-who]').forEach(b => b.onclick = () => { sfx('pop'); if (b.dataset.who === activeId) hideOverlay(); else switchProfile(b.dataset.who); });
+}
+
 /* ---------- Netlify game server: each device is a player ---------- */
 function randHex(n){ const a = new Uint8Array(n); crypto.getRandomValues(a); return [...a].map(b => b.toString(16).padStart(2, '0')).join(''); }
 async function initNet(){
   try { const r = await fetch('/api/ping', { cache: 'no-store' }); if (!r.ok) return false; const j = await r.json(); if (!j || !j.ok) return false; }
   catch (e){ return false; }
-  let id = null, token = null;
-  try { id = localStorage.getItem('merge-champion-player'); token = localStorage.getItem('merge-champion-token'); } catch (e){}
-  if (!/^p[0-9a-f]{16}$/.test(id || '') || !token){
-    id = 'p' + randHex(8); token = randHex(24);
-    try { localStorage.setItem('merge-champion-player', id); localStorage.setItem('merge-champion-token', token); } catch (e){}
-  }
-  net = true; uid = id; netToken = token;
+  net = true; uid = profile.id; netToken = profile.token;
+  if (await syncCloud()) return true; // a newer save came from another phone: the page reloads with it
+  $('profilePanel').hidden = false; renderProfile(); maybeAskWho();
   checkAdminHash();
   await netRefresh();
   netTimer = setInterval(netRefresh, 20000);
@@ -1862,7 +2059,7 @@ function bump(el){ el.classList.remove('bump'); void el.offsetWidth; el.classLis
 const machine = $('machine'), windowEl = $('window');
 const slotEls = [...document.querySelectorAll('.slot')];
 
-function renderAll(pop = -1){ renderHeader(); renderRobot(pop); renderTray(); renderSwords(); }
+function renderAll(pop = -1){ renderHeader(); renderRobot(pop); renderTray(); renderSwords(); renderProfile(); }
 function swordTile(w){
   const owned = save.weapons.includes(w.id), on = myWeapon() === w.id;
   const tag = on ? '<span class="price hold">Holding</span>' : owned ? '<span class="price own">Owned</span>'
