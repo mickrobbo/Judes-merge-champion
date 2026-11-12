@@ -64,7 +64,7 @@ h1,h2,h3,p{margin:0}
 .logo .ch{color:var(--tomato)}
 .logo .who{color:#fff}
 @media (max-width:620px){ .logo .ch{display:block} .logo{font-size:26px} }
-@media (max-width:430px){ .brand .appicon{display:none} }
+@media (max-width:430px){ .brand .appicon{display:none} .logo{font-size:clamp(19px,5.6vw,24px)} .hud-right{gap:7px} .hud-right .icon-btn{width:42px;height:42px} body:not([data-screen="battle"]) #soundBtn{display:none} .pill{height:42px;padding:0 10px 0 6px;font-size:20px} }
 .hud-right{display:flex;gap:10px;align-items:center;flex-shrink:0}
 .pill{height:46px;display:inline-flex;align-items:center;gap:6px;background:var(--paper);border:3px solid var(--ink);border-radius:999px;padding:0 14px 0 8px;
   font-family:var(--display);font-size:22px;box-shadow:0 4px 0 var(--ink);font-variant-numeric:tabular-nums}
@@ -245,6 +245,27 @@ button.lbrow:active{transform:translateY(2px);box-shadow:0 1px 0 var(--ink)}
 .whobot{width:84px;aspect-ratio:200/240}
 .whobot svg{width:100%;height:100%}
 .whobtn b{font-family:var(--display);font-weight:400;font-size:18px;line-height:1.1;text-align:center;overflow-wrap:anywhere}
+/* menu + page views */
+.menubtn{position:relative}
+body[data-screen="battle"] #menuBtn{display:none}
+.mdot{position:absolute;top:-3px;right:-3px;width:16px;height:16px;border-radius:50%;background:var(--tomato);border:3px solid var(--ink)}
+.workshop .pg{display:none}
+.workshop .pg.on{display:block}
+#workshop:not([data-page="home"]) .machine,#workshop:not([data-page="home"]) .parts{display:none}
+#workshop:not([data-page="home"]) .workshop{grid-template-columns:minmax(0,1fr);max-width:720px;width:100%;margin-inline:auto}
+.pagebar{display:flex}
+.backbtn{font-size:18px;padding:8px 18px}
+.menugrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;width:100%}
+.mtile{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-height:118px;padding:12px 8px;
+  background:var(--c,var(--cloud));border:4px solid var(--ink);border-radius:20px;box-shadow:0 5px 0 var(--ink);cursor:pointer;font:inherit;color:var(--ink)}
+.mtile:active{transform:translateY(3px);box-shadow:0 2px 0 var(--ink)}
+.mtile .mic{width:56px;height:56px;display:grid;place-items:center}
+.mtile .mic svg{max-width:100%;max-height:100%}
+.mtile b{font-family:var(--display);font-weight:400;font-size:20px;line-height:1.05;text-align:center}
+.mtile small{font-weight:800;font-size:13px;opacity:.75;text-align:center;line-height:1.2}
+.mtile .mbadge{position:absolute;top:-8px;right:-6px;min-width:28px;height:28px;padding:0 6px;border-radius:999px;background:var(--tomato);color:#fff;border:3px solid var(--ink);font-family:var(--display);font-size:15px;display:grid;place-items:center}
+.guidetxt{margin:0 16px 8px;font-weight:700;line-height:1.45}
+.guidefoot{display:flex;justify-content:center;padding:4px 16px 16px}
 .bossnext{margin:6px 0 0;text-align:center;font-weight:800;font-size:14px;color:var(--muted)}
 .lbmanage{font-family:var(--display);font-size:14px;background:var(--paper);color:var(--ink);border:3px solid var(--ink);border-radius:999px;padding:2px 12px;cursor:pointer;box-shadow:0 3px 0 var(--ink)}
 .lbmanage:active{transform:translateY(2px);box-shadow:0 1px 0 var(--ink)}
@@ -604,6 +625,7 @@ button.lbrow:active{transform:translateY(2px);box-shadow:0 1px 0 var(--ink)}
     <div class="hud-right">
       <div class="pill coins" id="coinPill" title="Gold coins" aria-label="Gold coins"><span id="coinIcon"></span><b id="coinCount">0</b></div>
       <button id="soundBtn" class="icon-btn" type="button" aria-label="Sound on"></button>
+      <button id="menuBtn" class="icon-btn menubtn" type="button" aria-label="Menu" aria-haspopup="dialog"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M5 7h14M5 12h14M5 17h14" stroke="#2B1D3A" stroke-width="3.2" stroke-linecap="round"/></svg><i class="mdot" id="menuDot" hidden></i></button>
     </div>
   </header>
 
@@ -661,32 +683,34 @@ button.lbrow:active{transform:translateY(2px);box-shadow:0 1px 0 var(--ink)}
             </div>
           </div>
         </section>
-        <section class="armoury panel" aria-label="Armoury">
+        <div class="pagebar" id="pageBar" hidden><button class="btn plain backbtn" id="pageBack" type="button">&larr; Back to my robot</button></div>
+        <section class="armoury panel pg" data-pg="armoury" aria-label="Armoury">
           <div class="phead"><h2>ARMOURY</h2><span class="count" id="swordCount"></span></div>
           <div class="abody">
             <div class="armtabs" role="tablist"><button type="button" role="tab" class="armtab" data-tab="swords">Laser Swords</button><button type="button" role="tab" class="armtab" data-tab="guns">Blasters</button></div>
             <div class="sword-grid" id="swordGrid"></div>
             <p class="anote" id="armNote"></p></div>
         </section>
-        <section class="profile panel" id="profilePanel" aria-label="Player" hidden>
+        <section class="profile panel pg" data-pg="player" id="profilePanel" aria-label="Player" hidden>
           <div class="phead"><h2>PLAYER</h2><span class="count">Your robot on any phone</span></div>
           <div class="pf" id="profileBox"></div>
         </section>
-        <section class="board panel" aria-label="Leaderboard">
+        <section class="board panel pg" data-pg="leaderboard" aria-label="Leaderboard">
           <div class="phead"><h2>LEADERBOARD</h2><button class="lbmanage" id="lbManage" type="button" hidden>Manage</button><span class="count">Most wins</span></div>
           <div class="lb" id="lb" aria-live="polite"><p class="lbmsg">Loading the leaderboard...</p></div>
         </section>
-        <section class="guide panel" aria-label="How to play">
+        <section class="guide panel pg" data-pg="help" aria-label="How to play">
           <div class="phead"><h2>HOW TO PLAY</h2></div>
           <ol class="steps">
             <li><span class="n">1</span><span class="pic" id="g1"></span>Fit up to 3 parts</li>
             <li><span class="n">2</span><span class="pic" id="g2"></span>Win coins and XP</li>
             <li><span class="n">3</span><span class="pic" id="g3"></span>Upgrade your parts</li>
           </ol>
+          <p class="guidetxt">Tap or drag parts onto your robot, then press FIGHT! Win battles for coins, buy laser swords and blasters in the Armoury, and beat a boss every 10th fight for a gold chest.</p>
+          <div class="guidefoot"><button id="resetBtn" class="link-btn" type="button">Start over</button></div>
         </section>
       </div>
     </div>
-    <footer class="foot"><button id="resetBtn" class="link-btn" type="button">Start over</button></footer>
   </main>
 
   <main id="battle" class="screen battle" hidden>
@@ -1557,6 +1581,61 @@ async function initBoard(){
   startChallengeSubs();
 }
 
+/* ---------- menu and pages ----------
+   The garage shows the robot and parts. Everything else lives behind the menu button,
+   each as its own page (#armoury, #player, #leaderboard, #help) so the phone's Back button works. */
+const PAGES = ['armoury', 'player', 'leaderboard', 'help'];
+let page = 'home', pagePushed = false;
+function routePage(){
+  const h = location.hash.slice(1);
+  page = PAGES.includes(h) && !(h === 'player' && !net) ? h : 'home';
+  $('workshop').dataset.page = page;
+  document.querySelectorAll('.workshop .pg').forEach(el => el.classList.toggle('on', el.dataset.pg === page));
+  $('pageBar').hidden = page === 'home';
+  if (page === 'armoury') renderSwords();
+  if (page === 'player') renderProfile();
+  window.scrollTo(0, 0);
+}
+function goPage(name){
+  if (name === 'home'){ goHome(); return; }
+  if (location.hash === '#' + name){ routePage(); return; }
+  pagePushed = true; location.hash = name;
+}
+function goHome(){
+  if (page === 'home') return;
+  if (pagePushed){ pagePushed = false; history.back(); return; }
+  try { history.replaceState(null, '', location.pathname + location.search); } catch (e){}
+  routePage();
+}
+window.addEventListener('hashchange', () => { if (location.hash !== '#admin') routePage(); });
+$('pageBack').addEventListener('click', () => { sfx('pop'); goHome(); });
+function renderMenuDot(){ $('menuDot').hidden = !(save.fresh && save.fresh.length); }
+function openMenu(){
+  const fresh = (save.fresh || []).length, chal = $('inlist') ? $('inlist').children.length : 0;
+  const tile = (id, icon, name, sub, color, badge = 0) =>
+    `<button class="mtile" type="button" data-go="${id}" style="--c:${color}">${badge ? `<span class="mbadge">${badge}</span>` : ''}<span class="mic">${icon}</span><b>${name}</b><small>${sub}</small></button>`;
+  showOverlay(`<div class="ribbon purple">MENU</div>
+    <div class="menugrid">
+      ${tile('parts', iconSvg('gear', 52), 'Parts', `${save.unlocked.length} of ${OBJECTS.length} found`, '#FFF1A8', fresh)}
+      ${tile('armoury', weaponIcon('blue', 54), 'Armoury', 'Swords and blasters', '#E3DBFF')}
+      ${tile('leaderboard', `<svg viewBox="0 0 24 24" width="50" height="50" aria-hidden="true">${TROPHY.replace(/^<svg[^>]*>|<\/svg>$/g, '')}</svg>`, 'Leaderboard', 'Most wins', '#D7F5EC', chal)}
+      ${net ? tile('player', `<span style="width:46px;display:block">${robotSVG(myRobot())}</span>`, 'Player', 'Profile code, switch player', '#FFD9E6') : ''}
+      ${tile('book', `<svg viewBox="0 0 24 24" width="50" height="50" aria-hidden="true"><path d="M4 5c3-1 6-1 8 1v14c-2-2-5-2-8-1z" fill="#FF4D5E" stroke="#2B1D3A" stroke-width="2" stroke-linejoin="round"/><path d="M20 5c-3-1-6-1-8 1v14c2-2 5-2 8-1z" fill="#FFD23F" stroke="#2B1D3A" stroke-width="2" stroke-linejoin="round"/></svg>`, 'Combo Book', `${save.combos.length} of ${COMBOS.length} combos`, '#FFE3D6')}
+      ${tile('help', `<svg viewBox="0 0 24 24" width="50" height="50" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="#5B6CFF" stroke="#2B1D3A" stroke-width="2"/><path d="M9.2 9.3a2.9 2.9 0 1 1 3.9 2.7c-.8.4-1.1.9-1.1 1.8" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/><circle cx="12" cy="17.3" r="1.4" fill="#fff"/></svg>`, 'How to play', 'And start over', '#DCEBFF')}
+      <button class="mtile" type="button" id="menuSound" style="--c:#F1EEF8"><span class="mic">${soundBtn.innerHTML.replace('width="24" height="24"', 'width="50" height="50"')}</span><b>Sound ${soundOn ? 'on' : 'off'}</b><small>Tap to turn ${soundOn ? 'off' : 'on'}</small></button>
+    </div>
+    <div class="stack"><button class="btn plain" id="menuClose" type="button">Back to my robot</button></div>`, { dismiss: true, wide: true });
+  $('menuSound').onclick = () => { toggleSound(); openMenu(); };
+  $('menuClose').onclick = () => { hideOverlay(); goHome(); };
+  card.querySelectorAll('[data-go]').forEach(b => b.onclick = () => {
+    sfx('pop'); hideOverlay(); const go = b.dataset.go;
+    if (go === 'book') showBook();
+    else if (go === 'parts'){ goHome(); setTimeout(() => $('trays').closest('.parts').scrollIntoView({ behavior: 'smooth', block: 'start' }), 60); }
+    else goPage(go);
+  });
+}
+$('menuBtn').addEventListener('click', () => { sfx('pop'); openMenu(); });
+
 /* ---------- removing old players (only the game's owner) ----------
    Inside claude.ai the artifact's owner can remove rows. On the website, open
    the game with #admin on the end of its address and type the ADMIN_KEY that is
@@ -1770,7 +1849,7 @@ async function initNet(){
   catch (e){ return false; }
   net = true; uid = profile.id; netToken = profile.token;
   if (await syncCloud()) return true; // a newer save came from another phone: the page reloads with it
-  $('profilePanel').hidden = false; renderProfile(); maybeAskWho();
+  $('profilePanel').hidden = false; renderProfile(); routePage(); maybeAskWho();
   checkAdminHash();
   await netRefresh();
   netTimer = setInterval(netRefresh, 20000);
@@ -2010,11 +2089,12 @@ function renderSound(){
     <path d="M4 9h4l5-4v14l-5-4H4z" fill="${soundOn ? '#FFD23F' : '#C9C3D8'}"/>
     ${soundOn ? '<path d="M16 9a4 4 0 0 1 0 6M18.5 6.5a7.5 7.5 0 0 1 0 11" fill="none"/>' : '<path d="M16 9l5 6M21 9l-5 6" fill="none"/>'}</g></svg>`;
 }
-soundBtn.addEventListener('click', () => {
+soundBtn.addEventListener('click', toggleSound);
+function toggleSound(){
   soundOn = !soundOn; try { localStorage.setItem('merge-champion-sound', soundOn ? 'on' : 'off'); } catch (e) {}
   renderSound(); sfx('pop');
   if (!soundOn) stopMusic(); else if (!$('battle').hidden && overlay.hidden) startMusic(E && E.robot.boss);
-});
+}
 // Battle music: a short chiptune loop made with the same sound engine.
 const MUSIC = { bass: [110,110,165,147,131,131,196,165], lead: [440,0,523,659,587,0,523,440,392,0,440,523,494,0,392,0] };
 let musicTimer = null, musicStep = 0;
@@ -2059,7 +2139,7 @@ function bump(el){ el.classList.remove('bump'); void el.offsetWidth; el.classLis
 const machine = $('machine'), windowEl = $('window');
 const slotEls = [...document.querySelectorAll('.slot')];
 
-function renderAll(pop = -1){ renderHeader(); renderRobot(pop); renderTray(); renderSwords(); renderProfile(); }
+function renderAll(pop = -1){ renderHeader(); renderRobot(pop); renderTray(); renderSwords(); renderProfile(); renderMenuDot(); }
 function swordTile(w){
   const owned = save.weapons.includes(w.id), on = myWeapon() === w.id;
   const tag = on ? '<span class="price hold">Holding</span>' : owned ? '<span class="price own">Owned</span>'
@@ -3031,9 +3111,10 @@ async function checkEnd(){
 }
 function showScreen(name){
   $('workshop').hidden = name !== 'workshop'; $('battle').hidden = name !== 'battle';
+  document.body.dataset.screen = name;
   window.scrollTo(0, 0);
 }
-function backToGarage(){ currentChallenge = null; stopMusic(); hideOverlay(); showScreen('workshop'); renderAll(); }
+function backToGarage(){ currentChallenge = null; stopMusic(); hideOverlay(); showScreen('workshop'); goHome(); renderAll(); }
 function startBattle(robot, foe, challenge = null){
   currentChallenge = challenge;
   battleRobot = robot; enemyRobot = foe || makeEnemy();
@@ -3227,7 +3308,8 @@ $('installNo').addEventListener('click', () => {
 $('g1').innerHTML = iconSvg('magnet', 42);
 $('g2').innerHTML = COIN(42);
 $('g3').innerHTML = UP(42);
-renderSound(); renderAll(); renderBoard(); initBoard();
+document.body.dataset.screen = 'workshop';
+renderSound(); renderAll(); renderBoard(); routePage(); initBoard();
 if (!save.welcomed) openRename(true);
 </script>
 
