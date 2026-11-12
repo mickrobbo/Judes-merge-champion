@@ -217,6 +217,7 @@ button.lbrow:active{transform:translateY(2px);box-shadow:0 1px 0 var(--ink)}
 .lbsub{font-size:13px;font-weight:800;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .lbwins{display:flex;align-items:center;gap:4px;font-family:var(--display);font-size:22px;font-variant-numeric:tabular-nums}
 .lbmsg{text-align:center;color:var(--muted);font-weight:700;padding:8px 6px;text-wrap:balance}
+.bossnext{margin:6px 0 0;text-align:center;font-weight:800;font-size:14px;color:var(--muted)}
 .lbmanage{font-family:var(--display);font-size:14px;background:var(--paper);color:var(--ink);border:3px solid var(--ink);border-radius:999px;padding:2px 12px;cursor:pointer;box-shadow:0 3px 0 var(--ink)}
 .lbmanage:active{transform:translateY(2px);box-shadow:0 1px 0 var(--ink)}
 .admlist{display:flex;flex-direction:column;gap:8px;max-height:min(52vh,460px);overflow-y:auto;padding:2px 4px 4px;text-align:left}
@@ -613,6 +614,7 @@ button.lbrow:active{transform:translateY(2px);box-shadow:0 1px 0 var(--ink)}
           <p class="hint" id="hint"></p>
           <div class="mstats" id="mstats"></div>
           <button id="fightBtn" class="btn big ready" type="button">FIGHT!</button>
+          <p class="bossnext" id="bossNext"></p>
         </div>
       </section>
 
@@ -1294,9 +1296,9 @@ function myRobot(){
   return buildRobot({ parts: save.robot.parts, lv: partLevel, level: save.level, colors: save.robot.colors, name: save.robot.name,
                       weapon: myWeapon(), style: save.robot.style, gun: myGun(), vehicle: myVehicle() });
 }
-const BOSS_EVERY = 5;
+const BOSS_EVERY = 10; // a boss after every 9 wins
 const BOSS_NAMES = ['Mega Destructo','King Krusher','Titan Doom-Bot','Lord Clank-a-Lot','Captain Kaboom','Omega Grumble'];
-const bossDue = () => (save.wins + 1) % BOSS_EVERY === 0;
+const bossDue = () => save.sinceBoss >= BOSS_EVERY - 1;
 const nextFoe = () => makeEnemy({ boss: bossDue() });
 function makeEnemy(opts = {}){
   const boss = !!opts.boss;
@@ -1319,7 +1321,14 @@ function makeEnemy(opts = {}){
   const m = Math.min(1, .78 + save.wins * .03);
   r.pow = Math.round(r.pow * m); r.spd = Math.round(r.spd * m); r.def = Math.round(r.def * m);
   r.hp = Math.round(r.hp * (m * .5 + .5));
-  if (boss){ r.boss = true; r.hp = Math.round(r.hp * 1.8); r.pow = Math.round(r.pow * 1.1); }
+  if (boss){
+    // A boss is matched to your robot: a bit tougher than you, and a bit weaker each time it beats you.
+    const me = myRobot(), ease = clamp(1 - .1 * (save.bossTries || 0), .7, 1);
+    r.boss = true; r.level = save.level;
+    r.hp = Math.round(me.hp * 1.3 * ease);
+    r.pow = Math.max(1, Math.round(Math.max(me.pow, 2) * 1.05 * ease));
+    r.spd = Math.round(me.spd * ease); r.def = Math.round(me.def * ease);
+  }
   return r;
 }
 
@@ -1328,7 +1337,7 @@ const SAVE_KEY = 'merge-champion-v2';
 const STARTERS = OBJECTS.filter(o => o.starter).map(o => o.id);
 function freshSave(){
   const parts = ['battery','spring'];
-  return { coins: 0, wins: 0, losses: 0, xp: 0, level: 1, unlocked: STARTERS.slice(), fresh: [], combos: [], seen: [], levels: {}, welcomed: false,
+  return { coins: 0, wins: 0, losses: 0, xp: 0, level: 1, unlocked: STARTERS.slice(), fresh: [], combos: [], seen: [], levels: {}, welcomed: false, sinceBoss: 0, bossTries: 0,
            weapons: ['blue'], guns: ['pea'],
            robot: { name: makeName(parts.map(id => OBJ[id])), colors: { body:'#5B6CFF', head:'#FFD23F', limbs:'#FF4D5E' }, parts, weapon: 'blue', style: 'classic', gun: null, vehicle: 'tank' } };
 }
@@ -1347,6 +1356,8 @@ try {
 save.robot.parts = save.robot.parts.filter(id => OBJ[id]).slice(0, ROBOT_SLOTS);
 if (!Array.isArray(save.seen)) save.seen = [];
 if (typeof save.streak !== 'number') save.streak = 0;
+if (typeof save.sinceBoss !== 'number') save.sinceBoss = save.wins % BOSS_EVERY;
+if (typeof save.bossTries !== 'number') save.bossTries = 0;
 if (!Array.isArray(save.weapons)) save.weapons = ['blue'];
 save.weapons = save.weapons.filter(id => WEAPON[id]);
 if (!('weapon' in save.robot)) save.robot.weapon = 'blue';
@@ -2007,6 +2018,9 @@ function renderRobot(popIndex = -1){
   fb.classList.toggle('ready', parts.length > 0);
   fb.classList.toggle('bossbtn', bossDue());
   fb.textContent = bossDue() ? 'BOSS BATTLE!' : 'FIGHT!';
+  const left = BOSS_EVERY - 1 - save.sinceBoss;
+  $('bossNext').textContent = bossDue() ? (save.bossTries ? `Boss try ${save.bossTries + 1}: it's a bit weaker now!` : 'A boss is waiting. Beat it for a gold chest!')
+    : `Boss battle after ${left} more win${left === 1 ? '' : 's'}`;
 }
 function tileHTML(o){
   const usable = isUsable(o.id);
@@ -2918,6 +2932,7 @@ function victory(){
   save.wins++;
   const hpLeft = P.hp / P.maxHp, stars = hpLeft > .6 ? 3 : hpLeft > .25 ? 2 : 1;
   const boss = !!enemyRobot.boss;
+  if (boss){ save.sinceBoss = 0; save.bossTries = 0; } else save.sinceBoss++;
   save.streak = (save.streak || 0) + 1;
   const streakBonus = save.streak >= 2 ? Math.min(save.streak - 1, 5) : 0, bossBonus = boss ? 10 : 0;
   const coins = winCoins(stars) + streakBonus + bossBonus;
@@ -2955,6 +2970,7 @@ function defeat(){
   const ch = currentChallenge; if (ch) resolveChallenge(false);
   const startCoins = save.coins;
   save.losses++; save.streak = 0;
+  if (enemyRobot.boss) save.bossTries = (save.bossTries || 0) + 1;
   save.coins += LOSS_COINS;
   const lv = addXP(LOSS_XP);
   persist(); renderRobot(); renderTray();
@@ -2966,14 +2982,14 @@ function defeat(){
     ${ch ? '<p class="muted">That was a real player\'s robot. Their owner will find out they won!</p>' : ''}
     ${rewardsHTML(LOSS_COINS, LOSS_XP)}
     ${extrasHTML(lv, null)}
-    <p class="muted">Use your coins to upgrade parts, or try a different mix. Then come back!</p>
+    <p class="muted">${enemyRobot.boss ? 'The boss gets a little weaker every time you try. Upgrade your parts and have another go!' : 'Use your coins to upgrade parts, or try a different mix. Then come back!'}</p>
     <div class="stack">
       <button class="btn big green ready" id="toWorkshop" type="button">Upgrade my robot</button>
       <button class="btn plain" id="rematch" type="button">${enemyRobot.boss ? 'Fight the boss again' : 'Rematch'}</button>
     </div>`);
   flyCoins(LOSS_COINS, $('coinReward'), startCoins);
   $('toWorkshop').onclick = backToGarage;
-  $('rematch').onclick = () => { hideOverlay(); renderAll(); startBattle(myRobot(), enemyRobot); };
+  $('rematch').onclick = () => { hideOverlay(); renderAll(); startBattle(myRobot(), enemyRobot.boss ? nextFoe() : enemyRobot); };
 }
 
 /* ---------- reset ---------- */
