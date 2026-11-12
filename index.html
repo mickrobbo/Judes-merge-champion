@@ -217,6 +217,16 @@ button.lbrow:active{transform:translateY(2px);box-shadow:0 1px 0 var(--ink)}
 .lbsub{font-size:13px;font-weight:800;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .lbwins{display:flex;align-items:center;gap:4px;font-family:var(--display);font-size:22px;font-variant-numeric:tabular-nums}
 .lbmsg{text-align:center;color:var(--muted);font-weight:700;padding:8px 6px;text-wrap:balance}
+.lbmanage{font-family:var(--display);font-size:14px;background:var(--paper);color:var(--ink);border:3px solid var(--ink);border-radius:999px;padding:2px 12px;cursor:pointer;box-shadow:0 3px 0 var(--ink)}
+.lbmanage:active{transform:translateY(2px);box-shadow:0 1px 0 var(--ink)}
+.admlist{display:flex;flex-direction:column;gap:8px;max-height:min(52vh,460px);overflow-y:auto;padding:2px 4px 4px;text-align:left}
+.admrow{display:grid;grid-template-columns:40px minmax(0,1fr) auto;gap:10px;align-items:center;background:var(--cloud);border:3px solid var(--ink);border-radius:14px;padding:6px 8px}
+.admrow.old{background:#FFE3D6}
+.admrow .lbbot{width:40px;height:48px}
+.admrm{font-family:var(--display);font-size:14px;background:#fff;border:3px solid var(--ink);border-radius:999px;padding:4px 12px;cursor:pointer;white-space:nowrap}
+.admrm.sure{background:var(--tomato);color:#fff}
+.admrm:disabled{opacity:.5;cursor:default}
+.admkey{width:100%;font:inherit;font-size:18px;padding:10px 12px;border:3px solid var(--ink);border-radius:12px;background:#fff;color:var(--ink)}
 .lbgap{text-align:center;font-family:var(--display);color:var(--muted);line-height:.6;font-size:22px}
 .guide .phead{background:var(--mint);color:#fff}
 .steps{list-style:none;margin:0;padding:16px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
@@ -629,7 +639,7 @@ button.lbrow:active{transform:translateY(2px);box-shadow:0 1px 0 var(--ink)}
             <p class="anote" id="armNote"></p></div>
         </section>
         <section class="board panel" aria-label="Leaderboard">
-          <div class="phead"><h2>LEADERBOARD</h2><span class="count">Most wins</span></div>
+          <div class="phead"><h2>LEADERBOARD</h2><button class="lbmanage" id="lbManage" type="button" hidden>Manage</button><span class="count">Most wins</span></div>
           <div class="lb" id="lb" aria-live="polite"><p class="lbmsg">Loading the leaderboard...</p></div>
         </section>
         <section class="guide panel" aria-label="How to play">
@@ -1377,6 +1387,8 @@ const shared = {
   resolve: (c, won) => net ? api('resolve', { from: c.from, won, toName: save.robot.name })
     : db.doc('challenges/' + c.id).update({ status: 'done', winner: won ? uid : c.from, toName: save.robot.name, toBuild: myBuild(), updated: Date.now() }),
   decline: c => net ? api('decline', { from: c.from }) : db.doc('challenges/' + c.id).update({ status: 'declined', updated: Date.now() }),
+  adminCheck: key => api('admin', { adminKey: key, op: 'check' }),
+  adminRemove: ids => net ? api('admin', { adminKey, op: 'remove', ids }) : Promise.all(ids.map(id => db.doc('scores/' + id).delete())),
   claim: c => net ? api('claim', { to: c.to }) : db.doc('challenges/' + c.id).update({ claimed: true }),
 };
 let db = null, uid = null, boardRows = [], boardState = 'loading', canPost = true, lastPushed = null, pushTimer = null, pushing = false;
@@ -1396,7 +1408,7 @@ function cleanRow(id, d){
   return { id, name: String(d.name || 'Mystery Robot').slice(0, 20), level: num(d.level, MAX_ROBOT_LEVEL) || 1,
            wins: num(d.wins, 999999), upgrades: num(d.upgrades, 1000), parts, colors,
            style: STYLE[d.style] ? d.style : 'classic', weapon: WEAPON[d.weapon] ? d.weapon : null,
-           gun: GUN[d.gun] ? d.gun : null, vehicle: VEHICLE[d.vehicle] ? d.vehicle : null };
+           gun: GUN[d.gun] ? d.gun : null, vehicle: VEHICLE[d.vehicle] ? d.vehicle : null, updated: Math.max(0, Number(d.updated) || 0) };
 }
 function lbRow(r, i){
   const el = document.createElement('button');
@@ -1414,6 +1426,7 @@ function lbRow(r, i){
 function renderBoard(){
   const box = $('lb'); if (!box) return;
   box.textContent = '';
+  $('lbManage').hidden = !canManage() || !boardRows.length;
   const msg = t => { const p = document.createElement('p'); p.className = 'lbmsg'; p.textContent = t; box.appendChild(p); };
   if (boardState === 'off'){ msg("The leaderboard can't be reached from here. Your robot still saves on this device."); return; }
   if (boardState === 'loading'){ msg('Loading the leaderboard...'); return; }
@@ -1447,6 +1460,7 @@ async function initBoard(){
       db = await window.claude.use('db');
       const user = await window.claude.use('user');
       uid = user ? await user.id() : null;
+      isOwnerView = !!(user && user.isOwner());
       if (user && (await user.can('data.write')) === false) canPost = false;
     }
   } catch (e){ db = null; }
@@ -1468,6 +1482,75 @@ async function initBoard(){
   startChallengeSubs();
 }
 
+/* ---------- removing old players (only the game's owner) ----------
+   Inside claude.ai the artifact's owner can remove rows. On the website, open
+   the game with #admin on the end of its address and type the ADMIN_KEY that is
+   set in Netlify; this device then remembers it. */
+let adminKey = null, isOwnerView = false;
+try { adminKey = localStorage.getItem('merge-champion-admin'); } catch (e){}
+const canManage = () => net ? !!adminKey : isOwnerView;
+const OLD_DAYS = 30;
+const daysAgo = t => t ? Math.floor((Date.now() - t) / 864e5) : null;
+function lastPlayed(t){
+  const d = daysAgo(t);
+  return d === null ? 'not seen for a long time' : d < 1 ? 'played today' : d === 1 ? 'played yesterday' : `last played ${d} days ago`;
+}
+const isOld = r => r.id !== uid && (daysAgo(r.updated) === null || daysAgo(r.updated) >= OLD_DAYS);
+function openManage(){
+  const rows = boardRows.slice().sort((a, b) => (a.updated || 0) - (b.updated || 0));
+  const old = rows.filter(isOld);
+  showOverlay(`<div class="ribbon purple">MANAGE PLAYERS</div>
+    <p class="muted">Remove robots from the leaderboard. Oldest first. If a removed player plays again, their robot comes back.</p>
+    <div class="admlist">${rows.map(r => `<div class="admrow${isOld(r) ? ' old' : ''}"><span class="lbbot">${robotSVG(r)}</span>
+      <div class="lbtxt"><div class="lbname" data-n="${r.id}"></div><div class="lbsub">${r.wins} win${r.wins === 1 ? '' : 's'} · ${lastPlayed(r.updated)}</div></div>
+      ${r.id === uid ? '<span class="lbsub">You</span>' : `<button class="admrm" type="button" data-rm="${r.id}">Remove</button>`}</div>`).join('')}</div>
+    <div class="stack">${old.length ? `<button class="btn yellow" id="rmOld" type="button">Remove ${old.length} player${old.length === 1 ? '' : 's'} not seen for ${OLD_DAYS} days</button>` : ''}
+      <button class="btn plain" id="admDone" type="button">Done</button></div>`, { dismiss: true, wide: true });
+  rows.forEach(r => { const n = card.querySelector(`[data-n="${r.id}"]`); if (n) n.textContent = r.name; });
+  $('admDone').onclick = hideOverlay;
+  const remove = async (ids, btn) => {
+    btn.disabled = true; btn.textContent = 'Removing...';
+    try { await shared.adminRemove(ids); boardRows = boardRows.filter(r => !ids.includes(r.id)); sfx('remove');
+          toast(ids.length === 1 ? 'Player removed' : `${ids.length} players removed`); }
+    catch (e){ sfx('full'); toast(e && e.code === 'invalid_argument' ? 'Your manager key was not accepted' : "Couldn't remove right now. Try again"); }
+    renderBoard(); if (net) netRefresh();
+    if (canManage() && boardRows.length) openManage(); else hideOverlay();
+  };
+  // every remove needs a second tap, so nobody is removed by accident
+  card.querySelectorAll('[data-rm]').forEach(b => b.onclick = () => {
+    if (!b.classList.contains('sure')){ b.classList.add('sure'); b.textContent = 'Tap to confirm'; return; }
+    remove([b.dataset.rm], b);
+  });
+  if ($('rmOld')) $('rmOld').onclick = () => {
+    const b = $('rmOld');
+    if (!b.dataset.sure){ b.dataset.sure = '1'; b.classList.remove('yellow'); b.textContent = `Tap again to remove ${old.length}`; return; }
+    remove(old.map(r => r.id), b);
+  };
+}
+function openAdminLogin(){
+  showOverlay(`<div class="ribbon purple">GAME MANAGER</div>
+    <p class="muted">Type the manager key to remove old players on this device.</p>
+    <input class="admkey" id="admKey" type="password" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Manager key">
+    <p class="note" id="admMsg"></p>
+    <div class="stack"><button class="btn big green" id="admGo" type="button">Unlock</button>
+      ${adminKey ? '<button class="btn plain" id="admOut" type="button">Forget the key on this device</button>' : ''}</div>`, { dismiss: true });
+  $('admGo').onclick = async () => {
+    const key = $('admKey').value.trim(); if (!key) return;
+    $('admGo').disabled = true; $('admMsg').textContent = 'Checking...';
+    try { await shared.adminCheck(key); adminKey = key; try { localStorage.setItem('merge-champion-admin', key); } catch (e){}
+          hideOverlay(); renderBoard(); toast('Manager mode on. Tap Manage on the leaderboard'); }
+    catch (e){ $('admGo').disabled = false; $('admMsg').textContent = e && e.code === 'invalid_argument' ? "That key isn't right." : "Couldn't check the key. Try again."; }
+  };
+  if ($('admOut')) $('admOut').onclick = () => { adminKey = null; try { localStorage.removeItem('merge-champion-admin'); } catch (e){} hideOverlay(); renderBoard(); toast('Manager key forgotten'); };
+}
+$('lbManage').addEventListener('click', () => { sfx('pop'); openManage(); });
+function checkAdminHash(){
+  if (location.hash !== '#admin' || !net) return;
+  try { history.replaceState(null, '', location.pathname + location.search); } catch (e){}
+  openAdminLogin();
+}
+window.addEventListener('hashchange', checkAdminHash);
+
 /* ---------- Netlify game server: each device is a player ---------- */
 function randHex(n){ const a = new Uint8Array(n); crypto.getRandomValues(a); return [...a].map(b => b.toString(16).padStart(2, '0')).join(''); }
 async function initNet(){
@@ -1480,6 +1563,7 @@ async function initNet(){
     try { localStorage.setItem('merge-champion-player', id); localStorage.setItem('merge-champion-token', token); } catch (e){}
   }
   net = true; uid = id; netToken = token;
+  checkAdminHash();
   await netRefresh();
   netTimer = setInterval(netRefresh, 20000);
   document.addEventListener('visibilitychange', () => { if (!document.hidden) netRefresh(); });

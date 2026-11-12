@@ -9,6 +9,10 @@
 //   players/<id>          { id, tokenHash, created, score? }
 //   in/<to>/<from>        a challenge, as the receiving player sees it
 //   out/<from>/<to>       the same challenge, as the sending player sees it
+//
+// The game's owner can remove old players with the "admin" route. It needs the
+// ADMIN_KEY environment variable set in Netlify (Project configuration →
+// Environment variables); without it, nobody can remove players.
 import { getStore } from "@netlify/blobs";
 
 const PART_IDS = new Set([
@@ -67,6 +71,21 @@ async function readAll(store, prefix) {
   return rows.filter(Boolean);
 }
 
+// Compares hashes so the check takes the same time whatever was typed.
+async function isAdmin(key) {
+  const real = (globalThis.Netlify?.env?.get("ADMIN_KEY") ?? process.env.ADMIN_KEY ?? "").trim();
+  if (real.length < 8 || typeof key !== "string" || key.length > 200) return false;
+  return (await sha256("mc-admin:" + key.trim())) === (await sha256("mc-admin:" + real));
+}
+
+async function removePlayer(store, id) {
+  const { blobs: mine } = await store.list({ prefix: `in/${id}/` });
+  const { blobs: sent } = await store.list({ prefix: `out/${id}/` });
+  const keys = [`players/${id}`, ...mine.map(b => b.key), ...sent.map(b => b.key),
+                ...mine.map(b => `out/${b.key.split("/")[2]}/${id}`), ...sent.map(b => `in/${b.key.split("/")[2]}/${id}`)];
+  await Promise.all(keys.map(k => store.delete(k)));
+}
+
 const fresh = c => Date.now() - (c.created || 0) < CHALLENGE_DAYS * 864e5;
 
 export default async (req) => {
@@ -81,6 +100,18 @@ export default async (req) => {
   if (!body || typeof body !== "object") return json({ error: "Bad request." }, 400);
 
   const store = getStore({ name: "merge-champion", consistency: "strong" });
+
+  if (route === "admin") {
+    if (!(await isAdmin(body.adminKey))) return json({ error: "Wrong key." }, 403);
+    if (body.op === "check") return json({ ok: true });
+    if (body.op === "remove") {
+      const ids = (Array.isArray(body.ids) ? body.ids : []).filter(i => typeof i === "string" && PLAYER_ID.test(i)).slice(0, 100);
+      for (const id of ids) await removePlayer(store, id);
+      return json({ ok: true, removed: ids.length });
+    }
+    return json({ error: "Unknown admin action." }, 400);
+  }
+
   const me = await auth(store, body.id, body.token);
   if (!me) return json({ error: "Not allowed." }, 403);
   const now = Date.now();

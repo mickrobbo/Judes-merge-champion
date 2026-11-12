@@ -38,3 +38,12 @@ Open `index.html` and look near the top of the `<script>`:
 - `GUNS` – blasters for the FIRE! button (ammo per battle); what each one does is in `GUN_FIRE`.
 - `VEHICLES` – transform forms (tank, race car, jet, rocket), unlocked by robot level; their attacks are in `VEHICLE_ATTACK` and drawings in `vehicleSVG`.
 - The economy constants (coin rewards, upgrade cost, XP per level) sit just above.
+
+## Removing old players
+
+The leaderboard has a **Manage** button that only the game's manager sees.
+
+- **Website:** open the game with `#admin` on the end of the address (for example `https://judes-merge-champion.netlify.app/#admin`) and type the manager key. The key is the `ADMIN_KEY` environment variable in Netlify (Project configuration → Environment variables). The device remembers it; open `#admin` again to make it forget.
+- **Claude version:** the artifact's owner sees Manage automatically.
+
+Each removal needs a second tap to confirm. There is also a button that removes everyone not seen for 30 days. A removed player who plays again comes back on the board.
