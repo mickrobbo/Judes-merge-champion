@@ -22,4 +22,6 @@ Open `index.html` and look near the top of the `<script>`:
 - `OBJECTS` – the parts. Add one here plus an icon in `ICONS`.
 - `SPECIALS` – what each part's special move does.
 - `COMBOS` – secret combos.
+- `WEAPONS` – laser swords (colour, stats, price, special move). Their special moves are in `SPECIALS` too.
+- `STYLES` – robot styles (Classic, Star Knight, Shadow Lord, Rocket Pilot, Scrap Scout), drawn in `robotSVG`.
 - The economy constants (coin rewards, upgrade cost, XP per level) sit just above.

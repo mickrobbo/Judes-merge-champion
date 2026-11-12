@@ -39,6 +39,7 @@ body{
   overscroll-behavior:none;-webkit-tap-highlight-color:transparent;
 }
 *{box-sizing:border-box}
+[hidden]{display:none!important}
 button,input{font:inherit;color:inherit}
 h1,h2,h3,p{margin:0}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
@@ -393,12 +394,80 @@ button.lbrow:active{transform:translateY(2px);box-shadow:0 1px 0 var(--ink)}
 .spark{position:fixed;z-index:60;pointer-events:none;font-family:var(--display);font-size:30px;color:#fff}
 .flycoin{position:fixed;z-index:65;pointer-events:none}
 
+/* laser swords + styles */
+.bot .blade{animation:hum .11s steps(2) infinite}
+@keyframes hum{50%{opacity:.86}}
+.weaponslot{display:grid;grid-template-columns:56px minmax(0,1fr) auto;gap:12px;align-items:center;width:100%;text-align:left;cursor:pointer;
+  background:#1E1A3A;color:#fff;border:4px solid var(--ink);border-radius:18px;box-shadow:0 5px 0 var(--ink);padding:6px 14px 6px 8px;font:inherit}
+.weaponslot:active{transform:translateY(3px);box-shadow:0 2px 0 var(--ink)}
+.weaponslot .wic{width:56px;height:56px;border-radius:14px;display:grid;place-items:center;
+  background:radial-gradient(circle at 50% 40%,rgba(127,243,255,.18),transparent 70%),#140F2E}
+.weaponslot .wic svg{width:48px;height:48px}
+.weaponslot b{font-family:var(--display);font-weight:400;font-size:19px;display:block;line-height:1.1}
+.weaponslot span.ws{font-size:13px;font-weight:700;color:#BDB6E0}
+.weaponslot .chg{font-family:var(--display);font-size:15px;background:#7FF3FF;color:var(--ink);border-radius:999px;padding:3px 12px;white-space:nowrap}
+.armoury{overflow:hidden}
+.armoury .phead{background:#1E1A3A;color:#7FF3FF}
+.abody,.sword-stage{background:
+  radial-gradient(1.5px 1.5px at 12% 18%,#fff,transparent),radial-gradient(1px 1px at 38% 62%,#fff,transparent),
+  radial-gradient(1.5px 1.5px at 72% 28%,#fff,transparent),radial-gradient(1px 1px at 88% 78%,#fff,transparent),
+  radial-gradient(1px 1px at 56% 90%,#fff,transparent),radial-gradient(1.5px 1.5px at 24% 84%,#fff,transparent),
+  radial-gradient(circle at 20% 30%,rgba(127,243,255,.14),transparent 45%),radial-gradient(circle at 85% 75%,rgba(180,107,255,.18),transparent 50%),#140F2E}
+.abody{padding:16px 16px 14px}
+.sword-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px 10px;padding-bottom:10px}
+.stile{position:relative;background:#251D4D;border:3px solid #0A0718;border-radius:18px;box-shadow:0 4px 0 #0A0718;padding:8px 4px 16px;
+  display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;color:#fff;font:inherit;min-width:0}
+.stile:active{transform:translateY(3px);box-shadow:0 1px 0 #0A0718}
+.stile .ic svg{width:62px;height:62px}
+.stile .nm{font-family:var(--display);font-size:clamp(13px,3.4vw,16px);line-height:1.1;text-align:center}
+.stile.on{border-color:#7FF3FF;box-shadow:0 0 0 3px rgba(127,243,255,.35),0 4px 0 #0A0718}
+.stile .price{position:absolute;bottom:-13px;left:50%;transform:translateX(-50%);display:inline-flex;align-items:center;gap:3px;white-space:nowrap;
+  background:var(--sun);color:var(--ink);border:2.5px solid var(--ink);border-radius:999px;padding:0 9px 0 3px;font-family:var(--display);font-size:13px;line-height:20px}
+.stile .price.own{background:var(--paper);padding:0 9px}
+.stile .price.hold{background:#7FF3FF;padding:0 9px}
+.stile .price.cant{background:#C9C3D8;color:#5A5270}
+.anote{color:#BDB6E0;font-size:14px;font-weight:700;text-align:center}
+.sword-stage{width:100%;height:170px;border:3px solid var(--ink);border-radius:18px;display:grid;place-items:center}
+.sword-stage svg{width:150px;height:150px}
+.ovl-grid{width:100%;border:3px solid var(--ink);border-radius:18px;padding:16px 12px 12px}
+.styles{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+.stylebtn{background:var(--cloud);border:3px solid var(--ink);border-radius:14px;box-shadow:0 3px 0 var(--ink);padding:4px 2px 6px;cursor:pointer;
+  display:flex;flex-direction:column;align-items:center;gap:2px;font-family:var(--display);font-size:11.5px;line-height:1.05;color:var(--ink);min-width:0}
+.stylebtn .sb{width:100%;max-width:56px;aspect-ratio:200/240}
+.stylebtn .sb svg{width:100%;height:100%}
+.stylebtn.sel{background:#FFF1A8;box-shadow:0 0 0 3px var(--paper),0 0 0 6px var(--ink)}
+/* battle arenas */
+.arena .sun,.arena .planet{display:none;position:absolute;z-index:0;pointer-events:none}
+.arena[data-theme="space"]{background:
+  radial-gradient(1.5px 1.5px at 8% 14%,#fff,transparent),radial-gradient(1px 1px at 22% 36%,#fff,transparent),radial-gradient(2px 2px at 41% 12%,#fff,transparent),
+  radial-gradient(1px 1px at 58% 40%,#fff,transparent),radial-gradient(1.5px 1.5px at 66% 8%,#fff,transparent),radial-gradient(1px 1px at 92% 46%,#fff,transparent),
+  radial-gradient(1.5px 1.5px at 33% 50%,#fff,transparent),radial-gradient(circle at 25% 30%,rgba(127,243,255,.14),transparent 40%),
+  linear-gradient(#0D0A24 0 60%, #2B2357 60% 62.5%, #3B3270 62.5% 100%)}
+.arena[data-theme="space"]::before{background:repeating-linear-gradient(90deg,rgba(127,243,255,.1) 0 32px,transparent 32px 64px)}
+.arena[data-theme="space"] .cloudy{display:none}
+.arena[data-theme="space"] .planet{display:block;right:9%;top:9%;width:68px;aspect-ratio:1;border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,#FFC2E6,#B46BFF 55%,#5A3FA0);border:3px solid #0A0718;box-shadow:0 0 34px rgba(180,107,255,.55)}
+.arena[data-theme="space"] .planet::after{content:"";position:absolute;left:-32%;top:40%;width:164%;height:24%;border:3px solid #FFD23F;border-radius:50%;transform:rotate(-16deg)}
+.arena[data-theme="desert"]{background:linear-gradient(#FFC98A 0 58%, #EBA866 58% 60.5%, #DC9152 60.5% 100%)}
+.arena[data-theme="desert"]::before{background:repeating-linear-gradient(90deg,rgba(255,255,255,.1) 0 40px,transparent 40px 80px)}
+.arena[data-theme="desert"] .cloudy{opacity:.45}
+.arena[data-theme="desert"] .sun{display:block;left:10%;top:9%;width:58px;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,#FFF6C9,#FFD23F 60%);
+  border:3px solid #E0A400;box-shadow:0 0 40px rgba(255,210,63,.8)}
+.flash{position:absolute;inset:0;background:#fff;z-index:7;pointer-events:none}
 @media (max-width:380px){ .tray-grid{gap:18px 6px} }
 @media (prefers-reduced-motion: reduce){
-  .bob,.btn.ready,.btn.special.charged,.bot .prop,.bot .flame,.machine.shaking,.card,.popin,.preview.pop svg{animation:none!important}
+  .bob,.btn.ready,.btn.special.charged,.bot .prop,.bot .flame,.bot .blade,.machine.shaking,.card,.popin,.preview.pop svg{animation:none!important}
 }
 </style>
 
+<svg id="mcDefs" width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
+  <linearGradient id="mcShine" x1="0" y1="0" x2=".55" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".55"/><stop offset=".42" stop-color="#fff" stop-opacity=".06"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+  <linearGradient id="mcShade" x1="0" y1="0" x2="0" y2="1"><stop offset=".5" stop-color="#2B1D3A" stop-opacity="0"/><stop offset="1" stop-color="#2B1D3A" stop-opacity=".3"/></linearGradient>
+  <linearGradient id="mcMetal" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#7E8996"/><stop offset=".35" stop-color="#F4F7FA"/><stop offset=".6" stop-color="#B8C4D0"/><stop offset="1" stop-color="#5F6975"/></linearGradient>
+  <radialGradient id="mcGlass" cx=".35" cy=".3" r=".85"><stop offset="0" stop-color="#fff" stop-opacity=".7"/><stop offset=".4" stop-color="#CFF4FF" stop-opacity=".22"/><stop offset="1" stop-color="#8FD6FF" stop-opacity=".3"/></radialGradient>
+  <radialGradient id="mcEye" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#fff"/><stop offset=".45" stop-color="#7FF3FF"/><stop offset="1" stop-color="#1497D4"/></radialGradient>
+  <filter id="mcGlow" x="-2" y="-2" width="5" height="5"><feGaussianBlur stdDeviation="4"/></filter>
+</defs></svg>
 <div id="app">
   <header class="top">
     <div class="brand">
@@ -437,6 +506,7 @@ button.lbrow:active{transform:translateY(2px);box-shadow:0 1px 0 var(--ink)}
             <button class="slot" data-i="1" type="button"></button><span class="plus">+</span>
             <button class="slot" data-i="2" type="button"></button>
           </div>
+          <button class="weaponslot" id="weaponSlot" type="button"></button>
           <p class="hint" id="hint"></p>
           <div class="mstats" id="mstats"></div>
           <button id="fightBtn" class="btn big ready" type="button">FIGHT!</button>
@@ -457,6 +527,11 @@ button.lbrow:active{transform:translateY(2px);box-shadow:0 1px 0 var(--ink)}
               <button class="btn small yellow" id="bookBtn" type="button">Combo Book</button>
             </div>
           </div>
+        </section>
+        <section class="armoury panel" aria-label="Laser swords">
+          <div class="phead"><h2>LASER SWORDS</h2><span class="count" id="swordCount"></span></div>
+          <div class="abody"><div class="sword-grid" id="swordGrid"></div>
+            <p class="anote">Buy swords with gold coins. Your robot holds one sword, and it adds a new special move.</p></div>
         </section>
         <section class="board panel" aria-label="Leaderboard">
           <div class="phead"><h2>LEADERBOARD</h2><span class="count">Most wins</span></div>
@@ -484,6 +559,7 @@ button.lbrow:active{transform:translateY(2px);box-shadow:0 1px 0 var(--ink)}
     <div class="arena panel" id="arena">
       <div class="cloudy" style="width:90px;height:26px;left:8%;top:14%"></div>
       <div class="cloudy" style="width:64px;height:20px;right:12%;top:26%"></div>
+      <div class="sun"></div><div class="planet"></div>
       <div class="turn" id="turn"></div>
       <div class="fighter left" id="pF"></div>
       <div class="fighter right" id="eF"></div>
@@ -601,6 +677,17 @@ const COMBOS = [
   {parts:['storm','battery'],   name:'Super Storm', pow:5},
 ];
 const comboKey = c => c.parts.slice().sort().join('+');
+
+// Laser swords: bought with coins, one held at a time. Each adds stats and a special move.
+const WEAPONS = [
+  {id:'blue',   name:'Blue Blade',   color:'#3FA9FF', pow:4, spd:0, def:0, cost:0,  special:'starslash'},
+  {id:'green',  name:'Green Blade',  color:'#39E36B', pow:3, spd:0, def:3, cost:8,  special:'parry'},
+  {id:'purple', name:'Purple Blade', color:'#B46BFF', pow:5, spd:2, def:0, cost:14, special:'spin'},
+  {id:'red',    name:'Red Blade',    color:'#FF3B4E', pow:7, spd:0, def:0, cost:20, special:'shadowstrike'},
+  {id:'gold',   name:'Gold Blade',   color:'#FFC93C', pow:5, spd:4, def:0, cost:28, special:'sunflash'},
+  {id:'twin',   name:'Twin Blades',  color:'#2EF0E0', pow:8, spd:4, def:0, cost:40, special:'twinstorm'},
+];
+const WEAPON = Object.fromEntries(WEAPONS.map(w => [w.id, w]));
 function findCombos(ids){ return COMBOS.filter(c => c.parts.every(p => ids.includes(p))); }
 
 /* ---------- part icons (64x64) ---------- */
@@ -728,109 +815,197 @@ const SPARK_SVG = `<svg viewBox="0 0 40 40" width="44" height="44"><path d="M20 
 const BOLT_SVG = `<svg viewBox="0 0 60 90" width="70" height="105"><path d="M38 2L8 50H28L18 88L54 34H33Z" fill="#FFE94A" stroke="${INK}" stroke-width="4" stroke-linejoin="round"/></svg>`;
 const LAVA_SVG = `<svg viewBox="0 0 40 40" width="48" height="48"><path d="M20 4c8 6 14 12 14 20a14 14 0 0 1-28 0c0-8 6-14 14-20z" fill="#FF6A2B" stroke="${INK}" stroke-width="3" stroke-linejoin="round"/><path d="M14 24a6 6 0 0 0 6 6" fill="none" stroke="#FFD23F" stroke-width="3" stroke-linecap="round"/></svg>`;
 
-/* ---------- robot drawing (built from parts + paint colours) ---------- */
+/* ---------- robot drawing (parts + paint + style + sword) ----------
+   Shading uses the shared gradients and glow filter in the hidden <svg id="mcDefs"> at the top of the page. */
+const STYLES = [
+  {id:'classic', name:'Classic'},
+  {id:'knight',  name:'Star Knight'},
+  {id:'shadow',  name:'Shadow Lord'},
+  {id:'pilot',   name:'Rocket Pilot'},
+  {id:'scout',   name:'Scrap Scout'},
+];
+const STYLE = Object.fromEntries(STYLES.map(s => [s.id, s]));
+// A filled shape with soft shading, a highlight and an ink outline on top.
+function shaded(tag, a, fill, sw = 4){
+  return `<${tag} ${a} fill="${fill}"/><${tag} ${a} fill="url(#mcShade)"/><${tag} ${a} fill="url(#mcShine)"/>`
+       + `<${tag} ${a} fill="none" stroke="${INK}" stroke-width="${sw}" stroke-linejoin="round"/>`;
+}
+// A laser sword held at (x,y), tilted by rot degrees.
+function swordSVG(wid, x, y, rot, len = 116){
+  const w = WEAPON[wid]; if (!w) return '';
+  return `<g transform="translate(${x} ${y}) rotate(${rot})">
+    <g class="blade">
+      <rect x="-9" y="${-18 - len}" width="18" height="${len + 6}" rx="9" fill="${w.color}" opacity=".8" filter="url(#mcGlow)"/>
+      <rect x="-5.5" y="${-18 - len}" width="11" height="${len + 4}" rx="5.5" fill="${w.color}"/>
+      <rect x="-2.4" y="${-16 - len}" width="4.8" height="${len + 2}" rx="2.4" fill="#fff"/>
+    </g>
+    <rect x="-6.5" y="-16" width="13" height="32" rx="3" fill="url(#mcMetal)" stroke="${INK}" stroke-width="3"/>
+    <path d="M-6.5 -1h13M-6.5 5h13M-6.5 11h13" stroke="${INK}" stroke-width="2.4"/>
+    <rect x="-9" y="-21" width="18" height="7" rx="2.5" fill="#7D8794" stroke="${INK}" stroke-width="3"/>
+    <circle cx="0" cy="-8" r="2.6" fill="${w.color}" stroke="${INK}" stroke-width="1.5"/>
+  </g>`;
+}
+function weaponIcon(id, size){
+  const w = WEAPON[id]; if (!w) return '';
+  const body = id === 'twin'
+    ? swordSVG(id, 38, 118, 34, 92) + swordSVG(id, 104, 118, -34, 92)
+    : swordSVG(id, 40, 120, 40, 100);
+  return `<svg viewBox="0 0 64 64" width="${size}" height="${size}" aria-hidden="true" style="overflow:visible"><g transform="scale(.45)">${body}</g></svg>`;
+}
 function robotSVG(r){
-  const P = r.parts.map(id => OBJ[id]).filter(Boolean);
-  const has = id => r.parts.includes(id);
+  const ids = r.parts || [];
+  const P = ids.map(id => OBJ[id]).filter(Boolean);
+  const has = id => ids.includes(id);
+  const style = STYLE[r.style] ? r.style : 'classic';
+  const wpn = WEAPON[r.weapon] ? r.weapon : null;
   const C = r.colors || {
     body: P[0] ? P[0].color : '#9AA6B2',
     head: (P[1] || P[0] || {color:'#FFD23F'}).color,
     limbs: (P[2] || P[1] || P[0] || {color:'#FF4D5E'}).color };
   const cB = C.body, cH = C.head, cL = C.limbs;
   const S = `stroke="${INK}" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"`;
-  const headId = P.length > 1 ? P[1].id : P.length ? P[0].id : '';
-  let out = '';
+  const headId = style === 'classic' ? (P.length > 1 ? P[1].id : P.length ? P[0].id : '') : '';
+  let out = `<ellipse cx="100" cy="234" rx="64" ry="7" fill="${INK}" opacity=".16"/>`;
 
-  if (has('shark')) out += `<path d="M50 104L30 64L74 96Z" fill="#5B8DB8" ${S}/>`;
-  if (has('rocket')) out += `<g ${S}><path d="M28 154L36 178L44 154Z" fill="#FFB020" class="flame"/>
-    <rect x="22" y="100" width="28" height="56" rx="10" fill="#FF6FB5"/><path d="M22 108Q36 78 50 108Z" fill="#FDF7FF"/></g>`;
+  // capes sit behind everything
+  if (style === 'knight') out += `<path d="M60 96 Q42 160 32 226 Q100 238 168 226 Q158 160 140 96 Z" fill="#3A3F9E" ${S}/>
+    <path d="M72 102 Q60 160 54 218 Q100 228 146 218 Q140 160 128 102 Z" fill="#5A66D6" opacity=".55"/>`;
+  if (style === 'shadow') out += `<path d="M58 96 Q38 166 26 228 L50 220 L64 232 L82 222 L100 234 L118 222 L136 232 L150 220 L174 228 Q162 166 142 96 Z" fill="#241A33" ${S}/>
+    <path d="M74 104 Q62 160 58 212 Q100 222 142 212 Q138 160 126 104 Z" fill="#8E1B2B" opacity=".7"/>`;
+
+  if (has('shark')) out += shaded('path', 'd="M50 104L30 64L74 96Z"', '#5B8DB8', 4);
+  if (has('rocket')) out += `<path d="M28 154L36 178L44 154Z" fill="#FFB020" class="flame" ${S}/>`
+    + shaded('rect', 'x="22" y="100" width="28" height="56" rx="10"', '#FF6FB5') + `<path d="M22 108Q36 78 50 108Z" fill="#FDF7FF" ${S}/>`;
 
   // legs
   if (has('wheel')){
-    out += `<g ${S}><rect x="58" y="168" width="84" height="20" rx="10" fill="${cL}"/>
-      <circle cx="66" cy="208" r="24" fill="#3A3550"/><circle cx="66" cy="208" r="9" fill="#D6DEE7"/>
-      <circle cx="134" cy="208" r="24" fill="#3A3550"/><circle cx="134" cy="208" r="9" fill="#D6DEE7"/></g>`;
+    out += shaded('rect', 'x="58" y="168" width="84" height="20" rx="10"', cL);
+    [66,134].forEach(x => { out += `<circle cx="${x}" cy="208" r="24" fill="#3A3550" ${S}/><circle cx="${x}" cy="208" r="24" fill="url(#mcShine)"/>
+      <path d="M${x} 188v8M${x} 220v8M${x-20} 208h8M${x+12} 208h8" stroke="#6E6890" stroke-width="3"/>`
+      + shaded('circle', `cx="${x}" cy="208" r="9"`, '#D6DEE7', 3); });
   } else if (has('spring')){
     [72,128].forEach(x => {
       const d = `M${x} 168L${x-14} 178L${x+14} 188L${x-14} 198L${x+14} 208L${x} 216`;
       out += `<path d="${d}" fill="none" stroke="${INK}" stroke-width="11" stroke-linejoin="round"/>
-        <path d="${d}" fill="none" stroke="#9FE6E6" stroke-width="5" stroke-linejoin="round"/>
-        <rect x="${x-22}" y="212" width="44" height="18" rx="9" fill="${cL}" ${S}/>`;
+        <path d="${d}" fill="none" stroke="#9FE6E6" stroke-width="5" stroke-linejoin="round"/>` + shaded('rect', `x="${x-22}" y="212" width="44" height="18" rx="9"`, cL);
     });
   } else if (has('rocket')){
-    out += `<g ${S}><path d="M64 204L74 230L84 204Z" fill="#FFB020" class="flame"/><path d="M116 204L126 230L136 204Z" fill="#FFB020" class="flame"/>
-      <path d="M58 170h32l-4 34h-24z" fill="${cL}"/><path d="M110 170h32l-4 34h-24z" fill="${cL}"/></g>`;
+    out += `<path d="M64 204L74 230L84 204Z" fill="#FFB020" class="flame" ${S}/><path d="M116 204L126 230L136 204Z" fill="#FFB020" class="flame" ${S}/>`
+      + shaded('path', 'd="M58 170h32l-4 34h-24z"', cL) + shaded('path', 'd="M110 170h32l-4 34h-24z"', cL);
   } else {
-    out += `<g ${S}><rect x="62" y="168" width="26" height="38" rx="8" fill="#B8C4D0"/><rect x="112" y="168" width="26" height="38" rx="8" fill="#B8C4D0"/>
-      <rect x="52" y="202" width="44" height="22" rx="11" fill="${cL}"/><rect x="104" y="202" width="44" height="22" rx="11" fill="${cL}"/></g>`;
+    out += shaded('rect', 'x="62" y="168" width="26" height="38" rx="8"', '#B8C4D0') + shaded('rect', 'x="112" y="168" width="26" height="38" rx="8"', '#B8C4D0')
+      + shaded('rect', 'x="52" y="202" width="44" height="22" rx="11"', cL) + shaded('rect', 'x="104" y="202" width="44" height="22" rx="11"', cL);
   }
 
+  const fist = (x,y) => shaded('circle', `cx="${x}" cy="${y}" r="11"`, '#D6DEE7', 3.5);
   const magnetHand = (x,y) => `<path d="M${x-12} ${y-6}v8a12 12 0 0 0 24 0v-8" fill="none" stroke="${INK}" stroke-width="15" stroke-linecap="round"/>
     <path d="M${x-12} ${y-4}v6a12 12 0 0 0 24 0v-6" fill="none" stroke="#FF4D5E" stroke-width="8"/>`;
-  const claw = (x,y) => `<circle cx="${x}" cy="${y}" r="12" fill="#D6DEE7" ${S}/><path d="M${x-6} ${y+3}l6 6 6-6" fill="none" ${S} stroke-width="3"/>`;
-  const drillHand = (x,y) => `<rect x="${x-9}" y="${y-10}" width="18" height="10" rx="3" fill="#D6DEE7" ${S} stroke-width="3"/><path d="M${x-7} ${y}H${x+7}L${x} ${y+22}Z" fill="#B8C4D0" ${S} stroke-width="3"/>`;
-  const gloveHand = (x,y) => `<rect x="${x-12}" y="${y-16}" width="24" height="9" rx="3" fill="#fff" ${S} stroke-width="3"/><circle cx="${x}" cy="${y+4}" r="15" fill="#E8344A" ${S}/><path d="M${x-6} ${y-2}q6-4 12 0" fill="none" stroke="#FF8A96" stroke-width="3" stroke-linecap="round"/>`;
+  const claw = (x,y) => shaded('circle', `cx="${x}" cy="${y}" r="12"`, '#D6DEE7') + `<path d="M${x-6} ${y+3}l6 6 6-6" fill="none" ${S} stroke-width="3"/>`;
+  const drillHand = (x,y) => shaded('rect', `x="${x-9}" y="${y-10}" width="18" height="10" rx="3"`, '#D6DEE7', 3) + `<path d="M${x-7} ${y}H${x+7}L${x} ${y+22}Z" fill="#B8C4D0" ${S} stroke-width="3"/>`;
+  const gloveHand = (x,y) => shaded('rect', `x="${x-12}" y="${y-16}" width="24" height="9" rx="3"`, '#fff', 3) + shaded('circle', `cx="${x}" cy="${y+4}" r="15"`, '#E8344A')
+    + `<path d="M${x-6} ${y-2}q6-4 12 0" fill="none" stroke="#FF8A96" stroke-width="3" stroke-linecap="round"/>`;
 
-  // back arm
-  out += `<rect x="24" y="106" width="24" height="54" rx="12" fill="${cL}" ${S}/>` + (has('drill') ? drillHand(36,166) : has('magnet') ? magnetHand(36,166) : claw(36,166));
+  // back arm (holds the second sword for Twin Blades)
+  out += shaded('rect', 'x="24" y="106" width="24" height="54" rx="12"', cL);
+  if (wpn === 'twin') out += swordSVG(wpn, 36, 168, -12) + fist(36, 166);
+  else out += has('drill') ? drillHand(36,166) : has('magnet') ? magnetHand(36,166) : claw(36,166);
+
   // neck + body
-  out += `<rect x="86" y="80" width="28" height="18" rx="4" fill="#B8C4D0" ${S}/>`;
-  out += `<rect x="45" y="92" width="110" height="84" rx="24" fill="${cB}" ${S}/>`;
-  out += `<rect x="60" y="104" width="80" height="58" rx="14" fill="#FFFDF7" stroke="${INK}" stroke-width="3"/>`;
-  const n = P.length, sz = 26, gap = 1, total = n*sz + Math.max(0, n-1)*gap; const x0 = 100 - total/2;
-  P.forEach((p,i) => { out += `<svg x="${x0 + i*(sz+gap)}" y="109" width="${sz}" height="${sz}" viewBox="0 0 64 64">${iconInner(p.id)}</svg>`; });
+  out += shaded('rect', 'x="86" y="80" width="28" height="18" rx="4"', '#B8C4D0');
+  out += shaded('rect', 'x="45" y="92" width="110" height="84" rx="24"', cB);
+  if (style === 'pilot') out += `<path d="M52 100 L148 172" stroke="${INK}" stroke-width="14" stroke-linecap="round"/><path d="M52 100 L148 172" stroke="#7A5A3A" stroke-width="8" stroke-linecap="round"/>`;
+  if (style === 'shadow') out += `<path d="M58 168 L100 150 L142 168" fill="none" stroke="#FF3B4E" stroke-width="4" opacity=".8"/>`;
+  out += `<rect x="60" y="104" width="80" height="58" rx="14" fill="#FFFDF7" stroke="${INK}" stroke-width="3"/><rect x="62" y="106" width="76" height="22" rx="11" fill="url(#mcShine)"/>`;
+  const n = P.length, sz = 26, gap = 1, total = n * sz + Math.max(0, n - 1) * gap, x0 = 100 - total / 2;
+  P.forEach((p, i) => { out += `<svg x="${x0 + i * (sz + gap)}" y="109" width="${sz}" height="${sz}" viewBox="0 0 64 64">${iconInner(p.id)}</svg>`; });
   out += `<g stroke="${INK}" stroke-width="2.5"><circle cx="84" cy="150" r="4.5" fill="#FF4D5E"/><circle cx="100" cy="150" r="4.5" fill="#FFD23F"/><circle cx="116" cy="150" r="4.5" fill="#2EC4A0"/></g>`;
   out += `<g fill="${INK}"><circle cx="56" cy="104" r="3"/><circle cx="144" cy="104" r="3"/><circle cx="56" cy="164" r="3"/><circle cx="144" cy="164" r="3"/></g>`;
 
-  // front arm
-  if (has('laser')){
-    out += `<g ${S}><rect x="146" y="110" width="22" height="22" rx="8" fill="${cL}"/><rect x="150" y="112" width="40" height="24" rx="10" fill="#8B5CFF"/>
-      <rect x="188" y="118" width="10" height="12" rx="3" fill="#D6DEE7"/><circle cx="166" cy="124" r="4" fill="#FFD23F" stroke-width="2.5"/></g>`;
+  // front arm: a sword if the robot has one, otherwise its part hand
+  if (wpn){
+    out += shaded('rect', 'x="152" y="106" width="24" height="54" rx="12"', cL) + swordSVG(wpn, 164, 168, 10) + fist(164, 166);
+  } else if (has('laser')){
+    out += `<g ${S}><rect x="146" y="110" width="22" height="22" rx="8" fill="${cL}"/></g>` + shaded('rect', 'x="150" y="112" width="40" height="24" rx="10"', '#8B5CFF')
+      + `<g ${S}><rect x="188" y="118" width="10" height="12" rx="3" fill="#D6DEE7"/><circle cx="166" cy="124" r="4" fill="#FFD23F" stroke-width="2.5"/></g>`;
   } else {
-    out += `<rect x="152" y="106" width="24" height="54" rx="12" fill="${cL}" ${S}/>` + (has('glove') ? gloveHand(164,170) : has('magnet') ? magnetHand(164,166) : claw(164,166));
+    out += shaded('rect', 'x="152" y="106" width="24" height="54" rx="12"', cL) + (has('glove') ? gloveHand(164,170) : has('magnet') ? magnetHand(164,166) : claw(164,166));
   }
 
-  if (has('gear')) out += `<path d="${gearPath(56,58,9,14,6)}" fill="#FFB020" ${S} stroke-width="3"/><path d="${gearPath(144,58,9,14,6)}" fill="#FFB020" ${S} stroke-width="3"/>`;
+  // shoulder armour for the themed styles
+  if (style === 'knight') out += shaded('path', 'd="M30 112 Q30 92 50 92 Q66 92 68 106 Q50 104 30 112 Z"', cL, 3.5) + shaded('path', 'd="M170 112 Q170 92 150 92 Q134 92 132 106 Q150 104 170 112 Z"', cL, 3.5);
+  if (style === 'shadow') out += shaded('path', 'd="M28 112 L42 80 L52 98 L62 86 L68 108 Q48 104 28 112 Z"', cL, 3.5) + shaded('path', 'd="M172 112 L158 80 L148 98 L138 86 L132 108 Q152 104 172 112 Z"', cL, 3.5);
+  if (style === 'classic' && has('gear')) out += `<path d="${gearPath(56,58,9,14,6)}" fill="#FFB020" ${S} stroke-width="3"/><path d="${gearPath(144,58,9,14,6)}" fill="#FFB020" ${S} stroke-width="3"/>`;
+  if (style === 'pilot') out += `<path d="M82 90 Q52 82 28 96 Q50 102 80 100 Z" fill="${cL}" ${S} stroke-width="3"/>` + shaded('rect', 'x="76" y="84" width="48" height="14" rx="6"', cL, 3);
 
   // head
-  let headTop = 28, eyes = [[84,54],[116,54]], mouth = true;
-  if (headId === 'toaster'){
-    out += `<g ${S}><rect x="70" y="8" width="22" height="30" rx="6" fill="#F2B45A"/><rect x="106" y="12" width="22" height="26" rx="6" fill="#E39A3E"/>
-      <rect x="54" y="26" width="92" height="62" rx="14" fill="${cH}"/><rect x="146" y="40" width="8" height="14" rx="3" fill="#FF4D5E"/></g>`;
-    headTop = null;
-  } else if (headId === 'duck'){
-    out += `<g ${S}><circle cx="100" cy="56" r="36" fill="${cH}"/><path d="M130 58q26-4 28 8q-4 10-28 6z" fill="#FF8A2B"/></g>`;
-    headTop = 20; eyes = [[94,48],[118,48]]; mouth = false;
+  if (style === 'knight'){
+    out += `<path d="M92 24 Q100 0 108 24 Z" fill="#FFD23F" ${S} stroke-width="3"/>`
+      + shaded('path', 'd="M56 64 Q56 22 100 20 Q144 22 144 64 L142 84 Q100 96 58 84 Z"', cH)
+      + `<path d="M62 50 H138 V63 Q100 73 62 63 Z" fill="#1E1A3A" ${S} stroke-width="3"/>
+         <rect x="70" y="53" width="60" height="7" rx="3.5" fill="#7FF3FF" filter="url(#mcGlow)"/><rect x="72" y="54" width="56" height="5" rx="2.5" fill="#E8FDFF"/>
+         <path d="M84 80 L100 86 L116 80" fill="none" ${S} stroke-width="3"/><path d="M100 24 V44" stroke="${INK}" stroke-width="2.5" opacity=".5"/>`;
+  } else if (style === 'shadow'){
+    out += `<path d="M68 36 Q44 22 46 0 Q62 18 84 28 Z" fill="#EDE6D2" ${S} stroke-width="3"/><path d="M132 36 Q156 22 154 0 Q138 18 116 28 Z" fill="#EDE6D2" ${S} stroke-width="3"/>`
+      + shaded('path', 'd="M58 42 L78 24 H122 L142 42 V80 L122 94 H78 L58 80 Z"', cH)
+      + `<path d="M64 46 L100 56 L136 46" fill="none" ${S} stroke-width="3"/>
+         <path d="M70 56 L95 62 L72 67 Z" fill="#FF3B4E" filter="url(#mcGlow)"/><path d="M130 56 L105 62 L128 67 Z" fill="#FF3B4E" filter="url(#mcGlow)"/>
+         <path d="M70 56 L95 62 L72 67 Z" fill="#FF6B78" stroke="${INK}" stroke-width="2"/><path d="M130 56 L105 62 L128 67 Z" fill="#FF6B78" stroke="${INK}" stroke-width="2"/>
+         <path d="M80 78 L86 84 L92 78 L98 84 L104 78 L110 84 L116 78 L120 78" fill="none" stroke="#FF3B4E" stroke-width="3" stroke-linejoin="round"/>`;
+  } else if (style === 'pilot'){
+    out += shaded('circle', 'cx="100" cy="58" r="30"', cH)
+      + `<rect x="70" y="44" width="60" height="9" rx="3" fill="#7A5A3A" ${S} stroke-width="2.5"/>`
+      + [86,114].map(x => `<circle cx="${x}" cy="50" r="12" fill="#3A3550" ${S} stroke-width="3"/><circle cx="${x}" cy="50" r="8" fill="url(#mcEye)"/><circle cx="${x-3}" cy="47" r="2.5" fill="#fff"/>`).join('')
+      + `<path d="M88 72 Q100 80 112 72" fill="none" ${S} stroke-width="3.5"/>
+         <circle cx="100" cy="56" r="40" fill="url(#mcGlass)" stroke="${INK}" stroke-width="3.5"/>
+         <path d="M72 38 Q84 22 102 20" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity=".9"/>`;
+  } else if (style === 'scout'){
+    out += `<path d="M126 30 L132 -4" stroke="${INK}" stroke-width="3"/><path d="M132 -4 L150 2 L132 9 Z" fill="#FF4D5E" ${S} stroke-width="2.5"/>`
+      + shaded('rect', 'x="56" y="28" width="88" height="62" rx="10"', cH)
+      + `<path d="M64 36 q9 -5 13 4 q-2 9 -11 6 q-6 -4 -2 -10z" fill="#C4733A" opacity=".55"/><path d="M122 74 q10 -3 12 5 q-3 7 -10 5 q-5 -4 -2 -10z" fill="#C4733A" opacity=".55"/>
+         <g fill="${INK}"><circle cx="64" cy="36" r="2.5"/><circle cx="136" cy="36" r="2.5"/><circle cx="64" cy="82" r="2.5"/><circle cx="136" cy="82" r="2.5"/></g>
+         <circle cx="100" cy="57" r="21" fill="#3A3550" ${S} stroke-width="3"/><circle cx="100" cy="57" r="16.5" fill="none" stroke="#6E6890" stroke-width="2"/>
+         <circle cx="100" cy="57" r="13" fill="url(#mcEye)"/><circle cx="100" cy="57" r="5.5" fill="${INK}"/><circle cx="94.5" cy="51.5" r="3.2" fill="#fff"/>
+         <g fill="${INK}"><circle cx="88" cy="84" r="1.8"/><circle cx="94" cy="84" r="1.8"/><circle cx="100" cy="84" r="1.8"/><circle cx="106" cy="84" r="1.8"/><circle cx="112" cy="84" r="1.8"/></g>`;
   } else {
-    out += `<rect x="58" y="28" width="84" height="60" rx="22" fill="${cH}" ${S}/>`;
-  }
-  if (headTop !== null){
-    const t = headTop;
-    if (has('crown')) out += `<g ${S} stroke-width="3.5"><path d="M74 ${t+2}L78 ${t-22}L90 ${t-8}L100 ${t-28}L110 ${t-8}L122 ${t-22}L126 ${t+2}Z" fill="#FFD23F"/>
-      <circle cx="100" cy="${t-28}" r="5" fill="#7B5CFF" stroke-width="2.5"/><circle cx="78" cy="${t-22}" r="4" fill="#FF4D5E" stroke-width="2.5"/><circle cx="122" cy="${t-22}" r="4" fill="#2EC4A0" stroke-width="2.5"/></g>`;
-    else if (has('unicorn')) out += `<g ${S} stroke-width="3.5"><path d="M91 ${t+2}L100 ${t-38}L109 ${t+2}Z" fill="#FFE3F1"/><path d="M95 ${t-12}L105 ${t-16}M93 ${t-2}L107 ${t-6}" fill="none" stroke="#FF6FB5" stroke-width="3"/></g>`;
-    else if (has('fan')) out += `<g ${S}><path d="M100 ${t}V${t-16}" fill="none"/><ellipse class="prop" cx="100" cy="${t-19}" rx="32" ry="6" fill="#4FC3F7"/><circle cx="100" cy="${t-18}" r="4" fill="${INK}"/></g>`;
-    else if (has('battery')) out += `<g ${S}><path d="M100 ${t}V${t-12}" fill="none"/><path d="M104 ${t-26}L93 ${t-12}H101L97 ${t-2}L109 ${t-17}H101Z" fill="#FFD23F" stroke-width="3"/></g>`;
-    else out += `<g ${S}><path d="M100 ${t}V${t-14}" fill="none"/><circle cx="100" cy="${t-18}" r="7" fill="${cL}"/></g>`;
-  }
-
-  // face
-  if (has('laser')){
-    const y = eyes[0][1];
-    out += `<rect x="${eyes[0][0]-18}" y="${y-10}" width="${eyes[1][0]-eyes[0][0]+36}" height="20" rx="10" fill="#FF3B7F" ${S}/>
-      <rect x="${eyes[0][0]-10}" y="${y-5}" width="20" height="5" rx="2.5" fill="#fff" opacity=".85"/>`;
-  } else {
-    eyes.forEach(([x,y]) => {
-      out += `<circle cx="${x}" cy="${y}" r="11" fill="#fff" ${S} stroke-width="3"/><circle cx="${x+3}" cy="${y+1}" r="5" fill="${INK}"/><circle cx="${x+5}" cy="${y-1}" r="1.8" fill="#fff"/>`;
-    });
-    if (has('rocket') || has('shark')) out += `<path d="M${eyes[0][0]-10} ${eyes[0][1]-17}L${eyes[0][0]+8} ${eyes[0][1]-11}M${eyes[1][0]+10} ${eyes[1][1]-17}L${eyes[1][0]-8} ${eyes[1][1]-11}" ${S} fill="none"/>`;
-  }
-  if ((has('duck') || has('unicorn')) && headId !== 'duck') out += `<circle cx="72" cy="68" r="5" fill="#FF9DB8"/><circle cx="128" cy="68" r="5" fill="#FF9DB8"/>`;
-  if (mouth){
-    if (has('shark')) out += `<path d="M82 70H118L114 80L110 72L106 80L102 72L98 80L94 72L90 80L86 72Z" fill="#fff" ${S} stroke-width="3"/>`;
-    else if (has('gear') || has('magnet') || headId === 'toaster')
-      out += `<rect x="82" y="70" width="36" height="10" rx="4" fill="${INK}"/><path d="M91 70v10M100 70v10M109 70v10" stroke="#fff" stroke-width="2"/>`;
-    else out += `<path d="M86 72Q100 84 114 72" fill="none" ${S}/>`;
+    // classic head (its shape follows the second part)
+    let headTop = 28, eyes = [[84,54],[116,54]], mouth = true;
+    if (headId === 'toaster'){
+      out += `<g ${S}><rect x="70" y="8" width="22" height="30" rx="6" fill="#F2B45A"/><rect x="106" y="12" width="22" height="26" rx="6" fill="#E39A3E"/></g>`
+        + shaded('rect', 'x="54" y="26" width="92" height="62" rx="14"', cH) + `<rect x="146" y="40" width="8" height="14" rx="3" fill="#FF4D5E" ${S}/>`;
+      headTop = null;
+    } else if (headId === 'duck'){
+      out += shaded('circle', 'cx="100" cy="56" r="36"', cH) + `<path d="M130 58q26-4 28 8q-4 10-28 6z" fill="#FF8A2B" ${S}/>`;
+      headTop = 20; eyes = [[94,48],[118,48]]; mouth = false;
+    } else {
+      out += shaded('rect', 'x="58" y="28" width="84" height="60" rx="22"', cH);
+    }
+    if (headTop !== null){
+      const t = headTop;
+      if (has('crown')) out += `<g ${S} stroke-width="3.5"><path d="M74 ${t+2}L78 ${t-22}L90 ${t-8}L100 ${t-28}L110 ${t-8}L122 ${t-22}L126 ${t+2}Z" fill="#FFD23F"/>
+        <circle cx="100" cy="${t-28}" r="5" fill="#7B5CFF" stroke-width="2.5"/><circle cx="78" cy="${t-22}" r="4" fill="#FF4D5E" stroke-width="2.5"/><circle cx="122" cy="${t-22}" r="4" fill="#2EC4A0" stroke-width="2.5"/></g>`;
+      else if (has('unicorn')) out += `<g ${S} stroke-width="3.5"><path d="M91 ${t+2}L100 ${t-38}L109 ${t+2}Z" fill="#FFE3F1"/><path d="M95 ${t-12}L105 ${t-16}M93 ${t-2}L107 ${t-6}" fill="none" stroke="#FF6FB5" stroke-width="3"/></g>`;
+      else if (has('fan')) out += `<g ${S}><path d="M100 ${t}V${t-16}" fill="none"/><ellipse class="prop" cx="100" cy="${t-19}" rx="32" ry="6" fill="#4FC3F7"/><circle cx="100" cy="${t-18}" r="4" fill="${INK}"/></g>`;
+      else if (has('battery')) out += `<g ${S}><path d="M100 ${t}V${t-12}" fill="none"/><path d="M104 ${t-26}L93 ${t-12}H101L97 ${t-2}L109 ${t-17}H101Z" fill="#FFD23F" stroke-width="3"/></g>`;
+      else out += `<path d="M100 ${t}V${t-14}" fill="none" ${S}/>` + shaded('circle', `cx="100" cy="${t-18}" r="7"`, cL, 3.5);
+    }
+    if (has('laser')){
+      const y = eyes[0][1];
+      out += `<rect x="${eyes[0][0]-18}" y="${y-10}" width="${eyes[1][0]-eyes[0][0]+36}" height="20" rx="10" fill="#FF3B7F" filter="url(#mcGlow)" opacity=".8"/>
+        <rect x="${eyes[0][0]-18}" y="${y-10}" width="${eyes[1][0]-eyes[0][0]+36}" height="20" rx="10" fill="#FF3B7F" ${S}/>
+        <rect x="${eyes[0][0]-10}" y="${y-5}" width="20" height="5" rx="2.5" fill="#fff" opacity=".85"/>`;
+    } else {
+      eyes.forEach(([x,y]) => {
+        out += `<circle cx="${x}" cy="${y}" r="11" fill="#fff" ${S} stroke-width="3"/><circle cx="${x+3}" cy="${y+1}" r="5.5" fill="${INK}"/><circle cx="${x+5}" cy="${y-1.5}" r="2" fill="#fff"/>`;
+      });
+      if (has('rocket') || has('shark')) out += `<path d="M${eyes[0][0]-10} ${eyes[0][1]-17}L${eyes[0][0]+8} ${eyes[0][1]-11}M${eyes[1][0]+10} ${eyes[1][1]-17}L${eyes[1][0]-8} ${eyes[1][1]-11}" ${S} fill="none"/>`;
+    }
+    if ((has('duck') || has('unicorn')) && headId !== 'duck') out += `<circle cx="72" cy="68" r="5" fill="#FF9DB8"/><circle cx="128" cy="68" r="5" fill="#FF9DB8"/>`;
+    if (mouth){
+      if (has('shark')) out += `<path d="M82 70H118L114 80L110 72L106 80L102 72L98 80L94 72L90 80L86 72Z" fill="#fff" ${S} stroke-width="3"/>`;
+      else if (has('gear') || has('magnet') || headId === 'toaster')
+        out += `<rect x="82" y="70" width="36" height="10" rx="4" fill="${INK}"/><path d="M91 70v10M100 70v10M109 70v10" stroke="#fff" stroke-width="2"/>`;
+      else out += `<path d="M86 72Q100 84 114 72" fill="none" ${S}/>`;
+    }
   }
   return `<svg viewBox="0 0 200 240" class="bot" aria-hidden="true">${out}</svg>`;
 }
@@ -850,17 +1025,23 @@ function partStats(id, lvl){
   return { pow: Math.round(o.pow * k), spd: Math.round(o.spd * k), def: Math.round(o.def * k) };
 }
 function isUsable(id){ return OBJ[id].power ? save.level >= powerLevel(id) : save.unlocked.includes(id); }
-function buildRobot({parts, lv, level, colors, name}){
+function buildRobot({parts, lv, level, colors, name, weapon = null, style = 'classic'}){
   let pow = 0, spd = 0, def = 0;
   parts.forEach(id => { const s = partStats(id, lv(id)); pow += s.pow; spd += s.spd; def += s.def; });
   const combos = findCombos(parts);
   combos.forEach(c => { pow += c.pow || 0; spd += c.spd || 0; def += c.def || 0; });
+  const w = WEAPON[weapon] || null;
+  if (w){ pow += w.pow; spd += w.spd; def += w.def; }
   const hp = 30 + Math.round(def * 1.5) + parts.length * 6 + (level - 1) * 5;
-  return { parts: parts.slice(), name, colors, level, pow, spd, def, hp, combos,
-           specials: [...new Set(parts.map(id => OBJ[id].special))] };
+  const specials = [...new Set(parts.map(id => OBJ[id].special))];
+  if (w) specials.push(w.special);
+  return { parts: parts.slice(), name, colors, level, pow, spd, def, hp, combos, specials,
+           weapon: w ? w.id : null, style: STYLE[style] ? style : 'classic' };
 }
+const myWeapon = () => save.robot.weapon && save.weapons.includes(save.robot.weapon) ? save.robot.weapon : null;
 function myRobot(){
-  return buildRobot({ parts: save.robot.parts, lv: partLevel, level: save.level, colors: save.robot.colors, name: save.robot.name });
+  return buildRobot({ parts: save.robot.parts, lv: partLevel, level: save.level, colors: save.robot.colors, name: save.robot.name,
+                      weapon: myWeapon(), style: save.robot.style });
 }
 function makeEnemy(){
   const pool = OBJECTS.filter(o => !o.power || isUsable(o.id)).map(o => o.id);
@@ -870,7 +1051,10 @@ function makeEnemy(){
   const mine = save.robot.parts.length ? save.robot.parts.reduce((s, id) => s + partLevel(id), 0) / save.robot.parts.length : 1;
   const target = Math.min(mine + 1, 1 + save.wins * .35);
   const lvs = {}; ids.forEach(id => lvs[id] = clamp(Math.round(target + rand(-1, .5)), 1, MAX_PART_LEVEL));
-  const r = buildRobot({ parts: ids, lv: id => lvs[id], level: save.level, colors: null, name: makeName(ids.map(i => OBJ[i])) });
+  const swords = WEAPONS.slice(0, clamp(1 + Math.floor(save.wins / 3), 1, WEAPONS.length));
+  const weapon = save.wins >= 1 && Math.random() < .6 ? pick(swords).id : null;
+  const r = buildRobot({ parts: ids, lv: id => lvs[id], level: save.level, colors: null, name: makeName(ids.map(i => OBJ[i])),
+                         weapon, style: pick(STYLES).id });
   const m = Math.min(1, .78 + save.wins * .03);
   r.pow = Math.round(r.pow * m); r.spd = Math.round(r.spd * m); r.def = Math.round(r.def * m);
   r.hp = Math.round(r.hp * (m * .5 + .5));
@@ -883,7 +1067,8 @@ const STARTERS = OBJECTS.filter(o => o.starter).map(o => o.id);
 function freshSave(){
   const parts = ['battery','spring'];
   return { coins: 0, wins: 0, losses: 0, xp: 0, level: 1, unlocked: STARTERS.slice(), fresh: [], combos: [], seen: [], levels: {}, welcomed: false,
-           robot: { name: makeName(parts.map(id => OBJ[id])), colors: { body:'#5B6CFF', head:'#FFD23F', limbs:'#FF4D5E' }, parts } };
+           weapons: ['blue'],
+           robot: { name: makeName(parts.map(id => OBJ[id])), colors: { body:'#5B6CFF', head:'#FFD23F', limbs:'#FF4D5E' }, parts, weapon: 'blue', style: 'classic' } };
 }
 let save = freshSave();
 try {
@@ -899,6 +1084,10 @@ try {
 } catch (e) {}
 save.robot.parts = save.robot.parts.filter(id => OBJ[id]).slice(0, ROBOT_SLOTS);
 if (!Array.isArray(save.seen)) save.seen = [];
+if (!Array.isArray(save.weapons)) save.weapons = ['blue'];
+save.weapons = save.weapons.filter(id => WEAPON[id]);
+if (!('weapon' in save.robot)) save.robot.weapon = 'blue';
+if (!STYLE[save.robot.style]) save.robot.style = 'classic';
 save.robot.colors = Object.assign({ body:'#5B6CFF', head:'#FFD23F', limbs:'#FF4D5E' }, save.robot.colors);
 function persist(){ try { localStorage.setItem(SAVE_KEY, JSON.stringify(save)); } catch (e) {} schedulePush(); }
 function addXP(n){
@@ -936,9 +1125,10 @@ let db = null, uid = null, boardRows = [], boardState = 'loading', canPost = tru
 function scoreBody(){
   return { name: save.robot.name, level: save.level, wins: save.wins,
            upgrades: Object.values(save.levels).reduce((s, v) => s + (v - 1), 0),
-           parts: save.robot.parts.slice(), colors: { body: save.robot.colors.body, head: save.robot.colors.head, limbs: save.robot.colors.limbs } };
+           parts: save.robot.parts.slice(), colors: { body: save.robot.colors.body, head: save.robot.colors.head, limbs: save.robot.colors.limbs },
+           style: save.robot.style, weapon: myWeapon() };
 }
-const keyOf = b => JSON.stringify([b.name, b.level, b.wins, b.upgrades, b.parts, b.colors.body, b.colors.head, b.colors.limbs]);
+const keyOf = b => JSON.stringify([b.name, b.level, b.wins, b.upgrades, b.parts, b.colors.body, b.colors.head, b.colors.limbs, b.style || 'classic', b.weapon || null]);
 function cleanRow(id, d){
   if (!d || typeof d !== 'object') return null;
   const num = (v, max) => clamp(Math.floor(Number(v) || 0), 0, max);
@@ -946,7 +1136,8 @@ function cleanRow(id, d){
   const colors = {}; ['body','head','limbs'].forEach(k => colors[k] = HEX.test(c[k]) ? c[k] : '#9AA6B2');
   const parts = Array.isArray(d.parts) ? [...new Set(d.parts.filter(p => typeof p === 'string' && OBJ[p]))].slice(0, ROBOT_SLOTS) : [];
   return { id, name: String(d.name || 'Mystery Robot').slice(0, 20), level: num(d.level, MAX_ROBOT_LEVEL) || 1,
-           wins: num(d.wins, 999999), upgrades: num(d.upgrades, 1000), parts, colors };
+           wins: num(d.wins, 999999), upgrades: num(d.upgrades, 1000), parts, colors,
+           style: STYLE[d.style] ? d.style : 'classic', weapon: WEAPON[d.weapon] ? d.weapon : null };
 }
 function lbRow(r, i){
   const el = document.createElement('button');
@@ -1070,14 +1261,15 @@ const nameOf = id => (boardRows.find(r => r.id === id) || {}).name || 'Your frie
 function myBuild(){
   const lvs = {}; save.robot.parts.forEach(id => lvs[id] = partLevel(id));
   return { name: save.robot.name, level: save.level, parts: save.robot.parts.slice(),
-           colors: { body: save.robot.colors.body, head: save.robot.colors.head, limbs: save.robot.colors.limbs }, lvs };
+           colors: { body: save.robot.colors.body, head: save.robot.colors.head, limbs: save.robot.colors.limbs }, lvs,
+           style: save.robot.style, weapon: myWeapon() };
 }
 function robotFromBuild(b){
   const r = cleanRow('x', b) || cleanRow('x', {});
   const src = b && b.lvs && typeof b.lvs === 'object' ? b.lvs : {};
   const lvs = {}; r.parts.forEach(id => lvs[id] = clamp(Math.floor(Number(src[id]) || 1), 1, MAX_PART_LEVEL));
   const parts = r.parts.length ? r.parts : ['battery'];
-  return buildRobot({ parts, lv: id => lvs[id] || 1, level: r.level, colors: r.colors, name: r.name });
+  return buildRobot({ parts, lv: id => lvs[id] || 1, level: r.level, colors: r.colors, name: r.name, weapon: r.weapon, style: r.style });
 }
 function cleanChallenge(d){ const x = d.data(); return x ? normChallenge({ ...x, id: d.id }) : null; }
 function setIncoming(list){
@@ -1243,6 +1435,8 @@ const SOUNDS = {
   alarm:   () => [0,.12,.24,.36].forEach(d => tone(1400, .08, 'square', .05, null, d)),
   freeze:  () => tone(1800, .5, 'sine', .08, 600),
   stink:   () => { noise(.4, .08); tone(120, .4, 'sawtooth', .04, 90); },
+  saber:   () => { tone(170, .3, 'sawtooth', .06, 70); noise(.16, .07); },
+  ignite:  () => { tone(70, .5, 'sawtooth', .06, 190); tone(140, .5, 'triangle', .05, 280); },
   ko:      () => tone(400, .6, 'square', .06, 60),
   win:     () => [523,659,784,1046,1318].forEach((f,i) => tone(f, .22, 'square', .05, null, i*.11)),
   lose:    () => [392,330,262,196].forEach((f,i) => tone(f, .3, 'triangle', .12, null, i*.2)),
@@ -1286,7 +1480,55 @@ function bump(el){ el.classList.remove('bump'); void el.offsetWidth; el.classLis
 const machine = $('machine'), windowEl = $('window');
 const slotEls = [...document.querySelectorAll('.slot')];
 
-function renderAll(pop = -1){ renderHeader(); renderRobot(pop); renderTray(); }
+function renderAll(pop = -1){ renderHeader(); renderRobot(pop); renderTray(); renderSwords(); }
+function swordTile(w){
+  const owned = save.weapons.includes(w.id), on = myWeapon() === w.id;
+  const tag = on ? '<span class="price hold">Holding</span>' : owned ? '<span class="price own">Owned</span>'
+    : `<span class="price${save.coins < w.cost ? ' cant' : ''}">${COIN(16)}${w.cost}</span>`;
+  return `<button class="stile${on ? ' on' : ''}" type="button" data-sword="${w.id}" aria-label="${w.name}${on ? ', holding' : owned ? ', owned' : ', costs ' + w.cost + ' coins'}">
+    <span class="ic">${weaponIcon(w.id, 62)}</span><span class="nm">${w.name}</span>${tag}</button>`;
+}
+function renderSwords(){
+  $('swordGrid').innerHTML = WEAPONS.map(swordTile).join('');
+  $('swordCount').textContent = `${save.weapons.length} / ${WEAPONS.length}`;
+  const w = WEAPON[myWeapon()], slot = $('weaponSlot');
+  slot.innerHTML = w ? `<span class="wic">${weaponIcon(w.id, 48)}</span><span><b>${w.name}</b><span class="ws">Laser sword · +${w.pow} power</span></span><span class="chg">Change</span>`
+                     : `<span class="wic"></span><span><b>No sword</b><span class="ws">Tap to pick a laser sword</span></span><span class="chg">Pick</span>`;
+  slot.setAttribute('aria-label', w ? `Laser sword: ${w.name}. Change sword` : 'Pick a laser sword');
+}
+function openArmoury(){
+  showOverlay(`<div class="ribbon purple">LASER SWORDS</div>
+    <p class="muted">You have ${save.coins} coin${save.coins === 1 ? '' : 's'}. Tap a sword to see what it does.</p>
+    <div class="ovl-grid abody"><div class="sword-grid">${WEAPONS.map(swordTile).join('')}</div></div>
+    <div class="stack"><button class="btn plain" id="armDone" type="button">Back to my robot</button></div>`, { dismiss: true, wide: true });
+  $('armDone').onclick = hideOverlay;
+}
+function openWeapon(id){
+  const w = WEAPON[id], owned = save.weapons.includes(id), on = myWeapon() === id, short = w.cost - save.coins;
+  const row = (label, v, color) => `<div class="srow"><b>${label}</b><div class="sbar"><i style="width:${Math.min(100, v / 10 * 100)}%;background:${color}"></i></div><span class="val">${v ? '+' + v : '–'}</span></div>`;
+  let actions;
+  if (on) actions = `<button class="btn plain" id="wOff" type="button">Put the sword away</button>`;
+  else if (owned) actions = `<button class="btn big green ready" id="wOn" type="button">Hold this sword</button>`;
+  else actions = `<button class="btn big yellow" id="wBuy" type="button" ${short > 0 ? 'disabled' : ''}>Buy <span class="cost">${COIN(24)}${w.cost}</span></button>
+    <p class="note">${short > 0 ? `You need ${short} more coin${short === 1 ? '' : 's'}. Win battles to get coins!` : `You have ${save.coins} coins.`}</p>`;
+  showOverlay(`<div class="ribbon purple">${w.name.toUpperCase()}</div>
+    <div class="sword-stage">${weaponIcon(id, 150)}</div>
+    <span class="tag">LASER SWORD</span>
+    <div class="box">${row('Power', w.pow, '#FF4D5E')}${row('Speed', w.spd, '#5B6CFF')}${row('Armour', w.def, '#2EC4A0')}</div>
+    ${specChip(w.special)}
+    <div class="stack">${actions}</div>`, { dismiss: true });
+  const hold = () => { save.robot.weapon = id; persist(); sfx('ignite'); hideOverlay(); renderAll(0); sparksAt(windowEl); toast(`${w.name} ready!`); };
+  if ($('wOn')) $('wOn').onclick = hold;
+  if ($('wOff')) $('wOff').onclick = () => { save.robot.weapon = null; persist(); sfx('remove'); hideOverlay(); renderAll(); };
+  if ($('wBuy')) $('wBuy').onclick = () => {
+    if (save.coins < w.cost) return;
+    save.coins -= w.cost; save.weapons.push(id); bump($('coinPill')); hold();
+  };
+}
+document.addEventListener('click', e => {
+  const t = e.target.closest('[data-sword]'); if (!t) return;
+  sfx('pop'); openWeapon(t.dataset.sword);
+});
 function renderHeader(){ $('coinCount').textContent = save.coins; }
 function hintText(){
   const parts = save.robot.parts, n = parts.length;
@@ -1397,6 +1639,7 @@ slotEls.forEach((el, i) => el.addEventListener('click', () => unequip(i)));
 $('fightBtn').addEventListener('click', () => { if (save.robot.parts.length) { sfx('pop'); startBattle(myRobot()); } });
 $('renameBtn').innerHTML = PENCIL; $('paintBtn').innerHTML = PALETTE;
 $('renameBtn').addEventListener('click', () => openRename(false));
+$('weaponSlot').addEventListener('click', () => { sfx('pop'); openArmoury(); });
 $('paintBtn').addEventListener('click', openPaint);
 $('coinIcon').innerHTML = COIN(28);
 
@@ -1460,9 +1703,10 @@ trays.addEventListener('click', e => {
 });
 
 /* ---------- part card (equip + upgrade) ---------- */
+const specIcon = (k, size) => { const s = SPECIALS[k]; return s.weapon ? weaponIcon(s.weapon, size) : iconSvg(s.icon, size); };
 function specChip(k){
   const s = SPECIALS[k];
-  return `<div class="spec">${iconSvg(s.icon, 44)}<div><b>${s.name}</b><span>${s.desc}</span></div></div>`;
+  return `<div class="spec">${specIcon(k, 44)}<div><b>${s.name}</b><span>${s.desc}</span></div></div>`;
 }
 function openPart(id, upgraded = false){
   const o = OBJ[id], usable = isUsable(id), lv = partLevel(id), max = lv >= MAX_PART_LEVEL;
@@ -1541,6 +1785,8 @@ function openPaint(){
   const c = save.robot.colors;
   showOverlay(`<div class="ribbon purple">PAINT SHOP</div>
     <div class="stage small"><div class="bigbot" id="paintPrev">${robotSVG(myRobot())}</div></div>
+    <div class="paintrow"><b>Robot style</b><div class="styles" role="radiogroup" aria-label="Robot style">${STYLES.map(st =>
+      `<button type="button" class="stylebtn${save.robot.style === st.id ? ' sel' : ''}" role="radio" aria-checked="${save.robot.style === st.id}" data-style="${st.id}"><span class="sb">${robotSVG({ ...myRobot(), style: st.id })}</span>${st.name}</button>`).join('')}</div></div>
     ${ZONES.map(([k, label]) => `<div class="paintrow"><b>${label}</b><div class="swatches" role="radiogroup" aria-label="${label} colour">${SWATCHES.map((s, i) =>
       `<button type="button" class="sw${c[k] === s ? ' sel' : ''}" role="radio" aria-checked="${c[k] === s}" data-zone="${k}" data-col="${s}" style="background:${s}" aria-label="${label}: ${SWATCH_NAMES[i]}"></button>`).join('')}</div></div>`).join('')}
     <div class="stack"><button class="btn big green" id="paintDone" type="button">Done</button><button class="btn plain" id="paintRandom" type="button">Surprise me!</button></div>`,
@@ -1548,8 +1794,11 @@ function openPaint(){
   const refresh = () => {
     $('paintPrev').innerHTML = robotSVG(myRobot());
     card.querySelectorAll('.sw').forEach(b => { const sel = save.robot.colors[b.dataset.zone] === b.dataset.col; b.classList.toggle('sel', sel); b.setAttribute('aria-checked', sel); });
+    card.querySelectorAll('.stylebtn').forEach(b => { const sel = save.robot.style === b.dataset.style; b.classList.toggle('sel', sel); b.setAttribute('aria-checked', sel);
+      b.querySelector('.sb').innerHTML = robotSVG({ ...myRobot(), style: b.dataset.style }); });
     persist(); renderRobot();
   };
+  card.querySelectorAll('.stylebtn').forEach(b => b.onclick = () => { save.robot.style = b.dataset.style; sfx('boing'); refresh(); bump($('paintPrev')); });
   card.querySelectorAll('.sw').forEach(b => b.onclick = () => { save.robot.colors[b.dataset.zone] = b.dataset.col; sfx('pop'); refresh(); });
   $('paintRandom').onclick = () => { ZONES.forEach(([k]) => save.robot.colors[k] = pick(SWATCHES)); sfx('boing'); refresh(); bump($('paintPrev')); };
   $('paintDone').onclick = () => { hideOverlay(); sfx('reveal'); };
@@ -1674,6 +1923,25 @@ async function meteorFall(a, b){
   await el.animate([{transform:'translate(-50%,-50%)'},{transform:`translate(calc(-50% + ${t.x-sx}px), calc(-50% + ${t.y-sy}px))`}],{duration:600,easing:'ease-in'}).finished;
   el.remove();
 }
+function slash(a, b, i = 0){
+  const w = WEAPON[a.robot.weapon], col = w ? w.color : '#fff';
+  const c = center(b), size = Math.round(c.w * .95);
+  const mirror = (i % 2 === 1) !== (dirOf(a) < 0);
+  const d = i % 3 === 2 ? 'M8 50 Q50 34 94 52' : 'M16 88 Q22 24 88 10';
+  const el = fx(`<svg width="${size}" height="${size}" viewBox="0 0 100 100" style="overflow:visible${mirror ? ';transform:scaleX(-1)' : ''}">
+    <path d="${d}" pathLength="100" fill="none" stroke="${col}" stroke-width="16" stroke-linecap="round" filter="url(#mcGlow)"/>
+    <path d="${d}" pathLength="100" fill="none" stroke="${col}" stroke-width="9" stroke-linecap="round"/>
+    <path d="${d}" pathLength="100" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"/></svg>`, c.x, c.y - c.h * .08);
+  el.querySelectorAll('path').forEach(p => { p.style.strokeDasharray = '100'; p.animate([{strokeDashoffset:100},{strokeDashoffset:0}],{duration:170,fill:'forwards',easing:'ease-out'}); });
+  el.animate([{opacity:1},{opacity:1,offset:.55},{opacity:0}],{duration:460}).finished.then(() => el.remove());
+}
+function flashArena(){
+  const f = document.createElement('div'); f.className = 'flash'; arena.appendChild(f);
+  f.animate([{opacity:0},{opacity:.95,offset:.15},{opacity:0}],{duration:600}).finished.then(() => f.remove());
+}
+async function spinBot(f){
+  await f.el.animate([{transform:'rotate(0)'},{transform:`rotate(${dirOf(f) * 360}deg)`}],{duration:520,easing:'ease-in-out'}).finished;
+}
 function shakeArena(){
   arena.animate([{transform:'translate(0,0)'},{transform:'translate(-6px,3px)'},{transform:'translate(6px,-3px)'},{transform:'translate(-4px,2px)'},{transform:'translate(0,0)'}],{duration:320});
 }
@@ -1742,6 +2010,23 @@ const SPECIALS = {
       b.pow -= sp; a.pow += sp; b.spd -= ss; a.spd += ss;
       if (sp) popText(b,`-${sp} POWER`); if (ss){ await wait(250); popText(b,`-${ss} SPEED`); }
       await wait(300); await strike(a,b,{mult:.9}); }},
+  starslash:   {name:'Star Slash', desc:'One huge glowing sword slash', weapon:'blue',
+    async run(a,b){ sfx('ignite'); await strike(a,b,{mult:1.6, anim: async () => { await lunge(a); sfx('saber'); slash(a,b); }}); shakeArena(); }},
+  parry:       {name:'Sword Parry', desc:'Blocks the next hit and swings it back', weapon:'green',
+    async run(a,b){ sfx('ignite'); await bubble(a); a.shield = Math.max(a.shield, 1); a.reflect = true; popText(a,'ON GUARD!'); updateHP();
+      await wait(200); await strike(a,b,{mult:.6, anim: async () => { await lunge(a); sfx('saber'); slash(a,b); }}); }},
+  spin:        {name:'Spin Attack', desc:'Spins round for three slashes', weapon:'purple',
+    async run(a,b){ sfx('ignite'); await spinBot(a);
+      for (let i = 0; i < 3 && b.hp > 0; i++){ sfx('saber'); await strike(a,b,{mult:.55, canDodge:false, anim: async () => { slash(a,b,i); await wait(140); }}); } }},
+  shadowstrike:{name:'Shadow Strike', desc:'A big hit that steals their power', weapon:'red',
+    async run(a,b){ sfx('ignite'); const d = await strike(a,b,{mult:1.3, anim: async () => { await lunge(a); sfx('saber'); slash(a,b); }});
+      if (d > 0 && b.hp > 0){ const s = Math.min(3, Math.max(0, b.pow - 2)); b.pow -= s; a.pow += s; if (s){ popText(b,`-${s} POWER`); popText(a,`+${s} POWER`,'heal'); } } }},
+  sunflash:    {name:'Sun Flash', desc:'A bright flash so their next hit misses', weapon:'gold',
+    async run(a,b){ sfx('reveal'); flashArena(); a.dodge = Math.max(a.dodge, 1); popText(b,'Too bright!'); updateHP();
+      await wait(350); await strike(a,b,{mult:.9, anim: async () => { await lunge(a); sfx('saber'); slash(a,b); }}); }},
+  twinstorm:   {name:'Twin Storm', desc:'Four fast slashes with two swords', weapon:'twin',
+    async run(a,b){ sfx('ignite');
+      for (let i = 0; i < 4 && b.hp > 0; i++){ sfx('saber'); await strike(a,b,{mult:.45, anim: async () => { if (i === 0) await lunge(a); slash(a,b,i); await wait(120); }}); } }},
   rainbow:{name:'Rainbow Magic', desc:'Big heal, cures stink and burns, adds a shield', icon:'unicorn',
     async run(a){ sfx('heal'); await spinIcon(a,'unicorn'); a.poison = 0; heal(a, Math.round(a.maxHp * .35));
       await bubble(a); a.shield = Math.max(a.shield, 1); popText(a,'SHIELD UP!'); updateHP(); }},
@@ -1800,7 +2085,8 @@ function heal(f, n){
   updateHP();
 }
 async function strike(a, b, o = {}){
-  if (o.anim) await o.anim(); else await lunge(a);
+  if (o.anim) await o.anim();
+  else { await lunge(a); if (a.robot.weapon){ sfx('saber'); slash(a, b); } }
   const canDodge = o.canDodge !== false;
   if (canDodge && b.dodge > 0){ b.dodge--; popText(b, 'MISSED!'); updateHP(); await dodgeAnim(b); return 0; }
   if (canDodge && Math.random() < clamp((b.spd - a.spd) * .015 + .06, .03, .22)){ popText(b, 'Missed!'); await dodgeAnim(b); return 0; }
@@ -1858,8 +2144,8 @@ function enemyChoice(){
 function renderActions(){
   const n = P.robot.specials.length;
   actionsEl.innerHTML = `<button class="btn big" type="button" data-act="bash">BASH!</button>
-    <div class="specials" style="grid-template-columns:repeat(${n},minmax(0,1fr))">${P.robot.specials.map(k => `<button class="btn special" type="button" data-act="${k}" aria-label="${SPECIALS[k].name}">
-      ${iconSvg(SPECIALS[k].icon, 38)}<span class="sp-name">${SPECIALS[k].name}</span><span class="pips" aria-hidden="true">${'<i></i>'.repeat(ENERGY_MAX)}</span></button>`).join('')}</div>
+    <div class="specials" style="grid-template-columns:repeat(${n <= 3 ? n : 2},minmax(0,1fr))">${P.robot.specials.map(k => `<button class="btn special" type="button" data-act="${k}" aria-label="${SPECIALS[k].name}">
+      ${specIcon(k, 38)}<span class="sp-name">${SPECIALS[k].name}</span><span class="pips" aria-hidden="true">${'<i></i>'.repeat(ENERGY_MAX)}</span></button>`).join('')}</div>
     <p class="charge-hint" id="chargeHint"></p>`;
 }
 function updateActions(){
@@ -1930,7 +2216,8 @@ function startBattle(robot, foe, challenge = null){
     el.innerHTML = `<div class="bob"><div class="${f.side === 'enemy' ? 'flip' : ''}">${robotSVG(f.robot)}</div></div>`;
     f.el = el; f.svg = el.querySelector('svg');
   });
-  arena.querySelectorAll('.fx,.beam').forEach(n => n.remove());
+  arena.querySelectorAll('.fx,.beam,.flash').forEach(n => n.remove());
+  arena.dataset.theme = pick(['sky','space','desert']);
   renderActions(); busy = true; setTurn(''); updateHP(); updateActions(); setLog('Get ready...');
   showScreen('battle');
   const icons = r => `<div class="iconrow">${r.parts.map(id => iconSvg(id, 28)).join('')}</div>`;
