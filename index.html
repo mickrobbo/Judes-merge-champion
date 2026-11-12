@@ -292,7 +292,7 @@ button.lbrow:active{transform:translateY(2px);box-shadow:0 1px 0 var(--ink)}
 .pop.dmg span{color:var(--sun);font-size:34px}
 .pop.heal span{color:#7CF2B0}
 .pop.status span{font-size:22px}
-.pop.big span{font-size:40px;color:var(--tomato)}
+.pop.big span{font-size:clamp(30px,9vw,40px);color:var(--tomato)}
 .bubble{border-radius:50%;border:4px solid #5BC0F8;background:radial-gradient(circle at 35% 30%,rgba(255,255,255,.9) 0 10%,rgba(91,192,248,.35) 11% 100%)}
 .beam{position:absolute;height:14px;border-radius:7px;background:linear-gradient(#FFC2DA,#FF3B7F 40%,#FF3B7F 60%,#FFC2DA);box-shadow:0 0 18px #FF3B7F;pointer-events:none;z-index:5}
 
@@ -454,9 +454,34 @@ button.lbrow:active{transform:translateY(2px);box-shadow:0 1px 0 var(--ink)}
 .arena[data-theme="desert"] .sun{display:block;left:10%;top:9%;width:58px;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,#FFF6C9,#FFD23F 60%);
   border:3px solid #E0A400;box-shadow:0 0 40px rgba(255,210,63,.8)}
 .flash{position:absolute;inset:0;background:#fff;z-index:7;pointer-events:none}
+/* game feel */
+.hpfill{position:relative;z-index:1}
+.hptrail{position:absolute;top:0;bottom:0;left:0;background:#FFE08A;transition:width .55s ease-in .35s}
+.hpbox.right .hptrail{left:auto;right:0}
+.hptext{z-index:2}
+.lvchip.boss{background:repeating-linear-gradient(45deg,#FF3B4E 0 6px,#C21F33 6px 12px)}
+.pop.critp span{font-size:46px;color:#FF8A2B}
+.fighter.boss{width:48%;max-width:262px}
+.fighter.boss .bot{filter:drop-shadow(0 0 10px rgba(255,59,78,.75))}
+.bot .eyes{transform-box:fill-box;transform-origin:center;animation:blink 4.6s infinite}
+@keyframes blink{0%,93%,100%{transform:scaleY(1)}95.5%{transform:scaleY(.08)}}
+.stars svg{animation:starpop .5s cubic-bezier(.3,1.6,.5,1) backwards}
+.stars svg:nth-child(1){animation-delay:.25s}.stars svg:nth-child(2){animation-delay:.5s}.stars svg:nth-child(3){animation-delay:.75s}
+@keyframes starpop{from{transform:scale(0) rotate(-45deg);opacity:0}}
+.ribbon.boss{background:repeating-linear-gradient(45deg,#FF3B4E 0 14px,#C21F33 14px 28px)}
+.bosswarn{font-family:var(--display);font-size:18px;color:#C21F33;line-height:1.2;text-wrap:balance}
+.btn.bossbtn{background:repeating-linear-gradient(45deg,#FF3B4E 0 16px,#D92A3E 16px 32px)}
+.bonuses{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;width:100%}
+.bonus{display:inline-flex;align-items:center;gap:6px;background:#FFF1A8;border:3px solid var(--ink);border-radius:999px;padding:3px 12px 3px 6px;font-family:var(--display);font-size:16px}
+.chest{background:none;border:0;padding:0;margin-top:-52px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;font:inherit;color:var(--ink)}
+.chest svg{filter:drop-shadow(0 6px 0 rgba(43,29,58,.35))}
+.chest.gold svg{filter:drop-shadow(0 0 16px rgba(255,210,63,.9)) drop-shadow(0 6px 0 rgba(43,29,58,.35))}
+.chest .chest-tag{font-family:var(--display);font-size:20px;background:var(--sun);border:3px solid var(--ink);border-radius:999px;padding:2px 14px;margin-top:-8px;box-shadow:0 3px 0 var(--ink)}
+.chest.closed{animation:wiggle 1.4s ease-in-out infinite}
+@keyframes wiggle{0%,70%,100%{transform:rotate(0)}75%{transform:rotate(-6deg)}85%{transform:rotate(6deg)}92%{transform:rotate(-3deg)}}
 @media (max-width:380px){ .tray-grid{gap:18px 6px} }
 @media (prefers-reduced-motion: reduce){
-  .bob,.btn.ready,.btn.special.charged,.bot .prop,.bot .flame,.bot .blade,.machine.shaking,.card,.popin,.preview.pop svg{animation:none!important}
+  .bob,.btn.ready,.btn.special.charged,.bot .prop,.bot .flame,.bot .blade,.bot .eyes,.chest.closed,.stars svg,.machine.shaking,.card,.popin,.preview.pop svg{animation:none!important}
 }
 </style>
 
@@ -810,6 +835,24 @@ const PENCIL = `<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="tru
 const PALETTE = `<svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18c1.5 0 2-1 2-2s-1-1.5-1-2.5 1-1.5 2-1.5h2a4 4 0 0 0 4-4c0-4.5-4-8-9-8z" fill="#FFF3D6" stroke="${INK}" stroke-width="2" stroke-linejoin="round"/><g stroke="${INK}" stroke-width="1.4"><circle cx="7.5" cy="11" r="1.8" fill="#FF4D5E"/><circle cx="10" cy="6.8" r="1.8" fill="#FFD23F"/><circle cx="14.8" cy="6.8" r="1.8" fill="#2EC4A0"/><circle cx="17.6" cy="10.6" r="1.8" fill="#5B6CFF"/></g></svg>`;
 const DICE = `<svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="#fff" stroke="${INK}" stroke-width="2.2"/><g fill="${INK}"><circle cx="8" cy="8" r="1.7"/><circle cx="16" cy="8" r="1.7"/><circle cx="12" cy="12" r="1.7"/><circle cx="8" cy="16" r="1.7"/><circle cx="16" cy="16" r="1.7"/></g></svg>`;
 const STAR = on => `<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M24 3l6.5 13.5 14.5 2-10.5 10 2.5 14.5L24 36l-13 7 2.5-14.5L3 18.5l14.5-2z" fill="${on ? '#FFD23F' : '#E3DEEE'}" stroke="${INK}" stroke-width="3.5" stroke-linejoin="round"/></svg>`;
+const FLAME = s => `<svg viewBox="0 0 24 24" width="${s}" height="${s}" aria-hidden="true"><path d="M12 2c1 4 6 6 6 12a6 6 0 0 1-12 0c0-3 2-5 3-7 0 2 1 3 2 3 0-3-1-5 1-8z" fill="#FF8A2B" stroke="${INK}" stroke-width="2" stroke-linejoin="round"/><path d="M12 12c1 2 3 3 3 5a3 3 0 0 1-6 0c0-1 1-2 1-3 1 1 2 1 2-2z" fill="#FFD23F"/></svg>`;
+function chestSVG(kind, open){
+  const gold = kind === 'gold';
+  const body = gold ? '#FFC300' : '#B8742A', lid = gold ? '#FFD23F' : '#D08A3A', band = gold ? '#E0A400' : '#7A4A1C';
+  const S = `stroke="${INK}" stroke-width="4" stroke-linejoin="round"`;
+  const lidPath = 'd="M8 38 V30 Q8 10 50 10 Q92 10 92 30 V38 Z"';
+  const lidG = `<path ${lidPath} fill="${lid}" ${S}/><path ${lidPath} fill="url(#mcShine)"/>
+    <rect x="20" y="13" width="10" height="25" fill="${band}" ${S} stroke-width="3"/><rect x="70" y="13" width="10" height="25" fill="${band}" ${S} stroke-width="3"/>`;
+  return `<svg viewBox="-14 -44 128 130" width="150" height="152" style="overflow:visible" aria-hidden="true">
+    <defs><linearGradient id="chestRays" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#FFF6C9" stop-opacity=".95"/><stop offset="1" stop-color="#FFF6C9" stop-opacity="0"/></linearGradient></defs>
+    ${open ? `<path d="M16 40 L-14 -44 H114 L84 40 Z" fill="url(#chestRays)"/>
+      <g stroke="${INK}" stroke-width="3"><circle cx="34" cy="36" r="9" fill="#FFD23F"/><circle cx="52" cy="31" r="9" fill="#FFD23F"/><circle cx="68" cy="37" r="9" fill="#FFD23F"/></g>` : ''}
+    <rect x="8" y="38" width="84" height="44" rx="6" fill="${body}" ${S}/><rect x="8" y="38" width="84" height="44" rx="6" fill="url(#mcShine)"/>
+    <rect x="20" y="38" width="10" height="44" fill="${band}" ${S} stroke-width="3"/><rect x="70" y="38" width="10" height="44" fill="${band}" ${S} stroke-width="3"/>
+    ${open ? `<g transform="translate(-2 -30) rotate(-12 8 38)">${lidG}</g>`
+           : lidG + `<rect x="42" y="30" width="16" height="17" rx="3" fill="${gold ? '#F2F4F7' : '#FFD23F'}" ${S} stroke-width="3"/><circle cx="50" cy="38" r="2.6" fill="${INK}"/>`}
+  </svg>`;
+}
 const TOAST_SVG = `<svg viewBox="0 0 40 40" width="40" height="40"><path d="M8 14a10 8 0 0 1 24 0v18H8z" fill="#F2B45A" stroke="${INK}" stroke-width="3" stroke-linejoin="round"/><path d="M12 16a7 5 0 0 1 16 0v12H12z" fill="#FFE2A8"/></svg>`;
 const SPARK_SVG = `<svg viewBox="0 0 40 40" width="44" height="44"><path d="M20 2l5 13 13 5-13 5-5 13-5-13-13-5 13-5z" fill="#FFD23F" stroke="${INK}" stroke-width="3" stroke-linejoin="round"/></svg>`;
 const BOLT_SVG = `<svg viewBox="0 0 60 90" width="70" height="105"><path d="M38 2L8 50H28L18 88L54 34H33Z" fill="#FFE94A" stroke="${INK}" stroke-width="4" stroke-linejoin="round"/></svg>`;
@@ -994,9 +1037,8 @@ function robotSVG(r){
         <rect x="${eyes[0][0]-18}" y="${y-10}" width="${eyes[1][0]-eyes[0][0]+36}" height="20" rx="10" fill="#FF3B7F" ${S}/>
         <rect x="${eyes[0][0]-10}" y="${y-5}" width="20" height="5" rx="2.5" fill="#fff" opacity=".85"/>`;
     } else {
-      eyes.forEach(([x,y]) => {
-        out += `<circle cx="${x}" cy="${y}" r="11" fill="#fff" ${S} stroke-width="3"/><circle cx="${x+3}" cy="${y+1}" r="5.5" fill="${INK}"/><circle cx="${x+5}" cy="${y-1.5}" r="2" fill="#fff"/>`;
-      });
+      out += `<g class="eyes" style="animation-delay:-${(Math.random() * 4.6).toFixed(2)}s">` + eyes.map(([x,y]) =>
+        `<circle cx="${x}" cy="${y}" r="11" fill="#fff" ${S} stroke-width="3"/><circle cx="${x+3}" cy="${y+1}" r="5.5" fill="${INK}"/><circle cx="${x+5}" cy="${y-1.5}" r="2" fill="#fff"/>`).join('') + '</g>';
       if (has('rocket') || has('shark')) out += `<path d="M${eyes[0][0]-10} ${eyes[0][1]-17}L${eyes[0][0]+8} ${eyes[0][1]-11}M${eyes[1][0]+10} ${eyes[1][1]-17}L${eyes[1][0]-8} ${eyes[1][1]-11}" ${S} fill="none"/>`;
     }
     if ((has('duck') || has('unicorn')) && headId !== 'duck') out += `<circle cx="72" cy="68" r="5" fill="#FF9DB8"/><circle cx="128" cy="68" r="5" fill="#FF9DB8"/>`;
@@ -1043,21 +1085,29 @@ function myRobot(){
   return buildRobot({ parts: save.robot.parts, lv: partLevel, level: save.level, colors: save.robot.colors, name: save.robot.name,
                       weapon: myWeapon(), style: save.robot.style });
 }
-function makeEnemy(){
+const BOSS_EVERY = 5;
+const BOSS_NAMES = ['Mega Destructo','King Krusher','Titan Doom-Bot','Lord Clank-a-Lot','Captain Kaboom','Omega Grumble'];
+const bossDue = () => (save.wins + 1) % BOSS_EVERY === 0;
+const nextFoe = () => makeEnemy({ boss: bossDue() });
+function makeEnemy(opts = {}){
+  const boss = !!opts.boss;
   const pool = OBJECTS.filter(o => !o.power || isUsable(o.id)).map(o => o.id);
-  const count = save.wins < 1 ? 2 : 3;
+  const count = save.wins < 1 && !boss ? 2 : 3;
   const ids = [];
   while (ids.length < count){ const id = pick(pool); if (!ids.includes(id)) ids.push(id); }
   const mine = save.robot.parts.length ? save.robot.parts.reduce((s, id) => s + partLevel(id), 0) / save.robot.parts.length : 1;
   const target = Math.min(mine + 1, 1 + save.wins * .35);
   const lvs = {}; ids.forEach(id => lvs[id] = clamp(Math.round(target + rand(-1, .5)), 1, MAX_PART_LEVEL));
   const swords = WEAPONS.slice(0, clamp(1 + Math.floor(save.wins / 3), 1, WEAPONS.length));
-  const weapon = save.wins >= 1 && Math.random() < .6 ? pick(swords).id : null;
-  const r = buildRobot({ parts: ids, lv: id => lvs[id], level: save.level, colors: null, name: makeName(ids.map(i => OBJ[i])),
-                         weapon, style: pick(STYLES).id });
+  const weapon = boss ? pick(['red','twin','purple']) : save.wins >= 1 && Math.random() < .6 ? pick(swords).id : null;
+  const r = buildRobot({ parts: ids, lv: id => lvs[id], level: save.level,
+                         colors: boss ? { body:'#3A2E55', head:'#5A4680', limbs:'#FF3B4E' } : null,
+                         name: boss ? pick(BOSS_NAMES) : makeName(ids.map(i => OBJ[i])),
+                         weapon, style: boss ? 'shadow' : pick(STYLES).id });
   const m = Math.min(1, .78 + save.wins * .03);
   r.pow = Math.round(r.pow * m); r.spd = Math.round(r.spd * m); r.def = Math.round(r.def * m);
   r.hp = Math.round(r.hp * (m * .5 + .5));
+  if (boss){ r.boss = true; r.hp = Math.round(r.hp * 1.8); r.pow = Math.round(r.pow * 1.1); }
   return r;
 }
 
@@ -1084,6 +1134,7 @@ try {
 } catch (e) {}
 save.robot.parts = save.robot.parts.filter(id => OBJ[id]).slice(0, ROBOT_SLOTS);
 if (!Array.isArray(save.seen)) save.seen = [];
+if (typeof save.streak !== 'number') save.streak = 0;
 if (!Array.isArray(save.weapons)) save.weapons = ['blue'];
 save.weapons = save.weapons.filter(id => WEAPON[id]);
 if (!('weapon' in save.robot)) save.robot.weapon = 'blue';
@@ -1440,6 +1491,11 @@ const SOUNDS = {
   ko:      () => tone(400, .6, 'square', .06, 60),
   win:     () => [523,659,784,1046,1318].forEach((f,i) => tone(f, .22, 'square', .05, null, i*.11)),
   lose:    () => [392,330,262,196].forEach((f,i) => tone(f, .3, 'triangle', .12, null, i*.2)),
+  crit:    () => { noise(.2, .25); tone(220, .22, 'square', .08, 880); },
+  boom:    () => { noise(.6, .3); tone(120, .6, 'sawtooth', .08, 40); },
+  siren:   () => [0,.3,.6,.9].forEach((d,i) => tone(i % 2 ? 660 : 880, .28, 'square', .05, null, d)),
+  chest:   () => [523,659,784,1046,1318,1568].forEach((f,i) => tone(f, .14, 'triangle', .12, null, i*.07)),
+  star:    () => tone(1046, .14, 'triangle', .11),
 };
 function sfx(n){ if (!soundOn) return; try { SOUNDS[n] && SOUNDS[n](); } catch (e) {} }
 const soundBtn = $('soundBtn');
@@ -1452,7 +1508,25 @@ function renderSound(){
 soundBtn.addEventListener('click', () => {
   soundOn = !soundOn; try { localStorage.setItem('merge-champion-sound', soundOn ? 'on' : 'off'); } catch (e) {}
   renderSound(); sfx('pop');
+  if (!soundOn) stopMusic(); else if (!$('battle').hidden && overlay.hidden) startMusic(E && E.robot.boss);
 });
+// Battle music: a short chiptune loop made with the same sound engine.
+const MUSIC = { bass: [110,110,165,147,131,131,196,165], lead: [440,0,523,659,587,0,523,440,392,0,440,523,494,0,392,0] };
+let musicTimer = null, musicStep = 0;
+function startMusic(boss = false){
+  stopMusic();
+  if (!soundOn || !ac()) return;
+  musicStep = 0;
+  const k = boss ? .84 : 1;
+  musicTimer = setInterval(() => {
+    if (!soundOn) return;
+    const i = musicStep++, l = MUSIC.lead[i % 16];
+    if (l) tone(l * k, .12, 'square', .018);
+    if (i % 2 === 0) tone(MUSIC.bass[(i >> 1) % 8] * k / 2, .17, 'triangle', .07);
+    if (i % 4 === 2) noise(.04, .025);
+  }, boss ? 150 : 170);
+}
+function stopMusic(){ clearInterval(musicTimer); musicTimer = null; }
 
 /* ---------- overlay + toast ---------- */
 const overlay = $('overlay'), card = $('card');
@@ -1546,7 +1620,7 @@ function renderRobot(popIndex = -1){
   const r = myRobot(), parts = save.robot.parts;
   $('rname').textContent = save.robot.name;
   $('lvlBadge').textContent = `LEVEL ${save.level}`;
-  $('winPill').innerHTML = `${TROPHY}${save.wins}`;
+  $('winPill').innerHTML = `${TROPHY}${save.wins}${save.streak >= 2 ? `&nbsp;${FLAME(18)}${save.streak}` : ''}`;
   const maxed = save.level >= MAX_ROBOT_LEVEL, need = xpNeeded(save.level);
   $('xpFill').style.width = (maxed ? 100 : save.xp / need * 100) + '%';
   $('xpFrom').textContent = `Lv ${save.level}`;
@@ -1572,6 +1646,8 @@ function renderRobot(popIndex = -1){
   const fb = $('fightBtn');
   fb.disabled = parts.length === 0;
   fb.classList.toggle('ready', parts.length > 0);
+  fb.classList.toggle('bossbtn', bossDue());
+  fb.textContent = bossDue() ? 'BOSS BATTLE!' : 'FIGHT!';
 }
 function tileHTML(o){
   const usable = isUsable(o.id);
@@ -1636,7 +1712,7 @@ function unequip(i){
   save.robot.parts.splice(i, 1); sfx('remove'); persist(); renderAll();
 }
 slotEls.forEach((el, i) => el.addEventListener('click', () => unequip(i)));
-$('fightBtn').addEventListener('click', () => { if (save.robot.parts.length) { sfx('pop'); startBattle(myRobot()); } });
+$('fightBtn').addEventListener('click', () => { if (save.robot.parts.length) { sfx('pop'); startBattle(myRobot(), nextFoe()); } });
 $('renameBtn').innerHTML = PENCIL; $('paintBtn').innerHTML = PALETTE;
 $('renameBtn').addEventListener('click', () => openRename(false));
 $('weaponSlot').addEventListener('click', () => { sfx('pop'); openArmoury(); });
@@ -1833,8 +1909,11 @@ function fx(html, x, y, cls = ''){
   const d = document.createElement('div'); d.className = 'fx ' + cls; d.innerHTML = html;
   d.style.left = x + 'px'; d.style.top = y + 'px'; arena.appendChild(d); return d;
 }
-function popText(f, text, cls = 'status'){
-  const c = center(f), el = fx(`<span>${text}</span>`, c.x + rand(-14, 14), c.y - c.h * .3, 'pop ' + cls);
+function popText(f, text, cls = 'status', dy = 0){
+  const c = center(f);
+  let x = c.x + rand(-14, 14);
+  if (cls.includes('big')){ const W = arena.clientWidth; x = clamp(x, Math.min(130, W / 2), Math.max(W - 130, W / 2)); }
+  const el = fx(`<span>${text}</span>`, x, c.y - c.h * .3 + dy, 'pop ' + cls);
   el.animate([{transform:'translate(-50%,-50%) scale(.5)',opacity:0},{transform:'translate(-50%,-90%) scale(1.15)',opacity:1,offset:.2},
               {transform:'translate(-50%,-200%) scale(1)',opacity:0}],{duration:1200,easing:'ease-out'}).finished.then(() => el.remove());
 }
@@ -1946,6 +2025,16 @@ function shakeArena(){
   arena.animate([{transform:'translate(0,0)'},{transform:'translate(-6px,3px)'},{transform:'translate(6px,-3px)'},{transform:'translate(-4px,2px)'},{transform:'translate(0,0)'}],{duration:320});
 }
 async function ko(f){
+  const c = center(f);
+  sfx('boom'); shakeArena(); burst(f, 18);
+  for (let i = 0; i < 12; i++){
+    const html = i % 3 === 0 ? iconSvg('gear', 26) : `<i style="display:block;width:11px;height:11px;border-radius:3px;background:${pick(['#B8C4D0','#FFD23F','#FF4D5E'])};border:2px solid ${INK}"></i>`;
+    const el = fx(html, c.x, c.y), dx = rand(-130, 130), up = rand(60, 150);
+    el.animate([{transform:'translate(-50%,-50%) rotate(0)'},
+      {transform:`translate(calc(-50% + ${dx * .6}px), calc(-50% - ${up}px)) rotate(${rand(180,540)}deg)`, offset:.45},
+      {transform:`translate(calc(-50% + ${dx}px), calc(-50% + ${c.h * .45}px)) rotate(${rand(540,900)}deg)`, opacity:0}],
+      {duration:1150,easing:'ease-out'}).finished.then(() => el.remove());
+  }
   sfx('ko'); popText(f, 'K.O.!', 'big');
   const d = dirOf(f);
   await f.el.animate([{transform:'rotate(0) translateY(0)',opacity:1},{transform:`rotate(${d*-85}deg) translate(${d*-30}px,40px)`,opacity:.45}],{duration:700,easing:'ease-in',fill:'forwards'}).finished;
@@ -2059,14 +2148,15 @@ function fighter(robot, side){
            extra: false, ghostly: false, el: null, svg: null };
 }
 function hpBox(f){
-  return `<div class="hp-top"><span class="lvchip">Lv ${f.robot.level}</span><span class="hpname">${esc(f.name)}</span><span class="mini">${f.robot.parts.map(id => iconSvg(id, 22)).join('')}</span></div>
-    <div class="hpbar"><div class="hpfill" id="${f.side}Fill"></div><span class="hptext" id="${f.side}Num"></span></div>
+  return `<div class="hp-top">${f.robot.boss ? '<span class="lvchip boss">BOSS</span>' : `<span class="lvchip">Lv ${f.robot.level}</span>`}<span class="hpname">${esc(f.name)}</span><span class="mini">${f.robot.parts.map(id => iconSvg(id, 22)).join('')}</span></div>
+    <div class="hpbar"><div class="hptrail" id="${f.side}Trail"></div><div class="hpfill" id="${f.side}Fill"></div><span class="hptext" id="${f.side}Num"></span></div>
     <div class="statusrow" id="${f.side}Status"></div>`;
 }
 function updateHP(){
   [P, E].forEach(f => {
     const pct = Math.max(0, f.hp / f.maxHp * 100), fill = $(f.side + 'Fill');
     fill.style.width = pct + '%'; fill.className = 'hpfill' + (pct < 25 ? ' crit' : pct < 55 ? ' low' : '');
+    $(f.side + 'Trail').style.width = pct + '%';
     $(f.side + 'Num').textContent = `${f.hp} / ${f.maxHp}`;
     const st = [f.shield > 0 && (f.shield > 1 ? `Shield x${f.shield}` : 'Shield'), f.dodge > 0 && 'Dodge', f.reflect && 'Bounce',
                 f.stun > 0 && 'Frozen', f.confused && 'Confused', f.poison > 0 && f.poisonName].filter(Boolean);
@@ -2074,10 +2164,23 @@ function updateHP(){
     f.el.style.opacity = (f.ghostly && f.dodge > 0 && f.hp > 0) ? '.55' : '';
   });
 }
-function hurt(f, dmg){
-  f.hp = Math.max(0, f.hp - dmg); sfx('hit'); hitFlash(f); popText(f, '-' + dmg, 'dmg');
-  if (dmg >= 22) shakeArena();
+function hurt(f, dmg, crit = false){
+  f.hp = Math.max(0, f.hp - dmg); sfx('hit'); hitFlash(f); burst(f, crit ? 14 : 8);
+  popText(f, '-' + dmg, crit ? 'dmg critp' : 'dmg');
+  if (crit){ popText(f, 'CRITICAL!', 'big', -52); sfx('crit'); shakeArena(); }
+  else if (dmg >= 22) shakeArena();
   updateHP();
+}
+function burst(f, n){
+  const c = center(f), cols = ['#FFD23F','#fff','#FF8A2B'];
+  for (let i = 0; i < n; i++){
+    const a = rand(0, Math.PI * 2), d = rand(34, 80), s = Math.round(rand(6, 13));
+    const el = fx(`<i style="display:block;width:${s}px;height:${s}px;background:${pick(cols)};border:2px solid ${INK};transform:rotate(45deg)"></i>`, c.x + rand(-10, 10), c.y + rand(-10, 10));
+    el.animate([{transform:'translate(-50%,-50%) scale(1)',opacity:1},{transform:`translate(calc(-50% + ${Math.cos(a)*d}px), calc(-50% + ${Math.sin(a)*d}px)) scale(.3)`,opacity:0}],
+      {duration:rand(350,560),easing:'cubic-bezier(.2,.8,.4,1)'}).finished.then(() => el.remove());
+  }
+  const ring = fx(`<div style="width:64px;height:64px;border-radius:50%;border:5px solid #fff;box-shadow:0 0 12px #fff"></div>`, c.x, c.y);
+  ring.animate([{transform:'translate(-50%,-50%) scale(.3)',opacity:1},{transform:'translate(-50%,-50%) scale(1.7)',opacity:0}],{duration:360,easing:'ease-out'}).finished.then(() => ring.remove());
 }
 function heal(f, n){
   const real = Math.min(n, f.maxHp - f.hp); f.hp += real; hearts(f);
@@ -2092,8 +2195,10 @@ async function strike(a, b, o = {}){
   if (canDodge && Math.random() < clamp((b.spd - a.spd) * .015 + .06, .03, .22)){ popText(b, 'Missed!'); await dodgeAnim(b); return 0; }
   let dmg = (3 + a.pow * .8) * rand(.85, 1.15) * (o.mult || 1) - (o.pierce ? 0 : b.def * .3);
   dmg = Math.max(2, Math.round(dmg));
-  if (b.shield > 0){ b.shield--; dmg = Math.max(1, Math.round(dmg * .3)); popText(b, 'BLOCKED!'); sfx('shield'); }
-  hurt(b, dmg);
+  let crit = Math.random() < clamp(.1 + (a.spd - b.spd) * .006, .06, .25);
+  if (crit) dmg = Math.round(dmg * 1.6);
+  if (b.shield > 0){ b.shield--; crit = false; dmg = Math.max(1, Math.round(dmg * .3)); popText(b, 'BLOCKED!'); sfx('shield'); }
+  hurt(b, dmg, crit);
   if (b.reflect && b.hp > 0){
     b.reflect = false; await wait(260); popText(b, 'BOING!'); sfx('boing');
     await projectile(b, a, iconSvg('spring', 40), 380, 0, 360, 30);
@@ -2195,16 +2300,16 @@ async function playerAct(action){
 }
 async function checkEnd(){
   if (E.hp > 0 && P.hp > 0) return false;
-  setTurn(''); updateHP();
-  if (E.hp <= 0){ await ko(E); await wait(300); victory(); }
-  else { await ko(P); await wait(300); defeat(); }
+  setTurn(''); updateHP(); stopMusic();
+  if (E.hp <= 0){ await ko(E); await jump(P); await wait(150); victory(); }
+  else { await ko(P); await jump(E); await wait(150); defeat(); }
   return true;
 }
 function showScreen(name){
   $('workshop').hidden = name !== 'workshop'; $('battle').hidden = name !== 'battle';
   window.scrollTo(0, 0);
 }
-function backToGarage(){ currentChallenge = null; hideOverlay(); showScreen('workshop'); renderAll(); }
+function backToGarage(){ currentChallenge = null; stopMusic(); hideOverlay(); showScreen('workshop'); renderAll(); }
 function startBattle(robot, foe, challenge = null){
   currentChallenge = challenge;
   battleRobot = robot; enemyRobot = foe || makeEnemy();
@@ -2214,6 +2319,7 @@ function startBattle(robot, foe, challenge = null){
     el.getAnimations().forEach(a => a.cancel());
     el.style.opacity = '';
     el.innerHTML = `<div class="bob"><div class="${f.side === 'enemy' ? 'flip' : ''}">${robotSVG(f.robot)}</div></div>`;
+    el.classList.toggle('boss', !!f.robot.boss);
     f.el = el; f.svg = el.querySelector('svg');
   });
   arena.querySelectorAll('.fx,.beam,.flash').forEach(n => n.remove());
@@ -2221,16 +2327,19 @@ function startBattle(robot, foe, challenge = null){
   renderActions(); busy = true; setTurn(''); updateHP(); updateActions(); setLog('Get ready...');
   showScreen('battle');
   const icons = r => `<div class="iconrow">${r.parts.map(id => iconSvg(id, 28)).join('')}</div>`;
-  showOverlay(`<div class="ribbon">${currentChallenge ? 'CHALLENGE!' : 'BATTLE ' + (save.wins + save.losses + 1)}</div>
+  const boss = !!E.robot.boss;
+  if (boss) sfx('siren');
+  showOverlay(`<div class="ribbon${boss ? ' boss' : ''}">${boss ? 'BOSS BATTLE!' : currentChallenge ? 'CHALLENGE!' : 'BATTLE ' + (save.wins + save.losses + 1)}</div>
+    ${boss ? `<p class="bosswarn">A giant boss robot appears! Beat it to win a golden treasure chest.</p>` : ''}
     <div class="vsrow">
       <div class="side">${robotSVG(P.robot)}<span class="nm">${esc(P.name)}</span>${icons(P.robot)}<span class="tagline">YOU · LEVEL ${P.robot.level}</span></div>
       <div class="vsbig outline">VS</div>
-      <div class="side"><div class="flip" style="width:min(140px,100%)">${robotSVG(E.robot)}</div><span class="nm">${esc(E.name)}</span>${icons(E.robot)}<span class="tagline">${currentChallenge ? 'PLAYER' : 'ENEMY'} · LEVEL ${E.robot.level}</span></div>
+      <div class="side"><div class="flip" style="width:min(140px,100%)">${robotSVG(E.robot)}</div><span class="nm">${esc(E.name)}</span>${icons(E.robot)}<span class="tagline">${boss ? 'BOSS' : currentChallenge ? 'PLAYER' : 'ENEMY'} · LEVEL ${E.robot.level}</span></div>
     </div>
     <div class="stack"><button class="btn big ready" id="goBtn" type="button">GO!</button><button class="btn plain" id="fleeBtn" type="button">Back to my robot</button></div>`, { wide: true });
   $('fleeBtn').onclick = backToGarage;
   $('goBtn').onclick = async () => {
-    hideOverlay(); sfx('pop');
+    hideOverlay(); sfx('pop'); startMusic(boss);
     if (E.spd > P.spd){
       setLog(`${E.name} is faster and goes first!`); await wait(700);
       await enemyPhase();
@@ -2253,8 +2362,7 @@ function flyCoins(n, fromEl, startCount){
   const pill = $('coinPill').getBoundingClientRect(), f = fromEl.getBoundingClientRect();
   const fx0 = f.left + f.width / 2, fy0 = f.top + f.height / 2;
   const dx = pill.left + 22 - fx0, dy = pill.top + pill.height / 2 - fy0;
-  let shown = startCount;
-  $('coinCount').textContent = startCount;
+  if (startCount != null) $('coinCount').textContent = startCount;
   for (let i = 0; i < n; i++){
     const c = document.createElement('div'); c.className = 'flycoin'; c.innerHTML = COIN(32);
     c.style.left = fx0 + 'px'; c.style.top = fy0 + 'px'; document.body.appendChild(c);
@@ -2262,7 +2370,8 @@ function flyCoins(n, fromEl, startCount){
                {transform:`translate(calc(-50% + ${dx*.35}px), calc(-50% + ${dy*.35 - 50}px)) scale(1.25)`, offset:.4},
                {transform:`translate(calc(-50% + ${dx}px), calc(-50% + ${dy}px)) scale(.8)`}],
       {duration:850, delay:500 + i*140, easing:'ease-in', fill:'backwards'}).finished.then(() => {
-        c.remove(); shown++; $('coinCount').textContent = shown; sfx('coin'); bump($('coinPill'));
+        c.remove(); const cur = Number($('coinCount').textContent) || 0;
+        $('coinCount').textContent = Math.min(save.coins, cur + 1); sfx('coin'); bump($('coinPill'));
       });
   }
 }
@@ -2275,39 +2384,64 @@ function extrasHTML(lv, next){
     + (lv.power.length ? `<div class="newpart"><span class="lbl">NEW POWER PART${lv.power.length > 1 ? 'S' : ''}!</span><div class="iconrow">${lv.power.map(id => iconSvg(id, 64)).join('')}</div><span class="nm">${lv.power.map(id => OBJ[id].name).join(' + ')}</span></div>` : '')
     + (next ? `<div class="newpart"><span class="lbl">NEW PART!</span><span class="popin">${iconSvg(next.id, 80)}</span><span class="nm">${next.name}</span></div>` : '');
 }
+// Treasure chests: tap to open on the win screen. Leaving the screen still pays out.
+let chest = { kind: null, opened: true };
+function openChest(show){
+  if (!chest.kind || chest.opened) return;
+  chest.opened = true;
+  const n = chest.kind === 'gold' ? Math.round(rand(10, 20)) : Math.round(rand(2, 5));
+  save.coins += n; persist();
+  const btn = $('chestBtn');
+  if (!show || !btn){ renderHeader(); return; }
+  btn.classList.remove('closed'); sfx('pop');
+  btn.animate([{transform:'rotate(0)'},{transform:'rotate(-8deg) scale(1.05)'},{transform:'rotate(8deg) scale(1.05)'},{transform:'rotate(-5deg)'},{transform:'rotate(0) scale(1)'}],{duration:450}).finished.then(() => {
+    btn.innerHTML = chestSVG(chest.kind, true) + `<span class="chest-tag">+${n} coins!</span>`;
+    btn.disabled = true; sfx('chest'); sparksAt(btn); flyCoins(n, btn);
+  });
+}
 function victory(){
   const ch = currentChallenge; if (ch) resolveChallenge(true);
   const startCoins = save.coins;
   save.wins++;
   const hpLeft = P.hp / P.maxHp, stars = hpLeft > .6 ? 3 : hpLeft > .25 ? 2 : 1;
-  const coins = winCoins(stars);
+  const boss = !!enemyRobot.boss;
+  save.streak = (save.streak || 0) + 1;
+  const streakBonus = save.streak >= 2 ? Math.min(save.streak - 1, 5) : 0, bossBonus = boss ? 10 : 0;
+  const coins = winCoins(stars) + streakBonus + bossBonus;
   save.coins += coins;
-  const lv = addXP(WIN_XP);
+  const lv = addXP(boss ? WIN_XP * 2 : WIN_XP);
+  chest = { kind: boss ? 'gold' : Math.random() < .45 ? 'wood' : null, opened: false };
   const next = OBJECTS.find(o => !o.power && !save.unlocked.includes(o.id));
   if (next){ save.unlocked.push(next.id); save.fresh.push(next.id); }
   persist(); renderRobot(); renderTray();
-  sfx('win'); confetti();
-  if (lv.levelUp) setTimeout(() => sfx('levelup'), 900);
+  sfx('win'); confetti(); if (boss) setTimeout(confetti, 600);
+  for (let i = 0; i < stars; i++) setTimeout(() => sfx('star'), 300 + i * 250);
+  if (lv.levelUp) setTimeout(() => sfx('levelup'), 1100);
   const isNew = !!(next || lv.power.length);
-  showOverlay(`<div class="ribbon win">YOU WIN!</div>
+  const bonuses = (bossBonus ? `<span class="bonus">${STAR(true).replace('<svg ', '<svg width="20" height="20" ')}Boss beaten! +${bossBonus}</span>` : '')
+    + (streakBonus ? `<span class="bonus">${FLAME(20)}${save.streak} wins in a row! +${streakBonus}</span>` : '');
+  showOverlay(`<div class="ribbon win">${boss ? 'BOSS DEFEATED!' : 'YOU WIN!'}</div>
     <div class="stars">${[0,1,2].map(i => STAR(i < stars)).join('')}</div>
     <div class="stage small"><div class="bigbot popin">${robotSVG(battleRobot)}</div></div>
     <h2 class="botname">${esc(save.robot.name)}</h2>
     ${ch ? `<p class="muted">You beat ${esc(enemyRobot.name)}, a real player's robot!</p>` : ''}
-    ${rewardsHTML(coins, WIN_XP)}
+    ${rewardsHTML(coins, boss ? WIN_XP * 2 : WIN_XP)}
+    ${bonuses ? `<div class="bonuses">${bonuses}</div>` : ''}
+    ${chest.kind ? `<button class="chest closed ${chest.kind}" id="chestBtn" type="button" aria-label="Open the treasure chest">${chestSVG(chest.kind, false)}<span class="chest-tag">Tap to open!</span></button>` : ''}
     ${extrasHTML(lv, next)}
     <div class="stack">
       <button class="btn big green ready" id="toWorkshop" type="button">${isNew ? 'Try my new parts' : 'Upgrade my robot'}</button>
       <button class="btn plain" id="nextFight" type="button">Fight again</button>
     </div>`);
   flyCoins(coins, $('coinReward'), startCoins);
-  $('toWorkshop').onclick = backToGarage;
-  $('nextFight').onclick = () => { hideOverlay(); renderAll(); startBattle(myRobot()); };
+  if ($('chestBtn')) $('chestBtn').onclick = () => openChest(true);
+  $('toWorkshop').onclick = () => { openChest(false); backToGarage(); };
+  $('nextFight').onclick = () => { openChest(false); hideOverlay(); renderAll(); startBattle(myRobot(), nextFoe()); };
 }
 function defeat(){
   const ch = currentChallenge; if (ch) resolveChallenge(false);
   const startCoins = save.coins;
-  save.losses++;
+  save.losses++; save.streak = 0;
   save.coins += LOSS_COINS;
   const lv = addXP(LOSS_XP);
   persist(); renderRobot(); renderTray();
@@ -2322,7 +2456,7 @@ function defeat(){
     <p class="muted">Use your coins to upgrade parts, or try a different mix. Then come back!</p>
     <div class="stack">
       <button class="btn big green ready" id="toWorkshop" type="button">Upgrade my robot</button>
-      <button class="btn plain" id="rematch" type="button">Rematch</button>
+      <button class="btn plain" id="rematch" type="button">${enemyRobot.boss ? 'Fight the boss again' : 'Rematch'}</button>
     </div>`);
   flyCoins(LOSS_COINS, $('coinReward'), startCoins);
   $('toWorkshop').onclick = backToGarage;
