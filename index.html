@@ -266,6 +266,58 @@ body[data-screen="battle"] #menuBtn{display:none}
 .mtile .mbadge{position:absolute;top:-8px;right:-6px;min-width:28px;height:28px;padding:0 6px;border-radius:999px;background:var(--tomato);color:#fff;border:3px solid var(--ink);font-family:var(--display);font-size:15px;display:grid;place-items:center}
 .guidetxt{margin:0 16px 8px;font-weight:700;line-height:1.45}
 .guidefoot{display:flex;justify-content:center;padding:4px 16px 16px}
+.weaponslot.dogslot{background:#7A4A1C}
+.weaponslot.dogslot .wic{background:radial-gradient(circle at 50% 60%,rgba(255,255,255,.22),transparent 70%),#5A3412}
+.weaponslot.dogslot .wic svg{width:54px;height:48px}
+.window .pdog{position:absolute;left:2%;bottom:2%;width:clamp(96px,32%,150px);background:none;border:0;padding:0;cursor:pointer}
+.window .pdog svg{width:100%;height:auto;display:block}
+.dog{position:absolute;bottom:4%;width:clamp(68px,18%,140px);z-index:3;pointer-events:none}
+.dog.left{left:18%} .dog.right{right:18%}
+.dog svg{display:block;width:100%;height:auto}
+.dogbob{animation:bob 1.5s ease-in-out infinite}
+.dog.right .dogbob{animation-delay:-.7s}
+.vsbot{position:relative;width:min(140px,100%)}
+.vsrow .side .vsbot .bot{width:100%}
+.vsdog{position:absolute;right:-10%;bottom:-4%;width:50%}
+.vsdog svg{width:100%;height:auto;display:block}
+.bigdog{width:min(220px,70%);margin-inline:auto}
+.bigdog svg{width:100%;height:auto}
+.dogres{display:grid;grid-template-columns:76px minmax(0,1fr);gap:10px;align-items:center;width:100%;background:#FFE9C7;border:3px solid var(--ink);border-radius:16px;padding:6px 12px 8px 8px;text-align:left}
+.dogres .dogpic svg{width:100%;height:auto;display:block}
+.dogres b{font-family:var(--display);font-weight:400;font-size:18px;display:block;line-height:1.1}
+.dogres span{font-weight:800;font-size:14px}
+.dxbar{height:12px;border:3px solid var(--ink);border-radius:999px;background:#fff;overflow:hidden;margin-top:4px;flex:1}
+.dxbar i{display:block;height:100%;background:#FF8A2B}
+.kennel{overflow:hidden}
+.kennel .phead{background:#B5652B;color:#fff}
+.kbody{padding:14px 16px 18px;display:flex;flex-direction:column;gap:10px}
+.dhero{display:grid;grid-template-columns:minmax(110px,38%) minmax(0,1fr);gap:14px;align-items:center;background:#E7F5FF;border:4px solid var(--ink);border-radius:20px;padding:10px}
+.dhero .dbig{background:linear-gradient(#BDE4FF 0 72%,#9BD77A 72%);border:3px solid var(--ink);border-radius:14px;padding:10px 8px 4px}
+.dhero .dbig svg{width:100%;height:auto;display:block}
+.dinfo{display:flex;flex-direction:column;gap:6px;min-width:0;background:rgba(255,255,255,.88);border:3px solid var(--ink);border-radius:14px;padding:10px 12px}
+.dname{display:flex;align-items:center;gap:8px}
+.dname b,.dhey{font-family:var(--display);font-weight:400;font-size:24px;line-height:1.05;overflow-wrap:anywhere}
+.dline{font-weight:700;font-size:14px;line-height:1.35}
+.dlv{display:flex;align-items:center;gap:8px;font-family:var(--display);font-size:15px}
+.dinfo .pillbtn{align-self:flex-start}
+.ksub{font-family:var(--display);font-weight:400;font-size:22px;margin:6px 0 0}
+.knote{margin:-4px 0 0;font-weight:700;color:var(--muted);font-size:14px}
+.dgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.dcard{position:relative;display:flex;flex-direction:column;align-items:center;gap:3px;background:var(--cloud);border:3px solid var(--ink);border-radius:18px;box-shadow:0 4px 0 var(--ink);padding:8px 8px 26px;cursor:pointer;font:inherit;color:var(--ink);min-width:0;text-align:center}
+.dcard.on{background:#FFF1A8}
+.dcard .dpic{width:100%;max-width:150px}
+.dcard .dpic svg{width:100%;height:auto;display:block}
+.dcard b{font-family:var(--display);font-weight:400;font-size:19px;line-height:1.1}
+.dpow{font-weight:800;font-size:13px;color:#B5652B}
+.ddesc{font-size:13px;font-weight:700;color:var(--muted);line-height:1.25}
+.ggrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:18px 12px;padding-bottom:12px}
+.gcard{position:relative;display:grid;grid-template-columns:58px minmax(0,1fr);gap:10px;align-items:center;background:#251D4D;color:#fff;border:3px solid #0A0718;border-radius:16px;box-shadow:0 4px 0 #0A0718;padding:8px 12px 18px 8px;cursor:pointer;font:inherit;text-align:left;min-width:0}
+.gcard.on{outline:4px solid var(--sun)}
+.gcard .gpic{display:grid;place-items:center;width:58px;height:58px;border-radius:12px;background:radial-gradient(circle,rgba(255,255,255,.2),transparent 70%)}
+.gcard .gtxt{display:flex;flex-direction:column;min-width:0}
+.gcard b{font-family:var(--display);font-weight:400;font-size:18px}
+.gcard .gtxt span{font-size:13px;font-weight:700;opacity:.85;line-height:1.25}
+@media (max-width:430px){ .dhero{grid-template-columns:minmax(0,1fr)} }
 .bossnext{margin:6px 0 0;text-align:center;font-weight:800;font-size:14px;color:var(--muted)}
 .lbmanage{font-family:var(--display);font-size:14px;background:var(--paper);color:var(--ink);border:3px solid var(--ink);border-radius:999px;padding:2px 12px;cursor:pointer;box-shadow:0 3px 0 var(--ink)}
 .lbmanage:active{transform:translateY(2px);box-shadow:0 1px 0 var(--ink)}
@@ -512,11 +564,12 @@ body[data-screen="battle"] #menuBtn{display:none}
 .stile .ic svg{width:62px;height:62px}
 .stile .nm{font-family:var(--display);font-size:clamp(13px,3.4vw,16px);line-height:1.1;text-align:center}
 .stile.on{border-color:#7FF3FF;box-shadow:0 0 0 3px rgba(127,243,255,.35),0 4px 0 #0A0718}
-.stile .price{position:absolute;bottom:-13px;left:50%;transform:translateX(-50%);display:inline-flex;align-items:center;gap:3px;white-space:nowrap;
+:is(.stile,.dcard,.gcard) .price{position:absolute;bottom:-13px;left:50%;transform:translateX(-50%);display:inline-flex;align-items:center;gap:3px;white-space:nowrap;
   background:var(--sun);color:var(--ink);border:2.5px solid var(--ink);border-radius:999px;padding:0 9px 0 3px;font-family:var(--display);font-size:13px;line-height:20px}
-.stile .price.own{background:var(--paper);padding:0 9px}
-.stile .price.hold{background:#7FF3FF;padding:0 9px}
-.stile .price.cant{background:#C9C3D8;color:#5A5270}
+:is(.stile,.dcard,.gcard) .price.own{background:var(--paper);padding:0 9px}
+:is(.stile,.dcard,.gcard) .price.hold{background:#7FF3FF;padding:0 9px}
+:is(.stile,.dcard,.gcard) .price.cant{background:#C9C3D8;color:#5A5270}
+:is(.dcard,.gcard) .price.free{background:var(--mint);color:#fff;padding:0 12px}
 .anote{color:#BDB6E0;font-size:14px;font-weight:700;text-align:center}
 .sword-stage{width:100%;height:170px;border:3px solid var(--ink);border-radius:18px;display:grid;place-items:center}
 .sword-stage svg{width:150px;height:150px}
@@ -587,7 +640,7 @@ body[data-screen="battle"] #menuBtn{display:none}
 @keyframes wiggle{0%,70%,100%{transform:rotate(0)}75%{transform:rotate(-6deg)}85%{transform:rotate(6deg)}92%{transform:rotate(-3deg)}}
 @media (max-width:380px){ .tray-grid{gap:18px 6px} }
 @media (prefers-reduced-motion: reduce){
-  .bob,.armslots .ready,.btn.ready,.btn.special.charged,.bot .prop,.bot .flame,.bot .blade,.bot .eyes,.chest.closed,.stars svg,.machine.shaking,.card,.popin,.preview.pop svg{animation:none!important}
+  .bob,.dogbob,.armslots .ready,.btn.ready,.btn.special.charged,.bot .prop,.bot .flame,.bot .blade,.bot .eyes,.chest.closed,.stars svg,.machine.shaking,.card,.popin,.preview.pop svg{animation:none!important}
 }
 </style>
 
@@ -598,6 +651,7 @@ body[data-screen="battle"] #menuBtn{display:none}
   <radialGradient id="mcGlass" cx=".35" cy=".3" r=".85"><stop offset="0" stop-color="#fff" stop-opacity=".7"/><stop offset=".4" stop-color="#CFF4FF" stop-opacity=".22"/><stop offset="1" stop-color="#8FD6FF" stop-opacity=".3"/></radialGradient>
   <radialGradient id="mcEye" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#fff"/><stop offset=".45" stop-color="#7FF3FF"/><stop offset="1" stop-color="#1497D4"/></radialGradient>
   <filter id="mcGlow" x="-2" y="-2" width="5" height="5"><feGaussianBlur stdDeviation="4"/></filter>
+  <linearGradient id="mcRainbow" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FF4D5E"/><stop offset=".2" stop-color="#FFB020"/><stop offset=".4" stop-color="#FFE94A"/><stop offset=".6" stop-color="#3FBF6A"/><stop offset=".8" stop-color="#3FA9FF"/><stop offset="1" stop-color="#B46BFF"/></linearGradient>
 </defs></svg>
 <div id="app">
   <header class="top">
@@ -647,6 +701,7 @@ body[data-screen="battle"] #menuBtn{display:none}
           <div class="namerow"><h3 class="rname" id="rname"></h3><button class="icon-btn sm" id="renameBtn" type="button" aria-label="Rename your robot"></button></div>
           <div class="window" id="window">
             <div class="preview" id="preview"></div>
+            <button class="pdog" id="pdog" type="button" hidden aria-label="Open the kennel"></button>
             <span class="badge" id="comboBadge" hidden></span>
             <button class="icon-btn paint" id="paintBtn" type="button" aria-label="Paint your robot"></button>
           </div>
@@ -660,6 +715,7 @@ body[data-screen="battle"] #menuBtn{display:none}
           <div class="armslots">
             <button class="weaponslot" id="weaponSlot" type="button"></button>
             <button class="weaponslot form" id="formSlot" type="button"></button>
+            <button class="weaponslot dogslot" id="dogSlot" type="button"></button>
           </div>
           <p class="hint" id="hint"></p>
           <div class="mstats" id="mstats"></div>
@@ -690,6 +746,10 @@ body[data-screen="battle"] #menuBtn{display:none}
             <div class="armtabs" role="tablist"><button type="button" role="tab" class="armtab" data-tab="swords">Laser Swords</button><button type="button" role="tab" class="armtab" data-tab="guns">Blasters</button></div>
             <div class="sword-grid" id="swordGrid"></div>
             <p class="anote" id="armNote"></p></div>
+        </section>
+        <section class="kennel panel pg" data-pg="kennel" aria-label="Kennel">
+          <div class="phead"><h2>KENNEL</h2><span class="count" id="dogCount"></span></div>
+          <div class="kbody" id="kennelBox"></div>
         </section>
         <section class="profile panel pg" data-pg="player" id="profilePanel" aria-label="Player" hidden>
           <div class="phead"><h2>PLAYER</h2><span class="count">Your robot on any phone</span></div>
@@ -726,6 +786,8 @@ body[data-screen="battle"] #menuBtn{display:none}
       <div class="turn" id="turn"></div>
       <div class="fighter left" id="pF"></div>
       <div class="fighter right" id="eF"></div>
+      <div class="dog left" id="pD" hidden></div>
+      <div class="dog right" id="eD" hidden></div>
     </div>
     <div class="announcer" id="log" aria-live="polite"></div>
     <div class="actions panel" id="actions"></div>
@@ -793,6 +855,18 @@ const OBJECTS = [
    adj:['Ticky','Ringy','Sleepy'], mid:'Tick', noun:['Ticker','Ringer','Tocker']},
   {id:'glove', name:'Boxing Glove', color:'#E8344A', pow:7, spd:5, def:4, special:'punch',
    adj:['Punchy','Boxy','Bashy'], mid:'Bonk', noun:['Puncher','Boxer','Basher']},
+  {id:'skateboard', name:'Skateboard', color:'#FF6FB5', pow:4, spd:9, def:3, special:'kickflip',
+   adj:['Rad','Gnarly','Skater'], mid:'Flip', noun:['Shredder','Skater','Boardbot']},
+  {id:'pizza', name:'Pizza', color:'#FFB020', pow:4, spd:4, def:8, special:'pizza',
+   adj:['Cheesy','Saucy','Yummy'], mid:'Slice', noun:['Pizzabot','Pepperoni','Cheeser']},
+  {id:'bulb', name:'Light Bulb', color:'#FFE94A', pow:6, spd:6, def:3, special:'idea',
+   adj:['Bright','Glowy','Clever'], mid:'Flash', noun:['Bulby','Brainbot','Glower']},
+  {id:'umbrella', name:'Umbrella', color:'#5B6CFF', pow:3, spd:5, def:9, special:'brolly',
+   adj:['Rainy','Drippy','Soggy'], mid:'Splash', noun:['Brollybot','Drizzler','Puddle']},
+  {id:'trumpet', name:'Trumpet', color:'#FFC93C', pow:6, spd:5, def:4, special:'blare',
+   adj:['Loud','Tooty','Brassy'], mid:'Toot', noun:['Tooter','Honker','Bandbot']},
+  {id:'banana', name:'Banana', color:'#FFE14D', pow:5, spd:7, def:3, special:'slip',
+   adj:['Slippy','Bananas','Peely'], mid:'Slip', noun:['Slipper','Bananabot','Peeler']},
   // ---- power parts (need robot level 5) ----
   {id:'volcano', name:'Volcano', color:'#FF6A2B', pow:10, spd:4, def:8, special:'lava', power:true,
    adj:['Lava','Fiery','Molten'], mid:'Boom', noun:['Eruptor','Magma','Volcanix']},
@@ -814,6 +888,14 @@ const OBJECTS = [
    adj:['Spooky','Boo','Ghostly'], mid:'Boo', noun:['Ghoulbot','Phantom','Spook']},
   {id:'crown', name:'Crown', color:'#FFC300', pow:8, spd:6, def:8, special:'crown', power:true,
    adj:['Royal','Kingly','Fancy'], mid:'Majesty', noun:['King','Queen','Ruler']},
+  {id:'dragon', name:'Dragon Egg', color:'#3FBF6A', pow:12, spd:6, def:7, special:'dragon', power:true,
+   adj:['Dragon','Scaly','Fire'], mid:'Roar', noun:['Dragonbot','Scorcher','Wyrm']},
+  {id:'tornado', name:'Tornado', color:'#9AA6B2', pow:9, spd:11, def:5, special:'twister', power:true,
+   adj:['Twisty','Whirling','Gusty'], mid:'Twist', noun:['Twister','Cyclone','Whirler']},
+  {id:'trex', name:'T-Rex Skull', color:'#E8DCC0', pow:14, spd:5, def:6, special:'stomp', power:true,
+   adj:['Dino','Stompy','Roary'], mid:'Stomp', noun:['Rex','Stomper','Dinobot']},
+  {id:'phoenix', name:'Phoenix Feather', color:'#FF6A2B', pow:9, spd:8, def:8, special:'phoenix', power:true,
+   adj:['Blazing','Phoenix','Golden'], mid:'Flare', noun:['Phoenix','Firebird','Blazer']},
 ];
 const OBJ = Object.fromEntries(OBJECTS.map(o => [o.id, o]));
 // Power parts unlock two at a time: the first two at robot level 5, the next two at 6, and so on.
@@ -838,6 +920,16 @@ const COMBOS = [
   {parts:['unicorn','crown'],   name:'Royal Unicorn', pow:2, def:4},
   {parts:['ghost','clock'],     name:'Haunted Clock', spd:5},
   {parts:['storm','battery'],   name:'Super Storm', pow:5},
+  {parts:['skateboard','wheel'], name:'Skate Park', spd:4},
+  {parts:['pizza','toaster'],   name:'Pizza Oven', def:3, pow:1},
+  {parts:['bulb','battery'],    name:'Power Plant', pow:4},
+  {parts:['umbrella','storm'],  name:'Rainy Day', def:4},
+  {parts:['trumpet','duck'],    name:'Quack Band', pow:2, spd:2},
+  {parts:['banana','skateboard'], name:'Banana Slide', spd:5},
+  {parts:['dragon','volcano'],  name:'Dragon Mountain', pow:7},
+  {parts:['tornado','fan'],     name:'Mega Tornado', spd:5, pow:2},
+  {parts:['trex','meteor'],     name:'Dino Doom', pow:7},
+  {parts:['phoenix','crown'],   name:'Phoenix King', pow:3, def:4},
 ];
 const comboKey = c => c.parts.slice().sort().join('+');
 
@@ -847,8 +939,13 @@ const WEAPONS = [
   {id:'green',  name:'Green Blade',  color:'#39E36B', pow:3, spd:0, def:3, cost:8,  special:'parry'},
   {id:'purple', name:'Purple Blade', color:'#B46BFF', pow:5, spd:2, def:0, cost:14, special:'spin'},
   {id:'red',    name:'Red Blade',    color:'#FF3B4E', pow:7, spd:0, def:0, cost:20, special:'shadowstrike'},
+  {id:'spear',  name:'Laser Spear',  color:'#FF6FB5', pow:5, spd:3, def:0, cost:24, special:'spearthrust', shape:'spear'},
   {id:'gold',   name:'Gold Blade',   color:'#FFC93C', pow:5, spd:4, def:0, cost:28, special:'sunflash'},
+  {id:'axe',    name:'Laser Axe',    color:'#FF8A2B', pow:8, spd:0, def:1, cost:34, special:'axechop', shape:'axe'},
+  {id:'ice',    name:'Ice Blade',    color:'#7FF3FF', pow:6, spd:2, def:2, cost:38, special:'frostslash', shape:'ice'},
   {id:'twin',   name:'Twin Blades',  color:'#2EF0E0', pow:8, spd:4, def:0, cost:40, special:'twinstorm'},
+  {id:'hammer', name:'Thunder Hammer', color:'#5BC0F8', pow:10, spd:0, def:3, cost:50, special:'thunderslam', shape:'hammer'},
+  {id:'rainbow', name:'Rainbow Blade', color:'#FF4D9E', pow:9, spd:4, def:2, cost:60, special:'prism', shape:'rainbow'},
 ];
 const WEAPON = Object.fromEntries(WEAPONS.map(w => [w.id, w]));
 
@@ -856,10 +953,15 @@ const WEAPON = Object.fromEntries(WEAPONS.map(w => [w.id, w]));
 const GUNS = [
   {id:'pea',     name:'Pea Blaster',     color:'#2EC4A0', pow:1, spd:0, def:0, cost:0,  ammo:4, desc:'Fires three bouncy peas'},
   {id:'minigun', name:'Mini-Gun',        color:'#6E7884', pow:2, spd:0, def:0, cost:12, ammo:3, desc:'Six super-fast shots'},
+  {id:'goo',     name:'Goo Blaster',     color:'#7DDB3A', pow:2, spd:0, def:0, cost:15, ammo:3, desc:'Sticky goo that slows them right down'},
   {id:'flame',   name:'Flame Thrower',   color:'#FF8A2B', pow:2, spd:0, def:0, cost:18, ammo:3, desc:'A blast of fire that burns for 3 turns'},
+  {id:'lightning', name:'Lightning Gun', color:'#FFE94A', pow:2, spd:1, def:0, cost:22, ammo:3, desc:'A zappy bolt that might stun them'},
   {id:'rocket',  name:'Rocket Launcher', color:'#6B8E3A', pow:3, spd:0, def:0, cost:26, ammo:2, desc:'A huge explosion that smashes through shields'},
+  {id:'grenade', name:'Grenade Launcher', color:'#4E6B2A', pow:3, spd:0, def:0, cost:30, ammo:2, desc:'Lobs two bouncing grenades'},
   {id:'freeze',  name:'Freeze Ray',      color:'#4FC3F7', pow:2, spd:2, def:0, cost:32, ammo:2, desc:'Freezes them so they miss a turn'},
+  {id:'shotgun', name:'Plasma Shotgun',  color:'#FF4D9E', pow:3, spd:0, def:0, cost:38, ammo:2, desc:'Five plasma blasts at once'},
   {id:'mega',    name:'Mega Cannon',     color:'#7B5CFF', pow:4, spd:0, def:0, cost:45, ammo:1, desc:'One giant laser blast'},
+  {id:'sniper',  name:'Laser Sniper',    color:'#FF3B4E', pow:4, spd:1, def:0, cost:55, ammo:2, desc:'Takes careful aim, then always lands a critical hit'},
 ];
 const GUN = Object.fromEntries(GUNS.map(g => [g.id, g]));
 
@@ -872,6 +974,26 @@ const VEHICLES = [
   {id:'rocket', name:'Star Rocket', level:4, attack:'Rocket Dive', desc:'Huge power, smashes right into them',       boost:{pow:.4}},
 ];
 const VEHICLE = Object.fromEntries(VEHICLES.map(v => [v.id, v]));
+
+// Battle dogs: a companion that bites after each of your turns and uses its gadget every few turns.
+const DOGS = [
+  {id:'dachshund',  name:'Dachshund',  pet:'Sausage', power:'Double Bite', desc:'Small and speedy. Bites twice every turn!'},
+  {id:'corgi',      name:'Corgi',      pet:'Biscuit', power:'Lucky Bite',  desc:'Super lucky. Often bites for double damage!'},
+  {id:'rottweiler', name:'Rottweiler', pet:'Tank',    power:'Mega Bite',   desc:'Big and strong. The hardest bites of all!'},
+  {id:'dane',       name:'Great Dane', pet:'Duke',    power:'Guard Dog',   desc:'A giant guard. Your robot takes less damage.'},
+];
+const DOG = Object.fromEntries(DOGS.map(d => [d.id, d]));
+const DOG_COST = 25, MAX_DOG_LEVEL = 10, DOG_GADGET_EVERY = 3;
+const dogXpNeeded = lvl => 6 + lvl * 4;
+const dogBase = lvl => 3 + lvl * 1.5; // bite damage before breed bonuses
+const GADGETS = [
+  {id:'laser',   name:'Laser Collar',  cost:10, desc:'Shoots a laser beam right through armour'},
+  {id:'rockets', name:'Rocket Pack',   cost:18, desc:'Fires a rocket for a big explosion'},
+  {id:'ice',     name:'Ice Collar',    cost:24, desc:'A frosty bark that freezes them for a turn'},
+  {id:'armour',  name:'Battle Armour', cost:30, desc:'Guards your robot with a shield, then bites'},
+  {id:'mega',    name:'Mega Bark',     cost:40, desc:'A bark so loud it hurts and confuses them'},
+];
+const GADGET = Object.fromEntries(GADGETS.map(g => [g.id, g]));
 
 function findCombos(ids){ return COMBOS.filter(c => c.parts.every(p => ids.includes(p))); }
 
@@ -979,6 +1101,55 @@ const ICONS = {
     <rect x="10" y="48" width="44" height="10" rx="3" fill="#FFB020"/>
     <circle cx="6" cy="20" r="4.5" fill="#FF4D5E"/><circle cx="32" cy="10" r="4.5" fill="#7B5CFF"/><circle cx="58" cy="20" r="4.5" fill="#2EC4A0"/>
     <circle cx="32" cy="38" r="5" fill="#FF4D5E"/><circle cx="20" cy="53" r="2" fill="#fff" stroke="none"/><circle cx="44" cy="53" r="2" fill="#fff" stroke="none"/>`,
+  skateboard:`<rect x="13" y="35" width="11" height="6" fill="#B8C4D0"/><rect x="40" y="35" width="11" height="6" fill="#B8C4D0"/>
+    <path d="M3 28 Q3 22 10 23 H54 Q61 22 61 28 Q61 36 54 36 H10 Q3 36 3 28Z" fill="#FF6FB5"/>
+    <path d="M14 29h36" fill="none" stroke="#fff" stroke-width="3" stroke-dasharray="5 5"/>
+    <circle cx="18" cy="46" r="7" fill="#FFD23F"/><circle cx="46" cy="46" r="7" fill="#FFD23F"/>
+    <circle cx="18" cy="46" r="2.2" fill="${INK}" stroke="none"/><circle cx="46" cy="46" r="2.2" fill="${INK}" stroke="none"/>
+    <path d="M2 50h6M0 42h5" fill="none" stroke="#4FC3F7" stroke-width="3"/>`,
+  pizza:`<path d="M6 12 Q32 0 58 12 L32 61 Z" fill="#FFD27A"/><path d="M6 12 Q32 0 58 12 L54 20 Q32 10 10 20 Z" fill="#E39A3E"/>
+    <circle cx="29" cy="27" r="5.5" fill="#FF4D5E"/><circle cx="41" cy="33" r="4.5" fill="#FF4D5E"/><circle cx="30" cy="44" r="4" fill="#FF4D5E"/>
+    <path d="M20 31q3 3 1 6M38 45q3 2 2 5" fill="none" stroke="#3FBF6A" stroke-width="3"/>`,
+  bulb:`<path d="M5 16l6 3M59 16l-6 3M32 0v4M14 2l3 5M50 2l-3 5" fill="none" stroke="#FFB020" stroke-width="3"/>
+    <path d="M32 7 A18 18 0 0 1 43 39 Q41 42 41 46 H23 Q23 42 21 39 A18 18 0 0 1 32 7Z" fill="#FFE94A"/>
+    <rect x="23" y="46" width="18" height="12" rx="3" fill="#B8C4D0"/><path d="M23 51h18M23 55h18" fill="none" stroke-width="2"/>
+    <path d="M27 36 Q32 25 37 36" fill="none" stroke="#FFB020" stroke-width="3"/>
+    <path d="M23 18q4-6 10-7" fill="none" stroke="#fff" stroke-width="3"/>`,
+  umbrella:`<path d="M32 30 V51 Q32 59 25 59 Q19 59 19 52" fill="none" stroke-width="7"/>
+    <path d="M32 30 V51 Q32 59 25 59 Q19 59 19 52" fill="none" stroke="#FFD23F" stroke-width="2.5"/>
+    <path d="M3 32 Q7 6 32 4 Q57 6 61 32 Q54 26 47 32 Q40 26 32 32 Q24 26 17 32 Q10 26 3 32Z" fill="#5B6CFF"/>
+    <path d="M32 4 Q24 18 17 32 M32 4 Q40 18 47 32" fill="none" stroke-width="2.5"/>
+    <path d="M14 18q6-8 14-10" fill="none" stroke="#fff" stroke-width="3" opacity=".8"/>`,
+  trumpet:`<rect x="14" y="13" width="5" height="13" rx="2" fill="#E0A400"/><rect x="22" y="13" width="5" height="13" rx="2" fill="#E0A400"/><rect x="30" y="13" width="5" height="13" rx="2" fill="#E0A400"/>
+    <path d="M6 25 H36 L54 10 V50 L36 35 H6Z" fill="#FFC93C"/><ellipse cx="54" cy="30" rx="6" ry="20" fill="#FFE58A"/>
+    <rect x="1" y="26" width="7" height="8" rx="2" fill="#B8C4D0"/>
+    <path d="M12 30h20" fill="none" stroke="#fff" stroke-width="2.5" opacity=".8"/>`,
+  banana:`<path d="M12 12 Q6 46 34 55 Q50 59 59 48 Q40 50 28 38 Q19 28 20 11 Z" fill="#FFE14D"/>
+    <path d="M20 11 L17 3 L12 12Z" fill="#7A5A2A"/>
+    <path d="M23 28 Q29 43 46 50" fill="none" stroke="#E0B800" stroke-width="2.5"/>
+    <circle cx="58" cy="48" r="2.2" fill="#7A5A2A"/>`,
+  dragon:`<path d="M8 12q5 7 12 4M56 12q-5 7-12 4" fill="none" stroke="#FF6A2B" stroke-width="3"/>
+    <ellipse cx="32" cy="37" rx="20" ry="25" fill="#3FBF6A"/>
+    <path d="M17 30 l5 -4 5 4 5 -4 5 4 5 -4 5 4" fill="none" stroke="#2B8F4A" stroke-width="3"/>
+    <path d="M14 44 l6 4 6 -4 6 4 6 -4 6 4 6 -4" fill="none" stroke="#2B8F4A" stroke-width="3"/>
+    <path d="M22 17 L28 23 L33 15 L38 22 L43 17" fill="none" stroke-width="3"/>
+    <circle cx="31" cy="20" r="2.4" fill="#FFD23F" stroke="none"/>
+    <path d="M20 54q-2-6 2-10" fill="none" stroke="#fff" stroke-width="3" opacity=".6"/>`,
+  tornado:`<path d="M5 9 H59 Q51 18 41 20 H23 Q13 18 5 9Z" fill="#C9D3DD"/>
+    <path d="M13 22 H51 Q45 30 37 31 H27 Q19 30 13 22Z" fill="#9AA6B2"/>
+    <path d="M19 33 H45 Q41 40 35 41 H29 Q23 40 19 33Z" fill="#C9D3DD"/>
+    <path d="M24 43 H40 Q37 50 34 52 H30 Q27 50 24 43Z" fill="#9AA6B2"/><path d="M29 54 H35 L32 61Z" fill="#C9D3DD"/>
+    <path d="M1 22q6 2 6 9M63 34q-6 0-6 6" fill="none" stroke="#4FC3F7" stroke-width="3"/>`,
+  trex:`<path d="M15 45 Q12 55 21 57 H40 L45 45" fill="#E8DCC0"/>
+    <path d="M5 30 Q5 9 30 9 Q52 9 59 25 L59 36 Q52 41 44 38 L40 46 H12 Q5 40 5 30Z" fill="#E8DCC0"/>
+    <circle cx="33" cy="24" r="6.5" fill="${INK}" stroke="none"/><circle cx="35" cy="22" r="2.4" fill="#FF4D5E" stroke="none"/>
+    <path d="M15 46 l3 5 3-5 3 5 3-5 3 5 3-5 3 5" fill="#fff" stroke-width="2"/>
+    <path d="M50 28h5M13 20q4-5 10-6" fill="none" stroke-width="2.5"/>`,
+  phoenix:`<path d="M44 4 Q63 21 46 40 Q36 52 17 59 Q22 44 18 34 Q14 17 44 4Z" fill="#FF6A2B"/>
+    <path d="M42 11 Q50 25 40 36 Q32 44 22 50 Q26 38 24 30 Q24 18 42 11Z" fill="#FFB020" stroke="none"/>
+    <path d="M38 19 Q40 29 31 39" fill="none" stroke="#FFE94A" stroke-width="3"/>
+    <path d="M17 59 L45 14" fill="none" stroke-width="3"/>
+    <path d="M6 10l2 4 4 2-4 2-2 4-2-4-4-2 4-2z" fill="#FFE94A" stroke-width="2"/>`,
 };
 function iconInner(id){ return `<g stroke="${INK}" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">${ICONS[id] || ''}</g>`; }
 function iconSvg(id, size){ return `<svg viewBox="0 0 64 64" width="${size}" height="${size}" aria-hidden="true">${iconInner(id)}</svg>`; }
@@ -1037,12 +1208,45 @@ function shaded(tag, a, fill, sw = 4){
 // A laser sword held at (x,y), tilted by rot degrees.
 function swordSVG(wid, x, y, rot, len = 116){
   const w = WEAPON[wid]; if (!w) return '';
+  const c = w.color, top = -18 - len, shape = w.shape || 'blade';
+  const pole = h => `<rect x="-3.5" y="${-16 - h}" width="7" height="${h}" rx="3" fill="url(#mcMetal)" stroke="${INK}" stroke-width="2.5"/>`;
+  let blade;
+  if (shape === 'spear'){
+    // a long metal pole with a glowing diamond tip
+    const t = top + 26;
+    blade = pole(len - 26) + `<g class="blade"><path d="M0 ${t - 40} L13 ${t - 8} L0 ${t + 6} L-13 ${t - 8} Z" fill="${c}" opacity=".8" filter="url(#mcGlow)"/>
+      <path d="M0 ${t - 38} L10 ${t - 8} L0 ${t + 4} L-10 ${t - 8} Z" fill="${c}" stroke="${INK}" stroke-width="2"/>
+      <path d="M0 ${t - 28} L3.5 ${t - 8} L0 ${t - 1} L-3.5 ${t - 8} Z" fill="#fff"/></g>`;
+  } else if (shape === 'axe'){
+    // a handle with a glowing crescent axe head
+    const h = Math.round(len * .82), t = -16 - h;
+    const head = `M2 ${t - 2} Q46 ${t - 16} 56 ${t + 24} Q46 ${t + 64} 2 ${t + 50} Q20 ${t + 24} 2 ${t - 2} Z`;
+    blade = pole(h) + `<g class="blade"><path d="${head}" fill="${c}" opacity=".8" filter="url(#mcGlow)"/><path d="${head}" fill="${c}" stroke="${INK}" stroke-width="2.5"/>
+      <path d="M16 ${t + 4} Q40 ${t + 2} 45 ${t + 24} Q40 ${t + 46} 16 ${t + 44}" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"/></g>`;
+  } else if (shape === 'hammer'){
+    // a handle with a big glowing thunder hammer head
+    const h = Math.round(len * .72), t = -16 - h;
+    blade = pole(h) + `<g class="blade"><rect x="-27" y="${t - 26}" width="54" height="32" rx="9" fill="${c}" opacity=".8" filter="url(#mcGlow)"/>
+      <rect x="-25" y="${t - 24}" width="50" height="28" rx="8" fill="${c}" stroke="${INK}" stroke-width="3"/>
+      <rect x="-19" y="${t - 19}" width="38" height="6" rx="3" fill="#fff" opacity=".9"/>
+      <path d="M3 ${t - 16} L-5 ${t - 6} H1 L-3 ${t + 2} L7 ${t - 9} H1 Z" fill="#FFE94A" stroke="${INK}" stroke-width="1.6"/></g>`;
+  } else if (shape === 'ice'){
+    // a jagged frozen blade
+    let l = '', r = '';
+    for (let i = 0, n = 7; i <= n; i++){ const yy = -18 - len * i / n; l += `L${i % 2 ? -10 : -6} ${yy.toFixed(1)} `; r = `L${i % 2 ? 10 : 6} ${yy.toFixed(1)} ` + r; }
+    const d = `M-6 -14 ${l}L0 ${top - 12} ${r.replace(/^L/, 'L')}Z`;
+    blade = `<g class="blade"><path d="${d}" fill="${c}" opacity=".75" filter="url(#mcGlow)"/><path d="${d}" fill="${c}" stroke="${INK}" stroke-width="2"/>
+      <rect x="-2" y="${top - 2}" width="4" height="${len - 4}" rx="2" fill="#fff"/></g>`;
+  } else {
+    const fill = shape === 'rainbow' ? 'url(#mcRainbow)' : c;
+    blade = `<g class="blade">
+      <rect x="-9" y="${top}" width="18" height="${len + 6}" rx="9" fill="${c}" opacity=".8" filter="url(#mcGlow)"/>
+      <rect x="-5.5" y="${top}" width="11" height="${len + 4}" rx="5.5" fill="${fill}"/>
+      <rect x="-2.4" y="${top + 2}" width="4.8" height="${len + 2}" rx="2.4" fill="#fff" opacity="${shape === 'rainbow' ? .7 : 1}"/>
+    </g>`;
+  }
   return `<g transform="translate(${x} ${y}) rotate(${rot})">
-    <g class="blade">
-      <rect x="-9" y="${-18 - len}" width="18" height="${len + 6}" rx="9" fill="${w.color}" opacity=".8" filter="url(#mcGlow)"/>
-      <rect x="-5.5" y="${-18 - len}" width="11" height="${len + 4}" rx="5.5" fill="${w.color}"/>
-      <rect x="-2.4" y="${-16 - len}" width="4.8" height="${len + 2}" rx="2.4" fill="#fff"/>
-    </g>
+    ${blade}
     <rect x="-6.5" y="-16" width="13" height="32" rx="3" fill="url(#mcMetal)" stroke="${INK}" stroke-width="3"/>
     <path d="M-6.5 -1h13M-6.5 5h13M-6.5 11h13" stroke="${INK}" stroke-width="2.4"/>
     <rect x="-9" y="-21" width="18" height="7" rx="2.5" fill="#7D8794" stroke="${INK}" stroke-width="3"/>
@@ -1087,6 +1291,29 @@ function gunSVG(gid, x, y, k = 1){
     g = sh('rect', 'x="-14" y="-25" width="46" height="31" rx="10"', '#7B5CFF') + `<rect x="30" y="-17" width="20" height="14" rx="4" fill="#3A3550" ${S}/>`
       + `<rect x="48" y="-20" width="6" height="20" rx="2" fill="#C9D3DD" ${S} stroke-width="2.5"/>`
       + `<circle cx="9" cy="-10" r="9" fill="#E7B8FF" filter="url(#mcGlow)"/><circle cx="9" cy="-10" r="7" fill="#E7B8FF" ${S} stroke-width="2.5"/><circle cx="7" cy="-12" r="2.5" fill="#fff"/>`;
+  } else if (gid === 'goo'){
+    g = sh('circle', 'cx="4" cy="-25" r="11"', '#B5F27A') + `<circle cx="0" cy="-29" r="3" fill="#fff" opacity=".8"/><circle cx="8" cy="-22" r="2" fill="#7DDB3A"/>`
+      + sh('rect', 'x="-10" y="-16" width="38" height="18" rx="8"', '#7DDB3A') + sh('rect', 'x="26" y="-13" width="14" height="12" rx="4"', '#D6DEE7')
+      + `<path d="M40 -10 q8 0 8 6 q0 6 -4 6 q-2 6 -5 0 q-3 -2 1 -6z" fill="#9BE15D" ${S} stroke-width="2"/>`;
+  } else if (gid === 'lightning'){
+    g = sh('rect', 'x="-10" y="-18" width="38" height="20" rx="6"', '#3A3550')
+      + [-3, 6, 15].map(xx => `<rect x="${xx}" y="-22" width="5" height="28" rx="2" fill="#FFE94A" ${S} stroke-width="2"/>`).join('')
+      + `<path d="M28 -15 H46 M28 -1 H46" stroke="${INK}" stroke-width="5" stroke-linecap="round"/><path d="M28 -15 H45 M28 -1 H45" stroke="#C9D3DD" stroke-width="2" stroke-linecap="round"/>`
+      + `<path d="M46 -15 L39 -9 L45 -7 L40 -1" fill="none" stroke="#FFE94A" stroke-width="5" filter="url(#mcGlow)"/><path d="M46 -15 L39 -9 L45 -7 L40 -1" fill="none" stroke="#fff" stroke-width="2"/>`;
+  } else if (gid === 'grenade'){
+    g = sh('rect', 'x="-18" y="-22" width="54" height="22" rx="6"', '#4E6B2A') + sh('rect', 'x="34" y="-21" width="18" height="18" rx="4"', '#3A3550')
+      + sh('circle', 'cx="2" cy="-11" r="14"', '#6B8E3A') + [0, 72, 144, 216, 288].map(a => `<circle cx="${2 + Math.cos(a * Math.PI / 180) * 8}" cy="${-11 + Math.sin(a * Math.PI / 180) * 8}" r="2.6" fill="#2B3D18"/>`).join('')
+      + `<rect x="40" y="-17" width="10" height="10" rx="5" fill="#2B1D3A"/>`;
+  } else if (gid === 'shotgun'){
+    g = sh('rect', 'x="-16" y="-20" width="44" height="24" rx="9"', '#FF4D9E')
+      + [-19, -9].map(yy => `<rect x="24" y="${yy}" width="28" height="9" rx="4" fill="#C9D3DD" ${S} stroke-width="2.5"/>`).join('')
+      + [-14.5, -4.5].map(yy => `<circle cx="53" cy="${yy}" r="4" fill="#FFB8DA" filter="url(#mcGlow)"/>`).join('')
+      + `<rect x="-6" y="-26" width="18" height="8" rx="3" fill="#3A3550" ${S} stroke-width="2.5"/><circle cx="3" cy="-8" r="5" fill="#FFE94A" ${S} stroke-width="2"/>`;
+  } else if (gid === 'sniper'){
+    g = sh('rect', 'x="-24" y="-14" width="76" height="12" rx="5"', '#3A3550') + `<rect x="50" y="-11" width="16" height="6" rx="2" fill="#C9D3DD" ${S} stroke-width="2"/>`
+      + sh('rect', 'x="-2" y="-30" width="32" height="11" rx="5"', '#6E7884') + `<path d="M6 -19 v5 M22 -19 v5" stroke="${INK}" stroke-width="3"/>`
+      + `<circle cx="30" cy="-24.5" r="5" fill="#FF3B4E" filter="url(#mcGlow)"/><circle cx="30" cy="-24.5" r="4" fill="#FF8A96" ${S} stroke-width="2"/>`
+      + `<path d="M-24 -2 L-30 12 H-16 L-12 -2 Z" fill="#5A4630" ${S} stroke-width="2.5"/>`;
   }
   return `<g transform="translate(${x} ${y}) scale(${k})">${g}</g>`;
 }
@@ -1314,6 +1541,104 @@ function robotSVG(r){
   return `<svg viewBox="0 0 200 240" class="bot" aria-hidden="true">${out}</svg>`;
 }
 
+/* ---------- battle dog drawing (facing right) ---------- */
+function dogSVG(d){
+  const breed = DOG[d && d.breed] ? d.breed : 'dachshund', gad = d && GADGET[d.gadget] ? d.gadget : null, lvl = (d && d.level) || 1;
+  const S = `stroke="${INK}" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"`;
+  const sh = (tag, a, fill, sw = 3.5) => shaded(tag, a, fill, sw);
+  const eye = (x, y, r = 5.5) => `<g class="eyes" style="animation-delay:-${(Math.random() * 4.6).toFixed(2)}s"><circle cx="${x}" cy="${y}" r="${r}" fill="#fff" ${S} stroke-width="2.5"/><circle cx="${x + r * .3}" cy="${y + .5}" r="${r * .56}" fill="${INK}"/><circle cx="${x + r * .5}" cy="${y - r * .25}" r="${r * .22}" fill="#fff"/></g>`;
+  const nose = (x, y) => `<ellipse cx="${x}" cy="${y}" rx="5.2" ry="4" fill="${INK}"/><ellipse cx="${x - 1.5}" cy="${y - 1.4}" rx="1.7" ry="1" fill="#fff" opacity=".8"/>`;
+  const leg = (x, y, h, fill, sock) => sh('rect', `x="${x}" y="${y}" width="11" height="${h}" rx="5"`, fill, 3)
+    + (sock ? `<rect x="${x + 1.5}" y="${y + h - 9}" width="8" height="7.5" rx="3" fill="${sock}"/>` : '');
+  const tail = (dd, col, w = 4.5) => `<path d="${dd}" fill="none" stroke="${INK}" stroke-width="${w + 5}" stroke-linecap="round"/><path d="${dd}" fill="none" stroke="${col}" stroke-width="${w}" stroke-linecap="round"/>`;
+  let g, back = '', body = '', head = '';
+  if (breed === 'dachshund'){
+    const M = '#B5652B', T = '#E8A766', D = '#7A3F18';
+    g = { body:[14,52,94,30], head:[111,44,17], neck:[101,58], back:[58,52] };
+    back = tail('M20 62 Q4 54 6 38', M) + leg(24, 72, 28, D) + leg(84, 72, 28, D);
+    body = sh('rect', 'x="14" y="52" width="94" height="30" rx="15"', M)
+      + `<path d="M30 78 Q60 86 96 78" fill="none" stroke="${T}" stroke-width="5" stroke-linecap="round" opacity=".9"/>`
+      + leg(38, 74, 26, M) + leg(96, 74, 26, M);
+    head = sh('circle', 'cx="111" cy="44" r="17"', M) + sh('ellipse', 'cx="128" cy="53" rx="15" ry="9"', T)
+      + nose(142, 50) + `<path d="M128 59 q5 4 10 0" fill="none" ${S} stroke-width="2.5"/>` + eye(116, 39)
+      + sh('path', 'd="M102 32 Q88 34 90 52 Q92 66 102 64 Q108 52 108 36 Z"', D, 3);
+  } else if (breed === 'corgi'){
+    const M = '#F2A04A', W = '#FFF6E8', D = '#C9782E', P = '#FFB3C1';
+    g = { body:[20,48,86,34], head:[108,38,19], neck:[97,54], back:[60,48] };
+    back = sh('circle', 'cx="21" cy="56" r="9"', M, 3) + leg(28, 72, 28, D) + leg(80, 72, 28, D);
+    body = sh('rect', 'x="20" y="48" width="86" height="34" rx="17"', M)
+      + `<ellipse cx="96" cy="66" rx="12" ry="13" fill="${W}"/>` + leg(40, 74, 26, M, W) + leg(92, 74, 26, M, W);
+    head = sh('path', 'd="M92 32 L89 5 L108 23 Z"', M, 3) + `<path d="M95 26 L93 13 L103 22Z" fill="${P}"/>`
+      + sh('path', 'd="M111 21 L125 1 L127 30 Z"', M, 3) + `<path d="M115 20 L123 9 L123 25Z" fill="${P}"/>`
+      + sh('circle', 'cx="108" cy="38" r="19"', M)
+      + `<path d="M105 22 Q109 32 106 42 L118 50 Q115 36 111 22 Z" fill="${W}"/>`
+      + sh('ellipse', 'cx="124" cy="46" rx="13" ry="9"', W) + nose(136, 43)
+      + `<path d="M124 52 q5 4 10 0" fill="none" ${S} stroke-width="2.5"/>` + eye(113, 34) + `<circle cx="102" cy="46" r="3.5" fill="#FF9DB8" opacity=".8"/>`;
+  } else if (breed === 'rottweiler'){
+    const M = '#2E2A33', T = '#C77B3B', D = '#1C1820';
+    g = { body:[18,40,88,38], head:[110,32,21], neck:[97,48], back:[60,40] };
+    back = sh('rect', 'x="10" y="44" width="14" height="11" rx="5"', M, 3) + leg(26, 68, 32, D, T) + leg(82, 68, 32, D, T);
+    body = sh('rect', 'x="18" y="40" width="88" height="38" rx="19"', M)
+      + `<path d="M90 50 Q104 56 101 74 Q90 72 87 58Z" fill="${T}"/>` + leg(38, 70, 30, M, T) + leg(94, 70, 30, M, T);
+    head = sh('path', 'd="M96 17 Q85 24 91 37 L103 26Z"', D, 3) + sh('circle', 'cx="110" cy="32" r="21"', M)
+      + sh('ellipse', 'cx="127" cy="41" rx="15" ry="11"', T) + nose(141, 37)
+      + `<path d="M126 48 q6 4 12 0" fill="none" ${S} stroke-width="2.5"/>`
+      + `<circle cx="112" cy="21" r="3.2" fill="${T}"/><circle cx="123" cy="22" r="2.8" fill="${T}"/>` + eye(117, 29);
+  } else {
+    const M = '#8A97A8', L = '#D3DBE4', D = '#6E7A8A';
+    g = { body:[24,26,82,34], head:[116,-4,16], neck:[103,16], back:[64,26] };
+    back = tail('M26 34 Q8 44 12 70', M, 4) + leg(32, 52, 50, D) + leg(84, 52, 50, D);
+    body = sh('rect', 'x="24" y="26" width="82" height="34" rx="17"', M)
+      + `<ellipse cx="99" cy="46" rx="9" ry="12" fill="${L}"/>` + leg(44, 54, 48, M, L) + leg(96, 54, 48, M, L)
+      + sh('path', 'd="M90 36 Q94 10 106 -4 L124 2 Q113 20 108 44 Z"', M);
+    head = sh('path', 'd="M106 -14 Q93 -10 95 6 Q99 15 106 9 Z"', D, 3) + sh('circle', 'cx="116" cy="-4" r="16"', M)
+      + sh('rect', 'x="118" y="-7" width="29" height="17" rx="8"', '#7D8A9C') + nose(145, -2)
+      + `<path d="M130 9 q6 3 12 0" fill="none" ${S} stroke-width="2.5"/>` + eye(119, -10, 5);
+  }
+  // collar + gadget
+  const [nx, ny] = g.neck, [bx, by, bw, bh] = g.body, [hx, hy, hr] = g.head, [px, py] = g.back;
+  const ccol = { laser:'#3A3550', rockets:'#FF8A2B', ice:'#4FC3F7', armour:'#6E7884', mega:'#7B5CFF' }[gad] || '#FF4D5E';
+  let collar = `<g transform="translate(${nx} ${ny}) rotate(-24)"><rect x="-5" y="-15" width="10" height="30" rx="5" fill="${ccol}" ${S}/>`
+    + (gad === 'laser' ? [-9, 0, 9].map(yy => `<circle cx="0" cy="${yy}" r="3.4" fill="#FF3B7F" filter="url(#mcGlow)"/><circle cx="0" cy="${yy}" r="2.6" fill="#FFC2D6" stroke="${INK}" stroke-width="1.4"/>`).join('')
+      : gad === 'ice' ? [-10, 0, 10].map(yy => `<path d="M4 ${yy - 3.5} L12 ${yy} L4 ${yy + 3.5} Z" fill="#E8FDFF" ${S} stroke-width="1.8"/>`).join('')
+      : !gad ? [-9, 0, 9].map(yy => `<circle cx="0" cy="${yy}" r="2" fill="#E6EBF0"/>`).join('') : '')
+    + `<circle cx="2" cy="18" r="5" fill="${lvl >= 5 ? '#FFD23F' : '#D6DEE7'}" ${S} stroke-width="2"/></g>`;
+  let extraBody = '', extraTop = '';
+  if (gad === 'armour'){
+    extraBody = `<path d="M${bx + 16} ${by - 3} H${bx + bw - 8} Q${bx + bw + 3} ${by + bh * .45} ${bx + bw - 12} ${by + bh * .72} H${bx + 20} Q${bx + 6} ${by + bh * .45} ${bx + 16} ${by - 3} Z" fill="url(#mcMetal)" ${S}/>`
+      + `<path transform="translate(${bx + bw * .52} ${by + bh * .32}) scale(.8)" d="M0 -10 l3 6.5 7 .8 -5.2 4.8 1.4 7 -6.2-3.6 -6.2 3.6 1.4-7 -5.2-4.8 7-.8z" fill="#FFD23F" stroke="${INK}" stroke-width="2"/>`;
+    extraTop = shaded('path', `d="M${hx - hr - 2} ${hy - hr * .5} Q${hx - hr} ${hy - hr - 9} ${hx + 2} ${hy - hr - 7} Q${hx + hr + 2} ${hy - hr - 6} ${hx + hr + 3} ${hy - hr * .5} Z"`, '#6E7884', 3)
+      + `<rect x="${hx - hr - 4}" y="${hy - hr * .5 - 3}" width="${hr * 2 + 8}" height="6" rx="3" fill="#4A5260" ${S} stroke-width="2.2"/>`;
+  }
+  if (gad === 'rockets'){
+    extraBody = [0, 1].map(i => { const y = by - 13 - i * 11;
+      return `<path class="flame" d="M${px - 22} ${y + 1} L${px - 35} ${y + 4.5} L${px - 22} ${y + 8} Z" fill="#FFB020" ${S} stroke-width="2"/>`
+        + shaded('rect', `x="${px - 22}" y="${y}" width="30" height="9" rx="4"`, '#D6DEE7', 2.5)
+        + `<path d="M${px + 8} ${y} L${px + 17} ${y + 4.5} L${px + 8} ${y + 9} Z" fill="#FF4D5E" ${S} stroke-width="2.2"/>`; }).join('')
+      + `<rect x="${px - 6}" y="${by - 4}" width="12" height="8" rx="2" fill="#3A3550" ${S} stroke-width="2"/>`;
+  }
+  if (gad === 'mega') extraTop = `<g transform="translate(${nx + 4} ${ny + 10})"><rect x="-7" y="-7" width="11" height="14" rx="2" fill="#3A3550" ${S} stroke-width="2"/><path d="M4 -6 L16 -13 V13 L4 6 Z" fill="#B46BFF" ${S} stroke-width="2"/><path d="M20 -6 q5 6 0 12" fill="none" ${S} stroke-width="2"/></g>`;
+  const shadow = `<ellipse cx="70" cy="103" rx="54" ry="5" fill="${INK}" opacity=".16"/>`;
+  return `<svg viewBox="-8 -32 160 140" class="dogsvg" aria-hidden="true" style="overflow:visible">${shadow}${back}${body}${extraBody}${collar}${head}${extraTop}</svg>`;
+}
+// Small picture of a gadget for the kennel shop.
+function gadgetIcon(id, size){
+  const S = `stroke="${INK}" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"`;
+  const art = {
+    laser: `<path d="M8 40 Q32 54 56 40" fill="none" stroke="${INK}" stroke-width="12" stroke-linecap="round"/><path d="M8 40 Q32 54 56 40" fill="none" stroke="#3A3550" stroke-width="7" stroke-linecap="round"/>
+      ${[18, 32, 46].map((x, i) => `<circle cx="${x}" cy="${[45, 48, 45][i]}" r="5" fill="#FF3B7F" filter="url(#mcGlow)"/><circle cx="${x}" cy="${[45, 48, 45][i]}" r="4" fill="#FFC2D6" stroke="${INK}" stroke-width="2"/>`).join('')}
+      <path d="M32 40 V8" stroke="#FF3B7F" stroke-width="6" stroke-linecap="round" filter="url(#mcGlow)"/><path d="M32 40 V8" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>`,
+    rockets: [0, 1].map(i => `<g transform="translate(${16 + i * 22} 8)"><path class="flame" d="M2 40 L6 54 L10 40Z" fill="#FFB020" ${S} stroke-width="2"/><rect x="0" y="12" width="12" height="30" rx="5" fill="#D6DEE7" ${S}/><path d="M0 14 L6 0 L12 14Z" fill="#FF4D5E" ${S}/></g>`).join(''),
+    ice: `<circle cx="32" cy="32" r="20" fill="none" stroke="${INK}" stroke-width="12"/><circle cx="32" cy="32" r="20" fill="none" stroke="#4FC3F7" stroke-width="7"/>
+      ${[0, 60, 120, 180, 240, 300].map(a => `<path transform="rotate(${a} 32 32)" d="M28 6 L32 -2 L36 6Z" fill="#E8FDFF" ${S} stroke-width="2"/>`).join('')}`,
+    armour: shaded('path', 'd="M8 38 Q8 8 32 8 Q56 8 56 38 Z"', '#6E7884', 3) + `<rect x="4" y="36" width="56" height="9" rx="4" fill="#4A5260" ${S}/>
+      <path transform="translate(32 24)" d="M0 -10 l3 6.5 7 .8 -5.2 4.8 1.4 7 -6.2-3.6 -6.2 3.6 1.4-7 -5.2-4.8 7-.8z" fill="#FFD23F" stroke="${INK}" stroke-width="2"/>`,
+    mega: `<rect x="6" y="22" width="16" height="20" rx="3" fill="#3A3550" ${S}/><path d="M22 22 L42 10 V54 L22 42 Z" fill="#B46BFF" ${S}/>
+      <path d="M48 22 q6 10 0 20 M54 16 q10 16 0 32" fill="none" ${S}/>`,
+  }[id] || '';
+  return `<svg viewBox="0 0 64 64" width="${size}" height="${size}" aria-hidden="true" style="overflow:visible">${art}</svg>`;
+}
+
 /* ---------- names + stats ---------- */
 function makeName(P){
   let n = P.length >= 3 ? `${pick(P[0].adj)} ${P[1].mid}-${pick(P[2].noun)}`
@@ -1329,7 +1654,12 @@ function partStats(id, lvl){
   return { pow: Math.round(o.pow * k), spd: Math.round(o.spd * k), def: Math.round(o.def * k) };
 }
 function isUsable(id){ return OBJ[id].power ? save.level >= powerLevel(id) : save.unlocked.includes(id); }
-function buildRobot({parts, lv, level, colors, name, weapon = null, style = 'classic', gun = null, vehicle = null}){
+function cleanDog(d){
+  if (!d || typeof d !== 'object' || !DOG[d.breed]) return null;
+  const name = String(d.name || DOG[d.breed].pet).replace(/[\u0000-\u001f<>]/g, '').trim().slice(0, 14) || DOG[d.breed].pet;
+  return { breed: d.breed, gadget: GADGET[d.gadget] ? d.gadget : null, level: clamp(Math.floor(Number(d.level) || 1), 1, MAX_DOG_LEVEL), name };
+}
+function buildRobot({parts, lv, level, colors, name, weapon = null, style = 'classic', gun = null, vehicle = null, dog = null}){
   let pow = 0, spd = 0, def = 0;
   parts.forEach(id => { const s = partStats(id, lv(id)); pow += s.pow; spd += s.spd; def += s.def; });
   const combos = findCombos(parts);
@@ -1343,14 +1673,26 @@ function buildRobot({parts, lv, level, colors, name, weapon = null, style = 'cla
   const specials = [...new Set(parts.map(id => OBJ[id].special))];
   if (w) specials.push(w.special);
   return { parts: parts.slice(), name, colors, level, pow, spd, def, hp, combos, specials,
-           weapon: w ? w.id : null, style: STYLE[style] ? style : 'classic', gun: g ? g.id : null, vehicle: VEHICLE[vehicle] ? vehicle : null };
+           weapon: w ? w.id : null, style: STYLE[style] ? style : 'classic', gun: g ? g.id : null, vehicle: VEHICLE[vehicle] ? vehicle : null, dog: cleanDog(dog) };
+}
+function myDog(){
+  const d = save.dog && save.dogs[save.dog]; if (!d) return null;
+  return { breed: save.dog, gadget: save.dogGadget && save.gadgets.includes(save.dogGadget) ? save.dogGadget : null, level: d.level, name: d.name };
 }
 const myGun = () => save.robot.gun && save.guns.includes(save.robot.gun) ? save.robot.gun : null;
 const myWeapon = () => !myGun() && save.robot.weapon && save.weapons.includes(save.robot.weapon) ? save.robot.weapon : null;
 const myVehicle = () => VEHICLE[save.robot.vehicle] && save.level >= VEHICLE[save.robot.vehicle].level ? save.robot.vehicle : null;
 function myRobot(){
   return buildRobot({ parts: save.robot.parts, lv: partLevel, level: save.level, colors: save.robot.colors, name: save.robot.name,
-                      weapon: myWeapon(), style: save.robot.style, gun: myGun(), vehicle: myVehicle() });
+                      weapon: myWeapon(), style: save.robot.style, gun: myGun(), vehicle: myVehicle(), dog: myDog() });
+}
+// Enemy dogs: only once you have a dog of your own, and about as strong as yours.
+function enemyDog(boss){
+  const mine = myDog();
+  if (!mine || !(boss || Math.random() < .4)) return null;
+  const level = clamp(mine.level + (boss ? 0 : Math.round(rand(-1, .4))), 1, MAX_DOG_LEVEL);
+  return { breed: boss ? 'rottweiler' : pick(DOGS).id, level, name: boss ? 'Fang' : pick(['Chomper','Growler','Spike','Rex','Snapper','Rusty']),
+           gadget: boss || (save.gadgets.length && Math.random() < .5) ? pick(GADGETS.slice(0, Math.max(1, save.gadgets.length + (boss ? 1 : 0)))).id : null };
 }
 const BOSS_EVERY = 10; // a boss after every 9 wins
 const BOSS_NAMES = ['Mega Destructo','King Krusher','Titan Doom-Bot','Lord Clank-a-Lot','Captain Kaboom','Omega Grumble'];
@@ -1373,7 +1715,8 @@ function makeEnemy(opts = {}){
                          name: boss ? pick(BOSS_NAMES) : makeName(ids.map(i => OBJ[i])),
                          weapon, style: boss ? 'shadow' : pick(STYLES).id,
                          gun: !useGun ? null : boss ? pick(['rocket','mega','minigun']) : pick(GUNS.slice(0, clamp(1 + Math.floor(save.wins / 3), 1, GUNS.length))).id,
-                         vehicle: boss ? 'tank' : save.wins >= 1 && Math.random() < .5 ? pick(VEHICLES.filter(v => v.level <= save.level + 1)).id : null });
+                         vehicle: boss ? 'tank' : save.wins >= 1 && Math.random() < .5 ? pick(VEHICLES.filter(v => v.level <= save.level + 1)).id : null,
+                         dog: enemyDog(boss) });
   const m = Math.min(1, .78 + save.wins * .03);
   r.pow = Math.round(r.pow * m); r.spd = Math.round(r.spd * m); r.def = Math.round(r.def * m);
   r.hp = Math.round(r.hp * (m * .5 + .5));
@@ -1394,7 +1737,7 @@ const STARTERS = OBJECTS.filter(o => o.starter).map(o => o.id);
 function freshSave(){
   const parts = ['battery','spring'];
   return { coins: 0, wins: 0, losses: 0, xp: 0, level: 1, unlocked: STARTERS.slice(), fresh: [], combos: [], seen: [], levels: {}, welcomed: false, sinceBoss: 0, bossTries: 0,
-           weapons: ['blue'], guns: ['pea'],
+           weapons: ['blue'], guns: ['pea'], dogs: {}, dog: null, gadgets: [], dogGadget: null,
            robot: { name: makeName(parts.map(id => OBJ[id])), colors: { body:'#5B6CFF', head:'#FFD23F', limbs:'#FF4D5E' }, parts, weapon: 'blue', style: 'classic', gun: null, vehicle: 'tank' } };
 }
 
@@ -1423,6 +1766,13 @@ const profile = profiles.find(p => p.id === activeId);
 const MY_SAVE_KEY = SAVE_KEY + ':' + activeId;
 const saveProfiles = () => lsSet(PROFILES_KEY, JSON.stringify(profiles));
 const lookOf = s => ({ name: s.robot.name, colors: s.robot.colors, parts: s.robot.parts, style: s.robot.style, weapon: s.robot.weapon || null, gun: s.robot.gun || null });
+function addDogXP(n){
+  const d = save.dog && save.dogs[save.dog]; if (!d) return null;
+  const before = d.level; d.xp += n;
+  while (d.level < MAX_DOG_LEVEL && d.xp >= dogXpNeeded(d.level)){ d.xp -= dogXpNeeded(d.level); d.level++; }
+  if (d.level >= MAX_DOG_LEVEL) d.xp = 0;
+  return { gained: n, levelUp: d.level > before, level: d.level, name: d.name };
+}
 
 let save = freshSave();
 try {
@@ -1451,6 +1801,17 @@ if (save.robot.gun && save.robot.weapon) save.robot.weapon = null; // one weapon
 if (!VEHICLE[save.robot.vehicle]) save.robot.vehicle = 'tank';
 if (!STYLE[save.robot.style]) save.robot.style = 'classic';
 save.robot.colors = Object.assign({ body:'#5B6CFF', head:'#FFD23F', limbs:'#FF4D5E' }, save.robot.colors);
+if (!save.dogs || typeof save.dogs !== 'object' || Array.isArray(save.dogs)) save.dogs = {};
+for (const k of Object.keys(save.dogs)){
+  const d = save.dogs[k];
+  if (!DOG[k] || !d || typeof d !== 'object'){ delete save.dogs[k]; continue; }
+  d.level = clamp(Math.floor(Number(d.level) || 1), 1, MAX_DOG_LEVEL); d.xp = Math.max(0, Number(d.xp) || 0);
+  d.name = String(d.name || DOG[k].pet).slice(0, 14);
+}
+if (!save.dogs[save.dog]) save.dog = null;
+if (!Array.isArray(save.gadgets)) save.gadgets = [];
+save.gadgets = save.gadgets.filter(id => GADGET[id]);
+if (!save.gadgets.includes(save.dogGadget)) save.dogGadget = null;
 function persist(){
   save.savedAt = Date.now();
   lsSet(MY_SAVE_KEY, JSON.stringify(save));
@@ -1495,9 +1856,9 @@ function scoreBody(){
   return { name: save.robot.name, level: save.level, wins: save.wins,
            upgrades: Object.values(save.levels).reduce((s, v) => s + (v - 1), 0),
            parts: save.robot.parts.slice(), colors: { body: save.robot.colors.body, head: save.robot.colors.head, limbs: save.robot.colors.limbs },
-           style: save.robot.style, weapon: myWeapon(), gun: myGun(), vehicle: myVehicle() };
+           style: save.robot.style, weapon: myWeapon(), gun: myGun(), vehicle: myVehicle(), dog: myDog() };
 }
-const keyOf = b => JSON.stringify([b.name, b.level, b.wins, b.upgrades, b.parts, b.colors.body, b.colors.head, b.colors.limbs, b.style || 'classic', b.weapon || null, b.gun || null, b.vehicle || null]);
+const keyOf = b => JSON.stringify([b.name, b.level, b.wins, b.upgrades, b.parts, b.colors.body, b.colors.head, b.colors.limbs, b.style || 'classic', b.weapon || null, b.gun || null, b.vehicle || null, b.dog || null]);
 function cleanRow(id, d){
   if (!d || typeof d !== 'object') return null;
   const num = (v, max) => clamp(Math.floor(Number(v) || 0), 0, max);
@@ -1507,7 +1868,7 @@ function cleanRow(id, d){
   return { id, name: String(d.name || 'Mystery Robot').slice(0, 20), level: num(d.level, MAX_ROBOT_LEVEL) || 1,
            wins: num(d.wins, 999999), upgrades: num(d.upgrades, 1000), parts, colors,
            style: STYLE[d.style] ? d.style : 'classic', weapon: WEAPON[d.weapon] ? d.weapon : null,
-           gun: GUN[d.gun] ? d.gun : null, vehicle: VEHICLE[d.vehicle] ? d.vehicle : null, updated: Math.max(0, Number(d.updated) || 0) };
+           gun: GUN[d.gun] ? d.gun : null, vehicle: VEHICLE[d.vehicle] ? d.vehicle : null, dog: cleanDog(d.dog), updated: Math.max(0, Number(d.updated) || 0) };
 }
 function lbRow(r, i){
   const el = document.createElement('button');
@@ -1584,7 +1945,7 @@ async function initBoard(){
 /* ---------- menu and pages ----------
    The garage shows the robot and parts. Everything else lives behind the menu button,
    each as its own page (#armoury, #player, #leaderboard, #help) so the phone's Back button works. */
-const PAGES = ['armoury', 'player', 'leaderboard', 'help'];
+const PAGES = ['armoury', 'kennel', 'player', 'leaderboard', 'help'];
 let page = 'home', pagePushed = false;
 function routePage(){
   const h = location.hash.slice(1);
@@ -1594,6 +1955,7 @@ function routePage(){
   $('pageBar').hidden = page === 'home';
   if (page === 'armoury') renderSwords();
   if (page === 'player') renderProfile();
+  if (page === 'kennel') renderKennel();
   window.scrollTo(0, 0);
 }
 function goPage(name){
@@ -1618,6 +1980,7 @@ function openMenu(){
     <div class="menugrid">
       ${tile('parts', iconSvg('gear', 52), 'Parts', `${save.unlocked.length} of ${OBJECTS.length} found`, '#FFF1A8', fresh)}
       ${tile('armoury', weaponIcon('blue', 54), 'Armoury', 'Swords and blasters', '#E3DBFF')}
+      ${tile('kennel', `<span style="width:58px;display:block">${dogSVG(myDog() || { breed: 'dachshund' })}</span>`, 'Kennel', myDog() ? `${esc(myDog().name)} · Lv ${myDog().level}` : 'Get a battle dog!', '#FFE9C7', save.dog ? 0 : (save.wins >= 1 ? '!' : 0))}
       ${tile('leaderboard', `<svg viewBox="0 0 24 24" width="50" height="50" aria-hidden="true">${TROPHY.replace(/^<svg[^>]*>|<\/svg>$/g, '')}</svg>`, 'Leaderboard', 'Most wins', '#D7F5EC', chal)}
       ${net ? tile('player', `<span style="width:46px;display:block">${robotSVG(myRobot())}</span>`, 'Player', 'Profile code, switch player', '#FFD9E6') : ''}
       ${tile('book', `<svg viewBox="0 0 24 24" width="50" height="50" aria-hidden="true"><path d="M4 5c3-1 6-1 8 1v14c-2-2-5-2-8-1z" fill="#FF4D5E" stroke="#2B1D3A" stroke-width="2" stroke-linejoin="round"/><path d="M20 5c-3-1-6-1-8 1v14c2-2 5-2 8-1z" fill="#FFD23F" stroke="#2B1D3A" stroke-width="2" stroke-linejoin="round"/></svg>`, 'Combo Book', `${save.combos.length} of ${COMBOS.length} combos`, '#FFE3D6')}
@@ -1892,14 +2255,14 @@ function myBuild(){
   const lvs = {}; save.robot.parts.forEach(id => lvs[id] = partLevel(id));
   return { name: save.robot.name, level: save.level, parts: save.robot.parts.slice(),
            colors: { body: save.robot.colors.body, head: save.robot.colors.head, limbs: save.robot.colors.limbs }, lvs,
-           style: save.robot.style, weapon: myWeapon(), gun: myGun(), vehicle: myVehicle() };
+           style: save.robot.style, weapon: myWeapon(), gun: myGun(), vehicle: myVehicle(), dog: myDog() };
 }
 function robotFromBuild(b){
   const r = cleanRow('x', b) || cleanRow('x', {});
   const src = b && b.lvs && typeof b.lvs === 'object' ? b.lvs : {};
   const lvs = {}; r.parts.forEach(id => lvs[id] = clamp(Math.floor(Number(src[id]) || 1), 1, MAX_PART_LEVEL));
   const parts = r.parts.length ? r.parts : ['battery'];
-  return buildRobot({ parts, lv: id => lvs[id] || 1, level: r.level, colors: r.colors, name: r.name, weapon: r.weapon, style: r.style, gun: r.gun, vehicle: r.vehicle });
+  return buildRobot({ parts, lv: id => lvs[id] || 1, level: r.level, colors: r.colors, name: r.name, weapon: r.weapon, style: r.style, gun: r.gun, vehicle: r.vehicle, dog: r.dog });
 }
 function cleanChallenge(d){ const x = d.data(); return x ? normChallenge({ ...x, id: d.id }) : null; }
 function setIncoming(list){
@@ -2139,7 +2502,105 @@ function bump(el){ el.classList.remove('bump'); void el.offsetWidth; el.classLis
 const machine = $('machine'), windowEl = $('window');
 const slotEls = [...document.querySelectorAll('.slot')];
 
-function renderAll(pop = -1){ renderHeader(); renderRobot(pop); renderTray(); renderSwords(); renderProfile(); renderMenuDot(); }
+function renderAll(pop = -1){ renderHeader(); renderRobot(pop); renderTray(); renderSwords(); renderDogSlot(); renderProfile(); renderMenuDot(); if (page === 'kennel') renderKennel(); }
+/* ---------- kennel: battle dogs ---------- */
+function renderDogSlot(){
+  const d = myDog(), slot = $('dogSlot'), pd = $('pdog');
+  slot.innerHTML = d
+    ? `<span class="wic">${dogSVG(d)}</span><span><b id="dogSlotName"></b><span class="ws">${DOG[d.breed].name} · Level ${d.level}${d.gadget ? ' · ' + GADGET[d.gadget].name : ''}</span></span><span class="chg">Kennel</span>`
+    : `<span class="wic">${dogSVG({ breed: 'dachshund' })}</span><span><b>Get a battle dog!</b><span class="ws">Your first dog is free</span></span><span class="chg">Kennel</span>`;
+  if (d) $('dogSlotName').textContent = `${d.name} the ${DOG[d.breed].name}`;
+  slot.setAttribute('aria-label', d ? `Battle dog: ${d.name}. Open the kennel` : 'Get a battle dog');
+  pd.hidden = !d; pd.innerHTML = d ? dogSVG(d) : '';
+}
+$('dogSlot').addEventListener('click', () => { sfx('pop'); goPage('kennel'); });
+$('pdog').addEventListener('click', () => { sfx('pop'); goPage('kennel'); });
+function dogCardHTML(b){
+  const own = save.dogs[b.id], on = save.dog === b.id, first = !Object.keys(save.dogs).length;
+  const tag = on ? '<span class="price hold">With you</span>' : own ? `<span class="price own">Lv ${own.level} · Choose</span>`
+    : first ? '<span class="price free">FREE</span>' : `<span class="price${save.coins < DOG_COST ? ' cant' : ''}">${COIN(16)}${DOG_COST}</span>`;
+  return `<button class="dcard${on ? ' on' : ''}" type="button" data-dog="${b.id}">
+    <span class="dpic">${dogSVG({ breed: b.id, level: own ? own.level : 1, gadget: on ? save.dogGadget : null })}</span>
+    <b>${b.name}</b><span class="dpow">${b.power}</span><span class="ddesc">${b.desc}</span>${tag}</button>`;
+}
+function gadgetCardHTML(g){
+  const own = save.gadgets.includes(g.id), on = save.dogGadget === g.id;
+  const tag = on ? '<span class="price hold">Fitted</span>' : own ? '<span class="price own">Fit it</span>'
+    : `<span class="price${save.coins < g.cost ? ' cant' : ''}">${COIN(16)}${g.cost}</span>`;
+  return `<button class="gcard${on ? ' on' : ''}" type="button" data-gadget="${g.id}"><span class="gpic">${gadgetIcon(g.id, 54)}</span>
+    <span class="gtxt"><b>${g.name}</b><span>${g.desc}</span></span>${tag}</button>`;
+}
+function renderKennel(){
+  const box = $('kennelBox'); if (!box) return;
+  const d = myDog();
+  $('dogCount').textContent = `${Object.keys(save.dogs).length} / ${DOGS.length} dogs`;
+  let hero;
+  if (d){
+    const rec = save.dogs[save.dog], need = dogXpNeeded(rec.level), maxed = rec.level >= MAX_DOG_LEVEL;
+    hero = `<div class="dhero"><div class="dbig">${dogSVG(d)}</div>
+      <div class="dinfo"><div class="dname"><b id="kDogName"></b><button class="icon-btn sm" id="dogRename" type="button" aria-label="Rename your dog">${PENCIL}</button></div>
+        <span class="dline">${DOG[d.breed].name} · <b>${DOG[d.breed].power}</b></span>
+        <div class="dlv"><span>Lv ${rec.level}</span><div class="dxbar"><i style="width:${maxed ? 100 : rec.xp / need * 100}%"></i></div><span>${maxed ? 'MAX' : `Lv ${rec.level + 1}`}</span></div>
+        <span class="dline">${maxed ? 'Top dog! Fully trained.' : `${need - rec.xp} dog XP to the next level. Dogs learn in every battle.`}</span>
+        <span class="dline">Bites for about <b>${Math.round(dogBase(rec.level) * ({ dachshund: 1.24, corgi: 1, rottweiler: 1.35, dane: 1.05 })[d.breed])}</b> damage after each of your turns${d.gadget ? `. Uses the <b>${GADGET[d.gadget].name}</b> every ${DOG_GADGET_EVERY}rd turn` : ''}.</span>
+        ${d.gadget ? '<button class="pillbtn" id="gadgetOff" type="button">Take gadget off</button>' : ''}
+      </div></div>`;
+  } else {
+    hero = `<div class="dhero empty"><div class="dbig">${dogSVG({ breed: 'corgi' })}</div><div class="dinfo"><b class="dhey">Pick a battle dog!</b>
+      <span class="dline">Your dog fights next to your robot and bites after every one of your turns. Your first dog is <b>free</b>!</span></div></div>`;
+  }
+  box.innerHTML = hero
+    + `<h3 class="ksub">Dogs</h3><div class="dgrid">${DOGS.map(dogCardHTML).join('')}</div>`
+    + `<h3 class="ksub">Dog gadgets</h3><p class="knote">${d ? 'Fit one gadget on your dog. It uses it every ' + DOG_GADGET_EVERY + 'rd turn.' : 'Get a dog first, then fit it with a gadget.'}</p><div class="ggrid">${GADGETS.map(gadgetCardHTML).join('')}</div>`;
+  if (d){ $('kDogName').textContent = d.name; $('dogRename').onclick = () => { sfx('pop'); openDogRename(); }; }
+  if ($('gadgetOff')) $('gadgetOff').onclick = () => { save.dogGadget = null; persist(); sfx('remove'); renderAll(); };
+}
+function openDogRename(){
+  const rec = save.dogs[save.dog]; if (!rec) return;
+  showOverlay(`<div class="ribbon purple">NAME YOUR DOG</div>
+    <div class="stage small"><div class="bigdog popin">${dogSVG(myDog())}</div></div>
+    <form id="dogForm" class="namefield"><label for="dogInput" class="sr">Dog name</label>
+      <input id="dogInput" maxlength="14" autocomplete="off" spellcheck="false" value="${esc(rec.name)}">
+      <button type="button" class="icon-btn" id="dogDice" aria-label="Pick a random name">${DICE}</button></form>
+    <div class="stack"><button class="btn big green ready" type="submit" form="dogForm">Save name</button></div>`, { dismiss: true });
+  $('dogDice').onclick = () => { $('dogInput').value = pick(['Sausage','Biscuit','Rocket','Bolt','Chewie','Waffles','Turbo','Muffin','Laser','Pickles','Comet','Nugget','Ziggy','Bandit']); sfx('pop'); };
+  $('dogForm').onsubmit = e => { e.preventDefault(); const v = $('dogInput').value.trim().replace(/\s+/g, ' ');
+    if (v) rec.name = v.slice(0, 14); persist(); hideOverlay(); renderAll(); sfx('reveal'); };
+}
+function chooseDog(id){
+  const b = DOG[id], own = save.dogs[id], first = !Object.keys(save.dogs).length;
+  if (save.dog === id){ sfx('pop'); return; }
+  if (!own){
+    if (!first && save.coins < DOG_COST){ sfx('full'); toast(`You need ${DOG_COST - save.coins} more coins for a ${b.name}`); return; }
+    if (!first){ save.coins -= DOG_COST; bump($('coinPill')); }
+    save.dogs[id] = { level: 1, xp: 0, name: b.pet };
+  }
+  save.dog = id; persist(); sfx('reveal'); renderAll();
+  const d = myDog();
+  showOverlay(`<div class="ribbon win">${own ? 'GOOD DOG!' : 'NEW DOG!'}</div>
+    <div class="stage small"><div class="bigdog popin">${dogSVG(d)}</div></div>
+    <h2 class="botname" id="newDogName"></h2>
+    <p class="muted">${own ? 'Back by your side and ready to fight!' : `${b.desc} Give your dog a name, or keep this one.`}</p>
+    <div class="stack"><button class="btn big green ready" id="dogOk" type="button">Let's fight!</button>
+      ${own ? '' : '<button class="btn plain" id="dogName2" type="button">Change its name</button>'}</div>`, { dismiss: true });
+  $('newDogName').textContent = `${d.name} the ${b.name}`;
+  $('dogOk').onclick = hideOverlay;
+  if ($('dogName2')) $('dogName2').onclick = openDogRename;
+}
+function chooseGadget(id){
+  const g = GADGET[id];
+  if (!save.dog){ sfx('full'); toast('Get a dog first!'); return; }
+  if (save.dogGadget === id){ sfx('pop'); return; }
+  if (!save.gadgets.includes(id)){
+    if (save.coins < g.cost){ sfx('full'); toast(`You need ${g.cost - save.coins} more coins for the ${g.name}`); return; }
+    save.coins -= g.cost; save.gadgets.push(id); bump($('coinPill'));
+  }
+  save.dogGadget = id; persist(); sfx('ignite'); renderAll(); toast(`${myDog().name} is wearing the ${g.name}!`);
+}
+document.addEventListener('click', e => {
+  const dc = e.target.closest('[data-dog]'); if (dc){ chooseDog(dc.dataset.dog); return; }
+  const gc = e.target.closest('[data-gadget]'); if (gc) chooseGadget(gc.dataset.gadget);
+});
 function swordTile(w){
   const owned = save.weapons.includes(w.id), on = myWeapon() === w.id;
   const tag = on ? '<span class="price hold">Holding</span>' : owned ? '<span class="price own">Owned</span>'
@@ -2653,8 +3114,8 @@ async function meteorFall(a, b){
   await el.animate([{transform:'translate(-50%,-50%)'},{transform:`translate(calc(-50% + ${t.x-sx}px), calc(-50% + ${t.y-sy}px))`}],{duration:600,easing:'ease-in'}).finished;
   el.remove();
 }
-function slash(a, b, i = 0){
-  const w = WEAPON[a.robot.weapon], col = w ? w.color : '#fff';
+function slash(a, b, i = 0, colour = null){
+  const w = WEAPON[a.robot.weapon], col = colour || (w ? w.color : '#fff');
   const c = center(b), size = Math.round(c.w * .95);
   const mirror = (i % 2 === 1) !== (dirOf(a) < 0);
   const d = i % 3 === 2 ? 'M8 50 Q50 34 94 52' : 'M16 88 Q22 24 88 10';
@@ -2698,6 +3159,9 @@ const SHELL_SVG = `<svg viewBox="0 0 34 16" width="34" height="16"><rect x="1" y
 const MISSILE_SVG = `<svg viewBox="-16 0 76 24" width="76" height="24" style="overflow:visible"><path d="M-14 12 L0 5 L0 19 Z" fill="#FFB020" stroke="${INK}" stroke-width="2"/>
   <rect x="0" y="6" width="40" height="12" rx="4" fill="#6B8E3A" stroke="${INK}" stroke-width="2.5"/><path d="M40 6 L56 12 L40 18 Z" fill="#FF4D5E" stroke="${INK}" stroke-width="2.5"/>
   <path d="M4 6 L0 0 H10 L13 6 Z M4 18 L0 24 H10 L13 18 Z" fill="#4E6B2A" stroke="${INK}" stroke-width="2"/></svg>`;
+const GOO_SVG = `<svg viewBox="0 0 30 26" width="30" height="26"><path d="M6 13 q0 -10 10 -10 q12 0 12 10 q0 10 -12 10 q-4 3 -6 0 q-4 0 -4 -10z" fill="#9BE15D" stroke="${INK}" stroke-width="2.5"/><circle cx="12" cy="9" r="2.5" fill="#fff" opacity=".8"/></svg>`;
+const PLASMA_SVG = `<svg viewBox="0 0 22 22" width="20" height="20"><circle cx="11" cy="11" r="8" fill="#FF8AC4" stroke="${INK}" stroke-width="2"/><circle cx="11" cy="11" r="4" fill="#fff"/></svg>`;
+const GRENADE_SVG = `<svg viewBox="0 0 26 30" width="26" height="30"><rect x="9" y="1" width="8" height="6" rx="2" fill="#B8C4D0" stroke="${INK}" stroke-width="2"/><ellipse cx="13" cy="18" rx="10" ry="11" fill="#6B8E3A" stroke="${INK}" stroke-width="2.5"/><path d="M5 15h16M5 21h16M13 8v20" stroke="#4E6B2A" stroke-width="2"/></svg>`;
 const BOMB_SVG = `<svg viewBox="0 0 24 34" width="24" height="34"><path d="M6 4 H18 L14 10 H10 Z" fill="#6E7884" stroke="${INK}" stroke-width="2"/><ellipse cx="12" cy="21" rx="9" ry="12" fill="#3A3550" stroke="${INK}" stroke-width="2.5"/><circle cx="9" cy="17" r="2.5" fill="#fff" opacity=".6"/></svg>`;
 
 // where a fighter's blaster (or tank cannon) fires from, in arena pixels
@@ -2779,6 +3243,23 @@ const GUN_FIRE = {
     if (d > 0 && b.hp > 0){ b.stun = Math.max(b.stun, 1); popText(b, 'FROZEN!'); puff(b, '#BFF6FF'); } },
   mega: async (a, b) => { sfx('charge'); await chargeUp(a);
     await strike(a, b, {mult:2.4, pierce:true, canDodge:false, anim: () => gunBeam(a, b, '#B46BFF', 22)}); explosion(b); },
+  goo: async (a, b) => { sfx('stink');
+    const d = await strike(a, b, {mult:.9, anim: () => shot(a, b, GOO_SVG, 420, 30)});
+    if (d > 0 && b.hp > 0){ const cut = Math.min(5, Math.max(0, b.spd - 1)); b.spd -= cut; b.slowed = true; puff(b, '#B5F27A'); popText(b, 'SLOWED!'); updateHP(); } },
+  lightning: async (a, b) => { sfx('zap'); muzzleFlash(a);
+    const d = await strike(a, b, {mult:1, canDodge:false, anim: async () => { gunBeam(a, b, '#FFE94A', 6); await bolt(b); }});
+    if (d > 0 && b.hp > 0 && Math.random() < .45){ b.stun = Math.max(b.stun, 1); popText(b, 'STUNNED!'); updateHP(); } },
+  grenade: async (a, b) => {
+    for (let i = 0; i < 2 && b.hp > 0; i++){ sfx('pew');
+      await strike(a, b, {mult:.85, blast:true, anim: async () => { muzzleFlash(a); await shot(a, b, GRENADE_SVG, 560, 90); explosion(b, false); }}); } },
+  shotgun: async (a, b) => { sfx('laser');
+    const volley = async () => { muzzleFlash(a); await Promise.all([0, 1, 2, 3, 4].map(() => shot(a, b, PLASMA_SVG, rand(200, 280), rand(-30, 30)))); };
+    for (let i = 0; i < 5 && b.hp > 0; i++) await strike(a, b, {mult:.42, anim: i === 0 ? volley : () => wait(70)}); },
+  sniper: async (a, b) => { sfx('charge');
+    const t = center(b), dot = fx(`<div style="width:22px;height:22px;border-radius:50%;border:4px solid #FF3B4E;box-shadow:0 0 12px #FF3B4E"></div>`, t.x, t.y);
+    await dot.animate([{transform:'translate(-50%,-50%) scale(2)',opacity:0},{transform:'translate(-50%,-50%) scale(1)',opacity:1},{transform:'translate(-50%,-50%) scale(.8)',opacity:1}],{duration:700}).finished;
+    dot.remove(); sfx('laser');
+    await strike(a, b, {mult:1.15, canDodge:false, crit:true, anim: () => gunBeam(a, b, '#FF3B4E', 5)}); },
 };
 // The attack a vehicle does instead of BASH
 const VEHICLE_ATTACK = {
@@ -2817,7 +3298,7 @@ async function transformOut(a){
 }
 
 /* ---------- special abilities (one per part) ---------- */
-const DEFENSIVE = ['breeze','shield','rainbow','diamond'];
+const DEFENSIVE = ['breeze','shield','rainbow','diamond','pizza','phoenix'];
 function poison(f, turns, dmg, label){ f.poison = turns; f.poisonDmg = dmg; f.poisonName = label; popText(f, label.toUpperCase() + '!'); updateHP(); }
 const SPECIALS = {
   toast:  {name:'Toast Toss', desc:'Throws two hot toasts', icon:'toaster',
@@ -2905,6 +3386,51 @@ const SPECIALS = {
       if (b.hp > 0){ b.stun = Math.max(b.stun, 1); b.energy = 0; popText(b,'FROZEN!'); } }},
   ghost:  {name:'Ghost Mode', desc:'Spooky! Dodges the next 2 hits', icon:'ghost',
     async run(a,b){ sfx('whoosh'); a.dodge = 2; a.ghostly = true; popText(a,'BOO!','big'); updateHP(); await wait(500); await strike(a,b,{mult:.7}); }},
+  kickflip: {name:'Kickflip', desc:'Skates into them twice', icon:'skateboard',
+    async run(a,b){ for (let i = 0; i < 2 && b.hp > 0; i++){ sfx('whoosh'); await strike(a,b,{mult:.65, anim:() => dash(a,b,i === 1)}); } }},
+  pizza:  {name:'Pizza Party', desc:'Eats pizza to heal, then throws a slice', icon:'pizza',
+    async run(a,b){ sfx('heal'); await spinIcon(a,'pizza'); heal(a, Math.round(a.maxHp * .18)); await wait(250);
+      sfx('pop'); await strike(a,b,{mult:.6, anim:() => projectile(a,b,iconSvg('pizza',44),440,0,dirOf(a)*540)}); }},
+  idea:   {name:'Bright Idea', desc:'A blinding flash that hits and recharges a power', icon:'bulb',
+    async run(a,b){ sfx('reveal'); flashArena(); await strike(a,b,{mult:.9, canDodge:false, anim:() => wait(250)});
+      a.energy = Math.min(ENERGY_MAX, 1); popText(a,'+1 CHARGE','heal'); }},
+  brolly: {name:'Brolly Block', desc:'Blocks the next hit, then pokes them', icon:'umbrella',
+    async run(a,b){ sfx('shield'); await bubble(a); a.shield = Math.max(a.shield, 1); popText(a,'SHIELD UP!'); updateHP();
+      await wait(200); await strike(a,b,{mult:.6}); }},
+  blare:  {name:'Trumpet Blast', desc:'So loud it hurts and confuses them', icon:'trumpet',
+    async run(a,b){ sfx('alarm'); popText(a,'TOOOOT!','big'); shakeArena(); await puff(b,'#FFE58A');
+      await strike(a,b,{mult:.9, canDodge:false, anim:() => wait(0)}); if (b.hp > 0){ b.confused = true; popText(b,'Confused?!'); updateHP(); } }},
+  slip:   {name:'Banana Slip', desc:'They might slip and miss a turn', icon:'banana',
+    async run(a,b){ sfx('boing'); const d = await strike(a,b,{mult:.7, anim:() => projectile(a,b,iconSvg('banana',44),460,0,dirOf(a)*720,70)});
+      if (d > 0 && b.hp > 0 && Math.random() < .6){ b.stun = Math.max(b.stun, 1); popText(b,'SLIPPED!'); updateHP();
+        b.el.animate([{transform:'rotate(0)'},{transform:`rotate(${dirOf(b) * -30}deg)`},{transform:'rotate(0)'}],{duration:600}); } }},
+  dragon: {name:'Dragon Breath', desc:'A huge blast of fire that burns', icon:'dragon',
+    async run(a,b){ sfx('flame'); const d = await strike(a,b,{mult:1.4, canDodge:false, anim:() => flameStream(a,b)});
+      if (d > 0 && b.hp > 0) poison(b, 3, Math.round(4 + a.pow * .14), 'Burning'); }},
+  twister:{name:'Tornado Twist', desc:'Spins them round, three hits and confused', icon:'tornado',
+    async run(a,b){ sfx('whoosh'); await spinIcon(b,'tornado',90);
+      for (let i = 0; i < 3 && b.hp > 0; i++) await strike(a,b,{mult:.45, canDodge:false, anim:() => spinBot(b)});
+      if (b.hp > 0){ b.confused = true; popText(b,'Dizzy!'); updateHP(); } }},
+  stomp:  {name:'Dino Stomp', desc:'A giant stomp that shakes everything', icon:'trex',
+    async run(a,b){ sfx('boom'); await jump(a); shakeArena(); const d = await strike(a,b,{mult:2, canDodge:false, anim:() => wait(0)});
+      if (d > 0 && b.hp > 0 && Math.random() < .3){ b.stun = Math.max(b.stun, 1); popText(b,'STUNNED!'); updateHP(); } }},
+  phoenix:{name:'Phoenix Rise', desc:'A big heal, and burns them too', icon:'phoenix',
+    async run(a,b){ sfx('heal'); await spinIcon(a,'phoenix'); heal(a, Math.round(a.maxHp * .3)); await wait(250);
+      await strike(a,b,{mult:.5, canDodge:false, anim:() => flameStream(a,b)}); if (b.hp > 0) poison(b, 3, Math.round(3 + a.pow * .1), 'Burning'); }},
+  spearthrust: {name:'Spear Thrust', desc:'A long jab that goes through armour and never misses', weapon:'spear',
+    async run(a,b){ sfx('ignite'); await strike(a,b,{mult:1.4, pierce:true, canDodge:false, anim: async () => { await lunge(a); sfx('saber'); slash(a,b,2); }}); }},
+  axechop:     {name:'Axe Chop', desc:'A huge chop that breaks their armour', weapon:'axe',
+    async run(a,b){ sfx('ignite'); const d = await strike(a,b,{mult:1.5, anim: async () => { await lunge(a); sfx('saber'); slash(a,b); }}); shakeArena();
+      if (d > 0 && b.hp > 0){ const cut = Math.min(b.def, 5); b.def -= cut; if (cut) popText(b,`-${cut} ARMOUR`); } }},
+  frostslash:  {name:'Frost Slash', desc:'A slash that freezes them for a turn', weapon:'ice',
+    async run(a,b){ sfx('freeze'); const d = await strike(a,b,{mult:1.1, anim: async () => { await lunge(a); sfx('saber'); slash(a,b); }});
+      if (d > 0 && b.hp > 0){ b.stun = Math.max(b.stun, 1); puff(b,'#BFF6FF'); popText(b,'FROZEN!'); updateHP(); } }},
+  thunderslam: {name:'Thunder Slam', desc:'Smashes down with lightning. Might stun them', weapon:'hammer',
+    async run(a,b){ sfx('zap'); await jump(a); await bolt(b); const d = await strike(a,b,{mult:1.9, canDodge:false, anim:() => wait(0)}); shakeArena();
+      if (d > 0 && b.hp > 0 && Math.random() < .4){ b.stun = Math.max(b.stun, 1); popText(b,'STUNNED!'); updateHP(); } }},
+  prism:       {name:'Rainbow Storm', desc:'Five slashes in every colour', weapon:'rainbow',
+    async run(a,b){ sfx('ignite'); const cols = ['#FF4D5E','#FFB020','#3FBF6A','#3FA9FF','#B46BFF'];
+      for (let i = 0; i < 5 && b.hp > 0; i++){ sfx('saber'); await strike(a,b,{mult:.42, canDodge:false, anim: async () => { if (i === 0) await lunge(a); slash(a,b,i,cols[i]); await wait(110); }}); } }},
   crown:  {name:'Royal Power', desc:'Your power goes way up', icon:'crown',
     async run(a,b){ sfx('reveal'); await spinIcon(a,'crown'); const up = Math.max(3, Math.round(a.pow * .4)); a.pow += up;
       popText(a,`+${up} POWER`,'heal'); await wait(300); await strike(a,b,{mult:.8}); }},
@@ -2936,7 +3462,7 @@ function updateHP(){
     $(f.side + 'Trail').style.width = pct + '%';
     $(f.side + 'Num').textContent = `${f.hp} / ${f.maxHp}`;
     const st = [f.shield > 0 && (f.shield > 1 ? `Shield x${f.shield}` : 'Shield'), f.dodge > 0 && 'Dodge', f.reflect && 'Bounce',
-                f.stun > 0 && 'Frozen', f.confused && 'Confused', f.poison > 0 && f.poisonName].filter(Boolean);
+                f.stun > 0 && 'Frozen', f.confused && 'Confused', f.slowed && 'Slowed', f.poison > 0 && f.poisonName].filter(Boolean);
     $(f.side + 'Status').innerHTML = st.map(s => `<span class="chip">${s}</span>`).join('');
     f.el.style.opacity = (f.ghostly && f.dodge > 0 && f.hp > 0) ? '.55' : '';
   });
@@ -2973,7 +3499,8 @@ async function strike(a, b, o = {}){
   if (canDodge && Math.random() < clamp((b.spd - a.spd) * .015 + .06, .03, .22) + flyDodge){ popText(b, 'Missed!'); await dodgeAnim(b); return 0; }
   let dmg = (3 + a.pow * .8) * rand(.85, 1.15) * (o.mult || 1) - (o.pierce ? 0 : b.def * .3);
   dmg = Math.max(2, Math.round(dmg));
-  let crit = Math.random() < clamp(.1 + (a.spd - b.spd) * .006, .06, .25);
+  if (b.dogF && b.robot.dog && b.robot.dog.breed === 'dane') dmg = Math.max(1, Math.round(dmg * .85)); // the Great Dane guards its robot
+  let crit = !!o.crit || Math.random() < clamp(.1 + (a.spd - b.spd) * .006, .06, .25);
   if (crit) dmg = Math.round(dmg * 1.6);
   if (b.shield > 0 && !o.blast){ b.shield--; crit = false; dmg = Math.max(1, Math.round(dmg * .3)); popText(b, 'BLOCKED!'); sfx('shield'); }
   hurt(b, dmg, crit);
@@ -3030,13 +3557,64 @@ async function takeTurn(a, b, action){
     await s.run(a, b);
   }
   updateHP();
+  if (a.dogF && a.hp > 0 && b.hp > 0) await dogTurn(a, b);
   if (a.transformed && a.hp > 0 && b.hp > 0 && --a.formTurns <= 0){ await wait(250); await transformOut(a); }
+}
+/* ---------- battle dogs ---------- */
+// Dog bites skip dodges and shields: the dog always gets its teeth in.
+function dogDamage(a, b, mult, o = {}){
+  const d = a.robot.dog;
+  let dmg = dogBase(d.level) * mult * rand(.85, 1.15) - (o.pierce ? 0 : b.def * .12);
+  dmg = Math.max(1, Math.round(dmg));
+  if (o.crit) dmg *= 2;
+  hurt(b, dmg, !!o.crit);
+  return dmg;
+}
+async function dogBite(a, b, mult = 1, o = {}){
+  const df = a.dogF, dir = dirOf(a);
+  const dist = Math.max(20, Math.abs(center(b).x - center(df).x) - center(b).w * .3);
+  df.el.animate([{transform:'translateX(0)'},{transform:`translate(${dir * dist * .5}px,-22px)`,offset:.3},{transform:`translateX(${dir * dist}px)`,offset:.45},
+    {transform:`translateX(${dir * dist}px)`,offset:.6},{transform:'translateX(0)'}],{duration:880,easing:'ease-in-out'});
+  await wait(400); sfx('chomp'); popText(b, o.label || 'CHOMP!', 'status', -20);
+  const dmg = dogDamage(a, b, mult, o);
+  await wait(500);
+  return dmg;
+}
+const DOG_GADGET = {
+  laser: async (a, b) => { sfx('laser'); await gunBeam(a.dogF, b, '#FF3B7F', 9); dogDamage(a, b, 1.6, {pierce:true}); },
+  rockets: async (a, b) => { sfx('rocket'); await projectile(a.dogF, b, flipIf(dirOf(a) < 0, MISSILE_SVG), 480, 0, 0, 30); explosion(b, false); dogDamage(a, b, 1.9); },
+  ice: async (a, b) => { sfx('freeze'); popText(a.dogF, 'WOOF!'); await puff(b, '#BFF6FF'); dogDamage(a, b, 1.2);
+    if (b.hp > 0){ b.stun = Math.max(b.stun, 1); popText(b, 'FROZEN!'); updateHP(); } },
+  armour: async (a, b) => { sfx('shield'); await bubble(a); a.shield = Math.max(a.shield, 1); popText(a, 'DOG GUARD!'); updateHP(); await dogBite(a, b, 1); },
+  mega: async (a, b) => { sfx('alarm'); popText(a.dogF, 'WOOOOF!', 'big'); shakeArena(); await puff(b, '#E3DBFF'); dogDamage(a, b, 1.7, {pierce:true});
+    if (b.hp > 0){ b.confused = true; popText(b, 'Confused?!'); updateHP(); } },
+};
+async function dogTurn(a, b){
+  const d = a.robot.dog;
+  a.dogTurns = (a.dogTurns || 0) + 1;
+  await wait(180);
+  if (GADGET[d.gadget] && a.dogTurns % DOG_GADGET_EVERY === 0){
+    setLog(`${d.name} uses the ${GADGET[d.gadget].name.toUpperCase()}!`);
+    await DOG_GADGET[d.gadget](a, b); await wait(350);
+  } else if (d.breed === 'dachshund'){
+    setLog(`${d.name} bites twice!`);
+    await dogBite(a, b, .62); if (b.hp > 0) await dogBite(a, b, .62);
+  } else if (d.breed === 'corgi'){
+    const lucky = Math.random() < .35;
+    setLog(lucky ? `${d.name} does a LUCKY BITE!` : `${d.name} bites!`);
+    await dogBite(a, b, 1, { crit: lucky, label: lucky ? 'LUCKY!' : 'CHOMP!' });
+  } else if (d.breed === 'rottweiler'){
+    setLog(`${d.name} does a MEGA BITE!`); await dogBite(a, b, 1.35, { label: 'MEGA BITE!' });
+  } else {
+    setLog(`${d.name} bites!`); await dogBite(a, b, 1.05);
+  }
+  updateHP();
 }
 function enemyChoice(){
   if (E.form && !E.usedForm && Math.random() < .35) return 'transform';
   if (E.energy < ENERGY_MAX || !E.robot.specials.length) return E.ammo > 0 && !E.transformed && Math.random() < .45 ? 'fire' : 'bash';
   const sp = E.robot.specials, low = E.hp / E.maxHp < .45;
-  const heals = sp.filter(k => k === 'breeze' || k === 'rainbow');
+  const heals = sp.filter(k => ['breeze','rainbow','pizza','phoenix'].includes(k));
   if (low && heals.length) return pick(heals);
   const attack = sp.filter(k => !DEFENSIVE.includes(k));
   return pick(attack.length ? attack : sp);
@@ -3105,8 +3683,9 @@ async function playerAct(action){
 async function checkEnd(){
   if (E.hp > 0 && P.hp > 0) return false;
   setTurn(''); updateHP(); stopMusic();
-  if (E.hp <= 0){ await ko(E); await jump(P); await wait(150); victory(); }
-  else { await ko(P); await jump(E); await wait(150); defeat(); }
+  const sadDog = f => { if (f.dogF) f.dogF.el.animate([{opacity:1},{opacity:.35}],{duration:600,fill:'forwards'}); };
+  if (E.hp <= 0){ sadDog(E); await ko(E); await jump(P); await wait(150); victory(); }
+  else { sadDog(P); await ko(P); await jump(E); await wait(150); defeat(); }
   return true;
 }
 function showScreen(name){
@@ -3127,6 +3706,12 @@ function startBattle(robot, foe, challenge = null){
     el.classList.toggle('boss', !!f.robot.boss);
     f.el = el; f.svg = el.querySelector('svg');
   });
+  [[P, $('pD')], [E, $('eD')]].forEach(([f, el]) => {
+    el.getAnimations().forEach(a => a.cancel()); el.style.opacity = '';
+    const d = f.robot.dog; el.hidden = !d;
+    el.innerHTML = d ? `<div class="dogbob"><div class="${f.side === 'enemy' ? 'flip' : ''}">${dogSVG(d)}</div></div>` : '';
+    f.dogF = d ? { el, svg: el.querySelector('svg'), side: f.side } : null;
+  });
   arena.querySelectorAll('.fx,.beam,.flash').forEach(n => n.remove());
   arena.dataset.theme = pick(['sky','space','desert','base']);
   renderActions(); busy = true; setTurn(''); updateHP(); updateActions(); setLog('Get ready...');
@@ -3137,9 +3722,9 @@ function startBattle(robot, foe, challenge = null){
   showOverlay(`<div class="ribbon${boss ? ' boss' : ''}">${boss ? 'BOSS BATTLE!' : currentChallenge ? 'CHALLENGE!' : 'BATTLE ' + (save.wins + save.losses + 1)}</div>
     ${boss ? `<p class="bosswarn">A giant boss robot appears! Beat it to win a golden treasure chest.</p>` : ''}
     <div class="vsrow">
-      <div class="side">${robotSVG(P.robot)}<span class="nm">${esc(P.name)}</span>${icons(P.robot)}<span class="tagline">YOU · LEVEL ${P.robot.level}</span></div>
+      <div class="side"><div class="vsbot">${robotSVG(P.robot)}${P.robot.dog ? `<span class="vsdog">${dogSVG(P.robot.dog)}</span>` : ''}</div><span class="nm">${esc(P.name)}</span>${icons(P.robot)}<span class="tagline">YOU · LEVEL ${P.robot.level}</span></div>
       <div class="vsbig outline">VS</div>
-      <div class="side"><div class="flip" style="width:min(140px,100%)">${robotSVG(E.robot)}</div><span class="nm">${esc(E.name)}</span>${icons(E.robot)}<span class="tagline">${boss ? 'BOSS' : currentChallenge ? 'PLAYER' : 'ENEMY'} · LEVEL ${E.robot.level}</span></div>
+      <div class="side"><div class="vsbot flip">${robotSVG(E.robot)}${E.robot.dog ? `<span class="vsdog">${dogSVG(E.robot.dog)}</span>` : ''}</div><span class="nm">${esc(E.name)}</span>${icons(E.robot)}<span class="tagline">${boss ? 'BOSS' : currentChallenge ? 'PLAYER' : 'ENEMY'} · LEVEL ${E.robot.level}</span></div>
     </div>
     <div class="stack"><button class="btn big ready" id="goBtn" type="button">GO!</button><button class="btn plain" id="fleeBtn" type="button">Back to my robot</button></div>`, { wide: true });
   $('fleeBtn').onclick = backToGarage;
@@ -3184,6 +3769,13 @@ function rewardsHTML(coins, xp){
   return `<div class="rewards"><div class="reward" id="coinReward">${COIN(36)}<div><b>+${coins}</b><br><span>coin${coins === 1 ? '' : 's'}</span></div></div>
     <div class="reward">${XPI(36)}<div><b>+${xp}</b><br><span>XP</span></div></div></div>`;
 }
+function dogResultHTML(dx){
+  if (!dx) return '';
+  const d = save.dogs[save.dog], need = dogXpNeeded(d.level), maxed = d.level >= MAX_DOG_LEVEL;
+  return `<div class="dogres"><span class="dogpic">${dogSVG(myDog())}</span><div><b id="dogResName"></b>
+    <span>${dx.levelUp ? `LEVEL UP! Now level ${d.level}` : `+${dx.gained} dog XP · Level ${d.level}`}</span>
+    <div class="dxbar"><i style="width:${maxed ? 100 : d.xp / need * 100}%"></i></div></div></div>`;
+}
 function extrasHTML(lv, next){
   return (lv.levelUp ? `<div class="levelup">LEVEL UP! Your robot is level ${save.level}</div>` : '')
     + (lv.power.length ? `<div class="newpart"><span class="lbl">NEW POWER PART${lv.power.length > 1 ? 'S' : ''}!</span><div class="iconrow">${lv.power.map(id => iconSvg(id, 64)).join('')}</div><span class="nm">${lv.power.map(id => OBJ[id].name).join(' + ')}</span></div>` : '')
@@ -3216,6 +3808,7 @@ function victory(){
   const coins = winCoins(stars) + streakBonus + bossBonus;
   save.coins += coins;
   const lv = addXP(boss ? WIN_XP * 2 : WIN_XP);
+  const dx = addDogXP(boss ? 12 : 6);
   chest = { kind: boss ? 'gold' : Math.random() < .45 ? 'wood' : null, opened: false };
   const next = OBJECTS.find(o => !o.power && !save.unlocked.includes(o.id));
   if (next){ save.unlocked.push(next.id); save.fresh.push(next.id); }
@@ -3234,12 +3827,15 @@ function victory(){
     ${rewardsHTML(coins, boss ? WIN_XP * 2 : WIN_XP)}
     ${bonuses ? `<div class="bonuses">${bonuses}</div>` : ''}
     ${chest.kind ? `<button class="chest closed ${chest.kind}" id="chestBtn" type="button" aria-label="Open the treasure chest">${chestSVG(chest.kind, false)}<span class="chest-tag">Tap to open!</span></button>` : ''}
+    ${dogResultHTML(dx)}
     ${extrasHTML(lv, next)}
     <div class="stack">
       <button class="btn big green ready" id="toWorkshop" type="button">${isNew ? 'Try my new parts' : 'Upgrade my robot'}</button>
       <button class="btn plain" id="nextFight" type="button">Fight again</button>
     </div>`);
   flyCoins(coins, $('coinReward'), startCoins);
+  if ($('dogResName')) $('dogResName').textContent = dx.name;
+  if (dx && dx.levelUp) setTimeout(() => sfx('levelup'), 1500);
   if ($('chestBtn')) $('chestBtn').onclick = () => openChest(true);
   $('toWorkshop').onclick = () => { openChest(false); backToGarage(); };
   $('nextFight').onclick = () => { openChest(false); hideOverlay(); renderAll(); startBattle(myRobot(), nextFoe()); };
@@ -3251,6 +3847,7 @@ function defeat(){
   if (enemyRobot.boss) save.bossTries = (save.bossTries || 0) + 1;
   save.coins += LOSS_COINS;
   const lv = addXP(LOSS_XP);
+  const dx = addDogXP(3);
   persist(); renderRobot(); renderTray();
   sfx('lose');
   if (lv.levelUp) setTimeout(() => sfx('levelup'), 1000);
@@ -3259,6 +3856,7 @@ function defeat(){
     <h2 class="botname">${esc(enemyRobot.name)} wins this time</h2>
     ${ch ? '<p class="muted">That was a real player\'s robot. Their owner will find out they won!</p>' : ''}
     ${rewardsHTML(LOSS_COINS, LOSS_XP)}
+    ${dogResultHTML(dx)}
     ${extrasHTML(lv, null)}
     <p class="muted">${enemyRobot.boss ? 'The boss gets a little weaker every time you try. Upgrade your parts and have another go!' : 'Use your coins to upgrade parts, or try a different mix. Then come back!'}</p>
     <div class="stack">
@@ -3266,6 +3864,7 @@ function defeat(){
       <button class="btn plain" id="rematch" type="button">${enemyRobot.boss ? 'Fight the boss again' : 'Rematch'}</button>
     </div>`);
   flyCoins(LOSS_COINS, $('coinReward'), startCoins);
+  if ($('dogResName')) $('dogResName').textContent = dx.name;
   $('toWorkshop').onclick = backToGarage;
   $('rematch').onclick = () => { hideOverlay(); renderAll(); startBattle(myRobot(), enemyRobot.boss ? nextFoe() : enemyRobot); };
 }

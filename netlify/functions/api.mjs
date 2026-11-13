@@ -19,13 +19,16 @@ import { getStore } from "@netlify/blobs";
 
 const PART_IDS = new Set([
   "toaster", "battery", "wheel", "spring", "magnet", "gear", "duck", "fan", "rocket", "laser",
-  "vacuum", "sock", "drill", "clock", "glove",
+  "vacuum", "sock", "drill", "clock", "glove", "skateboard", "pizza", "bulb", "umbrella", "trumpet", "banana",
   "volcano", "storm", "shark", "blackhole", "unicorn", "diamond", "meteor", "timer", "ghost", "crown",
+  "dragon", "tornado", "trex", "phoenix",
 ]);
 const STYLE_IDS = new Set(["classic", "knight", "shadow", "pilot", "scout", "commando"]);
-const GUN_IDS = new Set(["pea", "minigun", "flame", "rocket", "freeze", "mega"]);
+const GUN_IDS = new Set(["pea", "minigun", "goo", "flame", "lightning", "rocket", "grenade", "freeze", "shotgun", "mega", "sniper"]);
 const VEHICLE_IDS = new Set(["tank", "car", "jet", "rocket"]);
-const WEAPON_IDS = new Set(["blue", "green", "purple", "red", "gold", "twin"]);
+const WEAPON_IDS = new Set(["blue", "green", "purple", "red", "spear", "gold", "axe", "ice", "twin", "hammer", "rainbow"]);
+const DOG_IDS = new Set(["dachshund", "corgi", "rottweiler", "dane"]);
+const GADGET_IDS = new Set(["laser", "rockets", "ice", "armour", "mega"]);
 const HEX = /^#[0-9a-fA-F]{6}$/;
 const PLAYER_ID = /^p[0-9a-f]{16}$/;
 const MAX_BODY = 40000;
@@ -44,6 +47,13 @@ async function sha256(text) {
   return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, "0")).join("");
 }
 
+// A robot's battle dog, if it has one.
+function cleanDog(d) {
+  if (!d || typeof d !== "object" || !DOG_IDS.has(d.breed)) return null;
+  const name = String(d.name ?? "").replace(/[\u0000-\u001f\u007f<>]/g, "").replace(/\s+/g, " ").trim().slice(0, 14) || "Good Dog";
+  return { breed: d.breed, gadget: GADGET_IDS.has(d.gadget) ? d.gadget : null, level: num(d.level, 1, 10), name };
+}
+
 // A robot as other players will see and fight it.
 function cleanBuild(b) {
   b = b && typeof b === "object" ? b : {};
@@ -56,7 +66,7 @@ function cleanBuild(b) {
   for (const p of parts) lvs[p] = num(src[p], 1, 10);
   return { name: cleanName(b.name), level: num(b.level, 1, 20), parts, colors, lvs,
            style: STYLE_IDS.has(b.style) ? b.style : "classic", weapon: WEAPON_IDS.has(b.weapon) ? b.weapon : null,
-           gun: GUN_IDS.has(b.gun) ? b.gun : null, vehicle: VEHICLE_IDS.has(b.vehicle) ? b.vehicle : null };
+           gun: GUN_IDS.has(b.gun) ? b.gun : null, vehicle: VEHICLE_IDS.has(b.vehicle) ? b.vehicle : null, dog: cleanDog(b.dog) };
 }
 
 async function auth(store, id, token) {
@@ -165,7 +175,7 @@ export default async (req) => {
     case "score": {
       const s = body.score && typeof body.score === "object" ? body.score : {};
       const b = cleanBuild(s);
-      me.rec.score = { name: b.name, level: b.level, parts: b.parts, colors: b.colors, style: b.style, weapon: b.weapon, gun: b.gun, vehicle: b.vehicle,
+      me.rec.score = { name: b.name, level: b.level, parts: b.parts, colors: b.colors, style: b.style, weapon: b.weapon, gun: b.gun, vehicle: b.vehicle, dog: b.dog,
                        wins: num(s.wins, 0, 999999), upgrades: num(s.upgrades, 0, 1000), updated: now };
       await store.setJSON(me.key, me.rec);
       return json({ ok: true });

@@ -57,3 +57,7 @@ Each robot saves to the game server as well as the phone. The **Player** panel i
 - **New player:** starts a fresh robot without losing the current one.
 
 Making a new code stops the old one working. Phones already signed in stay signed in.
+
+## Battle dogs
+
+The **Kennel** (menu → Kennel) has four dogs: Dachshund (bites twice), Corgi (lucky double bites), Rottweiler (biggest bites) and Great Dane (your robot takes 15% less damage). The first dog is free; more cost 25 coins. A dog bites after each of your turns and levels up (to 10) from battle XP. Gadgets (Laser Collar, Rocket Pack, Ice Collar, Battle Armour, Mega Bark) are bought once and fitted one at a time; the dog uses its gadget every 3rd turn. Add breeds to `DOGS` (plus a drawing in `dogSVG`) and gadgets to `GADGETS` (plus `DOG_GADGET` and `gadgetIcon`).
