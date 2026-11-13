@@ -341,7 +341,60 @@ body[data-screen="battle"] #menuBtn{display:none}
 .besthit .bh-dmg{grid-area:d;font-weight:800;font-size:14px;color:#FFB8C2}
 .besthit .pillbtn{grid-area:b}
 .arena .scenery{position:absolute;inset:0;z-index:0;pointer-events:none}
-.arena .scenery svg{width:100%;height:100%;display:block}
+.arena .scenery .sc-sky{position:absolute;left:0;right:0;top:0;height:58%;width:100%}
+.arena .scenery .sc-gnd{position:absolute;left:0;right:0;bottom:0;height:42%;width:100%}
+.arena .cloudy,.arena .sandbags,.arena .flagpole{display:none!important}
+.scenery .drift{animation:drift linear infinite}
+@keyframes drift{from{transform:translateX(-120px)}to{transform:translateX(480px)}}
+.scenery .birdfly{animation:birdfly 16s linear infinite}
+@keyframes birdfly{from{transform:translate(-160px,10px)}50%{transform:translate(120px,-6px)}to{transform:translate(420px,4px)}}
+.scenery .bird{animation:flap .3s ease-in-out infinite alternate;transform-box:fill-box;transform-origin:center}
+.scenery .sway{animation:sway 3.4s ease-in-out infinite alternate}
+@keyframes sway{from{transform:rotate(-2deg)}to{transform:rotate(2deg)}}
+.scenery .twinkle{animation:tw 2.4s ease-in-out infinite alternate}
+@keyframes tw{from{opacity:.25}to{opacity:1}}
+.scenery .shoot{animation:shoot 7s ease-in infinite}
+@keyframes shoot{0%,80%{transform:translate(120px,10px);opacity:0}82%{opacity:1}100%{transform:translate(340px,70px);opacity:0}}
+.scenery .blink{animation:replayblink 1.2s steps(2) infinite}
+.scenery .glowc{filter:drop-shadow(0 0 6px #B46BFF)}
+.scenery .shimmer{animation:shim 2s ease-in-out infinite alternate}
+@keyframes shim{from{transform:translateY(0) scaleY(1)}to{transform:translateY(-3px) scaleY(1.3)}}
+.scenery .tumble{animation:tumble 9s linear infinite}
+.scenery .tumble > g{animation:spinx 1s linear infinite;transform-box:fill-box;transform-origin:center}
+@keyframes tumble{from{transform:translateX(0)}to{transform:translateX(470px)}}
+@keyframes spinx{to{rotate:360deg}}
+.scenery .searchlight{animation:sweep 5s ease-in-out infinite alternate;transform-origin:330px 128px}
+@keyframes sweep{from{transform:rotate(-30deg)}to{transform:rotate(26deg)}}
+.scenery .radar{animation:radar 3s ease-in-out infinite alternate}
+@keyframes radar{from{transform:rotate(-28deg)}to{transform:rotate(28deg)}}
+.scenery .vflag,.fighter .vflag{animation:flagwave .6s ease-in-out infinite alternate;transform-box:fill-box;transform-origin:left center}
+@keyframes flagwave{from{transform:skewY(-6deg) scaleX(.94)}to{transform:skewY(6deg) scaleX(1.04)}}
+.scenery .swing{animation:swing 2.6s ease-in-out infinite alternate}
+@keyframes swing{from{transform:rotate(-12deg)}to{transform:rotate(12deg)}}
+.scenery .chimney{animation:chim 3.3s ease-out infinite;transform-box:fill-box;transform-origin:center}
+@keyframes chim{from{transform:translate(0,0) scale(.5);opacity:.9}to{transform:translate(14px,-46px) scale(1.6);opacity:0}}
+.scenery .aurora{animation:aurora 6s ease-in-out infinite alternate}
+@keyframes aurora{from{transform:translateX(-10px);opacity:.7}to{transform:translateX(14px);opacity:1}}
+.scenery .waddle{animation:waddle .8s ease-in-out infinite alternate;transform-box:fill-box;transform-origin:bottom center}
+@keyframes waddle{from{rotate:-7deg}to{rotate:7deg}}
+.scenery .plume{animation:plume 4s ease-in-out infinite alternate;transform-box:fill-box;transform-origin:bottom center}
+@keyframes plume{from{transform:scale(.92) translateX(-3px)}to{transform:scale(1.08) translateX(4px)}}
+/* vehicles come alive */
+.fighter .vehicle .vwheel{animation:wheelspin 1.2s linear infinite}
+@keyframes wheelspin{to{rotate:360deg}}
+.fighter .vehicle .vtread{animation:tread .6s linear infinite}
+@keyframes tread{to{stroke-dashoffset:-14}}
+.fighter .vehicle .vsmoke circle{animation:vsmoke 1.5s ease-out infinite;transform-box:fill-box;transform-origin:center}
+@keyframes vsmoke{from{transform:translate(0,0) scale(.4);opacity:.9}to{transform:translate(-26px,-30px) scale(1.4);opacity:0}}
+.fighter .vehicle.v-tank{animation:rumble .18s steps(2) infinite}
+@keyframes rumble{50%{transform:translateY(1px)}}
+.fighter .vehicle.v-car .vlines{animation:vlines .5s linear infinite}
+@keyframes vlines{from{transform:translateX(8px);opacity:.3}to{transform:translateX(-10px);opacity:1}}
+.fighter .vehicle.v-jet,.fighter .vehicle.v-rocket{animation:hover 1.3s ease-in-out infinite alternate}
+@keyframes hover{from{transform:translateY(-4px) rotate(-1.5deg)}to{transform:translateY(4px) rotate(1deg)}}
+.fighter .vehicle .spark{animation:ember 1s ease-out infinite}
+.morphbtn.vmove{background:#2E6FD6}
+.fighter .holhat{transform-box:view-box}
 .arena[data-theme="junk"]{background:linear-gradient(#FFB98A 0 58%, #8A6A4A 58% 60.5%, #7A5A3A 60.5% 100%)}
 .arena[data-theme="junk"]::before{background:repeating-linear-gradient(90deg,rgba(255,255,255,.08) 0 38px,transparent 38px 76px)}
 .arena[data-theme="ice"]{background:linear-gradient(#CFEFFF 0 58%, #DDEFFA 58% 60.5%, #F4FBFF 60.5% 100%)}
@@ -445,6 +498,58 @@ body[data-screen="battle"] #menuBtn{display:none}
 .waitdots i{width:14px;height:14px;border-radius:50%;background:var(--grape);border:3px solid var(--ink);animation:bob 1s ease-in-out infinite}
 .waitdots i:nth-child(2){animation-delay:.15s}.waitdots i:nth-child(3){animation-delay:.3s}
 .liveleave{margin:8px auto 0;display:block}
+.holidaybar{position:relative;overflow:hidden;display:grid;grid-template-columns:52px minmax(0,1fr) auto;gap:10px;align-items:center;width:100%;margin-bottom:10px;padding:16px 12px 10px;
+  background:var(--hc);color:#fff;border:4px solid var(--ink);border-radius:20px;box-shadow:0 5px 0 var(--ink);font:inherit;text-align:left;cursor:pointer}
+.holidaybar.quiet{background:#2B1D3A;padding-top:10px;cursor:default}
+.holidaybar .hbunt{position:absolute;left:0;right:0;top:0;height:12px;display:flex;justify-content:space-around;pointer-events:none}
+.holidaybar .hbunt i{width:16px;height:12px;clip-path:polygon(0 0,100% 0,50% 100%)}
+.holidaybar .hic{width:52px;height:52px;display:grid;place-items:center;background:rgba(255,255,255,.18);border-radius:14px}
+.holidaybar .htx{display:flex;flex-direction:column;min-width:0}
+.holidaybar .htx b{font-family:var(--display);font-weight:400;font-size:21px;line-height:1.1;text-shadow:0 2px 0 rgba(0,0,0,.25)}
+.holidaybar .htx span{font-size:13.5px;font-weight:700;line-height:1.25;opacity:.95}
+.holidaybar .hgift{animation:giftwiggle 1.6s ease-in-out infinite}
+@keyframes giftwiggle{0%,60%,100%{transform:rotate(0)}70%{transform:rotate(-12deg) scale(1.1)}80%{transform:rotate(10deg) scale(1.1)}90%{transform:rotate(-6deg)}}
+.giftopen{display:grid;place-items:center;padding:6px}
+.giftopen .giftlogo{display:grid;place-items:center;width:150px;height:150px;border-radius:50%;background:radial-gradient(circle,#fff,#FFF1A8 60%,#FFD23F);border:4px solid var(--ink);box-shadow:0 0 0 8px rgba(255,210,63,.35)}
+.holdeco{position:absolute;inset:0;z-index:1;pointer-events:none;overflow:hidden}
+.hbunting{position:absolute;left:-2%;right:-2%;top:0;height:22px;display:flex;justify-content:space-between;border-top:3px solid var(--ink)}
+.hbunting i{width:20px;height:20px;clip-path:polygon(0 0,100% 0,50% 100%);box-shadow:inset 0 3px 0 rgba(0,0,0,.15)}
+.heggs span{position:absolute;bottom:2%;filter:drop-shadow(0 3px 0 rgba(43,29,58,.25))}
+.hfw{position:absolute;width:0;height:0}
+.hfw i{position:absolute;left:0;top:0;width:0;height:0;animation-delay:inherit}
+.hfw i::after{content:"";position:absolute;left:-3px;top:-3px;width:6px;height:6px;border-radius:50%;background:var(--c);box-shadow:0 0 8px var(--c);opacity:0;animation:fwray 2.8s ease-out infinite;animation-delay:inherit}
+@keyframes fwray{0%,28%{transform:translateY(0);opacity:0}32%{opacity:1}100%{transform:translateY(-46px);opacity:0}}
+.hlights{position:absolute;left:0;right:0;top:0;height:16px;display:flex;justify-content:space-around;border-top:3px solid #2B1D3A}
+.hlights i{width:9px;height:13px;border-radius:50% 50% 50% 50%/40% 40% 60% 60%;border:2px solid var(--ink);margin-top:2px;animation:twinkle 1.4s steps(2) infinite}
+@keyframes twinkle{50%{filter:brightness(.55)}}
+.hsnow{position:absolute;top:-10px;aspect-ratio:1;border-radius:50%;background:#fff;box-shadow:0 0 3px rgba(43,29,58,.35);animation:hsnow linear infinite}
+@keyframes hsnow{from{transform:translate(0,-10px)}to{transform:translate(30px,420px)}}
+.hbat{position:absolute;left:-60px;animation:hbat linear infinite}
+.hbat .wing{animation:flap .25s ease-in-out infinite alternate;transform-origin:20px 10px}
+@keyframes flap{to{transform:scaleY(.4)}}
+@keyframes hbat{from{transform:translate(0,0)}25%{transform:translate(30vw,14px)}50%{transform:translate(60vw,-6px)}75%{transform:translate(90vw,12px)}to{transform:translate(130vw,0)}}
+.hpoppies span{position:absolute;bottom:0;filter:drop-shadow(0 2px 0 rgba(43,29,58,.3))}
+.weaponslot.armslot{background:#2E3A7A}
+.weaponslot.armslot .wic{background:radial-gradient(circle at 50% 60%,rgba(255,255,255,.22),transparent 70%),#1E2658}
+.armourpg{overflow:hidden}
+.armourpg .phead{background:#3A4AB5;color:#fff}
+.arhero{display:grid;grid-template-columns:minmax(110px,38%) minmax(0,1fr);gap:14px;align-items:center;background:#E7ECFF;border:4px solid var(--ink);border-radius:20px;padding:10px}
+.arhero .arbot{background:radial-gradient(circle at 50% 45%,#fff,#C9D3FF);border:3px solid var(--ink);border-radius:14px;padding:6px}
+.arhero .arbot svg{width:100%;height:auto;display:block}
+@media (max-width:430px){ .arhero{grid-template-columns:minmax(0,1fr)} .arhero .arbot{max-width:220px;margin-inline:auto;width:100%} }
+.argrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:18px 12px;padding-bottom:12px}
+.argrid .acard .apic svg{width:100%;height:auto;display:block}
+.arsw{grid-template-columns:repeat(7,minmax(0,52px));justify-content:start}
+.logogrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(76px,1fr));gap:8px}
+.logo{display:flex;flex-direction:column;align-items:center;gap:2px;background:var(--cloud);border:3px solid var(--ink);border-radius:14px;padding:6px 4px;cursor:pointer;font:inherit;font-weight:800;font-size:11.5px;color:var(--ink);line-height:1.1;text-align:center}
+.logo .lgi{width:38px;height:38px;display:grid;place-items:center;border-radius:10px;background:#5B6CFF}
+.logo .lgi svg{display:block}
+.logo.on{background:#FFF1A8;box-shadow:0 0 0 3px var(--sun)}
+.logo.locked{opacity:.6;background:#E7E3F0}
+.logo.locked .lgi{background:#9AA6B2;color:#fff}
+.lettergrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(40px,1fr));gap:6px}
+.lettr{height:40px;border:3px solid var(--ink);border-radius:10px;background:#fff;font-family:var(--display);font-size:20px;color:var(--ink);cursor:pointer}
+.lettr.on{background:var(--sun)}
 .bossnext{margin:6px 0 0;text-align:center;font-weight:800;font-size:14px;color:var(--muted)}
 .lbmanage{font-family:var(--display);font-size:14px;background:var(--paper);color:var(--ink);border:3px solid var(--ink);border-radius:999px;padding:2px 12px;cursor:pointer;box-shadow:0 3px 0 var(--ink)}
 .lbmanage:active{transform:translateY(2px);box-shadow:0 1px 0 var(--ink)}
@@ -645,6 +750,11 @@ body[data-screen="battle"] #menuBtn{display:none}
 .book-row .q{width:36px;height:36px;border-radius:50%;background:#CFC8DF;color:#fff;display:grid;place-items:center;font-family:var(--display);font-size:20px}
 .book-row b{font-family:var(--display);font-weight:400;font-size:17px;display:block;line-height:1.1}
 .book-row span{font-size:14px;color:var(--muted);font-weight:700}
+.updatebar{position:fixed;left:50%;bottom:calc(16px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:75;display:flex;align-items:center;gap:10px;
+  width:min(92vw,420px);padding:10px 16px;background:#2EC4A0;color:#fff;border:4px solid var(--ink);border-radius:18px;box-shadow:0 5px 0 var(--ink);font:inherit;text-align:left;cursor:pointer;animation:upin .5s cubic-bezier(.3,1.6,.5,1)}
+.updatebar b{display:block;font-family:var(--display);font-weight:400;font-size:20px;line-height:1.1}
+.updatebar span span{font-size:13.5px;font-weight:700}
+@keyframes upin{from{transform:translate(-50%,140%)}}
 .toast{position:fixed;left:50%;bottom:calc(22px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:70;background:var(--ink);color:#fff;
   font-family:var(--display);font-size:18px;line-height:1.2;padding:10px 18px;border-radius:16px;border:3px solid #fff;box-shadow:0 5px 0 rgba(43,29,58,.5);
   width:max-content;max-width:calc(100% - 32px);text-align:center;pointer-events:none}
@@ -826,6 +936,7 @@ body[data-screen="battle"] #menuBtn{display:none}
       <button class="btn small green" id="installBtn" type="button">Install</button>
       <button class="icon-btn sm" id="installNo" type="button" aria-label="Not now"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="#2B1D3A" stroke-width="3.2" stroke-linecap="round"/></svg></button>
     </div>
+    <button class="holidaybar" id="holidayBar" type="button" hidden></button>
     <button class="dailybar" id="dailyBar" type="button"></button>
     <section class="inbox panel" id="inbox" aria-label="Challenges" hidden>
       <div class="phead"><h2>CHALLENGES!</h2></div>
@@ -853,6 +964,7 @@ body[data-screen="battle"] #menuBtn{display:none}
             <button class="weaponslot" id="weaponSlot" type="button"></button>
             <button class="weaponslot form" id="formSlot" type="button"></button>
             <button class="weaponslot dogslot" id="dogSlot" type="button"></button>
+            <button class="weaponslot armslot" id="armourSlot" type="button"></button>
           </div>
           <p class="hint" id="hint"></p>
           <div class="mstats" id="mstats"></div>
@@ -897,6 +1009,10 @@ body[data-screen="battle"] #menuBtn{display:none}
           <div class="phead"><h2>STICKER BOOK</h2><span class="count" id="stickerCount"></span></div>
           <div class="kbody" id="stickerBox"></div>
         </section>
+        <section class="armourpg panel pg" data-pg="armour" aria-label="Armour">
+          <div class="phead"><h2>ARMOUR</h2><span class="count">Colours and logos</span></div>
+          <div class="kbody" id="armourBox"></div>
+        </section>
         <section class="kennel panel pg" data-pg="kennel" aria-label="Kennel">
           <div class="phead"><h2>KENNEL</h2><span class="count" id="dogCount"></span></div>
           <div class="kbody" id="kennelBox"></div>
@@ -916,7 +1032,7 @@ body[data-screen="battle"] #menuBtn{display:none}
             <li><span class="n">2</span><span class="pic" id="g2"></span>Win coins and XP</li>
             <li><span class="n">3</span><span class="pic" id="g3"></span>Upgrade your parts</li>
           </ol>
-          <p class="guidetxt">Tap or drag parts onto your robot, then press FIGHT! Win battles for coins, buy laser swords and blasters in the Armoury, and beat a boss every 10th fight for a gold chest.</p>
+          <p class="guidetxt">Tap or drag parts onto your robot, then press FIGHT! Win battles for coins, buy laser swords and blasters in the Armoury, and beat a boss every 10th fight for a gold chest. Paint your armour with your own colour and logo, and turn into a vehicle to use its super move. On holidays like Christmas, Easter and Halloween, look out for hats, themed robots and a holiday present!</p>
           <div class="guidefoot"><button id="resetBtn" class="link-btn" type="button">Start over</button></div>
         </section>
       </div>
@@ -934,6 +1050,7 @@ body[data-screen="battle"] #menuBtn{display:none}
       <div class="cloudy" style="width:64px;height:20px;right:12%;top:26%"></div>
       <div class="sun"></div><div class="planet"></div><div class="sandbags"></div><div class="flagpole"></div>
       <div class="scenery" id="scenery"></div>
+      <div class="holdeco" id="holdeco" aria-hidden="true"></div>
       <div class="turn" id="turn"></div>
       <div class="fighter left" id="pF"></div>
       <div class="fighter right" id="eF"></div>
@@ -1146,13 +1263,174 @@ const GUN = Object.fromEntries(GUNS.map(g => [g.id, g]));
 // Vehicle forms: TRANSFORM! once per battle to become a vehicle for a few turns.
 const FORM_TURNS = 3;
 const VEHICLES = [
-  {id:'tank',   name:'Battle Tank', level:1, attack:'Tank Shell',  desc:'Super tough armour and a big cannon shell', boost:{def:.6}},
-  {id:'car',    name:'Turbo Racer', level:2, attack:'Turbo Ram',   desc:'Super fast, rams them twice',               boost:{spd:.8}},
-  {id:'jet',    name:'Sky Jet',     level:3, attack:'Air Strike',  desc:'Flies so high that hits often miss. Drops bombs', boost:{spd:.5}, dodge:.25},
-  {id:'rocket', name:'Star Rocket', level:4, attack:'Rocket Dive', desc:'Huge power, smashes right into them',       boost:{pow:.4}},
+  {id:'tank',   name:'Battle Tank', level:1, attack:'Tank Shell',  desc:'Super tough armour and a big cannon shell', boost:{def:.6},
+   attack2:'Missile Barrage', desc2:'Three missiles that never miss'},
+  {id:'car',    name:'Turbo Racer', level:2, attack:'Turbo Ram',   desc:'Super fast, rams them twice',               boost:{spd:.8},
+   attack2:'Nitro Boost', desc2:'A blazing smash, then dodges the next hit'},
+  {id:'jet',    name:'Sky Jet',     level:3, attack:'Air Strike',  desc:'Flies so high that hits often miss. Drops bombs', boost:{spd:.5}, dodge:.25,
+   attack2:'Sonic Boom', desc2:'A shockwave that hits and makes them dizzy'},
+  {id:'rocket', name:'Star Rocket', level:4, attack:'Rocket Dive', desc:'Huge power, smashes right into them',       boost:{pow:.4},
+   attack2:'Star Storm', desc2:'Five shooting stars rain down on them'},
 ];
 const VEHICLE = Object.fromEntries(VEHICLES.map(v => [v.id, v]));
 
+// Armour: plates the robot wears. Pick a set, a colour and a logo.
+const ARMOURS = [
+  {id:'light',  name:'Light Plates',  cost:10, def:3,  spd:0, desc:'Shoulder pads'},
+  {id:'battle', name:'Battle Plates', cost:22, def:6,  spd:0, desc:'Shoulder pads and a belt'},
+  {id:'heavy',  name:'Heavy Armour',  cost:36, def:10, spd:0, desc:'Pads, belt and knee guards'},
+  {id:'royal',  name:'Royal Armour',  cost:55, def:12, spd:2, desc:'The full set with gold trim'},
+];
+const ARMOUR = Object.fromEntries(ARMOURS.map(a => [a.id, a]));
+const ARMOUR_SWATCHES = ['#5B6CFF','#7B5CFF','#FF4D5E','#FF8A2B','#FFD23F','#2EC4A0','#4FC3F7','#FF6FB5','#F2F4F7','#9AA6B2','#3A3550','#6B8E3A','#B5652B','#1E1A3A'];
+// Logos: the first ones come free with armour; holiday logos come from holiday presents.
+const LOGOS = [
+  {id:'star', name:'Star'}, {id:'bolt', name:'Lightning'}, {id:'flame', name:'Flame'}, {id:'heart', name:'Heart'},
+  {id:'paw', name:'Paw'}, {id:'rocket', name:'Rocket'}, {id:'smile', name:'Smile'}, {id:'letter', name:'Letter'},
+  {id:'firework', name:'Firework', holiday:'newyear'}, {id:'southerncross', name:'Southern Cross', holiday:'ausday'}, {id:'spanner', name:'Spanner', holiday:'labour'},
+  {id:'egg', name:'Easter Egg', holiday:'easter'}, {id:'poppy', name:'Poppy', holiday:'anzac'}, {id:'crown', name:'Crown', holiday:'king'},
+  {id:'pumpkin', name:'Pumpkin', holiday:'halloween'}, {id:'horseshoe', name:'Horseshoe', holiday:'cup'}, {id:'tree', name:'Christmas Tree', holiday:'christmas'},
+];
+const LOGO = Object.fromEntries(LOGOS.map(l => [l.id, l]));
+const LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'.split('');
+function cleanArmour(a){
+  if (!a || typeof a !== 'object' || !ARMOUR[a.set]) return null;
+  return { set: a.set, color: /^#[0-9a-fA-F]{6}$/.test(a.color) ? a.color : '#5B6CFF', logo: LOGO[a.logo] ? a.logo : null,
+           letter: typeof a.letter === 'string' && LETTERS.includes(a.letter) ? a.letter : 'J' };
+}
+// A logo drawn in a 24 x 24 box (outline in ink, filled with col).
+function logoInner(id, letter = 'J', col = '#fff'){
+  const S = `stroke="${INK}" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"`;
+  switch (id){
+    case 'star': return `<path d="M12 2l2.9 6.2 6.8.8-5 4.6 1.4 6.7L12 16.9 5.9 20.3l1.4-6.7-5-4.6 6.8-.8z" fill="${col}" ${S}/>`;
+    case 'bolt': return `<path d="M14 2L4 14h7l-2 8 11-13h-7z" fill="${col}" ${S}/>`;
+    case 'flame': return `<path d="M12 22c-5 0-8-3.5-7-8 1-4 4-5 4-9 3 2 4 4 4 6 1-1 2-2 2-4 3 3 5 6 4 10-1 3.5-3.5 5-7 5z" fill="${col}" ${S}/><path d="M12 20c-2 0-3-1.5-2.5-3.5.5-1.5 2-2 2-4 2 1.5 3.5 3.5 2.5 5.5-.5 1.3-1 2-2 2z" fill="#FFD23F"/>`;
+    case 'heart': return `<path d="M12 21s-9-5.5-9-12a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 6.5-9 12-9 12z" fill="${col}" ${S}/>`;
+    case 'paw': return `<ellipse cx="12" cy="15.5" rx="5.5" ry="4.8" fill="${col}" ${S}/>` + [[5, 10], [9, 5.5], [15, 5.5], [19, 10]].map(([x, y]) => `<ellipse cx="${x}" cy="${y}" rx="2.3" ry="2.8" fill="${col}" ${S}/>`).join('');
+    case 'rocket': return `<path d="M12 2c4 3 5 8 4 13H8C7 10 8 5 12 2z" fill="${col}" ${S}/><path d="M8 13l-3 4 3 1zM16 13l3 4-3 1z" fill="#FF4D5E" ${S}/><circle cx="12" cy="9" r="2.2" fill="#4FC3F7" ${S}/><path d="M10 15l2 6 2-6z" fill="#FFB020" ${S}/>`;
+    case 'smile': return `<circle cx="12" cy="12" r="10" fill="${col}" ${S}/><circle cx="8.5" cy="10" r="1.4" fill="${INK}"/><circle cx="15.5" cy="10" r="1.4" fill="${INK}"/><path d="M7.5 14q4.5 4.5 9 0" fill="none" ${S}/>`;
+    case 'letter': return `<text x="12" y="19" text-anchor="middle" font-family="'Lilita One', 'Baloo 2', sans-serif" font-size="19" fill="${col}" stroke="${INK}" stroke-width="1.4" paint-order="stroke">${esc(letter)}</text>`;
+    case 'firework': return [0, 45, 90, 135, 180, 225, 270, 315].map((a, i) => `<path transform="rotate(${a} 12 12)" d="M12 12V2.5" stroke="${['#FF4D5E','#FFD23F','#4FC3F7','#2EC4A0'][i % 4]}" stroke-width="2.6" stroke-linecap="round"/>`).join('') + `<circle cx="12" cy="12" r="3" fill="${col}" ${S}/>`;
+    case 'southerncross': return [[12, 3, 1], [12, 19, 1.1], [5.5, 11, .9], [18.5, 9.5, .9], [15, 14.5, .6]].map(([x, y, k]) => `<path transform="translate(${x} ${y}) scale(${k * .38})" d="M0 -10 l2.4 6.7 7.1.2-5.6 4.4 2 6.8L0 4l-5.9 4.1 2-6.8-5.6-4.4 7.1-.2z" fill="${col}" ${S} stroke-width="3"/>`).join('');
+    case 'spanner': return `<path d="M15 3a5 5 0 0 0-4.6 6.8L3.5 16.7a2 2 0 0 0 2.8 2.8l6.9-6.9A5 5 0 0 0 20 8l-3 1-2-2 1-3z" fill="${col}" ${S}/>`;
+    case 'egg': return `<path d="M12 2c4.5 0 8 7 8 12s-3.5 8-8 8-8-3-8-8 3.5-12 8-12z" fill="${col}" ${S}/><path d="M5 12l3.5-2 3.5 2 3.5-2 3.5 2" fill="none" stroke="#FF6FB5" stroke-width="2"/><path d="M4.6 16.5l3.5 1.5 4-1.5 4 1.5 3.4-1.5" fill="none" stroke="#4FC3F7" stroke-width="2"/>`;
+    case 'poppy': return [0, 72, 144, 216, 288].map(a => `<ellipse transform="rotate(${a} 12 12)" cx="12" cy="6.5" rx="4.6" ry="5.5" fill="#E8344A" ${S}/>`).join('') + `<circle cx="12" cy="12" r="3.2" fill="${INK}"/>`;
+    case 'crown': return `<path d="M3 18l-1-11 6 5 4-8 4 8 6-5-1 11z" fill="#FFD23F" ${S}/><circle cx="12" cy="14" r="1.8" fill="#FF4D5E"/>`;
+    case 'pumpkin': return `<path d="M12 5q2-3 4-2-2 1-3 3" fill="#3FBF6A" ${S}/><ellipse cx="12" cy="14" rx="9.5" ry="7.5" fill="#FF8A2B" ${S}/><path d="M12 6.5c-2.5 0-3.5 3-3.5 7.5s1 7.5 3.5 7.5 3.5-3 3.5-7.5-1-7.5-3.5-7.5z" fill="none" stroke="${INK}" stroke-width="1.3"/><path d="M7 12l2 1.5-2 1zM17 12l-2 1.5 2 1zM9 17q3 2 6 0" fill="${INK}"/>`;
+    case 'horseshoe': return `<path d="M5 4v8a7 7 0 0 0 14 0V4h-4v8a3 3 0 0 1-6 0V4z" fill="${col}" ${S}/>` + [[7, 6], [7, 11], [17, 6], [17, 11]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r=".9" fill="${INK}"/>`).join('');
+    case 'tree': return `<path d="M12 2l4 6h-2l4 6h-2l4 6H4l4-6H6l4-6H8z" fill="#3FBF6A" ${S}/><rect x="10" y="20" width="4" height="3" fill="#8A5A2B" ${S}/><circle cx="12" cy="2.5" r="1.8" fill="#FFD23F"/><circle cx="9" cy="13" r="1" fill="#FF4D5E"/><circle cx="15" cy="16" r="1" fill="#4FC3F7"/><circle cx="13" cy="9" r="1" fill="#FFD23F"/>`;
+  }
+  return '';
+}
+const logoIcon = (id, size, letter) => `<svg viewBox="0 0 24 24" width="${size}" height="${size}" aria-hidden="true" style="overflow:visible">${logoInner(id, letter)}</svg>`;
+// Armour drawn on top of the robot.
+function armourSVG(a, legsPlain){
+  const A = ARMOUR[a.set]; if (!A) return '';
+  const col = a.color, royal = a.set === 'royal', trim = royal ? '#FFD23F' : '#E6EBF0';
+  const dark = ['#3A3550','#1E1A3A','#6B8E3A','#B5652B','#7B5CFF','#5B6CFF','#FF4D5E'].includes(col);
+  const logoCol = dark ? '#fff' : '#2B1D3A';
+  const logo = (x, y, k) => a.logo ? `<g transform="translate(${x - 12 * k} ${y - 12 * k}) scale(${k})">${logoInner(a.logo, a.letter, a.logo === 'letter' ? logoCol : (dark ? '#fff' : col === '#F2F4F7' ? '#FFD23F' : '#fff'))}</g>` : '';
+  const T = `fill="none" stroke="${trim}" stroke-width="3" stroke-linecap="round"`;
+  let out = '';
+  // knee guards (on plain legs only)
+  if ((a.set === 'heavy' || royal) && legsPlain) [75, 125].forEach(x => {
+    out += shaded('path', `d="M${x - 16} 178 Q${x} 168 ${x + 16} 178 L${x + 13} 196 Q${x} 202 ${x - 13} 196 Z"`, col, 3.5) + `<path d="M${x - 9} 182 Q${x} 177 ${x + 9} 182" ${T}/>`;
+  });
+  // belt with a logo buckle
+  if (a.set !== 'light'){
+    out += shaded('rect', 'x="43" y="160" width="114" height="17" rx="7"', col, 3.5) + `<path d="M50 168.5 H150" stroke="${INK}" stroke-width="1.5" opacity=".3"/>`;
+    out += shaded('rect', 'x="84" y="155" width="32" height="27" rx="8"', royal ? '#FFD23F' : '#D6DEE7', 3) + logo(100, 168.5, .82);
+  }
+  // shoulder pads, logo on the front pad
+  out += shaded('path', 'd="M12 122 Q8 88 38 86 Q64 88 64 114 Q40 106 12 122 Z"', col, 4) + `<path d="M20 108 Q36 96 56 104" ${T}/>`;
+  out += shaded('path', 'd="M188 122 Q192 88 162 86 Q136 88 136 114 Q160 106 188 122 Z"', col, 4) + `<path d="M180 108 Q164 96 144 104" ${T}/>`;
+  out += logo(37, 104, 1.05);
+  if (royal) out += [[38, 94], [162, 94]].map(([x, y]) => `<circle cx="${x}" cy="${y - 2}" r="3.4" fill="#FF4D5E" stroke="${INK}" stroke-width="2"/>`).join('');
+  return out;
+}
+/* Holiday specials (Victorian public holidays, plus Halloween). Each one runs for 3 days:
+   the day before, the day itself and the day after. */
+const nthWeekday = (y, m, wd, n) => { const d = new Date(y, m, 1); d.setDate(1 + (wd - d.getDay() + 7) % 7 + (n - 1) * 7); return d; };
+function easterSunday(y){
+  const a = y % 19, b = Math.floor(y / 100), c = y % 100, d = Math.floor(b / 4), e = b % 4, f = Math.floor((b + 8) / 25), g = Math.floor((b - f + 1) / 3);
+  const h = (19 * a + b - d - g + 15) % 30, i = Math.floor(c / 4), k = c % 4, l = (32 + 2 * e + 2 * i - h - k) % 7, m = Math.floor((a + 11 * h + 22 * l) / 451);
+  return new Date(y, Math.floor((h + l - 7 * m + 114) / 31) - 1, (h + l - 7 * m + 114) % 31 + 1);
+}
+const HOLIDAYS = [
+  {id:'newyear',   name:'New Year',        greet:'Happy New Year!',        date: y => new Date(y, 0, 1),   hat:'party',   deco:'fireworks', logo:'firework',
+   colors:{body:'#7B5CFF', head:'#FFD23F', limbs:'#FF6FB5'}, foes:['Countdown Crusher','Midnight Mauler','Sparkler Smasher'], tint:'#7B5CFF'},
+  {id:'ausday',    name:'Australia Day',   greet:'Happy Australia Day!',   date: y => new Date(y, 0, 26),  hat:'akubra',  deco:'bunting', flags:['#00843D','#FFCD00'], logo:'southerncross',
+   colors:{body:'#00843D', head:'#FFCD00', limbs:'#00843D'}, foes:['Snag Slinger','Thong Thrower','Sunburnt Smasher'], tint:'#00843D'},
+  {id:'labour',    name:'Labour Day',      greet:'Happy Labour Day!',      date: y => nthWeekday(y, 2, 1, 2), hat:'hardhat', deco:'bunting', flags:['#FF8A2B','#FFD23F','#2B1D3A'], logo:'spanner',
+   colors:{body:'#FF8A2B', head:'#FFD23F', limbs:'#3A3550'}, foes:['Hard Hat Hank','Crane Brain','Spanner Crusher'], tint:'#E07A1F'},
+  {id:'easter',    name:'Easter',          greet:'Happy Easter!',          date: easterSunday,            hat:'bunny',   deco:'eggs', flags:['#FFB8D9','#BFF6FF','#FFF1A8','#C9F2B0'], logo:'egg',
+   colors:{body:'#FFB8D9', head:'#F2F4F7', limbs:'#8A5A2B'}, foes:['Egg Scrambler','Choc Chomper','Bunny Bot 3000'], tint:'#E0609E'},
+  {id:'anzac',     name:'Anzac Day',       greet:'Lest we forget.',        date: y => new Date(y, 3, 25),  hat:'poppy',   deco:'poppies', logo:'poppy', quiet:true, tint:'#8E1B2B'},
+  {id:'king',      name:"King's Birthday", greet:"Happy King's Birthday!", date: y => nthWeekday(y, 5, 1, 2), hat:'crown', deco:'bunting', flags:['#7B5CFF','#FFD23F','#FF4D5E'], logo:'crown',
+   colors:{body:'#7B5CFF', head:'#FFD23F', limbs:'#FF4D5E'}, foes:['Royal Rumbler','Castle Crusher','Sir Smash-a-lot'], tint:'#6A4BE0'},
+  {id:'halloween', name:'Halloween',       greet:'Happy Halloween!',       date: y => new Date(y, 9, 31),  hat:'witch',   deco:'bats', logo:'pumpkin',
+   colors:{body:'#FF8A2B', head:'#3A3550', limbs:'#7B5CFF'}, foes:['Pumpkin Pounder','Count Clank','Spooky Spanner'], tint:'#E06A1F'},
+  {id:'cup',       name:'Melbourne Cup',   greet:'Happy Cup Day!',         date: y => nthWeekday(y, 10, 2, 1), hat:'tophat', deco:'bunting', flags:['#FF4D5E','#FFD23F','#4FC3F7','#2EC4A0'], logo:'horseshoe',
+   colors:{body:'#2EC4A0', head:'#FFD23F', limbs:'#FF4D5E'}, foes:['Hoof Hammer','Photo Finish','Trackside Tank'], tint:'#1FA584'},
+  {id:'christmas', name:'Christmas',       greet:'Merry Christmas!',       date: y => new Date(y, 11, 25), hat:'santa',   deco:'snow', logo:'tree',
+   colors:{body:'#FF4D5E', head:'#F2F4F7', limbs:'#3FBF6A'}, foes:['Tinsel Titan','Naughty Nutcracker','Coal Crusher'], tint:'#D93445'},
+];
+const HOLIDAY = Object.fromEntries(HOLIDAYS.map(h => [h.id, h]));
+let holCache = { key: '', hol: null };
+function activeHoliday(){
+  let force = null; try { force = localStorage.getItem('mc-holiday'); } catch (e){}
+  if (force && HOLIDAY[force]) return HOLIDAY[force];
+  const now = new Date(), key = now.toDateString();
+  if (holCache.key === key) return holCache.hol;
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  let hol = null;
+  for (const y of [today.getFullYear() - 1, today.getFullYear(), today.getFullYear() + 1])
+    for (const h of HOLIDAYS){ const d = h.date(y), days = Math.round((today - d) / 864e5); if (Math.abs(days) <= 1){ hol = h; hol.year = d.getFullYear(); } }
+  holCache = { key, hol };
+  return hol;
+}
+const holYear = h => h.year || new Date().getFullYear();
+// A holiday hat, centred on x = 100, sitting on top of the head at y = top.
+function holidayHat(h, top){
+  const S = `stroke="${INK}" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round"`;
+  if (h.hat === 'poppy') return `<g transform="translate(66 104) scale(.95)">${logoInner('poppy')}</g><path d="M78 126 l-4 12" stroke="#3FBF6A" stroke-width="3" stroke-linecap="round"/>`;
+  const g = inner => `<g class="holhat" transform="translate(100 ${top + 4}) rotate(-6)">${inner}</g>`;
+  switch (h.hat){
+    case 'party': return g(`<path d="M-22 4 L4 -58 L24 4 Z" fill="#7B5CFF" ${S}/><path d="M-14 -14 L18 -14 M-6 -34 L12 -34" stroke="#FFD23F" stroke-width="5"/><circle cx="4" cy="-60" r="8" fill="#FF6FB5" ${S}/>
+      <path d="M-30 4 H32" stroke="${INK}" stroke-width="3.5" stroke-linecap="round"/>`);
+    case 'akubra': return g(`<ellipse cx="0" cy="2" rx="54" ry="11" fill="#A0703A" ${S}/><path d="M-28 2 Q-30 -34 0 -36 Q30 -34 28 2 Q0 8 -28 2Z" fill="#B88550" ${S}/>
+      <path d="M-28 -6 Q0 0 28 -6" fill="none" stroke="#5A3A1A" stroke-width="7"/><path d="M-6 -34 Q0 -26 6 -34" fill="none" stroke="${INK}" stroke-width="2.5"/>`);
+    case 'hardhat': return g(`<path d="M-36 2 Q-36 -38 0 -40 Q36 -38 36 2 Z" fill="#FFD23F" ${S}/><path d="M-6 -39 Q0 -18 -2 2 M6 -39 Q12 -18 10 2" fill="none" stroke="#E0A400" stroke-width="4"/>
+      <rect x="-46" y="-2" width="92" height="10" rx="5" fill="#FFC21A" ${S}/><path d="M-26 -26 Q-18 -32 -10 -33" stroke="#fff" stroke-width="4" stroke-linecap="round" opacity=".8" fill="none"/>`);
+    case 'bunny': return g([-1, 1].map(k => `<g transform="scale(${k} 1)"><path d="M10 2 Q2 -40 16 -70 Q30 -78 32 -60 Q32 -30 24 2 Z" fill="#fff" ${S}/><path d="M15 -6 Q12 -36 20 -60 Q26 -62 25 -48 Q24 -24 20 -6Z" fill="#FFB8D9"/></g>`).join('')
+      + `<path d="M-40 6 Q0 -16 40 6" fill="none" stroke="${INK}" stroke-width="9" stroke-linecap="round"/><path d="M-40 6 Q0 -16 40 6" fill="none" stroke="#FF6FB5" stroke-width="4.5" stroke-linecap="round"/>`);
+    case 'crown': return g(`<path d="M-30 4 L-34 -32 L-15 -14 L0 -40 L15 -14 L34 -32 L30 4 Z" fill="#FFD23F" ${S}/><rect x="-31" y="-4" width="62" height="10" rx="3" fill="#FFB020" ${S}/>
+      <circle cx="0" cy="-40" r="5" fill="#FF4D5E" ${S} stroke-width="2.5"/><circle cx="-34" cy="-32" r="4" fill="#4FC3F7" ${S} stroke-width="2.5"/><circle cx="34" cy="-32" r="4" fill="#3FBF6A" ${S} stroke-width="2.5"/><circle cx="0" cy="1" r="3.5" fill="#7B5CFF"/>`);
+    case 'witch': return g(`<ellipse cx="0" cy="2" rx="52" ry="10" fill="#3A2A55" ${S}/><path d="M-24 0 Q-14 -40 4 -66 Q14 -80 34 -72 Q16 -62 18 -36 Q20 -14 24 0 Z" fill="#4A3570" ${S}/>
+      <path d="M-22 -10 Q0 -2 22 -10 L22 -2 Q0 6 -22 -2 Z" fill="#FF8A2B" ${S} stroke-width="2.5"/><rect x="-6" y="-12" width="12" height="10" rx="2" fill="#FFD23F" ${S} stroke-width="2.5"/>`);
+    case 'tophat': return g(`<ellipse cx="0" cy="2" rx="42" ry="8" fill="#2B1D3A" ${S}/><path d="M-26 0 L-28 -50 Q0 -56 28 -50 L26 0 Q0 6 -26 0 Z" fill="#3A3550" ${S}/>
+      <path d="M-27 -14 Q0 -8 27 -14 L27 -4 Q0 2 -27 -4 Z" fill="#FF4D5E"/><g transform="translate(14 -16) scale(.6)">${logoInner('horseshoe', 'J', '#FFD23F')}</g><path d="M-18 -46 L-18 -24" stroke="#fff" stroke-width="3.5" stroke-linecap="round" opacity=".35"/>`);
+    case 'santa': return g(`<path d="M-30 0 Q-24 -46 10 -52 Q40 -54 52 -24 Q36 -36 22 -30 Q30 -14 30 0 Z" fill="#FF4D5E" ${S}/><circle cx="54" cy="-22" r="10" fill="#fff" ${S}/>
+      <rect x="-36" y="-8" width="72" height="16" rx="8" fill="#fff" ${S}/>`);
+  }
+  return '';
+}
+// Small holiday extras for dogs (antlers, ears, hats) when the dog has no hat of its own.
+function dogHolidayTop(h){
+  const S = `stroke="${INK}" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"`;
+  switch (h.id){
+    case 'christmas': return `<path d="M-8 0 Q-12 -14 -20 -22 M-14 -12 L-24 -12 M8 0 Q12 -14 22 -22 M14 -12 L24 -14" fill="none" stroke="${INK}" stroke-width="7" stroke-linecap="round"/><path d="M-8 0 Q-12 -14 -20 -22 M-14 -12 L-24 -12 M8 0 Q12 -14 22 -22 M14 -12 L24 -14" fill="none" stroke="#B5652B" stroke-width="3.5" stroke-linecap="round"/>`;
+    case 'easter': return [-1, 1].map(k => `<g transform="scale(${k} 1)"><path d="M3 0 Q0 -22 8 -34 Q15 -36 15 -26 Q14 -12 10 0Z" fill="#fff" ${S}/><path d="M6 -4 Q5 -20 9 -28 Q12 -28 11 -20 Q10 -10 8 -4Z" fill="#FFB8D9"/></g>`).join('');
+    case 'anzac': return '';
+    case 'halloween': return `<path d="M-18 0 L18 0 M-10 0 Q-6 -16 2 -26 Q8 -30 14 -26 Q6 -22 6 -12 L8 0" fill="#4A3570" ${S}/><ellipse cx="0" cy="0" rx="18" ry="4" fill="#3A2A55" ${S}/>`;
+    case 'cup': return `<ellipse cx="0" cy="0" rx="15" ry="4" fill="#2B1D3A" ${S}/><path d="M-9 0 L-10 -18 Q0 -21 10 -18 L9 0Z" fill="#3A3550" ${S}/><path d="M-9.5 -6 H9.5" stroke="#FF4D5E" stroke-width="3"/>`;
+    case 'labour': return `<path d="M-13 1 Q-13 -15 0 -16 Q13 -15 13 1 Z" fill="#FFD23F" ${S}/><rect x="-17" y="-1" width="34" height="5" rx="2.5" fill="#FFC21A" ${S}/>`;
+    case 'ausday': return `<ellipse cx="0" cy="0" rx="19" ry="4.5" fill="#A0703A" ${S}/><path d="M-10 0 Q-11 -14 0 -15 Q11 -14 10 0Z" fill="#B88550" ${S}/>`;
+    case 'king': return `<path d="M-12 0 L-14 -15 L-6 -8 L0 -18 L6 -8 L14 -15 L12 0 Z" fill="#FFD23F" ${S}/>`;
+    case 'newyear': return `<path d="M-9 0 L1 -26 L10 0 Z" fill="#7B5CFF" ${S}/><circle cx="1" cy="-27" r="3.5" fill="#FF6FB5" ${S}/>`;
+  }
+  return '';
+}
 // Battle dogs: a companion that bites after each of your turns and uses its gadget every few turns.
 const DOGS = [
   {id:'dachshund',  name:'Dachshund',  pet:'Sausage', power:'Double Bite', desc:'Small and speedy. Bites twice every turn!'},
@@ -1547,45 +1825,78 @@ function vehicleSVG(r){
   const C = r.colors || { body: '#6B8E3A', head: '#9AA6B2', limbs: '#3A3550' };
   const cB = C.body, cH = C.head, cL = C.limbs;
   const S = `stroke="${INK}" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"`;
+  const s3 = `stroke="${INK}" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"`;
   const eyes = (x, y, k = 1) => `<g class="eyes" style="animation-delay:-${(Math.random() * 4.6).toFixed(2)}s">` + [0, 1].map(i => {
       const cx = x + i * 22 * k;
       return `<circle cx="${cx}" cy="${y}" r="${9 * k}" fill="#fff" ${S} stroke-width="3"/><circle cx="${cx + 3 * k}" cy="${y + 1}" r="${4.5 * k}" fill="${INK}"/><circle cx="${cx + 4.5 * k}" cy="${y - 1.5}" r="${1.7 * k}" fill="#fff"/>`;
     }).join('') + '</g>';
-  const star = (x, y, s = 1, fill = '#fff') => `<path transform="translate(${x} ${y}) scale(${s})" d="M0 -10 l3 6.5 7 .8 -5.2 4.8 1.4 7 -6.2-3.6 -6.2 3.6 1.4-7 -5.2-4.8 7-.8z" fill="${fill}" stroke="${INK}" stroke-width="2"/>`;
-  const camo = `<g opacity=".3" fill="${INK}"><path d="M52 160 q10 -8 20 0 q-4 10 -18 6z"/><path d="M118 166 q12 -6 22 2 q-6 8 -20 4z"/><path d="M84 176 q8 -4 14 2 q-4 4 -12 2z"/></g>`;
-  let out = `<ellipse cx="100" cy="234" rx="80" ry="7" fill="${INK}" opacity=".16"/>`;
+  const brow = (x, y, k = 1) => `<path d="M${x - 8 * k} ${y - 13 * k} L${x + 6 * k} ${y - 9 * k} M${x + 30 * k} ${y - 13 * k} L${x + 16 * k} ${y - 9 * k}" ${s3} stroke-width="${3.5 * k}"/>`;
+  const star = (x, y, sc = 1, fill = '#fff') => `<path transform="translate(${x} ${y}) scale(${sc})" d="M0 -10 l3 6.5 7 .8 -5.2 4.8 1.4 7 -6.2-3.6 -6.2 3.6 1.4-7 -5.2-4.8 7-.8z" fill="${fill}" stroke="${INK}" stroke-width="2"/>`;
+  const rivets = pts => pts.map(([x, y]) => `<circle cx="${x}" cy="${y}" r="2.2" fill="${INK}" opacity=".55"/>`).join('');
+  const shine = d => `<path d="${d}" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" opacity=".55"/>`;
+  const wheel = (x, y, rr, hub = '#D6DEE7') => `<g class="vwheel" style="transform-origin:${x}px ${y}px"><circle cx="${x}" cy="${y}" r="${rr}" fill="#3A3550" ${S}/>`
+    + [0, 60, 120].map(a => `<path transform="rotate(${a} ${x} ${y})" d="M${x - rr + 5} ${y} H${x + rr - 5}" stroke="#6E6890" stroke-width="3"/>`).join('')
+    + `<circle cx="${x}" cy="${y}" r="${rr * .42}" fill="${hub}" ${s3}/><circle cx="${x}" cy="${y}" r="${rr * .14}" fill="${INK}"/></g>`;
+  const smoke = (x, y) => `<g class="vsmoke">${[0, 1, 2].map(i => `<circle cx="${x}" cy="${y}" r="${5 + i * 2}" fill="#D6DEE7" stroke="${INK}" stroke-width="2" opacity=".85" style="animation-delay:-${i * .5}s"/>`).join('')}</g>`;
+  let out = `<ellipse cx="100" cy="234" rx="82" ry="7" fill="${INK}" opacity=".18"/>`;
   if (v === 'tank'){
-    out += shaded('rect', 'x="118" y="117" width="72" height="13" rx="4"', '#8E99A6') + `<rect x="184" y="113" width="12" height="21" rx="3" fill="#3A3550" ${S} stroke-width="3"/>`;
-    out += shaded('rect', 'x="14" y="182" width="172" height="44" rx="22"', '#3A3550');
-    [38, 69, 100, 131, 162].forEach(x => { out += shaded('circle', `cx="${x}" cy="204" r="13"`, '#9AA6B2', 3) + `<circle cx="${x}" cy="204" r="4" fill="${INK}"/>`; });
-    out += shaded('path', 'd="M22 184 L40 146 H160 L178 184 Z"', cB) + camo + star(150, 166, .95);
-    out += `<rect x="84" y="95" width="32" height="12" rx="4" fill="${cL}" ${S} stroke-width="3"/>`;
-    out += shaded('path', 'd="M56 147 Q58 104 100 102 Q142 104 144 147 Z"', cH) + eyes(84, 128);
+    // antenna + flag, barrel, tracks, hull, turret
+    out += `<path d="M66 100 L58 52" stroke="${INK}" stroke-width="3" stroke-linecap="round"/><path class="vflag" d="M58 52 L80 58 L60 66 Z" fill="#FF4D5E" ${s3} stroke-width="2.5"/>`;
+    out += `<g class="vbarrel">` + shaded('rect', 'x="118" y="116" width="66" height="14" rx="4"', '#8E99A6') + `<rect x="138" y="116" width="10" height="14" fill="${INK}" opacity=".25"/>`
+      + `<rect x="180" y="111" width="16" height="24" rx="4" fill="#3A3550" ${s3}/><rect x="190" y="116" width="6" height="14" fill="${INK}"/></g>`;
+    out += smoke(26, 166);
+    out += `<rect x="14" y="160" width="14" height="10" rx="3" fill="#6E7884" ${s3}/>`;
+    out += shaded('rect', 'x="10" y="180" width="180" height="48" rx="24"', '#3A3550');
+    out += `<path d="M30 182 H170 M30 226 H170" stroke="#6E6890" stroke-width="3" stroke-dasharray="7 7" class="vtread"/>`;
+    [36, 68, 100, 132, 164].forEach(x => { out += wheel(x, 204, 14, '#9AA6B2'); });
+    out += shaded('path', 'd="M18 184 L38 144 H162 L184 184 Z"', cB);
+    out += `<path d="M44 152 H156" stroke="${INK}" stroke-width="2.5" opacity=".35"/><g opacity=".28" fill="${INK}"><path d="M52 160 q10 -8 20 0 q-4 10 -18 6z"/><path d="M118 166 q12 -6 22 2 q-6 8 -20 4z"/><path d="M84 174 q8 -4 14 2 q-4 4 -12 2z"/></g>`;
+    out += rivets([[30, 178], [46, 178], [154, 178], [170, 178]]) + star(150, 164, .95);
+    out += `<circle cx="176" cy="166" r="6" fill="#FFE94A" ${s3} stroke-width="2.5"/><path d="M182 166 l14 -4 v8z" fill="#FFF6C9" opacity=".7"/>`;
+    out += shaded('path', 'd="M54 148 Q56 102 100 100 Q144 102 146 148 Z"', cH) + shine('M66 126 Q70 110 86 106');
+    out += `<rect x="80" y="92" width="40" height="11" rx="5" fill="${cL}" ${s3}/><path d="M86 92 Q100 82 114 92" fill="${cL}" ${s3}/>`;
+    out += rivets([[64, 140], [136, 140], [100, 142]]) + brow(84, 128) + eyes(84, 128);
   } else if (v === 'car'){
-    out += `<path d="M-14 166 H6 M-20 182 H2 M-12 198 H8" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity=".85"/>`;
-    out += `<path d="M6 160 H34 V171 H12 Z" fill="${cL}" ${S} stroke-width="3"/><path d="M20 171 V180" ${S}/>`;
-    out += shaded('path', 'd="M14 204 Q12 172 40 168 L70 142 Q80 134 100 134 H134 Q150 136 160 152 L182 164 Q194 170 194 188 L192 204 Z"', cB);
-    out += `<path d="M20 190 H188" stroke="${INK}" stroke-width="12" stroke-linecap="round"/><path d="M20 190 H188" stroke="${cH}" stroke-width="6" stroke-linecap="round"/>`;
-    out += `<path d="M78 146 L96 141 H128 Q139 143 145 152 L151 162 H72 Z" fill="#BFF6FF" ${S} stroke-width="3"/>` + eyes(94, 153, .8);
-    [52, 152].forEach(x => { out += `<circle cx="${x}" cy="208" r="24" fill="#3A3550" ${S}/><circle cx="${x}" cy="208" r="24" fill="url(#mcShine)"/>` + shaded('circle', `cx="${x}" cy="208" r="10"`, '#D6DEE7', 3); });
-    out += `<circle cx="116" cy="176" r="11" fill="#fff" ${S} stroke-width="3"/>` + star(116, 177, .7, '#FF4D5E');
+    out += `<g class="vlines"><path d="M-18 160 H4 M-26 178 H0 M-16 196 H6" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity=".9"/></g>`;
+    out += smoke(8, 196) + `<rect x="2" y="190" width="18" height="9" rx="4" fill="#B8C4D0" ${s3}/>`;
+    out += `<path d="M4 156 H36 V168 H12 Z" fill="${cL}" ${s3}/><path d="M18 168 V180 M28 168 V180" ${s3}/>`;
+    out += shaded('path', 'd="M12 204 Q10 172 40 166 L68 140 Q78 132 100 132 H134 Q152 134 162 150 L184 162 Q198 170 198 188 L196 204 Z"', cB);
+    out += `<path d="M44 182 Q60 172 72 182 Q82 170 94 182" fill="none" stroke="#FF8A2B" stroke-width="7" stroke-linecap="round"/><path d="M44 182 Q60 172 72 182 Q82 170 94 182" fill="none" stroke="#FFD23F" stroke-width="3" stroke-linecap="round"/>`;
+    out += `<path d="M18 192 H190" stroke="${INK}" stroke-width="12" stroke-linecap="round"/><path d="M18 192 H190" stroke="${cH}" stroke-width="6" stroke-linecap="round"/>`;
+    out += `<path d="M76 146 L94 139 H128 Q140 141 147 151 L153 162 H70 Z" fill="#BFF6FF" ${s3}/><path d="M86 144 L80 160 M98 141 L92 160" stroke="#fff" stroke-width="3.5" opacity=".8"/>`;
+    out += brow(92, 154, .8) + eyes(92, 154, .8);
+    out += `<path d="M186 170 h10 q4 4 0 8 h-10z" fill="#FFE94A" ${s3} stroke-width="2.5"/><path d="M196 172 l12 -3 v10 l-12 -3z" fill="#FFF6C9" opacity=".7"/>`;
+    out += `<rect x="160" y="196" width="22" height="6" rx="3" fill="${INK}" opacity=".5"/>`;
+    [52, 154].forEach(x => { out += wheel(x, 208, 24); });
+    out += `<circle cx="118" cy="174" r="12" fill="#fff" ${s3}/><text x="118" y="180" text-anchor="middle" font-family="'Lilita One',sans-serif" font-size="16" fill="#FF4D5E">1</text>`;
+    out += shine('M72 160 Q78 146 94 138');
   } else if (v === 'jet'){
-    out += `<path class="flame" d="M24 130 L-6 120 L4 130 L-6 140 Z" fill="#FFB020" ${S} stroke-width="3"/>`;
-    out += shaded('path', 'd="M28 118 L44 70 L68 70 L66 118 Z"', cH, 3.5);
-    out += shaded('path', 'd="M74 136 L46 172 H74 L106 138 Z"', cL, 3.5);
-    out += shaded('path', 'd="M22 114 H140 Q186 116 198 132 Q186 148 140 150 H22 Q12 132 22 114 Z"', cB);
-    out += `<path d="M116 118 Q150 110 174 126 Q150 132 116 132 Z" fill="#BFF6FF" ${S} stroke-width="3"/>` + eyes(126, 124, .6);
-    out += shaded('path', 'd="M72 140 L48 196 H82 L118 142 Z"', cL, 3.5) + star(88, 132, .8);
-    out += `<rect x="58" y="180" width="26" height="8" rx="4" fill="#FF4D5E" ${S} stroke-width="2.5"/>`;
+    out += `<g class="vthrust"><path class="flame" d="M22 124 L-14 112 L-2 132 L-14 152 L22 140 Z" fill="#FFB020" ${s3}/><path class="flame" d="M20 128 L0 122 L8 132 L0 142 L20 136Z" fill="#FFE94A"/></g>`;
+    out += shaded('path', 'd="M26 118 L40 66 L68 66 L66 118 Z"', cH, 3.5) + `<path d="M44 76 H62" stroke="#fff" stroke-width="4" opacity=".7"/><path d="M42 86 H64" stroke="${INK}" stroke-width="5"/>`;
+    out += shaded('path', 'd="M74 134 L46 170 H74 L106 136 Z"', cL, 3.5);
+    out += shaded('path', 'd="M20 112 H140 Q188 114 200 132 Q188 150 140 152 H20 Q8 132 20 112 Z"', cB);
+    out += `<path d="M30 140 H150" stroke="${INK}" stroke-width="2.5" opacity=".3"/><path d="M80 114 V150 M110 114 V150" stroke="${INK}" stroke-width="2" opacity=".25"/>`;
+    out += `<path d="M26 116 Q24 132 26 148" fill="none" stroke="#3A3550" stroke-width="8"/>`;
+    out += `<path d="M114 116 Q150 106 176 124 Q150 132 114 132 Z" fill="#BFF6FF" ${s3}/><path d="M126 116 Q140 112 152 116" stroke="#fff" stroke-width="3.5" stroke-linecap="round"/>`;
+    out += eyes(126, 124, .6);
+    out += shaded('path', 'd="M70 140 L44 198 H80 L118 142 Z"', cL, 3.5) + star(86, 132, .8);
+    out += `<g>` + shaded('rect', 'x="50" y="200" width="40" height="10" rx="5"', '#D6DEE7', 3) + `<path d="M90 200 l10 5 -10 5z" fill="#FF4D5E" ${s3} stroke-width="2.5"/></g>`;
+    out += `<path d="M186 126 L200 132 L186 138" fill="#FF4D5E" ${s3} stroke-width="2.5"/>`;
+    out += rivets([[40, 120], [40, 144], [150, 144]]);
   } else {
-    out += `<path class="flame" d="M32 118 L-8 104 L4 132 L-8 160 L32 146 Z" fill="#FFB020" ${S} stroke-width="3"/><path class="flame" d="M30 124 L6 116 L14 132 L6 148 L30 140 Z" fill="#FFE94A"/>`;
-    out += shaded('path', 'd="M42 106 L22 74 H54 L74 108 Z"', cL, 3.5) + shaded('path', 'd="M42 158 L22 190 H54 L74 156 Z"', cL, 3.5);
-    out += shaded('path', 'd="M30 106 H130 Q178 108 198 132 Q178 156 130 158 H30 Q20 132 30 106 Z"', cB);
-    out += `<path d="M150 107 Q182 112 198 132 Q182 152 150 157 Q162 132 150 107 Z" fill="${cH}" ${S} stroke-width="3"/>`;
-    out += `<rect x="58" y="106" width="10" height="52" fill="${cH}" ${S} stroke-width="3"/>`;
-    out += `<circle cx="110" cy="132" r="21" fill="#3A3550" ${S} stroke-width="3"/><circle cx="110" cy="132" r="16" fill="#BFF6FF"/>` + eyes(100, 132, .7);
+    out += `<g class="vthrust"><path class="flame" d="M30 116 L-14 100 L0 132 L-14 164 L30 148 Z" fill="#FFB020" ${s3}/><path class="flame" d="M28 122 L4 114 L12 132 L4 150 L28 142 Z" fill="#FFE94A"/>`
+      + `<circle class="spark" cx="-4" cy="120" r="3" fill="#FFE94A"/><circle class="spark" cx="-10" cy="146" r="2.5" fill="#FF8A2B"/></g>`;
+    out += shaded('path', 'd="M44 104 L18 66 H54 L78 106 Z"', cL, 3.5) + shaded('path', 'd="M44 160 L18 198 H54 L78 158 Z"', cL, 3.5);
+    out += `<path d="M30 74 H50 M30 190 H50" stroke="#fff" stroke-width="3.5" opacity=".6"/>`;
+    out += shaded('path', 'd="M28 104 H128 Q178 106 200 132 Q178 158 128 160 H28 Q16 132 28 104 Z"', cB);
+    out += `<rect x="24" y="108" width="14" height="48" rx="5" fill="#B8C4D0" ${s3}/>`;
+    out += `<path d="M150 105 Q184 110 200 132 Q184 154 150 159 Q164 132 150 105 Z" fill="${cH}" ${s3}/>` + shine('M160 112 Q180 118 190 128');
+    out += `<rect x="58" y="104" width="10" height="56" fill="${cH}" ${s3}/><rect x="74" y="104" width="6" height="56" fill="${cH}" opacity=".6"/>`;
+    out += `<circle cx="112" cy="132" r="22" fill="#3A3550" ${s3}/><circle cx="112" cy="132" r="17" fill="#BFF6FF"/>` + rivets([[112, 112], [112, 152], [92, 132], [132, 132]]) + eyes(102, 132, .7);
+    out += star(76, 118, .55, '#FFD23F') + star(76, 146, .55, '#FFD23F');
+    out += shine('M40 112 Q80 106 120 108');
   }
-  return `<svg viewBox="0 0 200 240" class="bot vehicle" aria-hidden="true" style="overflow:visible">${out}</svg>`;
+  return `<svg viewBox="0 0 200 240" class="bot vehicle v-${v}" aria-hidden="true" style="overflow:visible">${out}</svg>`;
 }
 
 function robotSVG(r){
@@ -1679,6 +1990,8 @@ function robotSVG(r){
   if (style === 'classic' && has('gear')) out += `<path d="${gearPath(56,58,9,14,6)}" fill="#FFB020" ${S} stroke-width="3"/><path d="${gearPath(144,58,9,14,6)}" fill="#FFB020" ${S} stroke-width="3"/>`;
   if (style === 'pilot') out += `<path d="M82 90 Q52 82 28 96 Q50 102 80 100 Z" fill="${cL}" ${S} stroke-width="3"/>` + shaded('rect', 'x="76" y="84" width="48" height="14" rx="6"', cL, 3);
 
+  // armour plates
+  if (r.armour) out += armourSVG(r.armour, !has('wheel') && !has('spring') && !has('rocket'));
   // head
   if (style === 'knight'){
     out += `<path d="M92 24 Q100 0 108 24 Z" fill="#FFD23F" ${S} stroke-width="3"/>`
@@ -1756,6 +2069,12 @@ function robotSVG(r){
         out += `<rect x="82" y="70" width="36" height="10" rx="4" fill="${INK}"/><path d="M91 70v10M100 70v10M109 70v10" stroke="#fff" stroke-width="2"/>`;
       else out += `<path d="M86 72Q100 84 114 72" fill="none" ${S}/>`;
     }
+  }
+  // holiday hats and pins
+  const hol = activeHoliday();
+  if (hol && !r.noHat){
+    const top = { knight: 22, shadow: 28, pilot: 16, commando: 12, scout: 28 }[style] ?? (headId === 'duck' ? 20 : headId === 'toaster' ? 24 : 28);
+    out += holidayHat(hol, top);
   }
   return `<svg viewBox="0 0 200 240" class="bot" aria-hidden="true">${out}</svg>`;
 }
@@ -1922,6 +2241,8 @@ function dogSVG(d){
   if (acc === 'pirate') aTop = hat(`<path d="M-21 0 Q-17 -23 0 -23 Q17 -23 21 0 Q0 -8 -21 0Z" fill="#2B1D3A" ${S}/><path d="M-19 -1 Q0 -8 19 -1" stroke="#FFD23F" stroke-width="2.5" fill="none"/><circle cx="0" cy="-13" r="4.5" fill="#fff"/><path d="M-3.5 -7 l7 3.5 M3.5 -7 l-7 3.5" stroke="#fff" stroke-width="2"/>`);
   if (acc === 'wizard') aTop = hat(`<path d="M-11 -1 Q-4 -24 4 -40 Q8 -47 17 -45 Q8 -38 10 -22 Q11 -10 11 -1 Z" fill="#7B5CFF" ${S}/><ellipse cx="0" cy="0" rx="18" ry="5" fill="#7B5CFF" ${S}/><path transform="translate(1 -16) scale(.55)" d="M0 -10 l3 6.5 7 .8 -5.2 4.8 1.4 7 -6.2-3.6 -6.2 3.6 1.4-7 -5.2-4.8 7-.8z" fill="#FFD23F" stroke="${INK}" stroke-width="2.5"/><circle cx="-4" cy="-29" r="1.8" fill="#FFD23F"/>`);
   if (acc === 'crown') aTop = hat(`<path d="M-14 0 L-16 -18 L-7 -9 L0 -22 L7 -9 L16 -18 L14 0 Z" fill="#FFD23F" ${S}/><circle cx="0" cy="-6" r="3" fill="#FF4D5E"/><circle cx="-8" cy="-5" r="2" fill="#3FA9FF"/><circle cx="8" cy="-5" r="2" fill="#3FBF6A"/>`);
+  const hol = activeHoliday();
+  if (hol && !d.noHat && !['party','gradcap','pirate','wizard','crown'].includes(acc)) aTop += hat(dogHolidayTop(hol));
   const shadow = `<ellipse cx="70" cy="103" rx="54" ry="5" fill="${INK}" opacity=".16"/>`;
   return `<svg viewBox="-8 -40 160 148" class="dogsvg" aria-hidden="true" style="overflow:visible">${shadow}${back}${body}${aBack}${extraBody}${collar}${aNeck}${head}${extraTop}${aTop}</svg>`;
 }
@@ -1965,7 +2286,7 @@ function cleanDog(d){
   const tricks = Array.isArray(d.tricks) ? [...new Set(d.tricks.filter(t => TRICK[t]))].slice(0, trickSlots(level)) : [];
   return { breed: d.breed, gadget: GADGET[d.gadget] ? d.gadget : null, acc: ACC[d.acc] ? d.acc : null, level, name, tricks };
 }
-function buildRobot({parts, lv, level, colors, name, weapon = null, style = 'classic', gun = null, vehicle = null, dog = null}){
+function buildRobot({parts, lv, level, colors, name, weapon = null, style = 'classic', gun = null, vehicle = null, dog = null, armour = null}){
   let pow = 0, spd = 0, def = 0;
   parts.forEach(id => { const s = partStats(id, lv(id)); pow += s.pow; spd += s.spd; def += s.def; });
   const combos = findCombos(parts);
@@ -1978,9 +2299,16 @@ function buildRobot({parts, lv, level, colors, name, weapon = null, style = 'cla
   const hp = Math.round((30 + Math.round(def * 1.5) + parts.length * 6 + (level - 1) * 5) * 1.8); // tuned so fights last about 5 to 8 turns
   const specials = [...new Set(parts.map(id => OBJ[id].special))];
   if (w) specials.push(w.special);
-  return { parts: parts.slice(), name, colors, level, pow, spd, def, hp, combos, specials,
+  const r = { parts: parts.slice(), name, colors, level, pow, spd, def, hp, combos, specials,
            weapon: w ? w.id : null, style: STYLE[style] ? style : 'classic', gun: g ? g.id : null, vehicle: VEHICLE[vehicle] ? vehicle : null, dog: cleanDog(dog) };
   if (r.dog && r.dog.acc === 'bowtie') r.def += 3;
+  r.armour = cleanArmour(armour);
+  if (r.armour){ r.def += ARMOUR[r.armour.set].def; r.spd += ARMOUR[r.armour.set].spd; }
+  return r;
+}
+function myArmour(){
+  const a = save.robot.armour;
+  return a && save.armours.includes(a.set) ? cleanArmour(a) : null;
 }
 function myDog(){
   const d = save.dog && save.dogs[save.dog]; if (!d) return null;
@@ -1992,7 +2320,7 @@ const myWeapon = () => !myGun() && save.robot.weapon && save.weapons.includes(sa
 const myVehicle = () => VEHICLE[save.robot.vehicle] && save.level >= VEHICLE[save.robot.vehicle].level ? save.robot.vehicle : null;
 function myRobot(){
   return buildRobot({ parts: save.robot.parts, lv: partLevel, level: save.level, colors: save.robot.colors, name: save.robot.name,
-                      weapon: myWeapon(), style: save.robot.style, gun: myGun(), vehicle: myVehicle(), dog: myDog() });
+                      weapon: myWeapon(), style: save.robot.style, gun: myGun(), vehicle: myVehicle(), dog: myDog(), armour: myArmour() });
 }
 // Enemy dogs: only once you have a dog of your own, and about as strong as yours.
 function enemyDog(boss){
@@ -2043,6 +2371,8 @@ function makeEnemy(opts = {}){
                          gun: !useGun ? null : boss ? pick(W.guns.concat(['rocket','mega'])) : pick(W.guns),
                          vehicle: boss ? 'tank' : save.wins >= 1 && Math.random() < .5 ? pick(VEHICLES.filter(v => v.level <= save.level + 1)).id : null,
                          dog: enemyDog(boss) });
+  const hol = activeHoliday();
+  if (hol && !hol.quiet && !boss && !opts.random && Math.random() < .5){ r.name = pick(hol.foes); r.colors = { ...hol.colors }; }
   const m = Math.min(.92, .74 + save.wins * .025) * (1 + .1 * (save.lap || 0)); // normal enemies stay a little weaker than you
   r.pow = Math.round(r.pow * m); r.spd = Math.round(r.spd * m); r.def = Math.round(r.def * m);
   r.hp = Math.round(r.hp * (m * .5 + .5));
@@ -2063,7 +2393,7 @@ const STARTERS = OBJECTS.filter(o => o.starter).map(o => o.id);
 function freshSave(){
   const parts = ['battery','spring'];
   return { coins: 0, wins: 0, losses: 0, xp: 0, level: 1, unlocked: STARTERS.slice(), fresh: [], combos: [], seen: [], levels: {}, welcomed: false, sinceBoss: 0, bossTries: 0, world: 0, lap: 0, bossesBeaten: 0,
-           weapons: ['blue'], guns: ['pea'], dogs: {}, dog: null, gadgets: [], dogGadget: null, accs: [], dogAcc: null,
+           weapons: ['blue'], guns: ['pea'], dogs: {}, dog: null, gadgets: [], dogGadget: null, accs: [], dogAcc: null, armours: [], logos: [], holidayGifts: [],
            robot: { name: makeName(parts.map(id => OBJ[id])), colors: { body:'#5B6CFF', head:'#FFD23F', limbs:'#FF4D5E' }, parts, weapon: 'blue', style: 'classic', gun: null, vehicle: 'tank' } };
 }
 
@@ -2147,6 +2477,12 @@ if (!save.gadgets.includes(save.dogGadget)) save.dogGadget = null;
 if (!Array.isArray(save.accs)) save.accs = [];
 save.accs = save.accs.filter(id => ACC[id]);
 if (!save.accs.includes(save.dogAcc)) save.dogAcc = null;
+if (!Array.isArray(save.armours)) save.armours = [];
+save.armours = save.armours.filter(id => ARMOUR[id]);
+if (!Array.isArray(save.logos)) save.logos = [];
+save.logos = save.logos.filter(id => LOGO[id]);
+if (!Array.isArray(save.holidayGifts)) save.holidayGifts = [];
+if (save.robot.armour) save.robot.armour = cleanArmour(save.robot.armour);
 var stickerBusy = false;
 function persist(){
   if (!stickerBusy) checkStickers();
@@ -2193,9 +2529,9 @@ function scoreBody(){
   return { name: save.robot.name, level: save.level, wins: save.wins,
            upgrades: Object.values(save.levels).reduce((s, v) => s + (v - 1), 0),
            parts: save.robot.parts.slice(), colors: { body: save.robot.colors.body, head: save.robot.colors.head, limbs: save.robot.colors.limbs },
-           style: save.robot.style, weapon: myWeapon(), gun: myGun(), vehicle: myVehicle(), dog: myDog() };
+           style: save.robot.style, weapon: myWeapon(), gun: myGun(), vehicle: myVehicle(), dog: myDog(), armour: myArmour() };
 }
-const keyOf = b => JSON.stringify([b.name, b.level, b.wins, b.upgrades, b.parts, b.colors.body, b.colors.head, b.colors.limbs, b.style || 'classic', b.weapon || null, b.gun || null, b.vehicle || null, b.dog || null]);
+const keyOf = b => JSON.stringify([b.armour || null, b.name, b.level, b.wins, b.upgrades, b.parts, b.colors.body, b.colors.head, b.colors.limbs, b.style || 'classic', b.weapon || null, b.gun || null, b.vehicle || null, b.dog || null]);
 function cleanRow(id, d){
   if (!d || typeof d !== 'object') return null;
   const num = (v, max) => clamp(Math.floor(Number(v) || 0), 0, max);
@@ -2205,7 +2541,7 @@ function cleanRow(id, d){
   return { id, name: String(d.name || 'Mystery Robot').slice(0, 20), level: num(d.level, MAX_ROBOT_LEVEL) || 1,
            wins: num(d.wins, 999999), upgrades: num(d.upgrades, 1000), parts, colors,
            style: STYLE[d.style] ? d.style : 'classic', weapon: WEAPON[d.weapon] ? d.weapon : null,
-           gun: GUN[d.gun] ? d.gun : null, vehicle: VEHICLE[d.vehicle] ? d.vehicle : null, dog: cleanDog(d.dog), updated: Math.max(0, Number(d.updated) || 0), seen: Math.max(0, Number(d.seen) || 0) };
+           gun: GUN[d.gun] ? d.gun : null, vehicle: VEHICLE[d.vehicle] ? d.vehicle : null, dog: cleanDog(d.dog), armour: cleanArmour(d.armour), updated: Math.max(0, Number(d.updated) || 0), seen: Math.max(0, Number(d.seen) || 0) };
 }
 function lbRow(r, i){
   const el = document.createElement('button');
@@ -2283,7 +2619,7 @@ async function initBoard(){
 /* ---------- menu and pages ----------
    The garage shows the robot and parts. Everything else lives behind the menu button,
    each as its own page (#armoury, #player, #leaderboard, #help) so the phone's Back button works. */
-const PAGES = ['map', 'daily', 'stickers', 'armoury', 'kennel', 'player', 'leaderboard', 'help'];
+const PAGES = ['map', 'daily', 'stickers', 'armoury', 'armour', 'kennel', 'player', 'leaderboard', 'help'];
 let page = 'home', pagePushed = false;
 function routePage(){
   const h = location.hash.slice(1);
@@ -2294,6 +2630,7 @@ function routePage(){
   if (page === 'armoury') renderSwords();
   if (page === 'player') renderProfile();
   if (page === 'kennel') renderKennel();
+  if (page === 'armour') renderArmour();
   if (page === 'map') renderMap();
   if (page === 'daily') renderDaily();
   if (page === 'stickers') renderStickers();
@@ -2324,6 +2661,7 @@ function openMenu(){
       ${tile('daily', chestSVG('gold', !dailyChestReady()), 'Daily', `${ensureDaily().missions.filter(m => m.done).length} / 3 missions`, '#FFF1A8', dailyChestReady() ? '!' : 0)}
       ${tile('parts', iconSvg('gear', 52), 'Parts', `${save.unlocked.length} of ${OBJECTS.length} found`, '#FFF1A8', fresh)}
       ${tile('armoury', weaponIcon('blue', 54), 'Armoury', 'Swords and blasters', '#E3DBFF')}
+      ${tile('armour', logoIcon(myArmour() && myArmour().logo ? myArmour().logo : 'star', 46, myArmour() ? myArmour().letter : 'J'), 'Armour', myArmour() ? ARMOUR[myArmour().set].name : 'Colours and logos', '#DCE3FF')}
       ${tile('kennel', `<span style="width:58px;display:block">${dogSVG(myDog() || { breed: 'dachshund' })}</span>`, 'Kennel', myDog() ? `${esc(myDog().name)} · Lv ${myDog().level}` : 'Get a battle dog!', '#FFE9C7', save.dog ? (trickReady() ? '!' : 0) : (save.wins >= 1 ? '!' : 0))}
       ${tile('stickers', `<span style="width:50px;display:block">${STAR(true)}</span>`, 'Stickers', `${save.stickers.length} / ${STICKERS.length} collected`, '#FFE3F0')}
       ${tile('leaderboard', `<svg viewBox="0 0 24 24" width="50" height="50" aria-hidden="true">${TROPHY.replace(/^<svg[^>]*>|<\/svg>$/g, '')}</svg>`, 'Leaderboard', 'Most wins', '#D7F5EC', chal)}
@@ -2751,14 +3089,14 @@ function myBuild(){
   const lvs = {}; save.robot.parts.forEach(id => lvs[id] = partLevel(id));
   return { name: save.robot.name, level: save.level, parts: save.robot.parts.slice(),
            colors: { body: save.robot.colors.body, head: save.robot.colors.head, limbs: save.robot.colors.limbs }, lvs,
-           style: save.robot.style, weapon: myWeapon(), gun: myGun(), vehicle: myVehicle(), dog: myDog() };
+           style: save.robot.style, weapon: myWeapon(), gun: myGun(), vehicle: myVehicle(), dog: myDog(), armour: myArmour() };
 }
 function robotFromBuild(b){
   const r = cleanRow('x', b) || cleanRow('x', {});
   const src = b && b.lvs && typeof b.lvs === 'object' ? b.lvs : {};
   const lvs = {}; r.parts.forEach(id => lvs[id] = clamp(Math.floor(Number(src[id]) || 1), 1, MAX_PART_LEVEL));
   const parts = r.parts.length ? r.parts : ['battery'];
-  return buildRobot({ parts, lv: id => lvs[id] || 1, level: r.level, colors: r.colors, name: r.name, weapon: r.weapon, style: r.style, gun: r.gun, vehicle: r.vehicle, dog: r.dog });
+  return buildRobot({ parts, lv: id => lvs[id] || 1, level: r.level, colors: r.colors, name: r.name, weapon: r.weapon, style: r.style, gun: r.gun, vehicle: r.vehicle, dog: r.dog, armour: r.armour });
 }
 function cleanChallenge(d){ const x = d.data(); return x ? normChallenge({ ...x, id: d.id }) : null; }
 function setIncoming(list){
@@ -2999,8 +3337,93 @@ function bump(el){ el.classList.remove('bump'); void el.offsetWidth; el.classLis
 const machine = $('machine'), windowEl = $('window');
 const slotEls = [...document.querySelectorAll('.slot')];
 
-function renderAll(pop = -1){ renderHeader(); renderRobot(pop); renderTray(); renderSwords(); renderDogSlot(); renderProfile(); renderMenuDot(); renderDailyBar();
-  if (page === 'kennel') renderKennel(); if (page === 'daily') renderDaily(); if (page === 'map') renderMap(); }
+function renderHolidayBar(){
+  const h = activeHoliday(), bar = $('holidayBar');
+  document.body.dataset.holiday = h ? h.id : '';
+  bar.hidden = !h; if (!h) return;
+  const key = `${h.id}-${holYear(h)}`, got = save.holidayGifts.includes(key);
+  bar.style.setProperty('--hc', h.tint);
+  bar.innerHTML = `${h.quiet ? '' : `<span class="hbunt" aria-hidden="true">${(h.flags || ['#FF4D5E','#FFD23F','#4FC3F7','#2EC4A0']).concat(h.flags || ['#FF4D5E','#FFD23F','#4FC3F7','#2EC4A0'], h.flags || []).slice(0, 12).map(c => `<i style="background:${c}"></i>`).join('')}</span>`}
+    <span class="hic">${logoIcon(h.logo, 40)}</span><span class="htx"><b>${h.quiet ? 'Anzac Day' : h.greet}</b><span>${h.quiet ? 'Today we remember the people who served. Lest we forget.' : got ? `${h.name} special! +3 bonus coins every win, and themed robots to battle.` : `${h.name} special! Tap to open your holiday present.`}</span></span>
+    ${got ? '' : `<span class="hgift">${giftSVG(38)}</span>`}`;
+  bar.classList.toggle('quiet', !!h.quiet);
+  bar.disabled = got && !!h.quiet;
+}
+const giftSVG = size => `<svg viewBox="0 0 48 48" width="${size}" height="${size}" aria-hidden="true"><rect x="6" y="18" width="36" height="26" rx="4" fill="#FF4D5E" stroke="${INK}" stroke-width="3"/><rect x="3" y="12" width="42" height="10" rx="3" fill="#FF6B78" stroke="${INK}" stroke-width="3"/>
+  <rect x="20" y="12" width="8" height="32" fill="#FFD23F" stroke="${INK}" stroke-width="2.5"/><path d="M24 12 Q14 0 10 8 Q10 13 24 12 Q34 0 38 8 Q38 13 24 12Z" fill="#FFD23F" stroke="${INK}" stroke-width="2.5"/></svg>`;
+function openHolidayGift(){
+  const h = activeHoliday(); if (!h) return;
+  const key = `${h.id}-${holYear(h)}`;
+  if (save.holidayGifts.includes(key)){ sfx('pop'); goPage('armour'); return; }
+  const coins = h.quiet ? 5 : 15;
+  save.holidayGifts.push(key); save.holidayGifts = save.holidayGifts.slice(-30);
+  if (!save.logos.includes(h.logo)) save.logos.push(h.logo);
+  const startCoins = save.coins; save.coins += coins; persist();
+  sfx('chest'); if (!h.quiet) confetti();
+  showOverlay(`<div class="ribbon win" style="background:${h.tint}">${h.quiet ? 'LEST WE FORGET' : h.greet.toUpperCase()}</div>
+    <div class="giftopen"><span class="giftlogo popin">${logoIcon(h.logo, 110)}</span></div>
+    <h2 class="botname">New logo: ${LOGO[h.logo].name}!</h2>
+    <p class="muted">${h.quiet ? 'A red poppy to remember the people who served. You can wear it on your armour.' : 'Put it on your armour to show it off in battle. It\'s yours to keep forever!'}</p>
+    <div class="rewards"><div class="reward" id="coinReward">${COIN(36)}<div><b>+${coins}</b><br><span>coins</span></div></div></div>
+    <div class="stack"><button class="btn big green ready" id="holToArmour" type="button">${save.armours.length ? 'Put it on my armour' : 'Get some armour'}</button>
+      <button class="btn plain" id="holClose" type="button">Later</button></div>`);
+  flyCoins(coins, $('coinReward'), startCoins);
+  $('holToArmour').onclick = () => {
+    if (save.armours.length && save.robot.armour){ save.robot.armour.logo = h.logo; persist(); }
+    hideOverlay(); goPage('armour'); renderAll();
+  };
+  $('holClose').onclick = () => { hideOverlay(); renderAll(); };
+  renderHolidayBar();
+}
+$('holidayBar').addEventListener('click', openHolidayGift);
+function renderAll(pop = -1){ renderHeader(); renderHolidayBar(); renderRobot(pop); renderTray(); renderSwords(); renderDogSlot(); renderArmourSlot(); renderProfile(); renderMenuDot(); renderDailyBar();
+  if (page === 'kennel') renderKennel(); if (page === 'armour') renderArmour(); if (page === 'daily') renderDaily(); if (page === 'map') renderMap(); }
+/* ---------- armour ---------- */
+function renderArmourSlot(){
+  const a = myArmour(), slot = $('armourSlot');
+  slot.innerHTML = a ? `<span class="wic"><svg viewBox="0 0 200 140" width="56" height="40" aria-hidden="true" style="overflow:visible">${armourSVG(a, false)}</svg></span><span><b>${ARMOUR[a.set].name}</b><span class="ws">Armour · +${ARMOUR[a.set].def} armour</span></span><span class="chg">Change</span>`
+    : `<span class="wic">${logoIcon('star', 34)}</span><span><b>No armour</b><span class="ws">Tap to add armour</span></span><span class="chg">Pick</span>`;
+  slot.setAttribute('aria-label', a ? `Armour: ${ARMOUR[a.set].name}. Change armour` : 'Add armour');
+}
+$('armourSlot').addEventListener('click', () => { sfx('pop'); goPage('armour'); });
+const logoOwned = id => !LOGO[id].holiday || save.logos.includes(id);
+function renderArmour(){
+  const box = $('armourBox'); if (!box) return;
+  const a = save.robot.armour && save.armours.includes(save.robot.armour.set) ? save.robot.armour : null;
+  const look = { ...myRobot(), noHat: true };
+  box.innerHTML = `<div class="arhero"><div class="arbot">${robotSVG(look)}</div>
+      <div class="dinfo"><b class="dhey">${a ? ARMOUR[a.set].name : 'No armour yet'}</b>
+        <span class="dline">${a ? `+${ARMOUR[a.set].def} armour${ARMOUR[a.set].spd ? `, +${ARMOUR[a.set].spd} speed` : ''}. Armour means enemy hits do less damage.` : 'Buy a set below, then pick its colour and logo!'}</span>
+        ${a ? '<div class="dbtns"><button class="pillbtn" id="armourOff" type="button">Take armour off</button></div>' : ''}</div></div>
+    <h3 class="ksub">Armour sets</h3>
+    <div class="argrid">${ARMOURS.map(x => { const own = save.armours.includes(x.id), on = a && a.set === x.id;
+      const tag = on ? '<span class="price hold">Wearing</span>' : own ? '<span class="price own">Wear it</span>' : `<span class="price${save.coins < x.cost ? ' cant' : ''}">${COIN(16)}${x.cost}</span>`;
+      return `<button class="acard${on ? ' on' : ''}" type="button" data-arm="${x.id}"><span class="apic">${robotSVG({ ...look, armour: { set: x.id, color: a ? a.color : '#5B6CFF', logo: a ? a.logo : 'star', letter: a ? a.letter : 'J' } })}</span>
+        <b>${x.name}</b><span class="aperk">+${x.def} armour${x.spd ? ` · +${x.spd} speed` : ''}<br>${x.desc}</span>${tag}</button>`; }).join('')}</div>
+    ${a ? `<h3 class="ksub">Colour</h3><div class="swatches arsw">${ARMOUR_SWATCHES.map(c => `<button class="sw${a.color === c ? ' sel' : ''}" type="button" data-arcol="${c}" style="background:${c}" aria-label="Armour colour ${c}"></button>`).join('')}</div>
+    <h3 class="ksub">Logo</h3><p class="knote">Holiday logos come from holiday presents. Look out for them on special days!</p>
+    <div class="logogrid"><button class="logo${!a.logo ? ' on' : ''}" type="button" data-logo=""><span class="lgi">${CLOSE}</span><span>None</span></button>${LOGOS.map(l => { const own = logoOwned(l.id);
+      return `<button class="logo${a.logo === l.id ? ' on' : ''}${own ? '' : ' locked'}" type="button" data-logo="${l.id}" ${own ? '' : 'aria-disabled="true"'}><span class="lgi">${own ? logoIcon(l.id, 34, a.letter) : LOCK(22)}</span><span>${own ? l.name : HOLIDAY[l.holiday].name}</span></button>`; }).join('')}</div>
+    ${a.logo === 'letter' ? `<h3 class="ksub">Letter or number</h3><div class="lettergrid">${LETTERS.map(c => `<button class="lettr${a.letter === c ? ' on' : ''}" type="button" data-letter="${c}">${c}</button>`).join('')}</div>` : ''}` : ''}`;
+  if ($('armourOff')) $('armourOff').onclick = () => { save.robot.armour = null; persist(); sfx('remove'); renderAll(); };
+  box.querySelectorAll('[data-arm]').forEach(b => b.onclick = () => {
+    const x = ARMOUR[b.dataset.arm];
+    if (!save.armours.includes(x.id)){
+      if (save.coins < x.cost){ sfx('full'); toast(`You need ${x.cost - save.coins} more coins for ${x.name}`); return; }
+      save.coins -= x.cost; save.armours.push(x.id); bump($('coinPill'));
+    }
+    save.robot.armour = cleanArmour({ ...(save.robot.armour || { color: '#5B6CFF', logo: 'star', letter: 'J' }), set: x.id });
+    persist(); sfx('upgrade'); renderAll();
+  });
+  box.querySelectorAll('[data-arcol]').forEach(b => b.onclick = () => { save.robot.armour.color = b.dataset.arcol; persist(); sfx('pop'); renderAll(); });
+  box.querySelectorAll('[data-logo]').forEach(b => b.onclick = () => {
+    const id = b.dataset.logo;
+    if (id && !logoOwned(id)){ sfx('full'); toast(`The ${LOGO[id].name} logo comes in the ${HOLIDAY[LOGO[id].holiday].name} present!`); return; }
+    save.robot.armour.logo = id || null; persist(); sfx('pop'); renderAll();
+  });
+  box.querySelectorAll('[data-letter]').forEach(b => b.onclick = () => { save.robot.armour.letter = b.dataset.letter; persist(); sfx('pop'); renderAll(); });
+}
+
 /* ---------- kennel: battle dogs ---------- */
 function renderDogSlot(){
   const d = myDog(), slot = $('dogSlot'), pd = $('pdog');
@@ -3208,7 +3631,7 @@ function openForms(){
       const locked = save.level < v.level, sel = myVehicle() === v.id;
       return `<button class="vcard${sel ? ' sel' : ''}${locked ? ' locked' : ''}" type="button" data-vehicle="${v.id}" ${locked ? 'aria-disabled="true"' : ''}>
         ${locked ? `<span class="vlock">${LOCK(12)} Lv ${v.level}</span>` : ''}
-        <span class="vpic">${vehicleSVG({ ...me, vehicle: v.id })}</span><b>${v.name}</b><span>${v.attack}: ${v.desc}</span></button>`;
+        <span class="vpic">${vehicleSVG({ ...me, vehicle: v.id })}</span><b>${v.name}</b><span>${v.attack}: ${v.desc}<br>${v.attack2}: ${v.desc2}</span></button>`;
     }).join('')}</div>
     <div class="stack"><button class="btn plain" id="formDone" type="button">Back to my robot</button></div>`, { dismiss: true, wide: true });
   card.querySelectorAll('[data-vehicle]').forEach(b => b.onclick = () => {
@@ -3860,26 +4283,111 @@ function shakeArena(){
   arena.animate([{transform:'translate(0,0)'},{transform:'translate(-6px,3px)'},{transform:'translate(6px,-3px)'},{transform:'translate(-4px,2px)'},{transform:'translate(0,0)'}],{duration:320});
 }
 // Extra background pictures for the newer arenas.
+/* Arena worlds. Two layers that always line up with the horizon (58% down):
+   the sky layer sits above it, the ground layer below it. */
 function renderScenery(){
-  const t = arena.dataset.theme, el = $('scenery');
-  const svg = inner => `<svg viewBox="0 0 400 240" preserveAspectRatio="xMidYMax slice" aria-hidden="true">${inner}</svg>`;
-  const I = '#2B1D3A';
-  if (t === 'junk') el.innerHTML = svg(`<path d="M-10 142 Q30 92 70 138 Q96 104 128 140 Z" fill="#9A7A5A" stroke="${I}" stroke-width="3"/>
-      <path d="M268 142 Q300 86 340 136 Q370 100 412 142 Z" fill="#8A6A4A" stroke="${I}" stroke-width="3"/>
-      <circle cx="46" cy="124" r="14" fill="#3A3550" stroke="${I}" stroke-width="3"/><circle cx="46" cy="124" r="6" fill="#8A6A4A" stroke="${I}" stroke-width="2"/>
-      <rect x="300" y="104" width="44" height="22" rx="6" fill="#4FA3E0" stroke="${I}" stroke-width="3" transform="rotate(-12 322 115)"/><rect x="306" y="98" width="22" height="10" rx="3" fill="#BFF6FF" stroke="${I}" stroke-width="2.5" transform="rotate(-12 322 115)"/>
-      <g transform="translate(100 118)"><circle r="12" fill="#B8C4D0" stroke="${I}" stroke-width="3"/><circle r="5" fill="#8A6A4A" stroke="${I}" stroke-width="2"/></g>
-      <path d="M356 110 l10 -26 l8 4 l-10 26z" fill="#FF8A2B" stroke="${I}" stroke-width="2.5"/>`);
-  else if (t === 'ice') el.innerHTML = svg(`<path d="M-10 142 L60 50 L110 110 L170 30 L250 140 Z" fill="#9FC3DD" stroke="${I}" stroke-width="3"/>
-      <path d="M44 72 L60 50 L76 70 L68 66 L60 74 L52 66Z M152 54 L170 30 L188 54 L178 50 L170 58 L162 50Z" fill="#fff" stroke="${I}" stroke-width="2.5"/>
-      <path d="M230 142 L310 64 L410 142 Z" fill="#B7D7EC" stroke="${I}" stroke-width="3"/><path d="M294 80 L310 64 L326 80 L316 76 L310 84 L304 76Z" fill="#fff" stroke="${I}" stroke-width="2.5"/>
-      ${Array.from({ length: 16 }, (_, i) => `<circle class="snow" cx="${(i * 53) % 400}" cy="${(i * 37) % 130}" r="${2 + (i % 3)}" fill="#fff" style="animation-delay:-${(i * .7).toFixed(1)}s"/>`).join('')}`);
-  else if (t === 'volcano') el.innerHTML = svg(`<path d="M190 142 L250 40 H290 L350 142 Z" fill="#3A1A22" stroke="${I}" stroke-width="3"/>
-      <path d="M250 40 Q270 14 290 40 Z" fill="#FF6A2B" stroke="${I}" stroke-width="3"/><path class="lavaglow" d="M262 42 Q258 80 270 110 Q276 80 278 42Z" fill="#FF6A2B"/>
-      <path d="M-10 142 L50 80 L100 142Z" fill="#4A2230" stroke="${I}" stroke-width="3"/>
-      <path class="lavaglow" d="M0 196 Q60 186 120 200 T240 194 T400 200" stroke="#FF6A2B" stroke-width="6" fill="none"/>
-      ${Array.from({ length: 10 }, (_, i) => `<circle class="ember" cx="${230 + (i * 17) % 90}" cy="60" r="${2 + (i % 2)}" fill="#FFB020" style="animation-delay:-${(i * .5).toFixed(1)}s"/>`).join('')}`);
-  else el.innerHTML = '';
+  const t = arena.dataset.theme || 'sky', el = $('scenery'), I = INK;
+  const n = (k, f) => Array.from({ length: k }, (_, i) => f(i)).join('');
+  const sky = inner => `<svg class="sc-sky" viewBox="0 0 400 140" preserveAspectRatio="xMidYMax slice" aria-hidden="true">${inner}</svg>`;
+  const gnd = inner => `<svg class="sc-gnd" viewBox="0 0 400 100" preserveAspectRatio="xMidYMin slice" aria-hidden="true">${inner}</svg>`;
+  const cloud = (x, y, k, op = .92, cls = 'drift') => `<g class="${cls}" style="animation-duration:${40 + k * 30}s;animation-delay:-${(x / 8).toFixed(1)}s"><g transform="translate(${x} ${y}) scale(${k})" opacity="${op}">
+    <path d="M0 14 Q-2 2 12 2 Q16 -10 30 -6 Q40 -16 52 -6 Q66 -6 64 8 Q72 14 62 18 H4 Q-6 18 0 14Z" fill="#fff"/><path d="M6 18 H62" stroke="#D6E6F5" stroke-width="3"/></g></g>`;
+  const bird = (x, y, d) => `<g class="birdfly" style="animation-delay:-${d}s"><path class="bird" d="M${x} ${y} q6 -6 12 0 q6 -6 12 0" fill="none" stroke="${I}" stroke-width="2.5" stroke-linecap="round"/></g>`;
+  let S = '', G = '';
+  if (t === 'sky'){
+    S = cloud(20, 18, 1) + cloud(250, 34, .7, .85) + cloud(140, 8, .5, .7)
+      + bird(90, 40, 0) + bird(120, 30, 3)
+      + `<path d="M-20 140 Q40 92 110 118 Q170 86 240 116 Q310 84 420 120 V140Z" fill="#8FCB7A" stroke="${I}" stroke-width="3"/>
+         <path d="M-20 140 Q60 112 140 128 Q220 110 300 126 Q360 112 420 128 V140Z" fill="#6DB85E" stroke="${I}" stroke-width="3"/>`
+      + n(4, i => { const x = 30 + i * 105 + (i % 2) * 20; return `<g class="sway" style="transform-origin:${x}px 136px;animation-delay:-${i * .7}s"><rect x="${x - 3}" y="116" width="6" height="22" fill="#8A5A2B" stroke="${I}" stroke-width="2.5"/><circle cx="${x}" cy="108" r="${14 + (i % 2) * 3}" fill="#3FBF6A" stroke="${I}" stroke-width="3"/><circle cx="${x - 5}" cy="103" r="5" fill="#9BE15D"/></g>`; });
+    G = n(9, i => `<path d="M${18 + i * 46} ${30 + (i % 3) * 22} l4 -10 l3 9 l4 -12 l3 13" fill="none" stroke="#3E8E3A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>`)
+      + n(6, i => `<g transform="translate(${40 + i * 64} ${58 + (i % 2) * 24})"><circle r="4" fill="${['#FF6FB5','#FFD23F','#fff'][i % 3]}" stroke="${I}" stroke-width="2"/><circle r="1.6" fill="#FF8A2B"/></g>`)
+      + `<ellipse cx="330" cy="40" rx="16" ry="7" fill="#9AA6B2" stroke="${I}" stroke-width="2.5"/><ellipse cx="70" cy="80" rx="10" ry="5" fill="#9AA6B2" stroke="${I}" stroke-width="2.5"/>`;
+  } else if (t === 'space'){
+    S = n(18, i => `<circle class="twinkle" cx="${(i * 71) % 400}" cy="${(i * 37) % 100}" r="${1 + (i % 3) * .7}" fill="#fff" style="animation-delay:-${(i * .37).toFixed(2)}s"/>`)
+      + `<g class="shoot"><path d="M0 0 L-46 -14" stroke="#fff" stroke-width="2.5" stroke-linecap="round" opacity=".8"/><circle r="2.5" fill="#fff"/></g>
+         <g transform="translate(60 34)"><circle r="20" fill="#E3E8F0" stroke="${I}" stroke-width="3"/><circle cx="-6" cy="-4" r="5" fill="#C3CAD6"/><circle cx="7" cy="7" r="3.5" fill="#C3CAD6"/><circle cx="6" cy="-9" r="2.5" fill="#C3CAD6"/></g>
+         <path d="M-20 140 L30 104 L60 120 L110 90 L160 126 L200 110 L250 128 L300 96 L350 120 L420 104 V140Z" fill="#3B2F6E" stroke="${I}" stroke-width="3"/>
+         <path d="M-20 140 L50 122 L120 134 L190 118 L260 132 L340 120 L420 134 V140Z" fill="#4A3C86" stroke="${I}" stroke-width="3"/>
+         <g transform="translate(330 72)"><path d="M0 50 L0 6 M-12 50 L0 20 L12 50" stroke="${I}" stroke-width="3" fill="none"/><circle class="blink" cy="2" r="5" fill="#FF4D5E" stroke="${I}" stroke-width="2"/></g>
+         <g transform="translate(120 92)"><path d="M-16 30 Q0 -14 16 30" fill="#7FF3FF" opacity=".3"/><path d="M-16 30 Q0 -14 16 30" fill="none" stroke="${I}" stroke-width="3"/><circle cy="10" r="4" fill="#7FF3FF" class="blink"/></g>`;
+    G = n(5, i => `<ellipse cx="${30 + i * 86}" cy="${30 + (i % 2) * 34}" rx="${22 - (i % 3) * 4}" ry="${7 - (i % 3)}" fill="#2B2357" stroke="${I}" stroke-width="2.5"/><ellipse cx="${30 + i * 86}" cy="${28 + (i % 2) * 34}" rx="${14 - (i % 3) * 3}" ry="3" fill="#1E1A3A"/>`)
+      + n(3, i => `<g transform="translate(${80 + i * 130} ${60 - (i % 2) * 30})" class="glowc"><path d="M0 0 L-6 -16 L0 -26 L6 -16 Z M8 0 L6 -10 L12 -14 L14 -4 Z" fill="#B46BFF" stroke="${I}" stroke-width="2.5"/></g>`);
+  } else if (t === 'desert'){
+    S = bird(260, 30, 1) + `<g class="drift slow"><path d="M300 36 Q306 28 318 34" stroke="${I}" stroke-width="2.5" fill="none"/></g>`
+      + `<path d="M180 140 L200 86 H260 L280 140Z" fill="#D9824A" stroke="${I}" stroke-width="3"/><path d="M200 86 H260 L262 94 H198Z" fill="#C06A38"/>
+         <path d="M300 140 L314 106 H346 L356 140Z" fill="#CC7642" stroke="${I}" stroke-width="3"/>
+         <path d="M-20 140 Q60 96 150 132 Q220 104 300 132 Q360 112 420 128 V140Z" fill="#F2B872" stroke="${I}" stroke-width="3"/>
+         <rect class="shimmer" x="0" y="122" width="400" height="16" fill="#FFE1A8" opacity=".35"/>`
+      + [[60, 104, 1], [370, 112, .75]].map(([x, y, k]) => `<g transform="translate(${x} ${y}) scale(${k})"><path d="M0 34 V0 Q0 -8 6 -8 Q12 -8 12 0 V34Z M12 16 H18 Q22 16 22 10 V2 Q22 -2 26 -2 Q30 -2 30 2 V12 Q30 24 18 24 H12 M0 22 H-6 Q-12 22 -12 14 V8 Q-12 4 -8 4 Q-4 4 -4 8 V14 H0" fill="#5FAF55" stroke="${I}" stroke-width="3" stroke-linejoin="round"/><path d="M4 4 V30 M8 0 V30" stroke="#3E8E3A" stroke-width="1.5"/></g>`).join('');
+    G = n(6, i => `<path d="M${20 + i * 70} ${24 + (i % 3) * 22} q14 -6 28 0" fill="none" stroke="#C97F42" stroke-width="3" stroke-linecap="round" opacity=".7"/>`)
+      + `<g class="tumble"><g transform="translate(-30 52)"><circle r="12" fill="none" stroke="#9A6A3A" stroke-width="3"/><path d="M-10 -4 Q0 8 10 -6 M-8 6 Q2 -8 8 8 M-2 -11 Q4 0 -4 11" stroke="#9A6A3A" stroke-width="2.5" fill="none"/></g></g>
+         <path d="M320 70 l8 -10 l10 4 l4 10 l-10 6 z" fill="#B8865A" stroke="${I}" stroke-width="2.5"/><path d="M60 82 q4 -8 12 -6 q4 6 -2 10z" fill="#B8865A" stroke="${I}" stroke-width="2.5"/>`;
+  } else if (t === 'base'){
+    S = cloud(40, 20, .8, .8) + cloud(280, 10, .6, .75)
+      + `<g class="searchlight"><path d="M330 128 L240 0 L290 0 Z" fill="#FFF6C9" opacity=".35"/></g>
+         <path d="M-20 140 Q80 112 180 126 Q280 108 420 124 V140Z" fill="#8FA36A" stroke="${I}" stroke-width="3"/>
+         <g transform="translate(150 98)"><path d="M0 42 V10 Q40 -16 80 10 V42Z" fill="#8E99A6" stroke="${I}" stroke-width="3"/><path d="M14 42 V22 H66 V42" fill="#4A5260" stroke="${I}" stroke-width="3"/><path d="M8 12 Q40 -8 72 12" fill="none" stroke="#fff" stroke-width="3" opacity=".5"/><text x="40" y="18" text-anchor="middle" font-family="'Lilita One',sans-serif" font-size="11" fill="#FFD23F">HQ</text></g>
+         <g transform="translate(320 70)"><path d="M0 70 L6 10 H22 L28 70" fill="none" stroke="${I}" stroke-width="3"/><path d="M4 40 H24 M2 56 H26 M6 24 L24 40 M22 24 L4 40" stroke="${I}" stroke-width="2"/><rect x="0" y="0" width="28" height="12" rx="2" fill="#6B8E3A" stroke="${I}" stroke-width="3"/><circle cx="10" cy="6" r="3" fill="#FFE94A"/></g>
+         <g transform="translate(60 92)"><path d="M0 46 V20" stroke="${I}" stroke-width="3"/><g class="radar" style="transform-origin:0px 18px"><path d="M-18 8 Q0 32 18 8 Z" fill="#D6DEE7" stroke="${I}" stroke-width="3"/><path d="M0 20 L0 4" stroke="${I}" stroke-width="2.5"/><circle cy="3" r="3" fill="#FF4D5E"/></g></g>
+         <g transform="translate(14 76)"><path d="M0 64 V0" stroke="${I}" stroke-width="3.5"/><path class="vflag" d="M2 2 H34 Q30 10 34 18 H2Z" fill="#FF4D5E" stroke="${I}" stroke-width="3"/></g>
+         <g>${n(14, i => `<ellipse cx="${i * 30 + 6}" cy="134" rx="16" ry="8" fill="#C8B27A" stroke="${I}" stroke-width="2.5"/>`)}</g>`;
+    G = `<path d="M0 30 H400 M0 40 H400" stroke="#6B7A3A" stroke-width="5" stroke-dasharray="6 8" opacity=".55"/>
+         <g transform="translate(340 50)"><rect width="34" height="28" rx="3" fill="#B8865A" stroke="${I}" stroke-width="3"/><path d="M0 0 L34 28 M34 0 L0 28" stroke="${I}" stroke-width="2.5"/></g>
+         <g transform="translate(36 56)"><rect width="22" height="30" rx="4" fill="#5E7A33" stroke="${I}" stroke-width="3"/><path d="M0 10 H22 M0 20 H22" stroke="${I}" stroke-width="2"/></g>`;
+  } else if (t === 'junk'){
+    S = cloud(200, 14, .6, .6)
+      + `<g transform="translate(330 30)"><path d="M0 110 V0 H-90" stroke="${I}" stroke-width="5" fill="none"/><path d="M0 110 V0 H-90" stroke="#FFB020" stroke-width="2.5" fill="none" stroke-dasharray="6 4"/>
+           <g class="swing" style="transform-origin:-80px 0px"><path d="M-80 0 V44" stroke="${I}" stroke-width="2.5"/><path d="M-90 44 H-70 L-74 56 H-86Z" fill="#6E7884" stroke="${I}" stroke-width="3"/></g></g>
+         <g transform="translate(40 60)"><rect x="0" y="0" width="16" height="80" fill="#8A6A4A" stroke="${I}" stroke-width="3"/>${n(3, i => `<circle class="chimney" cx="8" cy="-6" r="${7 + i * 2}" fill="#B8A8A0" opacity=".8" style="animation-delay:-${i * 1.1}s"/>`)}</g>
+         <path d="M-10 140 Q30 92 70 138 Q96 104 128 140 Z" fill="#9A7A5A" stroke="${I}" stroke-width="3"/>
+         <path d="M268 140 Q300 86 340 136 Q370 100 412 140 Z" fill="#8A6A4A" stroke="${I}" stroke-width="3"/>
+         <circle cx="46" cy="122" r="14" fill="#3A3550" stroke="${I}" stroke-width="3"/><circle cx="46" cy="122" r="6" fill="#8A6A4A" stroke="${I}" stroke-width="2"/>
+         <rect x="300" y="102" width="44" height="22" rx="6" fill="#4FA3E0" stroke="${I}" stroke-width="3" transform="rotate(-12 322 113)"/><rect x="306" y="96" width="22" height="10" rx="3" fill="#BFF6FF" stroke="${I}" stroke-width="2.5" transform="rotate(-12 322 113)"/>
+         <g transform="translate(100 116)"><circle r="12" fill="#B8C4D0" stroke="${I}" stroke-width="3"/><circle r="5" fill="#8A6A4A" stroke="${I}" stroke-width="2"/></g>
+         <path d="M356 108 l10 -26 l8 4 l-10 26z" fill="#FF8A2B" stroke="${I}" stroke-width="2.5"/>`;
+    G = `<ellipse cx="300" cy="44" rx="40" ry="8" fill="#5A7A9A" opacity=".55"/><ellipse cx="292" cy="42" rx="14" ry="2.5" fill="#BFF6FF" opacity=".7"/>`
+      + n(5, i => `<g transform="translate(${30 + i * 80} ${30 + (i % 2) * 40}) rotate(${i * 40})"><circle r="6" fill="#B8C4D0" stroke="${I}" stroke-width="2.5"/><circle r="2.2" fill="#7A5A3A"/></g>`)
+      + `<path d="M150 70 l20 -4 l2 6 l-20 4z" fill="#9AA6B2" stroke="${I}" stroke-width="2.5"/>`;
+  } else if (t === 'ice'){
+    S = `<g class="aurora"><path d="M-20 40 Q60 10 140 34 T300 26 T420 30 L420 52 Q340 46 300 52 T140 56 T-20 64Z" fill="#7FF3B0" opacity=".35"/><path d="M-20 58 Q80 30 180 52 T420 46 V60 Q320 62 180 68 T-20 74Z" fill="#B48BFF" opacity=".3"/></g>
+         <path d="M-10 140 L60 50 L110 110 L170 30 L250 140 Z" fill="#9FC3DD" stroke="${I}" stroke-width="3"/>
+         <path d="M44 72 L60 50 L76 70 L68 66 L60 74 L52 66Z M152 54 L170 30 L188 54 L178 50 L170 58 L162 50Z" fill="#fff" stroke="${I}" stroke-width="2.5"/>
+         <path d="M230 140 L310 64 L410 140 Z" fill="#B7D7EC" stroke="${I}" stroke-width="3"/><path d="M294 80 L310 64 L326 80 L316 76 L310 84 L304 76Z" fill="#fff" stroke="${I}" stroke-width="2.5"/>
+         <path d="M-10 140 Q100 120 200 132 Q300 118 410 134 V140Z" fill="#E6F4FC" stroke="${I}" stroke-width="3"/>
+         <g transform="translate(350 112)" class="waddle"><ellipse cx="0" cy="12" rx="9" ry="13" fill="#2B1D3A"/><ellipse cx="2" cy="14" rx="6" ry="9" fill="#fff"/><circle cx="3" cy="3" r="1.5" fill="#fff"/><path d="M8 4 l6 2 -6 2z" fill="#FFB020"/></g>`
+      + n(14, i => `<circle class="snow" cx="${(i * 53) % 400}" cy="${(i * 37) % 120}" r="${1.5 + (i % 3)}" fill="#fff" style="animation-delay:-${(i * .7).toFixed(1)}s"/>`);
+    G = `<path d="M40 30 l20 10 l-6 14 M60 40 l18 -4 M280 60 l-16 12 l10 10 M264 72 l-18 -2" fill="none" stroke="#9FC3DD" stroke-width="2.5" stroke-linecap="round"/>`
+      + n(4, i => `<ellipse cx="${60 + i * 100}" cy="${70 + (i % 2) * 14}" rx="24" ry="7" fill="#fff" stroke="#BFDDF0" stroke-width="2"/>`)
+      + `<g transform="translate(200 30)"><path d="M0 0 L-6 -14 L0 -22 L6 -14Z" fill="#BFF6FF" stroke="${I}" stroke-width="2.5"/></g>`;
+  } else if (t === 'volcano'){
+    S = `<g class="plume">${n(4, i => `<circle cx="${270 + (i % 2) * 8}" cy="${30 - i * 10}" r="${10 + i * 5}" fill="#5A4A55" opacity="${.75 - i * .12}"/>`)}</g>
+         <path d="M190 140 L250 40 H290 L350 140 Z" fill="#3A1A22" stroke="${I}" stroke-width="3"/>
+         <path d="M250 40 Q270 14 290 40 Z" fill="#FF6A2B" stroke="${I}" stroke-width="3"/><path class="lavaglow" d="M262 42 Q258 80 270 110 Q276 80 278 42Z" fill="#FF6A2B"/><path class="lavaglow" d="M284 44 Q292 76 300 96 Q290 74 280 44Z" fill="#FFB020"/>
+         <path d="M-10 140 L50 80 L100 140Z" fill="#4A2230" stroke="${I}" stroke-width="3"/><path d="M80 140 L130 96 L170 140Z" fill="#3A1A22" stroke="${I}" stroke-width="3"/>
+         <path d="M-10 140 Q100 126 200 134 Q300 124 410 136 V140Z" fill="#2A1418" stroke="${I}" stroke-width="3"/>`
+      + n(10, i => `<circle class="ember" cx="${230 + (i * 17) % 90}" cy="50" r="${1.5 + (i % 2)}" fill="#FFB020" style="animation-delay:-${(i * .5).toFixed(1)}s"/>`);
+    G = `<path class="lavaglow" d="M0 24 Q60 14 120 28 T240 22 T400 28" stroke="#FF6A2B" stroke-width="6" fill="none"/>
+         <path class="lavaglow" d="M60 60 l14 8 l-4 12 M300 70 l-12 10 l8 10 M200 50 l6 10" stroke="#FF8A2B" stroke-width="3" fill="none" stroke-linecap="round"/>
+         <path d="M340 30 l10 -8 l10 6 l-2 10 l-12 2z" fill="#4A2230" stroke="${I}" stroke-width="2.5"/>`;
+  }
+  el.innerHTML = sky(S) + gnd(G);
+}
+function renderHolidayDeco(){
+  const h = activeHoliday(), el = $('holdeco');
+  if (!h){ el.innerHTML = ''; return; }
+  const n = (k, f) => Array.from({ length: k }, (_, i) => f(i)).join('');
+  const bunting = cols => `<div class="hbunting">${n(26, i => `<i style="background:${cols[i % cols.length]}"></i>`)}</div>`;
+  let out = '';
+  if (h.deco === 'bunting') out = bunting(h.flags);
+  if (h.deco === 'eggs') out = bunting(h.flags) + `<div class="heggs">${n(5, i => `<span style="left:${8 + i * 21}%">${logoIcon('egg', 30)}</span>`)}</div>`;
+  if (h.deco === 'fireworks') out = n(5, i => `<span class="hfw" style="left:${10 + i * 19}%;top:${8 + (i % 2) * 14}%;--c:${['#FFD23F','#FF6FB5','#4FC3F7','#9BE15D','#FF8A2B'][i]};animation-delay:-${(i * .55).toFixed(2)}s">${n(12, j => `<i style="transform:rotate(${j * 30}deg)"></i>`)}</span>`);
+  if (h.deco === 'snow') out = `<div class="hlights">${n(22, i => `<i style="background:${['#FF4D5E','#FFD23F','#3FBF6A','#4FC3F7'][i % 4]};animation-delay:-${(i % 4) * .35}s"></i>`)}</div>`
+    + n(26, i => `<span class="hsnow" style="left:${(i * 37) % 100}%;width:${4 + (i % 3) * 2}px;animation-duration:${5 + (i % 5)}s;animation-delay:-${(i * .61 % 6).toFixed(2)}s"></span>`);
+  if (h.deco === 'bats') out = n(5, i => `<span class="hbat" style="top:${8 + (i * 11) % 34}%;animation-duration:${7 + i * 1.3}s;animation-delay:-${(i * 2.1).toFixed(1)}s"><svg viewBox="0 0 40 20" width="${30 + (i % 2) * 10}" height="${15 + (i % 2) * 5}"><path class="wing" d="M20 10 Q12 0 2 4 Q6 8 4 13 Q10 10 14 14 Q16 10 20 12 Q24 10 26 14 Q30 10 36 13 Q34 8 38 4 Q28 0 20 10Z" fill="#2B1D3A"/><circle cx="18" cy="9" r="1" fill="#FFD23F"/><circle cx="22" cy="9" r="1" fill="#FFD23F"/></svg></span>`)
+    + `<div class="heggs">${n(3, i => `<span style="left:${10 + i * 38}%">${logoIcon('pumpkin', 34)}</span>`)}</div>`;
+  if (h.deco === 'poppies') out = `<div class="hpoppies">${n(14, i => `<span style="left:${i * 7.4}%">${logoIcon('poppy', 20 + (i % 3) * 4)}</span>`)}</div>`;
+  el.innerHTML = out;
 }
 async function ko(f){
   const c = center(f);
@@ -4006,22 +4514,116 @@ const GUN_FIRE = {
     dot.remove(); sfx('laser');
     await strike(a, b, {mult:1.15, canDodge:false, crit:true, anim: () => gunBeam(a, b, '#FF3B4E', 5)}); },
 };
+/* ---------- vehicle effects ---------- */
+function smokePuff(x, y, n = 6, col = '#E7ECF2'){
+  for (let i = 0; i < n; i++){
+    const sz = Math.round(rand(14, 30)), el = fx(`<div style="width:${sz}px;height:${sz}px;border-radius:50%;background:${col};border:2px solid rgba(43,29,58,.35)"></div>`, x + rand(-8, 8), y + rand(-6, 6));
+    el.animate([{transform:'translate(-50%,-50%) scale(.4)',opacity:.95},{transform:`translate(calc(-50% + ${rand(-30, 30)}px), calc(-50% - ${rand(14, 46)}px)) scale(1.4)`,opacity:0}],
+      {duration:rand(500,850),easing:'ease-out'}).finished.then(() => el.remove());
+  }
+}
+function speedLines(f, n = 7){
+  const c = center(f), d = dirOf(f);
+  for (let i = 0; i < n; i++){
+    const w = Math.round(rand(30, 70)), el = fx(`<div style="width:${w}px;height:4px;border-radius:4px;background:#fff;box-shadow:0 0 0 2px rgba(43,29,58,.25)"></div>`, c.x - d * c.w * .45, c.y + rand(-c.h * .3, c.h * .35));
+    el.animate([{transform:'translate(-50%,-50%) scaleX(.2)',opacity:1},{transform:`translate(calc(-50% - ${d * rand(40, 90)}px),-50%) scaleX(1)`,opacity:0}],{duration:rand(260,420),delay:i * 30,easing:'ease-out',fill:'backwards'}).finished.then(() => el.remove());
+  }
+}
+function shockRing(x, y, col = '#fff', size = 90, dur = 480){
+  const el = fx(`<div style="width:${size}px;height:${size}px;border-radius:50%;border:6px solid ${col};box-shadow:0 0 16px ${col}, inset 0 0 12px ${col}"></div>`, x, y);
+  return el.animate([{transform:'translate(-50%,-50%) scale(.15)',opacity:1},{transform:'translate(-50%,-50%) scale(1.8)',opacity:0}],{duration:dur,easing:'ease-out'}).finished.then(() => el.remove());
+}
+async function missileArc(a, b, delay){
+  await wait(delay);
+  const m = muzzle(a), t = center(b), d = dirOf(a);
+  const el = fx(`<div style="transform:scaleX(${d})">${MISSILE_SVG}</div>`, m.x, m.y - 20);
+  const tx = t.x + rand(-16, 16) - m.x, ty = t.y + rand(-16, 10) - (m.y - 20);
+  smokePuff(m.x - d * 10, m.y - 20, 3);
+  await el.animate([{transform:'translate(-50%,-50%) rotate(0deg) scale(.6)'},
+    {transform:`translate(calc(-50% + ${tx * .45}px), calc(-50% + ${ty * .45 - 110}px)) rotate(${d * 10}deg) scale(.9)`, offset:.45},
+    {transform:`translate(calc(-50% + ${tx}px), calc(-50% + ${ty}px)) rotate(${d * 60}deg) scale(.8)`}],{duration:620,easing:'ease-in'}).finished;
+  el.remove();
+}
 // The attack a vehicle does instead of BASH
 const VEHICLE_ATTACK = {
   tank: async (a, b) => { await strike(a, b, {mult:1.4, anim: async () => {
-      sfx('boom'); a.el.animate([{transform:'translateX(0)'},{transform:`translateX(${-dirOf(a) * 12}px)`},{transform:'translateX(0)'}],{duration:260});
-      await shot(a, b, flipIf(dirOf(a) < 0, SHELL_SVG), 260, 8); explosion(b, false); }}); },
-  car: async (a, b) => { for (let i = 0; i < 2 && b.hp > 0; i++){ sfx('whoosh'); await strike(a, b, {mult:.75, anim: () => dash(a, b)}); } },
-  jet: async (a, b) => { for (let i = 0; i < 3 && b.hp > 0; i++){ sfx('pew'); await strike(a, b, {mult:.5, canDodge:false, anim: () => bombDrop(b)}); } },
-  rocket: async (a, b) => { sfx('rocket'); await strike(a, b, {mult:1.6, anim: () => dash(a, b, true)}); shakeArena(); },
+      const m = muzzle(a), d = dirOf(a);
+      a.svg && a.svg.querySelector('.vbarrel') && a.svg.querySelector('.vbarrel').animate([{transform:'translateX(0)'},{transform:'translateX(-14px)'},{transform:'translateX(0)'}],{duration:320,easing:'ease-out'});
+      sfx('boom'); muzzleFlash(a); smokePuff(m.x, m.y, 5);
+      a.el.animate([{transform:'translateX(0) rotate(0)'},{transform:`translateX(${-d * 14}px) rotate(${-d * 3}deg)`},{transform:'translateX(0) rotate(0)'}],{duration:300,easing:'ease-out'});
+      await shot(a, b, flipIf(d < 0, SHELL_SVG), 240, 10); explosion(b, false); }}); },
+  car: async (a, b) => { for (let i = 0; i < 2 && b.hp > 0; i++){ sfx('whoosh'); speedLines(a);
+      await strike(a, b, {mult:.75, anim: async () => { const c = center(a); smokePuff(c.x - dirOf(a) * c.w * .4, c.y + c.h * .35, 4, '#E8D7B8'); await dash(a, b); }}); } },
+  jet: async (a, b) => {
+    const d = dirOf(a), dx = Math.abs(center(b).x - center(a).x);
+    sfx('rocket'); await a.el.animate([{transform:'translate(0,0) rotate(0)'},{transform:`translate(${d * 30}px,-${a.el.offsetHeight * .9}px) rotate(${-d * 18}deg)`}],{duration:380,easing:'ease-in',fill:'forwards'}).finished;
+    a.el.animate([{transform:`translate(${d * 30}px,-${a.el.offsetHeight * .9}px) rotate(${-d * 18}deg)`},{transform:`translate(${d * dx}px,-${a.el.offsetHeight * .75}px) rotate(0deg)`}],{duration:900,easing:'ease-in-out',fill:'forwards'});
+    for (let i = 0; i < 3 && b.hp > 0; i++){ sfx('pew'); await strike(a, b, {mult:.5, canDodge:false, anim: () => bombDrop(b)}); }
+    await a.el.animate([{transform:`translate(${d * dx}px,-${a.el.offsetHeight * .75}px)`},{transform:'translate(0,0)'}],{duration:420,easing:'ease-out'}).finished;
+    a.el.getAnimations().forEach(x => x.cancel()); },
+  rocket: async (a, b) => { sfx('rocket'); speedLines(a, 9);
+    await strike(a, b, {mult:1.6, anim: async () => { await dash(a, b, true); const t = center(b); shockRing(t.x, t.y, '#FFE94A', 110); }}); shakeArena(); },
 };
+// The second vehicle move: one use each time you transform
+const VEHICLE_ATTACK2 = {
+  tank: async (a, b) => { sfx('charge'); await wait(260);
+    for (let i = 0; i < 3 && b.hp > 0; i++){ sfx('rocket');
+      await strike(a, b, {mult:.55, canDodge:false, anim: async () => { await missileArc(a, b, 0); explosion(b, false); }}); } },
+  car: async (a, b) => { sfx('charge');
+    const c = center(a), d = dirOf(a);
+    for (let i = 0; i < 10; i++){ const el = fx(`<div style="width:${rand(14, 26)}px;height:10px;border-radius:50%;background:radial-gradient(#fff,#4FC3F7 60%,transparent);"></div>`, c.x - d * c.w * .5, c.y + rand(0, c.h * .3));
+      el.animate([{transform:'translate(-50%,-50%)',opacity:1},{transform:`translate(calc(-50% - ${d * rand(40, 90)}px),-50%)`,opacity:0}],{duration:420,delay:i * 30,fill:'backwards'}).finished.then(() => el.remove()); }
+    await wait(300); speedLines(a, 12); sfx('whoosh');
+    await strike(a, b, {mult:1.25, anim: async () => { await dash(a, b, true); const t = center(b); shockRing(t.x, t.y, '#4FC3F7', 100); }});
+    if (a.hp > 0){ a.dodge = Math.max(a.dodge, 1); popText(a, 'NITRO DODGE!', 'heal'); updateHP(); } },
+  jet: async (a, b) => { sfx('alarm'); const m = center(a);
+    for (let i = 0; i < 3; i++){ shockRing(m.x + dirOf(a) * 30, m.y, '#BFF6FF', 80 + i * 40, 520); await wait(110); }
+    shakeArena(); flashArena();
+    const dmg = await strike(a, b, {mult:.95, canDodge:false, anim: async () => { const t = center(b); await shockRing(t.x, t.y, '#fff', 130, 420); }});
+    if (dmg > 0 && b.hp > 0){ b.confused = true; popText(b, 'DIZZY!'); updateHP(); } },
+  rocket: async (a, b) => { sfx('reveal'); flashArena();
+    for (let i = 0; i < 5 && b.hp > 0; i++){
+      await strike(a, b, {mult:.38, canDodge:false, anim: async () => {
+        const t = center(b), x0 = t.x + rand(-90, 90), el = fx(`<svg viewBox="-14 -14 28 28" width="34" height="34" style="overflow:visible"><path d="M0 -12 l3.6 7.8 8.4 1 -6.2 5.8 1.7 8.4 -7.5-4.3 -7.5 4.3 1.7-8.4 -6.2-5.8 8.4-1z" fill="#FFE94A" stroke="${INK}" stroke-width="2.5"/></svg>`, x0, -20);
+        el.style.filter = 'drop-shadow(0 0 8px #FFE94A)'; sfx('pew');
+        await el.animate([{transform:'translate(-50%,-50%) rotate(0)'},{transform:`translate(calc(-50% + ${t.x - x0}px), calc(-50% + ${t.y + 20}px)) rotate(400deg)`}],{duration:340,easing:'ease-in'}).finished;
+        el.remove(); sparksAtXY(t.x, t.y); }}); } },
+};
+function sparksAtXY(x, y){
+  for (let i = 0; i < 8; i++){
+    const a = rand(0, Math.PI * 2), d = rand(20, 50), el = fx(`<i style="display:block;width:7px;height:7px;border-radius:50%;background:${pick(['#FFE94A','#fff','#FFB020'])}"></i>`, x, y);
+    el.animate([{transform:'translate(-50%,-50%)',opacity:1},{transform:`translate(calc(-50% + ${Math.cos(a) * d}px), calc(-50% + ${Math.sin(a) * d}px))`,opacity:0}],{duration:360,easing:'ease-out'}).finished.then(() => el.remove());
+  }
+}
 async function morph(f, toVehicle){
-  sfx('transform');
-  await f.el.animate([{transform:'scale(1) rotate(0)'},{transform:'scale(.55,1.25) rotate(180deg)'},{transform:'scale(1) rotate(360deg)'}],{duration:560,easing:'ease-in-out'}).finished;
+  sfx('charge');
+  const c = center(f);
+  // 1. power up: a glowing ring spins in and sparks gather
+  const glow = fx(`<div style="width:${c.w * 1.1}px;height:${c.w * 1.1}px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.85),rgba(127,243,255,.45) 45%,transparent 70%)"></div>`, c.x, c.y);
+  const ring = fx(`<div style="width:${c.w * 1.25}px;height:${c.w * 1.25}px;border-radius:50%;border:5px dashed #7FF3FF;box-shadow:0 0 18px #7FF3FF"></div>`, c.x, c.y);
+  glow.animate([{transform:'translate(-50%,-50%) scale(.2)',opacity:0},{transform:'translate(-50%,-50%) scale(1.1)',opacity:1}],{duration:520,fill:'forwards'});
+  ring.animate([{transform:'translate(-50%,-50%) rotate(0) scale(1.4)',opacity:0},{transform:'translate(-50%,-50%) rotate(300deg) scale(.8)',opacity:1}],{duration:520,fill:'forwards',easing:'ease-in'});
+  for (let i = 0; i < 10; i++){
+    const a = i / 10 * Math.PI * 2, r = c.w * .9, el = fx(`<i style="display:block;width:8px;height:8px;border-radius:2px;background:${pick(['#7FF3FF','#FFE94A','#fff'])};transform:rotate(45deg)"></i>`, c.x + Math.cos(a) * r, c.y + Math.sin(a) * r);
+    el.animate([{transform:'translate(-50%,-50%) scale(1)',opacity:0},{transform:'translate(-50%,-50%) scale(1)',opacity:1,offset:.3},{transform:`translate(calc(-50% - ${Math.cos(a) * r}px), calc(-50% - ${Math.sin(a) * r}px)) scale(.3)`,opacity:1}],{duration:520,easing:'ease-in'}).finished.then(() => el.remove());
+  }
+  // 2. squash and spin into a ball of light
+  await f.el.animate([{transform:'scale(1) rotate(0)',filter:'brightness(1)'},{transform:'scale(1.12,.86) rotate(0)',filter:'brightness(1.4)',offset:.3},
+    {transform:'scale(.2) rotate(540deg)',filter:'brightness(4)'}],{duration:520,easing:'ease-in'}).finished;
+  sfx('transform'); flashArena();
   const inner = f.el.querySelector('.bob > div');
   inner.innerHTML = toVehicle ? vehicleSVG({ ...f.robot, vehicle: f.form }) : robotSVG(f.robot);
   f.svg = inner.querySelector('svg');
-  burst(f, 14);
+  ring.remove(); glow.animate([{opacity:1},{opacity:0}],{duration:300}).finished.then(() => glow.remove());
+  // 3. pop out with a bounce, gears flying and a shock ring
+  shockRing(c.x, c.y, toVehicle ? '#7FF3FF' : '#fff', c.w * .9, 520);
+  for (let i = 0; i < 8; i++){
+    const el = fx(iconSvg('gear', Math.round(rand(14, 24))), c.x, c.y), a = rand(0, Math.PI * 2), d = rand(50, 110);
+    el.animate([{transform:'translate(-50%,-50%) rotate(0)',opacity:1},{transform:`translate(calc(-50% + ${Math.cos(a) * d}px), calc(-50% + ${Math.sin(a) * d}px)) rotate(${rand(180, 540)}deg)`,opacity:0}],{duration:620,easing:'cubic-bezier(.2,.8,.4,1)'}).finished.then(() => el.remove());
+  }
+  burst(f, 12);
+  await f.el.animate([{transform:'scale(.2) rotate(-30deg)'},{transform:'scale(1.22) rotate(4deg)',offset:.55},{transform:'scale(.94) rotate(-2deg)',offset:.8},{transform:'scale(1) rotate(0)'}],{duration:480,easing:'ease-out'}).finished;
+  if (toVehicle){ const t = center(f); smokePuff(t.x, t.y + t.h * .4, 6, '#E8D7B8'); }
 }
 function formBoost(f, sign){
   const v = VEHICLE[f.form]; if (!v) return;
@@ -4031,7 +4633,7 @@ function formBoost(f, sign){
 }
 async function transformIn(a){
   const v = VEHICLE[a.form];
-  a.usedForm = true; a.transformed = true; a.formTurns = FORM_TURNS;
+  a.usedForm = true; a.transformed = true; a.formTurns = FORM_TURNS; a.vmoveUsed = false;
   setLog(`${a.name} transforms into a ${v.name.toUpperCase()}!`);
   popText(a, 'TRANSFORM!', 'big', -40);
   await morph(a, true); formBoost(a, 1); updateHP();
@@ -4191,7 +4793,7 @@ function setTurn(who){
 }
 function fighter(robot, side){
   return { robot, side, name: robot.name, hp: robot.hp, maxHp: robot.hp, pow: robot.pow, spd: robot.spd, def: robot.def,
-           energy: 0, ammo: GUN[robot.gun] ? GUN[robot.gun].ammo : 0, form: robot.vehicle || null, usedForm: false, transformed: false, formTurns: 0,
+           energy: 0, ammo: GUN[robot.gun] ? GUN[robot.gun].ammo : 0, form: robot.vehicle || null, usedForm: false, transformed: false, formTurns: 0, vmoveUsed: false,
            dodge: 0, reflect: false, shield: 0, stun: 0, confused: false, poison: 0, poisonDmg: 0, poisonName: '',
            extra: false, ghostly: false, el: null, svg: null };
 }
@@ -4313,7 +4915,12 @@ async function takeTurn(a, b, action){
     await wait(150);
     action = 'bash';
   }
-  if (action === 'bash' && a.transformed){
+  if (action === 'vmove' && a.transformed && !a.vmoveUsed && VEHICLE[a.form]){
+    const v = VEHICLE[a.form]; a.vmoveUsed = true;
+    setLog(`${a.name} uses ${v.attack2.toUpperCase()}!`); popText(a, v.attack2.toUpperCase() + '!', 'big', -30);
+    await VEHICLE_ATTACK2[a.form](a, b);
+    a.energy = Math.min(ENERGY_MAX, a.energy + 1);
+  } else if (action === 'bash' && a.transformed){
     const v = VEHICLE[a.form];
     setLog(`${a.name} uses ${v.attack.toUpperCase()}!`);
     await VEHICLE_ATTACK[a.form](a, b);
@@ -4413,6 +5020,7 @@ async function dogTurn(a, b){
 }
 function enemyChoice(){
   if (E.form && !E.usedForm && Math.random() < .35) return 'transform';
+  if (E.transformed && !E.vmoveUsed && Math.random() < .55) return 'vmove';
   if (E.energy < ENERGY_MAX || !E.robot.specials.length) return E.ammo > 0 && !E.transformed && Math.random() < .45 ? 'fire' : 'bash';
   const sp = E.robot.specials, low = E.hp / E.maxHp < .45;
   const heals = sp.filter(k => ['breeze','rainbow','pizza','phoenix'].includes(k));
@@ -4441,7 +5049,16 @@ function updateActions(){
   const charged = P.energy >= ENERGY_MAX;
   const fire = actionsEl.querySelector('[data-act="fire"]'), morphB = actionsEl.querySelector('[data-act="transform"]');
   if (fire){ fire.disabled = busy || P.ammo <= 0 || P.transformed; $('ammoPips').innerHTML = P.ammo > 0 ? '<i></i>'.repeat(P.ammo) : 'empty'; }
-  if (morphB){ morphB.disabled = busy || P.usedForm; morphB.classList.toggle('ready', !busy && !P.usedForm); }
+  if (morphB){
+    const v = VEHICLE[P.form], mode = P.transformed ? 'vmove' : 'transform';
+    if (morphB.dataset.mode !== mode){
+      morphB.dataset.mode = mode; morphB.dataset.act = mode;
+      morphB.innerHTML = `<span class="vic">${vehicleSVG({ ...P.robot, vehicle: v.id })}</span><span class="fl">${mode === 'vmove' ? v.attack2.toUpperCase() : 'TRANSFORM'}<small>${mode === 'vmove' ? 'Super move' : v.name}</small></span>`;
+      morphB.classList.toggle('vmove', mode === 'vmove');
+    }
+    const usable = mode === 'vmove' ? !P.vmoveUsed : !P.usedForm;
+    morphB.disabled = busy || !usable; morphB.classList.toggle('ready', !busy && usable);
+  }
   $('bashBtn').textContent = P.transformed ? `${VEHICLE[P.form].attack.toUpperCase()}!` : 'BASH!';
   actionsEl.querySelectorAll('button.special, #bashBtn').forEach(b => {
     const isSpecial = b.dataset.act !== 'bash';
@@ -4469,10 +5086,10 @@ async function enemyPhase(){
 }
 function readyPlayer(msg){
   busy = false; setTurn('you'); updateActions();
-  setLog(msg || (P.energy >= ENERGY_MAX ? 'Special power ready! Tap a glowing button!' : P.transformed ? `${VEHICLE[P.form].name} mode! ${P.formTurns} turn${P.formTurns === 1 ? '' : 's'} left` : P.ammo > 0 ? 'Your turn! BASH or FIRE!' : 'Your turn! Tap BASH!'));
+  setLog(msg || (P.energy >= ENERGY_MAX ? 'Special power ready! Tap a glowing button!' : P.transformed ? `${VEHICLE[P.form].name} mode! ${P.formTurns} turn${P.formTurns === 1 ? '' : 's'} left${P.vmoveUsed ? '' : `. Try ${VEHICLE[P.form].attack2}!`}` : P.ammo > 0 ? 'Your turn! BASH or FIRE!' : 'Your turn! Tap BASH!'));
 }
 let bestHit = null;
-const actionName = a => a === 'bash' ? 'Bash' : a === 'fire' ? (GUN[P.robot.gun] ? GUN[P.robot.gun].name : 'Blaster') : a === 'transform' ? 'Transform' : SPECIALS[a] ? SPECIALS[a].name : 'Attack';
+const actionName = a => a === 'bash' ? 'Bash' : a === 'fire' ? (GUN[P.robot.gun] ? GUN[P.robot.gun].name : 'Blaster') : a === 'transform' ? 'Transform' : a === 'vmove' ? (VEHICLE[P.form] ? VEHICLE[P.form].attack2 : 'Vehicle move') : SPECIALS[a] ? SPECIALS[a].name : 'Attack';
 // Runs one of the player's turns with a seed, and remembers it if it was the biggest hit so far.
 async function myTurn(action){
   const seed = newSeed(), pre = { p: snapFighter(P), e: snapFighter(E) }, hp0 = E.hp;
@@ -4508,10 +5125,11 @@ async function checkEnd(){
 }
 function showScreen(name){
   $('workshop').hidden = name !== 'workshop'; $('battle').hidden = name !== 'battle';
+  if (name === 'battle' && $('updateBar')) $('updateBar').remove();
   document.body.dataset.screen = name;
   window.scrollTo(0, 0);
 }
-function backToGarage(){ currentChallenge = null; endLive(); endFinisher(); stopMusic(); hideOverlay(); showScreen('workshop'); goHome(); renderAll(); }
+function backToGarage(){ currentChallenge = null; endLive(); endFinisher(); stopMusic(); hideOverlay(); showScreen('workshop'); goHome(); renderAll(); showUpdateBar(); }
 function battleOver(won){
   if (live) return liveResult(won);
   return won ? victory() : defeat();
@@ -4568,7 +5186,7 @@ function startBattle(robot, foe, challenge = null, opts = {}){
   arena.querySelectorAll('.fx,.beam,.flash').forEach(n => n.remove());
   const adventure = !challenge && !opts.live && !opts.random;
   arena.dataset.theme = adventure ? curWorld().theme : pick(['sky','space','desert','base','junk','ice','volcano']);
-  renderScenery();
+  renderScenery(); renderHolidayDeco();
   renderActions(); busy = true; setTurn(''); updateHP(); updateActions(); setLog('Get ready...');
   showScreen('battle');
   const icons = r => `<div class="iconrow">${r.parts.map(id => iconSvg(id, 28)).join('')}</div>`;
@@ -4668,7 +5286,8 @@ function victory(){
   if (P.hp >= P.maxHp) save.flags.flawless = true;
   const streakBonus = save.streak >= 2 ? Math.min(save.streak - 1, 5) : 0, bossBonus = boss ? 10 : 0;
   const md = myDog(), dogBonus = md ? (md.acc === 'party' ? 2 : 0) + (md.breed === 'beagle' ? 3 : 0) + (md.tricks.includes('fetch') ? 2 : 0) : 0;
-  const coins = winCoins(stars) + streakBonus + bossBonus + dogBonus;
+  const holi = activeHoliday(), holBonus = holi && !holi.quiet ? 3 : 0;
+  const coins = winCoins(stars) + streakBonus + bossBonus + dogBonus + holBonus;
   track('win'); if (stars === 3) track('stars3');
   save.coins += coins;
   const lv = addXP(boss ? WIN_XP * 2 : WIN_XP);
@@ -4683,7 +5302,8 @@ function victory(){
   const isNew = !!(next || lv.power.length);
   const bonuses = (bossBonus ? `<span class="bonus">${STAR(true).replace('<svg ', '<svg width="20" height="20" ')}Boss beaten! +${bossBonus}</span>` : '')
     + (streakBonus ? `<span class="bonus">${FLAME(20)}${save.streak} wins in a row! +${streakBonus}</span>` : '')
-    + (dogBonus ? `<span class="bonus">${COIN(18)}${esc(md.name)} found +${dogBonus}</span>` : '');
+    + (dogBonus ? `<span class="bonus">${COIN(18)}${esc(md.name)} found +${dogBonus}</span>` : '')
+    + (holBonus ? `<span class="bonus">${logoIcon(holi.logo, 20)}${holi.name} bonus +${holBonus}</span>` : '');
   showOverlay(`<div class="ribbon win">${boss ? 'BOSS DEFEATED!' : 'YOU WIN!'}</div>
     <div class="stars">${[0,1,2].map(i => STAR(i < stars)).join('')}</div>
     <div class="stage small"><div class="bigbot popin">${robotSVG(battleRobot)}</div></div>
@@ -4750,7 +5370,32 @@ $('resetBtn').addEventListener('click', e => {
 /* ---------- installable app (Netlify / GitHub Pages only) ---------- */
 let installPrompt = null;
 const onRealSite = () => !window.claude && /^https?:$/.test(location.protocol) && 'serviceWorker' in navigator;
+/* Auto-update: when a newer version of the game is on the website, offer a one-tap update
+   (never in the middle of a battle). Saves live on the phone and the server, so nothing is lost. */
+const BUILD = '2026-11-14a';
+let updateReady = false, lastUpdateCheck = 0;
+function showUpdateBar(){
+  if (!updateReady || !$('battle').hidden || $('updateBar')) return;
+  const b = document.createElement('button');
+  b.id = 'updateBar'; b.type = 'button'; b.className = 'updatebar';
+  b.innerHTML = `${STAR(true).replace('<svg ', '<svg width="26" height="26" ')}<span><b>New update ready!</b><span>Tap to get the newest version</span></span>`;
+  b.onclick = () => { b.disabled = true; location.reload(); };
+  document.body.appendChild(b);
+}
+async function checkUpdate(){
+  if (!onRealSite() || updateReady || Date.now() - lastUpdateCheck < 60e3) return;
+  lastUpdateCheck = Date.now();
+  try {
+    const r = await fetch('version.txt?t=' + Date.now(), { cache: 'no-store' });
+    if (!r.ok) return;
+    const v = (await r.text()).trim();
+    if (v && v.length < 40 && !v.includes('<') && v !== BUILD){ updateReady = true; showUpdateBar(); }
+  } catch (e){}
+}
 if (onRealSite()){
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) checkUpdate(); });
+  setInterval(checkUpdate, 10 * 60e3);
+  setTimeout(checkUpdate, 5000);
   window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
   window.addEventListener('beforeinstallprompt', e => {
     e.preventDefault(); installPrompt = e;
@@ -4781,4 +5426,5 @@ setTimeout(checkStickers, 1200);
 if (!save.welcomed) openRename(true);
 </script>
 
-</body></html>
+</body>
+</html>

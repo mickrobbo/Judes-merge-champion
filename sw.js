@@ -1,7 +1,7 @@
 // Jude's Merge Champion – offline support for the installed app.
 // The game page and icons are kept so the app opens without internet.
 // Leaderboard and challenge calls (/api/) always go to the network.
-const CACHE = 'merge-champion-v10';
+const CACHE = 'merge-champion-v11';
 const CORE = ['./', './index.html', './manifest.webmanifest', './icons/icon-192.png', './icons/icon-512.png', './icons/icon-maskable-512.png'];
 
 self.addEventListener('install', e => {
@@ -17,6 +17,7 @@ self.addEventListener('fetch', e => {
   if (req.method !== 'GET') return;
   const url = new URL(req.url);
   if (url.origin === location.origin && url.pathname.includes('/api/')) return;
+  if (url.origin === location.origin && url.pathname.endsWith('/version.txt')) return; // update checks always ask the network
   // The game page: newest version when online, saved copy when offline.
   if (req.mode === 'navigate') {
     e.respondWith(fetch(req).then(res => {

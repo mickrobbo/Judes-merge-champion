@@ -60,6 +60,13 @@ function cleanDog(d) {
 }
 
 // A robot as other players will see and fight it.
+const ARMOUR_IDS = new Set(["light", "battle", "heavy", "royal"]);
+const LOGO_IDS = new Set(["star", "bolt", "flame", "heart", "paw", "rocket", "smile", "letter", "firework", "southerncross", "spanner", "egg", "poppy", "crown", "pumpkin", "horseshoe", "tree"]);
+function cleanArmour(a) {
+  if (!a || typeof a !== "object" || !ARMOUR_IDS.has(a.set)) return null;
+  return { set: a.set, color: HEX.test(a.color) ? a.color : "#5B6CFF", logo: LOGO_IDS.has(a.logo) ? a.logo : null,
+           letter: typeof a.letter === "string" && /^[A-Z0-9]$/.test(a.letter) ? a.letter : "J" };
+}
 function cleanBuild(b) {
   b = b && typeof b === "object" ? b : {};
   const parts = [...new Set((Array.isArray(b.parts) ? b.parts : []).filter(p => PART_IDS.has(p)))].slice(0, 3);
@@ -71,7 +78,8 @@ function cleanBuild(b) {
   for (const p of parts) lvs[p] = num(src[p], 1, 10);
   return { name: cleanName(b.name), level: num(b.level, 1, 20), parts, colors, lvs,
            style: STYLE_IDS.has(b.style) ? b.style : "classic", weapon: WEAPON_IDS.has(b.weapon) ? b.weapon : null,
-           gun: GUN_IDS.has(b.gun) ? b.gun : null, vehicle: VEHICLE_IDS.has(b.vehicle) ? b.vehicle : null, dog: cleanDog(b.dog) };
+           gun: GUN_IDS.has(b.gun) ? b.gun : null, vehicle: VEHICLE_IDS.has(b.vehicle) ? b.vehicle : null, dog: cleanDog(b.dog),
+           armour: cleanArmour(b.armour) };
 }
 
 async function auth(store, id, token) {
@@ -191,7 +199,7 @@ export default async (req) => {
     case "score": {
       const s = body.score && typeof body.score === "object" ? body.score : {};
       const b = cleanBuild(s);
-      me.rec.score = { name: b.name, level: b.level, parts: b.parts, colors: b.colors, style: b.style, weapon: b.weapon, gun: b.gun, vehicle: b.vehicle, dog: b.dog,
+      me.rec.score = { name: b.name, level: b.level, parts: b.parts, colors: b.colors, style: b.style, weapon: b.weapon, gun: b.gun, vehicle: b.vehicle, dog: b.dog, armour: b.armour,
                        wins: num(s.wins, 0, 999999), upgrades: num(s.upgrades, 0, 1000), updated: now };
       await store.setJSON(me.key, me.rec);
       return json({ ok: true });

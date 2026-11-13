@@ -70,3 +70,10 @@ The **Kennel** (menu → Kennel) has ten dogs, each with its own power: Dachshun
 - **Dog tricks** (`TRICKS`): a trick slot at dog levels 3, 6 and 9.
 - **Finishing moves and replays**: the last hit plays in slow motion, and the win screen can replay the best hit of the battle. Turns are run with a seed (`seededTurn`) so they can be played again exactly.
 - **Live battles** (website only): players who have the game open show a green dot on the leaderboard. A live battle takes turns through the `live-*` routes in `netlify/functions/api.mjs`. Each phone sends its move, seed and the result; the other phone replays the move with the same seed and copies the result.
+
+## Armour, holidays and updates
+
+- **Armour** (menu → Armour): four sets (Light, Battle, Heavy, Royal) that add armour points. Pick a colour, a logo, or a letter/number for the belt buckle and shoulder pad.
+- **Holiday specials** run for 3 days (the day before, the day, the day after): New Year, Australia Day, Labour Day (Vic), Easter, Anzac Day, King's Birthday, Halloween, Melbourne Cup and Christmas. You get hats, arena decorations, themed robots, +3 coins a win and a once-a-year present with an exclusive logo. Anzac Day is kept quiet and respectful. To preview one, run `localStorage.setItem('mc-holiday','christmas')` in the browser console. To stop the preview, run `localStorage.removeItem('mc-holiday')`.
+- **Vehicles** have a second "super move" that can be used once each time you transform.
+- **Auto-update**: the game checks `version.txt` when it's reopened. When the text differs from `BUILD` in the game, players see a "New update ready!" button. Bump both the `BUILD` value and `version.txt` (and the `sw.js` CACHE name) with each release.
