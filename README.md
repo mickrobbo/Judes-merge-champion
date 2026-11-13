@@ -61,3 +61,12 @@ Making a new code stops the old one working. Phones already signed in stay signe
 ## Battle dogs
 
 The **Kennel** (menu → Kennel) has ten dogs, each with its own power: Dachshund, Corgi, Rottweiler, Great Dane, Pug, Husky, Dalmatian, Poodle, German Shepherd and Beagle. The first dog is free; more cost 25 coins. A dog bites after each of your turns and levels up (to 10) from battle XP. Gadgets (Laser Collar, Rocket Pack, Ice Collar, Battle Armour, Mega Bark) are bought once and fitted one at a time; the dog uses its gadget every 3rd turn. Ten **accessories** (`ACCS`) are worn one at a time and each gives a small perk. Add breeds to `DOGS` (plus a drawing in `dogSVG`) and gadgets to `GADGETS` (plus `DOG_GADGET` and `gadgetIcon`).
+
+## Adventure, daily missions, stickers, tricks and live battles
+
+- **Adventure map** (`WORLDS`): six worlds (Junkyard, Desert Canyon, Army Base, Frozen Peaks, Volcano, Space Station). Each has 10 stages; stage 10 is that world's boss. Beating the Space Station boss starts a tougher "Champion Lap".
+- **Daily** (`MISSIONS`): three missions a day, the same on every phone for a player, plus a daily chest whose coins grow with a day streak (up to 7 days).
+- **Sticker book** (`STICKERS`): 24 achievements, 3 coins each.
+- **Dog tricks** (`TRICKS`): a trick slot at dog levels 3, 6 and 9.
+- **Finishing moves and replays**: the last hit plays in slow motion, and the win screen can replay the best hit of the battle. Turns are run with a seed (`seededTurn`) so they can be played again exactly.
+- **Live battles** (website only): players who have the game open show a green dot on the leaderboard. A live battle takes turns through the `live-*` routes in `netlify/functions/api.mjs`. Each phone sends its move, seed and the result; the other phone replays the move with the same seed and copies the result.

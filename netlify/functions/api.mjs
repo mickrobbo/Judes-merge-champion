@@ -11,6 +11,8 @@
 //   out/<from>/<to>       the same challenge, as the sending player sees it
 //   saves/<id>            { save, savedAt } – the player's whole game, so it can move between phones
 //   codes/<sha256(code)>  { id } – a profile code that signs a new phone in as that player
+//   matches/<mid>         a live battle: both robots, whose turn it is and every turn played so far
+//   lin/<to>/<from>       a live battle invite waiting for an answer
 //
 // The game's owner can remove old players with the "admin" route. It needs the
 // ADMIN_KEY environment variable set in Netlify (Project configuration →
@@ -28,6 +30,7 @@ const GUN_IDS = new Set(["pea", "minigun", "goo", "flame", "lightning", "rocket"
 const VEHICLE_IDS = new Set(["tank", "car", "jet", "rocket"]);
 const WEAPON_IDS = new Set(["blue", "green", "purple", "red", "spear", "gold", "axe", "ice", "twin", "hammer", "rainbow"]);
 const DOG_IDS = new Set(["dachshund", "corgi", "rottweiler", "dane", "pug", "husky", "dalmatian", "poodle", "shepherd", "beagle"]);
+const TRICK_IDS = new Set(["fetch", "playdead", "howl", "sit", "puppyeyes", "zoomies"]);
 const ACC_IDS = new Set(["bowtie", "party", "shades", "bandana", "gradcap", "cape", "pirate", "wizard", "scarf", "crown"]);
 const GADGET_IDS = new Set(["laser", "rockets", "ice", "armour", "mega"]);
 const HEX = /^#[0-9a-fA-F]{6}$/;
@@ -52,7 +55,8 @@ async function sha256(text) {
 function cleanDog(d) {
   if (!d || typeof d !== "object" || !DOG_IDS.has(d.breed)) return null;
   const name = String(d.name ?? "").replace(/[\u0000-\u001f\u007f<>]/g, "").replace(/\s+/g, " ").trim().slice(0, 14) || "Good Dog";
-  return { breed: d.breed, gadget: GADGET_IDS.has(d.gadget) ? d.gadget : null, acc: ACC_IDS.has(d.acc) ? d.acc : null, level: num(d.level, 1, 10), name };
+  const tricks = Array.isArray(d.tricks) ? [...new Set(d.tricks.filter(t => TRICK_IDS.has(t)))].slice(0, 3) : [];
+  return { breed: d.breed, gadget: GADGET_IDS.has(d.gadget) ? d.gadget : null, acc: ACC_IDS.has(d.acc) ? d.acc : null, level: num(d.level, 1, 10), name, tricks };
 }
 
 // A robot as other players will see and fight it.
@@ -115,6 +119,14 @@ async function removePlayer(store, id) {
   await Promise.all(keys.map(k => store.delete(k)));
 }
 
+const LIVE_INVITE_MS = 90 * 1000;
+const MATCH_ID = /^m[0-9a-f]{16}$/;
+const MAX_TURNS = 300;
+function newMatchId() {
+  const a = new Uint8Array(8); crypto.getRandomValues(a);
+  return "m" + [...a].map(b => b.toString(16).padStart(2, "0")).join("");
+}
+
 const fresh = c => Date.now() - (c.created || 0) < CHALLENGE_DAYS * 864e5;
 
 export default async (req) => {
@@ -162,15 +174,18 @@ export default async (req) => {
 
   switch (route) {
     case "state": {
+      // "seen" lets other players know who is online for a live battle
+      if (!me.isNew && now - (me.rec.seen || 0) > 15000) { me.rec.seen = now; await store.setJSON(me.key, me.rec); }
       const players = await readAll(store, "players/");
       const board = players
         .filter(p => p.score)
-        .map(p => ({ id: p.id, ...p.score }))
+        .map(p => ({ id: p.id, ...p.score, seen: p.seen || 0 }))
         .sort((a, b) => b.wins - a.wins || b.level - a.level || b.upgrades - a.upgrades)
         .slice(0, BOARD_SIZE);
       const incoming = (await readAll(store, `in/${me.rec.id}/`)).filter(c => c.status === "pending" && fresh(c));
       const outgoing = (await readAll(store, `out/${me.rec.id}/`)).filter(fresh);
-      return json({ board, incoming, outgoing });
+      const live = (await readAll(store, `lin/${me.rec.id}/`)).filter(l => now - (l.created || 0) < LIVE_INVITE_MS);
+      return json({ board, incoming, outgoing, live });
     }
 
     case "score": {
@@ -259,6 +274,69 @@ export default async (req) => {
       c.claimed = true;
       await store.setJSON(`out/${me.rec.id}/${to}`, c);
       await store.setJSON(`in/${to}/${me.rec.id}`, c);
+      return json({ ok: true });
+    }
+
+    // ---- live battles: two players take turns in real time ----
+    case "live-invite": {
+      const to = body.to;
+      if (typeof to !== "string" || !PLAYER_ID.test(to) || to === me.rec.id) return json({ error: "Pick another player." }, 400);
+      if (!(await store.get(`players/${to}`, { type: "json" }))) return json({ error: "That player isn't here." }, 404);
+      await claimIdentity();
+      const mid = newMatchId();
+      const m = { id: mid, a: me.rec.id, b: to, status: "invite", aBuild: cleanBuild(body.build), created: now, updated: now, turns: [] };
+      await store.setJSON(`matches/${mid}`, m);
+      await store.setJSON(`lin/${to}/${me.rec.id}`, { mid, from: me.rec.id, fromBuild: m.aBuild, created: now });
+      return json({ ok: true, mid });
+    }
+
+    case "live-answer":
+    case "live-get":
+    case "live-turn":
+    case "live-leave": {
+      if (typeof body.mid !== "string" || !MATCH_ID.test(body.mid)) return json({ error: "Bad battle." }, 400);
+      const key = `matches/${body.mid}`;
+      const m = await store.get(key, { type: "json" });
+      if (!m || (m.a !== me.rec.id && m.b !== me.rec.id)) return json({ error: "No such battle." }, 404);
+      if (route === "live-get") return json({ match: m });
+
+      if (route === "live-answer") {
+        if (m.b !== me.rec.id) return json({ error: "Not your invite." }, 403);
+        await store.delete(`lin/${me.rec.id}/${m.a}`);
+        if (m.status !== "invite" || now - m.created > LIVE_INVITE_MS) return json({ error: "That battle has gone." }, 410);
+        await claimIdentity();
+        if (body.accept === true) {
+          m.status = "live"; m.bBuild = cleanBuild(body.build); m.started = now;
+          m.first = body.first === m.a || body.first === m.b ? body.first : m.a;
+        } else m.status = "declined";
+        m.updated = now;
+        await store.setJSON(key, m);
+        return json({ ok: true, match: m });
+      }
+
+      if (route === "live-leave") {
+        if (m.status === "invite" || m.status === "live") {
+          if (m.status === "invite") await store.delete(`lin/${m.b}/${m.a}`);
+          m.status = "left"; m.leaver = me.rec.id; m.updated = now;
+          await store.setJSON(key, m);
+        }
+        return json({ ok: true });
+      }
+
+      // live-turn: only the player whose turn it is can add the next turn
+      if (m.status !== "live") return json({ error: "The battle is over." }, 409);
+      const n = Number(body.n);
+      if (!Number.isInteger(n) || n !== m.turns.length || n >= MAX_TURNS) return json({ error: "Out of turn." }, 409);
+      const second = m.first === m.a ? m.b : m.a;
+      if ((n % 2 === 0 ? m.first : second) !== me.rec.id) return json({ error: "Not your turn." }, 409);
+      const action = String(body.action ?? "");
+      if (!/^[a-z0-9]{1,24}$/.test(action)) return json({ error: "Bad move." }, 400);
+      const state = body.state && typeof body.state === "object" && !Array.isArray(body.state) ? body.state : null;
+      if (!state || JSON.stringify(state).length > 8000) return json({ error: "Bad move." }, 400);
+      m.turns.push({ by: me.rec.id, action, seed: num(body.seed, 0, 4294967295), state, at: now });
+      if (body.over === true) { m.status = "over"; m.winner = body.winner === m.a || body.winner === m.b ? body.winner : null; }
+      m.updated = now;
+      await store.setJSON(key, m);
       return json({ ok: true });
     }
 

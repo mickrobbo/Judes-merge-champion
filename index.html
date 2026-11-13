@@ -327,6 +327,120 @@ body[data-screen="battle"] #menuBtn{display:none}
 .gcard b{font-family:var(--display);font-weight:400;font-size:18px}
 .gcard .gtxt span{font-size:13px;font-weight:700;opacity:.85;line-height:1.25}
 @media (max-width:430px){ .dhero{grid-template-columns:minmax(0,1fr)} }
+.vignette{position:absolute;inset:0;z-index:6;pointer-events:none;background:radial-gradient(ellipse at center,transparent 35%,rgba(10,7,24,.72) 100%)}
+.finishtxt{position:absolute;left:50%;top:38%;z-index:8;pointer-events:none;font-family:var(--display);font-size:clamp(30px,8vw,64px);color:#FFD23F;white-space:nowrap;letter-spacing:.02em}
+.arena.replay{filter:saturate(1.25) contrast(1.05)}
+.replaytag{position:absolute;right:12px;top:12px;z-index:8;font-family:var(--display);font-size:18px;color:#fff;background:#FF4D5E;border:3px solid var(--ink);border-radius:999px;padding:2px 14px;animation:replayblink 1s steps(2) infinite}
+@keyframes replayblink{50%{opacity:.35}}
+.besthit{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"l b" "n b" "d b";align-items:center;column-gap:10px;width:100%;background:#2B1D3A;color:#fff;border:3px solid var(--ink);border-radius:16px;padding:8px 12px;text-align:left}
+.besthit .bh-lbl{grid-area:l;font-family:var(--display);font-size:13px;color:#FFD23F;letter-spacing:.08em}
+.besthit b{grid-area:n;font-family:var(--display);font-weight:400;font-size:20px;line-height:1.1}
+.besthit .bh-dmg{grid-area:d;font-weight:800;font-size:14px;color:#FFB8C2}
+.besthit .pillbtn{grid-area:b}
+.arena .scenery{position:absolute;inset:0;z-index:0;pointer-events:none}
+.arena .scenery svg{width:100%;height:100%;display:block}
+.arena[data-theme="junk"]{background:linear-gradient(#FFB98A 0 58%, #8A6A4A 58% 60.5%, #7A5A3A 60.5% 100%)}
+.arena[data-theme="junk"]::before{background:repeating-linear-gradient(90deg,rgba(255,255,255,.08) 0 38px,transparent 38px 76px)}
+.arena[data-theme="ice"]{background:linear-gradient(#CFEFFF 0 58%, #DDEFFA 58% 60.5%, #F4FBFF 60.5% 100%)}
+.arena[data-theme="ice"]::before{background:repeating-linear-gradient(90deg,rgba(79,195,247,.1) 0 36px,transparent 36px 72px)}
+.arena[data-theme="ice"] .cloudy{opacity:.7}
+.arena[data-theme="volcano"]{background:linear-gradient(#5A1E2E 0 58%, #3A1A22 58% 60.5%, #2A1418 60.5% 100%)}
+.arena[data-theme="volcano"]::before{background:repeating-linear-gradient(90deg,rgba(255,106,43,.08) 0 34px,transparent 34px 68px)}
+.arena[data-theme="volcano"] .cloudy{display:none}
+.scenery .snow{animation:snowfall 6s linear infinite}
+@keyframes snowfall{from{transform:translateY(-140px)}to{transform:translateY(240px)}}
+.scenery .ember{animation:ember 3s ease-out infinite}
+@keyframes ember{from{transform:translate(0,0);opacity:1}to{transform:translate(18px,-80px);opacity:0}}
+.scenery .lavaglow{animation:lava 1.6s ease-in-out infinite alternate}
+@keyframes lava{from{opacity:.7}to{opacity:1;filter:drop-shadow(0 0 6px #FF6A2B)}}
+.worldbar{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"t c" "d c";gap:4px 10px;align-items:center;width:100%;margin-top:10px;padding:8px 12px;background:var(--wc);color:#fff;border:3px solid var(--ink);border-radius:16px;box-shadow:0 4px 0 var(--ink);cursor:pointer;font:inherit;text-align:left}
+.worldbar .wbt{grid-area:t;display:flex;flex-direction:column;min-width:0}
+.worldbar .wbt b{font-family:var(--display);font-weight:400;font-size:18px;line-height:1.1;text-shadow:0 2px 0 rgba(0,0,0,.25)}
+.worldbar .wbt span{font-weight:800;font-size:13px}
+.worldbar .wdots{grid-area:d;display:flex;gap:4px}
+.worldbar .wdots i{width:14px;height:14px;border-radius:50%;background:rgba(255,255,255,.35);border:2px solid var(--ink)}
+.worldbar .wdots i.done{background:#FFD23F}
+.worldbar .wdots i.now{background:#fff;box-shadow:0 0 0 3px rgba(255,255,255,.5)}
+.worldbar .wdots i.boss{width:18px;height:18px;margin-top:-2px;background:#FF4D5E;border-radius:5px}
+.worldbar .chg{grid-area:c;background:#fff;color:var(--ink);font-family:var(--display);font-size:14px;border:3px solid var(--ink);border-radius:999px;padding:2px 12px}
+.worlddone{width:100%;background:var(--wc);color:#fff;border:3px solid var(--ink);border-radius:16px;padding:8px 12px;display:flex;flex-direction:column;text-align:left}
+.worlddone .bh-lbl{font-family:var(--display);font-size:14px;color:#FFF1A8}
+.worlddone b{font-family:var(--display);font-weight:400;font-size:20px}
+.map{overflow:hidden}
+.map .phead{background:#2E7D5B;color:#fff}
+.mapbody{padding:14px 16px 18px;display:flex;flex-direction:column;gap:12px}
+.maphead{display:flex;flex-direction:column}
+.maphead b{font-family:var(--display);font-weight:400;font-size:24px}
+.maphead span{font-weight:700;color:var(--muted);font-size:14px}
+.mapfield{position:relative;height:min(140vw,640px);border:4px solid var(--ink);border-radius:20px;overflow:hidden;
+  background:radial-gradient(circle at 20% 30%,rgba(255,255,255,.25),transparent 30%),radial-gradient(circle at 80% 70%,rgba(255,255,255,.2),transparent 30%),linear-gradient(#7FD4F5,#4FB0E8)}
+.mappath{position:absolute;inset:0;width:100%;height:100%}
+.mnode{position:absolute;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:0;padding:0;cursor:pointer;font:inherit;color:var(--ink);width:120px}
+.mnode .mart{position:relative;display:block;width:76px;height:76px;border-radius:50%;box-shadow:0 5px 0 var(--ink)}
+.mnode.now .mart{box-shadow:0 0 0 5px #FFD23F,0 5px 0 5px var(--ink);animation:pulse 1.4s ease-in-out infinite}
+.mnode.locked .mart svg{filter:grayscale(1) brightness(.75)}
+.mnode .mlock{position:absolute;inset:0;display:grid;place-items:center;color:#fff;filter:drop-shadow(0 2px 0 #2B1D3A)}
+.mnode .mlock svg{width:30px;height:30px}
+.mnode .mme{position:absolute;right:-26px;bottom:-12px;width:46px}
+.mnode .mme svg{width:100%;height:auto}
+.mnode .mname{font-family:var(--display);font-size:15px;line-height:1.05;background:#fff;border:3px solid var(--ink);border-radius:999px;padding:1px 10px;white-space:nowrap}
+.mnode .mstat{font-weight:800;font-size:12px;background:var(--wc);color:#fff;border:2px solid var(--ink);border-radius:999px;padding:0 8px}
+.dailybar{display:grid;grid-template-columns:52px minmax(0,1fr) auto;gap:10px;align-items:center;width:100%;padding:6px 12px 6px 8px;background:#FFF6E8;border:4px solid var(--ink);border-radius:18px;box-shadow:0 5px 0 var(--ink);cursor:pointer;font:inherit;color:var(--ink);text-align:left}
+.dailybar.ready{background:#FFF1A8;animation:pulse 1.4s ease-in-out infinite}
+#workshop:not([data-page="home"]) .dailybar{display:none}
+.dailybar .dic{width:52px;display:block}
+.dailybar .dic svg{width:100%;height:auto;display:block}
+.dailybar .dbt{display:flex;flex-direction:column;min-width:0}
+.dailybar .dbt b{font-family:var(--display);font-weight:400;font-size:18px;line-height:1.1}
+.dailybar .dbt span{font-weight:700;font-size:13px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dailybar .chg{background:var(--mint);color:#fff;font-family:var(--display);font-size:14px;border:3px solid var(--ink);border-radius:999px;padding:2px 12px}
+.daily,.stickers{overflow:hidden}
+.daily .phead{background:#E0A400;color:#fff}
+.stickers .phead{background:#FF6FB5;color:#fff}
+.dchest{display:grid;grid-template-columns:90px minmax(0,1fr);gap:12px;align-items:center;background:#FFF1A8;border:4px solid var(--ink);border-radius:18px;padding:10px 14px}
+.dchest.opened{background:var(--cloud)}
+.dchest .dcpic svg{width:100%;height:auto;display:block}
+.dchest b{font-family:var(--display);font-weight:400;font-size:20px;display:block;line-height:1.1}
+.dchest span{font-weight:700;font-size:14px;color:var(--muted);display:block;margin:2px 0 6px}
+.mlist{display:flex;flex-direction:column;gap:10px}
+.mrow{display:grid;grid-template-columns:40px minmax(0,1fr) auto;gap:10px;align-items:center;background:var(--cloud);border:3px solid var(--ink);border-radius:16px;padding:8px 12px 8px 8px}
+.mrow.done{background:#D7F5EC}
+.mrow .mchk svg{width:36px;height:36px;display:block}
+.mrow .mtxt{display:flex;flex-direction:column;gap:3px;min-width:0}
+.mrow .mtxt b{font-family:var(--display);font-weight:400;font-size:17px;line-height:1.1}
+.mrow .mtxt span{font-weight:800;font-size:12px;color:var(--muted)}
+.mbar{height:12px;border:3px solid var(--ink);border-radius:999px;background:#fff;overflow:hidden}
+.mbar i{display:block;height:100%;background:var(--mint)}
+.mrew{display:inline-flex;align-items:center;gap:3px;background:var(--sun);border:2.5px solid var(--ink);border-radius:999px;padding:1px 9px 1px 3px;font-family:var(--display);font-size:14px}
+.stkgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:16px 10px}
+.stkcell{display:flex;flex-direction:column;align-items:center;text-align:center;gap:2px;min-width:0}
+.stk{position:relative;width:88px;height:88px;border-radius:50%;background:var(--bg);border:5px solid #fff;box-shadow:0 0 0 3px var(--ink),0 6px 0 3px var(--ink);display:grid;place-items:center;transform:rotate(var(--r));overflow:hidden}
+.stk::after{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.55),transparent 45%);border-radius:50%}
+.stk .art{width:74%;display:grid;place-items:center}
+.stk .art svg{width:100%;height:auto;max-height:64px;display:block}
+.stk .stag{position:absolute;bottom:6px;left:50%;transform:translateX(-50%);font-family:var(--display);font-size:13px;color:#fff;background:var(--ink);border-radius:999px;padding:0 7px;z-index:1}
+.stkcell:not(.got) .stk{background:#CFC9DD}
+.stkcell:not(.got) .stk .art,.stkcell:not(.got) .stk .stag{filter:grayscale(1) brightness(.35);opacity:.35}
+.stk .sq{position:absolute;font-family:var(--display);font-size:38px;color:#fff;text-shadow:0 3px 0 var(--ink);z-index:1}
+.stkcell b{font-family:var(--display);font-weight:400;font-size:15px;line-height:1.1;margin-top:8px}
+.stkcell span{font-size:12px;font-weight:700;color:var(--muted);line-height:1.2}
+.tricks{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.tricks .tlbl{font-family:var(--display);font-size:15px}
+.trick{display:inline-flex;align-items:center;gap:4px;font-weight:800;font-size:13px;background:#FFE9C7;border:2.5px solid var(--ink);border-radius:999px;padding:1px 10px 1px 4px}
+.trick svg{width:20px;height:20px}
+.trick.locked{background:#E7E3F0;color:var(--muted);padding:1px 10px}
+.trick.learn{background:var(--mint);color:#fff;cursor:pointer;font:inherit;font-weight:800;font-size:13px;animation:pulse 1.2s ease-in-out infinite;padding:2px 12px}
+.tgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;width:100%}
+.tcard{display:grid;grid-template-columns:40px minmax(0,1fr);grid-template-areas:"i n" "i d";gap:2px 10px;align-items:center;background:var(--cloud);border:3px solid var(--ink);border-radius:16px;box-shadow:0 4px 0 var(--ink);padding:8px 10px;cursor:pointer;font:inherit;color:var(--ink);text-align:left}
+.tcard .tic{grid-area:i;width:40px;height:40px;border-radius:50%;background:#FFE9C7;border:2.5px solid var(--ink);display:grid;place-items:center}
+.tcard b{grid-area:n;font-family:var(--display);font-weight:400;font-size:17px}
+.tcard span:not(.tic){grid-area:d;font-size:12.5px;font-weight:700;color:var(--muted);line-height:1.25}
+.lbbot{position:relative}
+.odot{position:absolute;right:-2px;top:-2px;width:14px;height:14px;border-radius:50%;background:#3FBF6A;border:3px solid var(--ink);animation:pulse 1.2s ease-in-out infinite}
+.waitdots{display:flex;gap:8px;justify-content:center}
+.waitdots i{width:14px;height:14px;border-radius:50%;background:var(--grape);border:3px solid var(--ink);animation:bob 1s ease-in-out infinite}
+.waitdots i:nth-child(2){animation-delay:.15s}.waitdots i:nth-child(3){animation-delay:.3s}
+.liveleave{margin:8px auto 0;display:block}
 .bossnext{margin:6px 0 0;text-align:center;font-weight:800;font-size:14px;color:var(--muted)}
 .lbmanage{font-family:var(--display);font-size:14px;background:var(--paper);color:var(--ink);border:3px solid var(--ink);border-radius:999px;padding:2px 12px;cursor:pointer;box-shadow:0 3px 0 var(--ink)}
 .lbmanage:active{transform:translateY(2px);box-shadow:0 1px 0 var(--ink)}
@@ -699,6 +813,7 @@ body[data-screen="battle"] #menuBtn{display:none}
       <button class="btn small green" id="installBtn" type="button">Install</button>
       <button class="icon-btn sm" id="installNo" type="button" aria-label="Not now"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="#2B1D3A" stroke-width="3.2" stroke-linecap="round"/></svg></button>
     </div>
+    <button class="dailybar" id="dailyBar" type="button"></button>
     <section class="inbox panel" id="inbox" aria-label="Challenges" hidden>
       <div class="phead"><h2>CHALLENGES!</h2></div>
       <div class="inlist" id="inlist"></div>
@@ -729,6 +844,7 @@ body[data-screen="battle"] #menuBtn{display:none}
           <p class="hint" id="hint"></p>
           <div class="mstats" id="mstats"></div>
           <button id="fightBtn" class="btn big ready" type="button">FIGHT!</button>
+          <button class="worldbar" id="worldBar" type="button"></button>
           <p class="bossnext" id="bossNext"></p>
         </div>
       </section>
@@ -755,6 +871,18 @@ body[data-screen="battle"] #menuBtn{display:none}
             <div class="armtabs" role="tablist"><button type="button" role="tab" class="armtab" data-tab="swords">Laser Swords</button><button type="button" role="tab" class="armtab" data-tab="guns">Blasters</button></div>
             <div class="sword-grid" id="swordGrid"></div>
             <p class="anote" id="armNote"></p></div>
+        </section>
+        <section class="map panel pg" data-pg="map" aria-label="Adventure map">
+          <div class="phead"><h2>ADVENTURE MAP</h2><span class="count" id="mapCount"></span></div>
+          <div class="mapbody" id="mapBox"></div>
+        </section>
+        <section class="daily panel pg" data-pg="daily" aria-label="Daily">
+          <div class="phead"><h2>DAILY</h2><span class="count">New every day</span></div>
+          <div class="kbody" id="dailyBox"></div>
+        </section>
+        <section class="stickers panel pg" data-pg="stickers" aria-label="Sticker book">
+          <div class="phead"><h2>STICKER BOOK</h2><span class="count" id="stickerCount"></span></div>
+          <div class="kbody" id="stickerBox"></div>
         </section>
         <section class="kennel panel pg" data-pg="kennel" aria-label="Kennel">
           <div class="phead"><h2>KENNEL</h2><span class="count" id="dogCount"></span></div>
@@ -792,6 +920,7 @@ body[data-screen="battle"] #menuBtn{display:none}
       <div class="cloudy" style="width:90px;height:26px;left:8%;top:14%"></div>
       <div class="cloudy" style="width:64px;height:20px;right:12%;top:26%"></div>
       <div class="sun"></div><div class="planet"></div><div class="sandbags"></div><div class="flagpole"></div>
+      <div class="scenery" id="scenery"></div>
       <div class="turn" id="turn"></div>
       <div class="fighter left" id="pF"></div>
       <div class="fighter right" id="eF"></div>
@@ -829,7 +958,34 @@ const $ = id => document.getElementById(id);
 const pick = a => a[Math.floor(Math.random() * a.length)];
 const rand = (a,b) => a + Math.random() * (b - a);
 const clamp = (v,a,b) => Math.max(a, Math.min(b, v));
-const wait = ms => new Promise(r => setTimeout(r, ms));
+// timeScale > 1 slows the battle down (slow-motion finishes and replays).
+let timeScale = 1;
+const wait = ms => new Promise(r => setTimeout(r, ms * timeScale));
+{
+  const realAnimate = Element.prototype.animate;
+  Element.prototype.animate = function(keys, o){
+    if (timeScale !== 1){
+      if (typeof o === 'number') o *= timeScale;
+      else if (o){ o = { ...o }; if (o.duration) o.duration *= timeScale; if (o.delay) o.delay *= timeScale; }
+    }
+    return realAnimate.call(this, keys, o);
+  };
+}
+// Seeded turns: running a turn with the same seed plays it out the same way.
+// Used for replays and for showing a live opponent's moves.
+function mulberry(seed){
+  let t = seed >>> 0;
+  return () => { t += 0x6D2B79F5; let r = Math.imul(t ^ t >>> 15, 1 | t); r ^= r + Math.imul(r ^ r >>> 7, 61 | r); return ((r ^ r >>> 14) >>> 0) / 4294967296; };
+}
+const realRandom = Math.random;
+const newSeed = () => Math.floor(realRandom() * 4294967295);
+async function seededTurn(seed, fn){
+  const prev = Math.random; Math.random = mulberry(seed);
+  try { return await fn(); } finally { Math.random = prev; }
+}
+const SNAP_SKIP = new Set(['robot', 'el', 'svg', 'dogF', 'name', 'side']);
+function snapFighter(f){ const o = {}; for (const k in f) if (!SNAP_SKIP.has(k) && (f[k] === null || typeof f[k] !== 'object')) o[k] = f[k]; return o; }
+function applySnap(f, o){ if (!o || typeof o !== 'object') return; for (const k in o) if (!SNAP_SKIP.has(k) && (o[k] === null || typeof o[k] !== 'object')) f[k] = o[k]; }
 const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
 const OBJECTS = [
@@ -1012,6 +1168,26 @@ const ACCS = [
   {id:'crown',   name:'Royal Crown',      cost:35, perk:'Bites do 30% more damage'},
 ];
 const ACC = Object.fromEntries(ACCS.map(a => [a.id, a]));
+// Dog tricks: a new trick slot at dog levels 3, 6 and 9.
+const TRICKS = [
+  {id:'fetch',     name:'Fetch',        desc:'Fetches 2 extra coins after every win'},
+  {id:'playdead',  name:'Play Dead',    desc:'Tricks the enemy, so their first attack misses'},
+  {id:'howl',      name:'Howl',         desc:'When your robot is badly hurt, howls to charge a power'},
+  {id:'sit',       name:'Sit and Stay', desc:'Guards your robot, so it starts every battle with a shield'},
+  {id:'puppyeyes', name:'Puppy Eyes',   desc:'Heals your robot once when it gets low'},
+  {id:'zoomies',   name:'Zoomies',      desc:'So fast it bites 2 extra times on its first turn'},
+];
+const TRICK = Object.fromEntries(TRICKS.map(t => [t.id, t]));
+const TRICK_LEVELS = [3, 6, 9];
+const trickSlots = lvl => TRICK_LEVELS.filter(l => lvl >= l).length;
+const TRICK_ICON = {
+  fetch: '<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M5 9a2.5 2.5 0 1 1 3-3l8 8a2.5 2.5 0 1 1-3 3 2.5 2.5 0 1 1-3-3l-1-1-1 1a2.5 2.5 0 1 1-3-3z" fill="#fff" stroke="#2B1D3A" stroke-width="1.8" stroke-linejoin="round"/></svg>',
+  playdead: '<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><text x="3" y="17" font-size="11" font-weight="900" fill="#7B5CFF" font-family="sans-serif">Z</text><text x="10" y="12" font-size="8" font-weight="900" fill="#7B5CFF" font-family="sans-serif">Z</text><text x="16" y="8" font-size="6" font-weight="900" fill="#7B5CFF" font-family="sans-serif">Z</text></svg>',
+  howl: '<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M15 3a9 9 0 1 0 6 13A7 7 0 0 1 15 3z" fill="#FFD23F" stroke="#2B1D3A" stroke-width="1.8" stroke-linejoin="round"/></svg>',
+  sit: '<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M12 2l8 3v6c0 5-4 9-8 11-4-2-8-6-8-11V5z" fill="#4FC3F7" stroke="#2B1D3A" stroke-width="1.8" stroke-linejoin="round"/></svg>',
+  puppyeyes: '<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M12 21s-8-5-8-11a4.5 4.5 0 0 1 8-3 4.5 4.5 0 0 1 8 3c0 6-8 11-8 11z" fill="#FF6FB5" stroke="#2B1D3A" stroke-width="1.8" stroke-linejoin="round"/></svg>',
+  zoomies: '<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M13 2L4 14h7l-1 8 9-12h-7z" fill="#FFD23F" stroke="#2B1D3A" stroke-width="1.8" stroke-linejoin="round"/></svg>',
+};
 const DOG = Object.fromEntries(DOGS.map(d => [d.id, d]));
 const DOG_COST = 25, MAX_DOG_LEVEL = 10, DOG_GADGET_EVERY = 3;
 const dogXpNeeded = lvl => 6 + lvl * 4;
@@ -1772,7 +1948,9 @@ function isUsable(id){ return OBJ[id].power ? save.level >= powerLevel(id) : sav
 function cleanDog(d){
   if (!d || typeof d !== 'object' || !DOG[d.breed]) return null;
   const name = String(d.name || DOG[d.breed].pet).replace(/[\u0000-\u001f<>]/g, '').trim().slice(0, 14) || DOG[d.breed].pet;
-  return { breed: d.breed, gadget: GADGET[d.gadget] ? d.gadget : null, acc: ACC[d.acc] ? d.acc : null, level: clamp(Math.floor(Number(d.level) || 1), 1, MAX_DOG_LEVEL), name };
+  const level = clamp(Math.floor(Number(d.level) || 1), 1, MAX_DOG_LEVEL);
+  const tricks = Array.isArray(d.tricks) ? [...new Set(d.tricks.filter(t => TRICK[t]))].slice(0, trickSlots(level)) : [];
+  return { breed: d.breed, gadget: GADGET[d.gadget] ? d.gadget : null, acc: ACC[d.acc] ? d.acc : null, level, name, tricks };
 }
 function buildRobot({parts, lv, level, colors, name, weapon = null, style = 'classic', gun = null, vehicle = null, dog = null}){
   let pow = 0, spd = 0, def = 0;
@@ -1794,7 +1972,7 @@ function buildRobot({parts, lv, level, colors, name, weapon = null, style = 'cla
 function myDog(){
   const d = save.dog && save.dogs[save.dog]; if (!d) return null;
   return { breed: save.dog, gadget: save.dogGadget && save.gadgets.includes(save.dogGadget) ? save.dogGadget : null,
-           acc: save.dogAcc && save.accs.includes(save.dogAcc) ? save.dogAcc : null, level: d.level, name: d.name };
+           acc: save.dogAcc && save.accs.includes(save.dogAcc) ? save.dogAcc : null, level: d.level, name: d.name, tricks: (d.tricks || []).slice() };
 }
 const myGun = () => save.robot.gun && save.guns.includes(save.robot.gun) ? save.robot.gun : null;
 const myWeapon = () => !myGun() && save.robot.weapon && save.weapons.includes(save.robot.weapon) ? save.robot.weapon : null;
@@ -1811,7 +1989,24 @@ function enemyDog(boss){
   return { breed: boss ? 'rottweiler' : pick(DOGS).id, level, acc: boss ? 'crown' : Math.random() < .3 ? pick(ACCS.slice(0, 6)).id : null, name: boss ? 'Fang' : pick(['Chomper','Growler','Spike','Rex','Snapper','Rusty']),
            gadget: boss || (save.gadgets.length && Math.random() < .5) ? pick(GADGETS.slice(0, Math.max(1, save.gadgets.length + (boss ? 1 : 0)))).id : null };
 }
-const BOSS_EVERY = 10; // a boss after every 9 wins
+const BOSS_EVERY = 10; // each world has 10 stages; stage 10 is the boss
+// The adventure: six worlds, each with its own arena, enemies and boss.
+const WORLDS = [
+  { id:'junk',    name:'Junkyard',      theme:'junk',    boss:'Rusty the Junk King', color:'#C9782E', blurb:'Scrap robots made of old junk.',
+    bossColors:{ body:'#8A5A2B', head:'#B8C4D0', limbs:'#6E7884' }, styles:['scout','classic'], swords:['blue','green'], guns:['pea','goo'] },
+  { id:'desert',  name:'Desert Canyon', theme:'desert',  boss:'Sandstorm Sultan', color:'#E39A3E', blurb:'Hot sand and super-speedy robots.',
+    bossColors:{ body:'#E0A400', head:'#FFE58A', limbs:'#B5652B' }, styles:['pilot','scout'], swords:['gold','spear'], guns:['minigun','lightning'] },
+  { id:'base',    name:'Army Base',     theme:'base',    boss:'General Boom', color:'#6B8E3A', blurb:'Soldier robots with big blasters.',
+    bossColors:{ body:'#4E6B2A', head:'#6B8E3A', limbs:'#3A3550' }, styles:['commando'], swords:['red'], guns:['minigun','rocket','grenade'], gunny:.75 },
+  { id:'ice',     name:'Frozen Peaks',  theme:'ice',     boss:'The Frost Giant', color:'#4FC3F7', blurb:'Icy robots that can freeze you solid.',
+    bossColors:{ body:'#4FC3F7', head:'#E8FDFF', limbs:'#3A6EA5' }, styles:['knight','classic'], swords:['ice','blue'], guns:['freeze'] },
+  { id:'volcano', name:'Volcano',       theme:'volcano', boss:'Magma Lord', color:'#FF6A2B', blurb:'Fire robots and bubbling lava.',
+    bossColors:{ body:'#3A2E55', head:'#FF6A2B', limbs:'#FF3B4E' }, styles:['shadow'], swords:['red','axe'], guns:['flame'] },
+  { id:'space',   name:'Space Station', theme:'space',   boss:'Galaxy Emperor', color:'#7B5CFF', blurb:'The toughest robots in the galaxy.',
+    bossColors:{ body:'#2B2357', head:'#B46BFF', limbs:'#FFD23F' }, styles:['pilot','knight'], swords:['rainbow','twin','purple'], guns:['mega','sniper','shotgun'] },
+];
+const curWorld = () => WORLDS[clamp(save.world || 0, 0, WORLDS.length - 1)];
+const stageNo = () => Math.min(BOSS_EVERY, (save.sinceBoss || 0) + 1);
 const BOSS_NAMES = ['Mega Destructo','King Krusher','Titan Doom-Bot','Lord Clank-a-Lot','Captain Kaboom','Omega Grumble'];
 const bossDue = () => save.sinceBoss >= BOSS_EVERY - 1;
 const nextFoe = () => makeEnemy({ boss: bossDue() });
@@ -1824,17 +2019,18 @@ function makeEnemy(opts = {}){
   const mine = save.robot.parts.length ? save.robot.parts.reduce((s, id) => s + partLevel(id), 0) / save.robot.parts.length : 1;
   const target = Math.min(mine + 1, 1 + save.wins * .35);
   const lvs = {}; ids.forEach(id => lvs[id] = clamp(Math.round(target + rand(-1, .5)), 1, MAX_PART_LEVEL));
-  const swords = WEAPONS.slice(0, clamp(1 + Math.floor(save.wins / 3), 1, WEAPONS.length));
-  const useGun = boss ? Math.random() < .5 : save.wins >= 2 && Math.random() < .45;
-  const weapon = useGun ? null : boss ? pick(['red','twin','purple']) : save.wins >= 1 && Math.random() < .7 ? pick(swords).id : null;
+  // Enemies dress and arm themselves to match the world they live in.
+  const W = opts.world || (opts.random ? pick(WORLDS) : curWorld());
+  const useGun = boss ? Math.random() < .5 : save.wins >= 2 && Math.random() < (W.gunny || .45);
+  const weapon = useGun ? null : boss ? pick(W.swords.concat(['red','twin'])) : save.wins >= 1 && Math.random() < .7 ? pick(W.swords) : null;
   const r = buildRobot({ parts: ids, lv: id => lvs[id], level: save.level,
-                         colors: boss ? { body:'#3A2E55', head:'#5A4680', limbs:'#FF3B4E' } : null,
-                         name: boss ? pick(BOSS_NAMES) : makeName(ids.map(i => OBJ[i])),
-                         weapon, style: boss ? 'shadow' : pick(STYLES).id,
-                         gun: !useGun ? null : boss ? pick(['rocket','mega','minigun']) : pick(GUNS.slice(0, clamp(1 + Math.floor(save.wins / 3), 1, GUNS.length))).id,
+                         colors: boss ? W.bossColors : null,
+                         name: boss ? (opts.random ? pick(BOSS_NAMES) : W.boss) : makeName(ids.map(i => OBJ[i])),
+                         weapon, style: boss ? 'shadow' : Math.random() < .7 ? pick(W.styles) : pick(STYLES).id,
+                         gun: !useGun ? null : boss ? pick(W.guns.concat(['rocket','mega'])) : pick(W.guns),
                          vehicle: boss ? 'tank' : save.wins >= 1 && Math.random() < .5 ? pick(VEHICLES.filter(v => v.level <= save.level + 1)).id : null,
                          dog: enemyDog(boss) });
-  const m = Math.min(1, .78 + save.wins * .03);
+  const m = Math.min(1, .78 + save.wins * .03) * (1 + .1 * (save.lap || 0));
   r.pow = Math.round(r.pow * m); r.spd = Math.round(r.spd * m); r.def = Math.round(r.def * m);
   r.hp = Math.round(r.hp * (m * .5 + .5));
   if (boss){
@@ -1853,7 +2049,7 @@ const SAVE_KEY = 'merge-champion-v2';
 const STARTERS = OBJECTS.filter(o => o.starter).map(o => o.id);
 function freshSave(){
   const parts = ['battery','spring'];
-  return { coins: 0, wins: 0, losses: 0, xp: 0, level: 1, unlocked: STARTERS.slice(), fresh: [], combos: [], seen: [], levels: {}, welcomed: false, sinceBoss: 0, bossTries: 0,
+  return { coins: 0, wins: 0, losses: 0, xp: 0, level: 1, unlocked: STARTERS.slice(), fresh: [], combos: [], seen: [], levels: {}, welcomed: false, sinceBoss: 0, bossTries: 0, world: 0, lap: 0, bossesBeaten: 0,
            weapons: ['blue'], guns: ['pea'], dogs: {}, dog: null, gadgets: [], dogGadget: null, accs: [], dogAcc: null,
            robot: { name: makeName(parts.map(id => OBJ[id])), colors: { body:'#5B6CFF', head:'#FFD23F', limbs:'#FF4D5E' }, parts, weapon: 'blue', style: 'classic', gun: null, vehicle: 'tank' } };
 }
@@ -1895,7 +2091,7 @@ function addDogXP(n){
 let save = freshSave();
 try {
   const s = JSON.parse(lsGet(MY_SAVE_KEY));
-  if (s && s.robot){ save = Object.assign(freshSave(), s); }
+  if (s && s.robot){ save = Object.assign(freshSave(), s); if (typeof s.world !== 'number') delete save.world; }
   else {
     const old = JSON.parse(localStorage.getItem('merge-champion-v1'));
     if (old && Array.isArray(old.unlocked)){
@@ -1908,6 +2104,8 @@ save.robot.parts = save.robot.parts.filter(id => OBJ[id]).slice(0, ROBOT_SLOTS);
 if (!Array.isArray(save.seen)) save.seen = [];
 if (typeof save.streak !== 'number') save.streak = 0;
 if (typeof save.sinceBoss !== 'number') save.sinceBoss = save.wins % BOSS_EVERY;
+if (typeof save.world !== 'number'){ save.world = clamp(Math.floor(save.wins / BOSS_EVERY), 0, 5); save.lap = 0; save.bossesBeaten = save.world; }
+save.world = clamp(Math.floor(save.world) || 0, 0, 5); save.lap = Math.max(0, Math.floor(save.lap) || 0); save.bossesBeaten = Math.max(0, Math.floor(save.bossesBeaten) || 0);
 if (typeof save.bossTries !== 'number') save.bossTries = 0;
 if (!Array.isArray(save.weapons)) save.weapons = ['blue'];
 save.weapons = save.weapons.filter(id => WEAPON[id]);
@@ -1925,7 +2123,10 @@ for (const k of Object.keys(save.dogs)){
   if (!DOG[k] || !d || typeof d !== 'object'){ delete save.dogs[k]; continue; }
   d.level = clamp(Math.floor(Number(d.level) || 1), 1, MAX_DOG_LEVEL); d.xp = Math.max(0, Number(d.xp) || 0);
   d.name = String(d.name || DOG[k].pet).slice(0, 14);
+  d.tricks = Array.isArray(d.tricks) ? d.tricks.filter(t => TRICK[t]).slice(0, trickSlots(d.level)) : [];
 }
+if (!save.flags || typeof save.flags !== 'object') save.flags = {};
+if (!Array.isArray(save.stickers)) save.stickers = [];
 if (!save.dogs[save.dog]) save.dog = null;
 if (!Array.isArray(save.gadgets)) save.gadgets = [];
 save.gadgets = save.gadgets.filter(id => GADGET[id]);
@@ -1933,7 +2134,9 @@ if (!save.gadgets.includes(save.dogGadget)) save.dogGadget = null;
 if (!Array.isArray(save.accs)) save.accs = [];
 save.accs = save.accs.filter(id => ACC[id]);
 if (!save.accs.includes(save.dogAcc)) save.dogAcc = null;
+var stickerBusy = false;
 function persist(){
+  if (!stickerBusy) checkStickers();
   save.savedAt = Date.now();
   lsSet(MY_SAVE_KEY, JSON.stringify(save));
   profile.look = lookOf(save); saveProfiles();
@@ -1989,7 +2192,7 @@ function cleanRow(id, d){
   return { id, name: String(d.name || 'Mystery Robot').slice(0, 20), level: num(d.level, MAX_ROBOT_LEVEL) || 1,
            wins: num(d.wins, 999999), upgrades: num(d.upgrades, 1000), parts, colors,
            style: STYLE[d.style] ? d.style : 'classic', weapon: WEAPON[d.weapon] ? d.weapon : null,
-           gun: GUN[d.gun] ? d.gun : null, vehicle: VEHICLE[d.vehicle] ? d.vehicle : null, dog: cleanDog(d.dog), updated: Math.max(0, Number(d.updated) || 0) };
+           gun: GUN[d.gun] ? d.gun : null, vehicle: VEHICLE[d.vehicle] ? d.vehicle : null, dog: cleanDog(d.dog), updated: Math.max(0, Number(d.updated) || 0), seen: Math.max(0, Number(d.seen) || 0) };
 }
 function lbRow(r, i){
   const el = document.createElement('button');
@@ -1997,9 +2200,10 @@ function lbRow(r, i){
   el.className = 'lbrow' + (r.id === uid ? ' me' : '');
   el.dataset.uid = r.id;
   const inc = incoming.find(c => c.from === r.id), out = pendingTo(r.id);
-  const sub = r.id === uid ? `Level ${r.level} · You!` : inc ? 'Wants to fight you!' : out ? 'Challenge sent!' : `Lv ${r.level} · Tap to fight`;
-  el.innerHTML = `<span class="rank${i < 3 ? ' r' + (i + 1) : ''}">${i + 1}</span><span class="lbbot">${robotSVG(r)}</span>
-    <div class="lbtxt"><div class="lbname"></div><div class="lbsub${inc ? ' go' : ''}">${sub}</div></div>
+  const on = isOnline(r);
+  const sub = r.id === uid ? `Level ${r.level} · You!` : inc ? 'Wants to fight you!' : on ? 'Online now! Tap for a LIVE battle' : out ? 'Challenge sent!' : `Lv ${r.level} · Tap to fight`;
+  el.innerHTML = `<span class="rank${i < 3 ? ' r' + (i + 1) : ''}">${i + 1}</span><span class="lbbot">${robotSVG(r)}${on ? '<i class="odot" title="Online"></i>' : ''}</span>
+    <div class="lbtxt"><div class="lbname"></div><div class="lbsub${inc || on ? ' go' : ''}">${sub}</div></div>
     <span class="lbwins" title="Wins">${TROPHY_INK}${r.wins}</span>`;
   el.querySelector('.lbname').textContent = r.name;
   return el;
@@ -2066,7 +2270,7 @@ async function initBoard(){
 /* ---------- menu and pages ----------
    The garage shows the robot and parts. Everything else lives behind the menu button,
    each as its own page (#armoury, #player, #leaderboard, #help) so the phone's Back button works. */
-const PAGES = ['armoury', 'kennel', 'player', 'leaderboard', 'help'];
+const PAGES = ['map', 'daily', 'stickers', 'armoury', 'kennel', 'player', 'leaderboard', 'help'];
 let page = 'home', pagePushed = false;
 function routePage(){
   const h = location.hash.slice(1);
@@ -2077,6 +2281,9 @@ function routePage(){
   if (page === 'armoury') renderSwords();
   if (page === 'player') renderProfile();
   if (page === 'kennel') renderKennel();
+  if (page === 'map') renderMap();
+  if (page === 'daily') renderDaily();
+  if (page === 'stickers') renderStickers();
   window.scrollTo(0, 0);
 }
 function goPage(name){
@@ -2092,7 +2299,8 @@ function goHome(){
 }
 window.addEventListener('hashchange', () => { if (location.hash !== '#admin') routePage(); });
 $('pageBack').addEventListener('click', () => { sfx('pop'); goHome(); });
-function renderMenuDot(){ $('menuDot').hidden = !(save.fresh && save.fresh.length); }
+function renderMenuDot(){ $('menuDot').hidden = !((save.fresh && save.fresh.length) || dailyChestReady() || trickReady()); }
+const trickReady = () => { const d = save.dog && save.dogs[save.dog]; return !!d && (d.tricks || []).length < trickSlots(d.level); };
 function openMenu(){
   const fresh = (save.fresh || []).length, chal = $('inlist') ? $('inlist').children.length : 0;
   const tile = (id, icon, name, sub, color, badge = 0) =>
@@ -2101,7 +2309,10 @@ function openMenu(){
     <div class="menugrid">
       ${tile('parts', iconSvg('gear', 52), 'Parts', `${save.unlocked.length} of ${OBJECTS.length} found`, '#FFF1A8', fresh)}
       ${tile('armoury', weaponIcon('blue', 54), 'Armoury', 'Swords and blasters', '#E3DBFF')}
-      ${tile('kennel', `<span style="width:58px;display:block">${dogSVG(myDog() || { breed: 'dachshund' })}</span>`, 'Kennel', myDog() ? `${esc(myDog().name)} · Lv ${myDog().level}` : 'Get a battle dog!', '#FFE9C7', save.dog ? 0 : (save.wins >= 1 ? '!' : 0))}
+      ${tile('map', worldArt(curWorld(), 54), 'Adventure', `World ${save.world + 1} · Stage ${stageNo()}`, '#CFF3E3')}
+      ${tile('daily', chestSVG('gold', !dailyChestReady()), 'Daily', `${ensureDaily().missions.filter(m => m.done).length} / 3 missions`, '#FFF1A8', dailyChestReady() ? '!' : 0)}
+      ${tile('stickers', `<span style="width:50px;display:block">${STAR(true)}</span>`, 'Stickers', `${save.stickers.length} / ${STICKERS.length} collected`, '#FFE3F0')}
+      ${tile('kennel', `<span style="width:58px;display:block">${dogSVG(myDog() || { breed: 'dachshund' })}</span>`, 'Kennel', myDog() ? `${esc(myDog().name)} · Lv ${myDog().level}` : 'Get a battle dog!', '#FFE9C7', save.dog ? (trickReady() ? '!' : 0) : (save.wins >= 1 ? '!' : 0))}
       ${tile('leaderboard', `<svg viewBox="0 0 24 24" width="50" height="50" aria-hidden="true">${TROPHY.replace(/^<svg[^>]*>|<\/svg>$/g, '')}</svg>`, 'Leaderboard', 'Most wins', '#D7F5EC', chal)}
       ${net ? tile('player', `<span style="width:46px;display:block">${robotSVG(myRobot())}</span>`, 'Player', 'Profile code, switch player', '#FFD9E6') : ''}
       ${tile('book', `<svg viewBox="0 0 24 24" width="50" height="50" aria-hidden="true"><path d="M4 5c3-1 6-1 8 1v14c-2-2-5-2-8-1z" fill="#FF4D5E" stroke="#2B1D3A" stroke-width="2" stroke-linejoin="round"/><path d="M20 5c-3-1-6-1-8 1v14c2-2 5-2 8-1z" fill="#FFD23F" stroke="#2B1D3A" stroke-width="2" stroke-linejoin="round"/></svg>`, 'Combo Book', `${save.combos.length} of ${COMBOS.length} combos`, '#FFE3D6')}
@@ -2336,7 +2547,7 @@ async function initNet(){
   $('profilePanel').hidden = false; renderProfile(); routePage(); maybeAskWho();
   checkAdminHash();
   await netRefresh();
-  netTimer = setInterval(netRefresh, 20000);
+  netTimer = setInterval(netRefresh, 8000);
   document.addEventListener('visibilitychange', () => { if (!document.hidden) netRefresh(); });
   schedulePush();
   return true;
@@ -2353,12 +2564,163 @@ async function netRefresh(){
     setIncoming((d.incoming || []).map(normChallenge).filter(c => c && c.status === 'pending' && c.from !== uid && freshChallenge(c)));
     outgoing = (d.outgoing || []).map(normChallenge).filter(Boolean);
     boardState = 'live';
+    handleLiveInvites(Array.isArray(d.live) ? d.live : []);
   } catch (e){
     if (e && e.code === 'invalid_argument') canPost = false;
     boardState = 'slow';
   }
   netBusy = false;
   renderInbox(); renderBoard(); maybeShowResults();
+}
+
+/* ---------- live battles: two players, real time, taking turns ----------
+   Each player's own turns run on their phone with a random seed. The seed, the move and
+   the result are sent to the game server, and the other phone plays the same move with the
+   same seed (so it looks the same), then copies the exact result so both phones agree. */
+const LIVE_ONLINE_MS = 70000, LIVE_STUCK_MS = 75000;
+let live = null;
+const isOnline = r => !!(net && r && r.id !== uid && r.seen && Date.now() - r.seen < LIVE_ONLINE_MS);
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+function endLive(){ live = null; }
+async function sendLive(r){
+  if (!save.robot.parts.length){ toast('Put a part on your robot first!'); return; }
+  const build = myBuild(); let mid;
+  try { ({ mid } = await api('live-invite', { to: r.id, build })); }
+  catch (e){ toast("Couldn't reach them right now."); return; }
+  let cancelled = false;
+  showOverlay(`<div class="ribbon purple">LIVE BATTLE</div>
+    <div class="stage small"><div class="bigbot popin"><div class="flip">${robotSVG(r)}</div></div></div>
+    <p class="muted">Waiting for <b id="lvName"></b> to say yes...</p><div class="waitdots"><i></i><i></i><i></i></div>
+    <div class="stack"><button class="btn plain" id="lvCancel" type="button">Cancel</button></div>`);
+  $('lvName').textContent = r.name;
+  $('lvCancel').onclick = () => { cancelled = true; api('live-leave', { mid }).catch(() => {}); hideOverlay(); };
+  const t0 = Date.now();
+  while (!cancelled && Date.now() - t0 < 90000){
+    await sleep(2000);
+    if (cancelled) return;
+    let m; try { ({ match: m } = await api('live-get', { mid })); } catch (e){ continue; }
+    if (m.status === 'live'){ beginLive(m, build); return; }
+    if (m.status === 'declined' || m.status === 'left'){ hideOverlay(); toast(`${r.name} can't play right now.`); return; }
+  }
+  if (!cancelled){ api('live-leave', { mid }).catch(() => {}); hideOverlay(); toast(`${r.name} didn't answer. Try again later!`); }
+}
+const seenInvites = new Set();
+function handleLiveInvites(list){
+  if (live || !$('battle').hidden) return;
+  const inv = list.find(l => l && typeof l.mid === 'string' && /^m[0-9a-f]{16}$/.test(l.mid) && !seenInvites.has(l.mid) && Date.now() - (Number(l.created) || 0) < 85000);
+  if (!inv) return;
+  seenInvites.add(inv.mid);
+  const foe = robotFromBuild(inv.fromBuild), me = myRobot();
+  sfx('alarm');
+  showOverlay(`<div class="ribbon purple">LIVE BATTLE!</div>
+    <div class="vsrow"><div class="side">${robotSVG(me)}<span class="nm" id="liMe"></span><span class="tagline">YOU</span></div>
+      <div class="vsbig outline">VS</div>
+      <div class="side"><div class="flip" style="width:min(140px,100%)">${robotSVG(foe)}</div><span class="nm" id="liFoe"></span><span class="tagline">LEVEL ${foe.level}</span></div></div>
+    <p class="muted"><b id="liName"></b> wants to fight you RIGHT NOW!</p>
+    <div class="stack"><button class="btn big green ready" id="liYes" type="button">Let's fight!</button><button class="btn plain" id="liNo" type="button">Not now</button></div>`, { wide: true });
+  $('liMe').textContent = me.name; $('liFoe').textContent = foe.name; $('liName').textContent = foe.name;
+  $('liYes').onclick = async () => {
+    if (!save.robot.parts.length){ toast('Put a part on your robot first!'); return; }
+    $('liYes').disabled = true;
+    const build = myBuild(), mine = robotFromBuild(build);
+    const first = mine.spd > foe.spd ? uid : inv.from; // the faster robot goes first; ties go to whoever asked
+    try { const { match } = await api('live-answer', { mid: inv.mid, accept: true, build, first }); beginLive(match, build); }
+    catch (e){ hideOverlay(); toast('That battle has gone. Ask them to try again!'); }
+  };
+  $('liNo').onclick = () => { api('live-answer', { mid: inv.mid, accept: false }).catch(() => {}); hideOverlay(); };
+}
+function beginLive(m, build){
+  const iAmA = m.a === uid, opp = iAmA ? m.b : m.a, oppBuild = iAmA ? m.bBuild : m.aBuild;
+  const foe = robotFromBuild(oppBuild);
+  hideOverlay();
+  live = { mid: m.id, opp, first: m.first, n: 0, oppName: foe.name, over: false };
+  startBattle(robotFromBuild(build), foe, null, { live: true });
+}
+const liveMine = () => live && ((live.n % 2 === 0) === (live.first === uid));
+function liveNext(){
+  if (!live) return;
+  if (liveMine()){
+    if (P.stun > 0){ busy = true; updateActions(); setTurn('you'); setTimeout(() => liveAct('bash'), 700); return; }
+    readyPlayer();
+  } else waitOpp();
+}
+async function liveAct(action){
+  busy = true; updateActions();
+  const L = live, n = L.n;
+  const seed = await myTurn(action);
+  P.extra = false; // no extra turns in live battles
+  const over = P.hp <= 0 || E.hp <= 0;
+  L.n++;
+  const body = { mid: L.mid, n, action, seed, state: { [uid]: snapFighter(P), [L.opp]: snapFighter(E) }, over, winner: over ? (E.hp <= 0 ? uid : L.opp) : null };
+  for (let i = 0; i < 6; i++){
+    try { await api('live-turn', body); break; }
+    catch (e){ if (e && e.status === 409) break; await sleep(1500); }
+  }
+  if (live !== L) return;
+  if (await checkEnd()) return;
+  liveNext();
+}
+async function waitOpp(){
+  const L = live;
+  busy = true; updateActions(); setTurn('them'); setLog(`Waiting for ${L.oppName}...`);
+  let lastChange = Date.now();
+  while (live === L){
+    await sleep(1500);
+    if (live !== L) return;
+    let m; try { ({ match: m } = await api('live-get', { mid: L.mid })); } catch (e){ continue; }
+    if (live !== L) return;
+    if (Array.isArray(m.turns) && m.turns.length > L.n){
+      for (const t of m.turns.slice(L.n)){
+        if (live !== L) return;
+        if (t.by !== uid){
+          await seededTurn(t.seed >>> 0, () => takeTurn(E, P, String(t.action)));
+          E.extra = false;
+          if (t.state){ applySnap(P, t.state[uid]); applySnap(E, t.state[L.opp]); }
+          updateHP();
+        }
+        L.n++;
+        if (await checkEnd()) return;
+      }
+      return liveNext();
+    }
+    if (m.status === 'left' && m.leaver !== uid){
+      toast(`${L.oppName} left the battle. You win!`); E.hp = 0; updateHP();
+      if (await checkEnd()) return;
+    }
+    if (Date.now() - lastChange > LIVE_STUCK_MS && overlay.hidden){
+      lastChange = Date.now();
+      showOverlay(`<div class="ribbon purple">STILL THERE?</div><p class="muted"><b id="stName"></b> hasn't moved for a while.</p>
+        <div class="stack"><button class="btn big green" id="stWait" type="button">Keep waiting</button><button class="btn plain" id="stWin" type="button">Leave and take the win</button></div>`);
+      $('stName').textContent = L.oppName;
+      $('stWait').onclick = hideOverlay;
+      $('stWin').onclick = async () => { hideOverlay(); api('live-leave', { mid: L.mid }).catch(() => {}); E.hp = 0; updateHP(); await checkEnd(); };
+    }
+  }
+}
+function liveResult(won){
+  const L = live, oppName = L ? L.oppName : 'your friend', oppId = L ? L.opp : null;
+  endLive();
+  const start = save.coins, coins = won ? 8 : 3, xp = won ? WIN_XP : LOSS_XP;
+  if (won){ save.wins++; save.flags.liveWin = true; track('win'); } else save.losses++;
+  save.coins += coins;
+  const lv = addXP(xp), dx = addDogXP(won ? 6 : 3);
+  persist(); renderRobot(); renderTray();
+  sfx(won ? 'win' : 'lose'); if (won) confetti();
+  showOverlay(`<div class="ribbon ${won ? 'win' : 'lose'}">${won ? 'LIVE WIN!' : 'KNOCKED OUT!'}</div>
+    <div class="stage small"><div class="bigbot popin">${won ? robotSVG(battleRobot) : `<div class="flip">${robotSVG(enemyRobot)}</div>`}</div></div>
+    <h2 class="botname" id="lrName"></h2>
+    <p class="muted">That was a live battle with a real player!</p>
+    ${rewardsHTML(coins, xp)}
+    ${won ? bestHitHTML() : ''}
+    ${dogResultHTML(dx)}
+    ${extrasHTML(lv, null)}
+    <div class="stack"><button class="btn big green" id="toWorkshop" type="button">Back to my robot</button>${oppId ? '<button class="btn plain" id="liveAgain" type="button">Ask for a rematch</button>' : ''}</div>`);
+  $('lrName').textContent = won ? `You beat ${oppName}!` : `${oppName} wins this time`;
+  flyCoins(coins, $('coinReward'), start);
+  if ($('dogResName')) $('dogResName').textContent = dx.name;
+  if ($('replayBtn')) $('replayBtn').onclick = replayBest;
+  $('toWorkshop').onclick = backToGarage;
+  if ($('liveAgain')) $('liveAgain').onclick = () => { const r = boardRows.find(x => x.id === oppId) || { id: oppId, name: oppName, parts: [], colors: { body:'#9AA6B2', head:'#9AA6B2', limbs:'#9AA6B2' } }; backToGarage(); sendLive(r); };
 }
 
 /* ---------- challenges: ask another player to fight ----------
@@ -2477,8 +2839,9 @@ function openPlayer(r){
       <div class="vsbig outline">VS</div>
       <div class="side"><div class="flip" style="width:min(140px,100%)">${robotSVG(r)}</div><span class="nm">${nm}</span><span class="tagline">LEVEL ${r.level} · ${r.wins} WIN${r.wins === 1 ? '' : 'S'}</span></div>
     </div>
-    <div class="stack">${body}</div>`, { dismiss: true, wide: true });
+    <div class="stack">${isOnline(r) && save.robot.parts.length ? `<button class="btn big green ready" id="pLive" type="button">LIVE BATTLE NOW!</button><p class="note">${nm} is online! Fight them right now, taking turns.</p>` : ''}${body}</div>`, { dismiss: true, wide: true });
   if (inc) $('pAccept').onclick = () => acceptChallenge(inc);
+  if ($('pLive')) $('pLive').onclick = () => sendLive(r);
   const send = $('pSend');
   if (send) send.onclick = async () => { send.disabled = true; if (await sendChallenge(r.id)) setTimeout(() => { if (!overlay.hidden) openPlayer(r); }, 300); else send.disabled = false; };
 }
@@ -2623,7 +2986,8 @@ function bump(el){ el.classList.remove('bump'); void el.offsetWidth; el.classLis
 const machine = $('machine'), windowEl = $('window');
 const slotEls = [...document.querySelectorAll('.slot')];
 
-function renderAll(pop = -1){ renderHeader(); renderRobot(pop); renderTray(); renderSwords(); renderDogSlot(); renderProfile(); renderMenuDot(); if (page === 'kennel') renderKennel(); }
+function renderAll(pop = -1){ renderHeader(); renderRobot(pop); renderTray(); renderSwords(); renderDogSlot(); renderProfile(); renderMenuDot(); renderDailyBar();
+  if (page === 'kennel') renderKennel(); if (page === 'daily') renderDaily(); if (page === 'map') renderMap(); }
 /* ---------- kennel: battle dogs ---------- */
 function renderDogSlot(){
   const d = myDog(), slot = $('dogSlot'), pd = $('pdog');
@@ -2664,6 +3028,8 @@ function renderKennel(){
         <div class="dlv"><span>Lv ${rec.level}</span><div class="dxbar"><i style="width:${maxed ? 100 : rec.xp / need * 100}%"></i></div><span>${maxed ? 'MAX' : `Lv ${rec.level + 1}`}</span></div>
         <span class="dline">${maxed ? 'Top dog! Fully trained.' : `${need - rec.xp} dog XP to the next level. Dogs learn in every battle.`}</span>
         <span class="dline">Bites for about <b>${Math.round(dogBase(rec.level) * (BITE[d.breed] || 1) * (d.acc === 'crown' ? 1.3 : d.acc === 'shades' ? 1.15 : 1))}</b> damage after each of your turns${d.gadget ? `. Uses the <b>${GADGET[d.gadget].name}</b> every ${d.acc === 'wizard' ? '2nd' : DOG_GADGET_EVERY + 'rd'} turn` : ''}.</span>
+        <div class="tricks"><span class="tlbl">Tricks</span>${TRICK_LEVELS.map((lv, i) => d.tricks[i] ? `<span class="trick">${TRICK_ICON[d.tricks[i]]}${TRICK[d.tricks[i]].name}</span>`
+          : rec.level >= lv ? `<button class="trick learn" type="button" data-learn="1">+ Teach a trick!</button>` : `<span class="trick locked">${LOCK(14)} Lv ${lv}</span>`).join('')}</div>
         ${d.acc ? `<span class="dline">Wearing the <b>${ACC[d.acc].name}</b>: ${ACC[d.acc].perk.charAt(0).toLowerCase() + ACC[d.acc].perk.slice(1)}.</span>` : ''}
         <div class="dbtns">${d.gadget ? '<button class="pillbtn" id="gadgetOff" type="button">Take gadget off</button>' : ''}${d.acc ? '<button class="pillbtn" id="accOff" type="button">Take accessory off</button>' : ''}</div>
       </div></div>`;
@@ -2678,12 +3044,27 @@ function renderKennel(){
   if (d){ $('kDogName').textContent = d.name; $('dogRename').onclick = () => { sfx('pop'); openDogRename(); }; }
   if ($('gadgetOff')) $('gadgetOff').onclick = () => { save.dogGadget = null; persist(); sfx('remove'); renderAll(); };
   if ($('accOff')) $('accOff').onclick = () => { save.dogAcc = null; persist(); sfx('remove'); renderAll(); };
+  box.querySelectorAll('[data-learn]').forEach(b => b.onclick = () => { sfx('pop'); openTricks(); });
+}
+function openTricks(){
+  const rec = save.dogs[save.dog]; if (!rec) return;
+  const left = TRICKS.filter(t => !rec.tricks.includes(t.id));
+  showOverlay(`<div class="ribbon purple">TEACH A TRICK</div>
+    <div class="stage small"><div class="bigdog popin">${dogSVG(myDog())}</div></div>
+    <p class="muted">Pick a trick for <b id="trkName"></b>. Tricks work in every battle!</p>
+    <div class="tgrid">${left.map(t => `<button class="tcard" type="button" data-trick="${t.id}"><span class="tic">${TRICK_ICON[t.id]}</span><b>${t.name}</b><span>${t.desc}</span></button>`).join('')}</div>`, { dismiss: true, wide: true });
+  $('trkName').textContent = rec.name;
+  card.querySelectorAll('[data-trick]').forEach(b => b.onclick = () => {
+    if (rec.tricks.length >= trickSlots(rec.level)) return;
+    rec.tricks.push(b.dataset.trick); persist(); sfx('levelup'); hideOverlay(); renderAll();
+    toast(`${rec.name} learned ${TRICK[b.dataset.trick].name}!`);
+  });
 }
 function accCardHTML(x){
   const own = save.accs.includes(x.id), on = save.dogAcc === x.id, d = myDog() || { breed: 'dachshund' };
   const tag = on ? '<span class="price hold">Wearing</span>' : own ? '<span class="price own">Wear it</span>'
     : `<span class="price${save.coins < x.cost ? ' cant' : ''}">${COIN(16)}${x.cost}</span>`;
-  return `<button class="acard${on ? ' on' : ''}" type="button" data-acc="${x.id}"><span class="apic">${dogSVG({ ...d, gadget: null, acc: x.id })}</span>
+  return `<button class="acard${on ? ' on' : ''}" type="button" data-dacc="${x.id}"><span class="apic">${dogSVG({ ...d, gadget: null, acc: x.id })}</span>
     <b>${x.name}</b><span class="aperk">${x.perk}</span>${tag}</button>`;
 }
 function chooseAcc(id){
@@ -2741,7 +3122,7 @@ function chooseGadget(id){
 document.addEventListener('click', e => {
   const dc = e.target.closest('[data-dog]'); if (dc){ chooseDog(dc.dataset.dog); return; }
   const gc = e.target.closest('[data-gadget]'); if (gc){ chooseGadget(gc.dataset.gadget); return; }
-  const ac = e.target.closest('[data-acc]'); if (ac) chooseAcc(ac.dataset.acc);
+  const ac = e.target.closest('[data-dacc]'); if (ac && ACC[ac.dataset.dacc]) chooseAcc(ac.dataset.dacc);
 });
 function swordTile(w){
   const owned = save.weapons.includes(w.id), on = myWeapon() === w.id;
@@ -2898,9 +3279,195 @@ function renderRobot(popIndex = -1){
   fb.classList.toggle('ready', parts.length > 0);
   fb.classList.toggle('bossbtn', bossDue());
   fb.textContent = bossDue() ? 'BOSS BATTLE!' : 'FIGHT!';
-  const left = BOSS_EVERY - 1 - save.sinceBoss;
-  $('bossNext').textContent = bossDue() ? (save.bossTries ? `Boss try ${save.bossTries + 1}: it's a bit weaker now!` : 'A boss is waiting. Beat it for a gold chest!')
-    : `Boss battle after ${left} more win${left === 1 ? '' : 's'}`;
+  const left = BOSS_EVERY - 1 - save.sinceBoss, W = curWorld();
+  $('bossNext').textContent = bossDue() ? (save.bossTries ? `Boss try ${save.bossTries + 1}: it's a bit weaker now!` : `${W.boss} is waiting. Beat it for a gold chest!`)
+    : `${W.boss} after ${left} more win${left === 1 ? '' : 's'}`;
+  renderWorldBar();
+}
+function renderWorldBar(){
+  const W = curWorld(), st = stageNo();
+  $('worldBar').style.setProperty('--wc', W.color);
+  $('worldBar').innerHTML = `<span class="wbt"><b>World ${save.world + 1}: ${W.name}</b><span>${save.lap ? `Champion Lap ${save.lap + 1} · ` : ''}Stage ${st} of ${BOSS_EVERY}</span></span>
+    <span class="wdots">${Array.from({ length: BOSS_EVERY }, (_, i) => `<i class="${i < st - 1 ? 'done' : i === st - 1 ? 'now' : ''}${i === BOSS_EVERY - 1 ? ' boss' : ''}"></i>`).join('')}</span>
+    <span class="chg">Map</span>`;
+  $('worldBar').setAttribute('aria-label', `World ${save.world + 1}, ${W.name}, stage ${st} of ${BOSS_EVERY}. Open the map`);
+}
+$('worldBar').addEventListener('click', () => { sfx('pop'); goPage('map'); });
+/* ---------- daily missions + daily chest ---------- */
+const MISSION_COINS = 6, MISSION_BONUS = 10;
+const MISSIONS = [
+  { id:'win',       ev:'win',       n:[2, 3],     text: n => `Win ${n} battles` },
+  { id:'special',   ev:'special',   n:[3, 5],     text: n => `Use ${n} special powers` },
+  { id:'bite',      ev:'bite',      n:[8, 12],    text: n => `Your dog bites ${n} times`, need: () => !!save.dog },
+  { id:'fire',      ev:'fire',      n:[3, 5],     text: n => `Fire your blaster ${n} times`, need: () => !!myGun() },
+  { id:'transform', ev:'transform', n:[2, 3],     text: n => `Transform ${n} times`, need: () => !!myVehicle() },
+  { id:'upgrade',   ev:'upgrade',   n:[2, 3],     text: n => `Upgrade your parts ${n} times` },
+  { id:'crit',      ev:'crit',      n:[2, 4],     text: n => `Land ${n} critical hits` },
+  { id:'damage',    ev:'damage',    n:[250, 400], text: n => `Do ${n} damage` },
+  { id:'stars',     ev:'stars3',    n:[1, 2],     text: n => `Win with 3 stars ${n} time${n === 1 ? '' : 's'}` },
+];
+const MISSION = Object.fromEntries(MISSIONS.map(m => [m.id, m]));
+const todayKey = (d = new Date()) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+function hashStr(t){ let h = 2166136261; for (const c of t) h = Math.imul(h ^ c.charCodeAt(0), 16777619); return h >>> 0; }
+// Three missions a day, the same ones on every phone for this player.
+function ensureDaily(){
+  const day = todayKey();
+  if (save.daily && save.daily.day === day && Array.isArray(save.daily.missions)) return save.daily;
+  const r = mulberry(hashStr(day + profile.id)), pool = MISSIONS.filter(m => !m.need || m.need()), picks = [];
+  while (picks.length < 3 && pool.length) picks.push(pool.splice(Math.floor(r() * pool.length), 1)[0]);
+  const prev = save.daily && typeof save.daily === 'object' ? save.daily : {};
+  save.daily = { day, chest: false, bonus: false, lastChest: prev.lastChest || null, streak: prev.streak || 0,
+    missions: picks.map(m => { let n = m.n[0] + Math.floor(r() * (m.n[1] - m.n[0] + 1)); if (n > 50) n = Math.round(n / 50) * 50; return { id: m.id, n, have: 0, done: false }; }) };
+  return save.daily;
+}
+function track(ev, amt = 1){
+  if (replaying || !save) return;
+  const d = ensureDaily(); let changed = false;
+  d.missions.forEach(m => {
+    const M = MISSION[m.id]; if (!M || M.ev !== ev || m.done) return;
+    m.have = Math.min(m.n, m.have + amt); changed = true;
+    if (m.have >= m.n){ m.done = true; save.coins += MISSION_COINS; renderHeader(); sfx('reveal'); toast(`Mission done: ${M.text(m.n)}! +${MISSION_COINS} coins`); }
+  });
+  if (d.missions.length && d.missions.every(m => m.done) && !d.bonus){
+    d.bonus = true; save.coins += MISSION_BONUS; save.flags.mission = true; renderHeader();
+    setTimeout(() => toast(`All 3 missions done! +${MISSION_BONUS} bonus coins`), 1800);
+  }
+  if (changed) persist();
+}
+const dailyChestReady = () => !ensureDaily().chest;
+function openDailyChest(){
+  const d = ensureDaily(); if (d.chest) return;
+  const y = todayKey(new Date(Date.now() - 864e5));
+  d.streak = d.lastChest === y ? (d.streak || 0) + 1 : 1;
+  d.lastChest = d.day; d.chest = true;
+  const coins = 5 + Math.min(d.streak, 7) * 2, start = save.coins;
+  save.coins += coins; persist();
+  sfx('chest'); confetti();
+  showOverlay(`<div class="ribbon win">DAILY CHEST!</div>
+    <div class="chest">${chestSVG('gold', true)}</div>
+    <h2 class="botname">Day ${d.streak} streak!</h2>
+    <p class="muted">${d.streak >= 7 ? 'Wow, a whole week! Maximum chest!' : `Come back tomorrow for an even bigger chest. Day ${Math.min(d.streak + 1, 7)} gives ${5 + Math.min(d.streak + 1, 7) * 2} coins.`}</p>
+    <div class="rewards one"><div class="reward" id="coinReward">${COIN(36)}<div><b>+${coins}</b><br><span>coins</span></div></div></div>
+    <div class="stack"><button class="btn big green" id="dcOk" type="button">Yay!</button></div>`);
+  flyCoins(coins, $('coinReward'), start);
+  $('dcOk').onclick = () => { hideOverlay(); renderAll(); };
+}
+function renderDailyBar(){
+  const d = ensureDaily(), done = d.missions.filter(m => m.done).length, bar = $('dailyBar');
+  bar.classList.toggle('ready', !d.chest);
+  bar.innerHTML = !d.chest
+    ? `<span class="dic">${chestSVG('gold', false)}</span><span class="dbt"><b>Daily chest ready!</b><span>Tap to open it</span></span><span class="chg">Open</span>`
+    : `<span class="dic">${STAR(done === d.missions.length)}</span><span class="dbt"><b>Daily missions: ${done} / ${d.missions.length}</b><span>${done === d.missions.length ? 'All done! New ones tomorrow' : esc(MISSION[d.missions.find(m => !m.done).id].text(d.missions.find(m => !m.done).n))}</span></span><span class="chg">See</span>`;
+}
+$('dailyBar').addEventListener('click', () => { sfx('pop'); if (dailyChestReady()) openDailyChest(); else goPage('daily'); });
+function renderDaily(){
+  const box = $('dailyBox'); if (!box) return;
+  const d = ensureDaily();
+  box.innerHTML = `<div class="dchest${d.chest ? ' opened' : ''}"><span class="dcpic">${chestSVG('gold', d.chest)}</span>
+      <div><b>${d.chest ? 'Chest opened today' : 'Your daily chest is ready!'}</b><span>${d.chest ? `Day ${d.streak} streak. Come back tomorrow for more!` : 'Open it every day to build a streak and get more coins.'}</span>
+      ${d.chest ? '' : '<button class="btn green small" id="dcOpen" type="button">Open it!</button>'}</div></div>
+    <h3 class="ksub">Today's missions</h3>
+    <div class="mlist">${d.missions.map(m => { const M = MISSION[m.id];
+      return `<div class="mrow${m.done ? ' done' : ''}"><span class="mchk">${m.done ? STAR(true) : STAR(false)}</span><div class="mtxt"><b>${esc(M.text(m.n))}</b>
+        <div class="mbar"><i style="width:${m.have / m.n * 100}%"></i></div><span>${m.have} / ${m.n}</span></div><span class="mrew">${COIN(16)}${MISSION_COINS}</span></div>`; }).join('')}</div>
+    <p class="knote">Finish all three for ${MISSION_BONUS} bonus coins${d.bonus ? ' (done!)' : ''}. New missions every day.</p>`;
+  if ($('dcOpen')) $('dcOpen').onclick = openDailyChest;
+}
+
+/* ---------- sticker book ---------- */
+const STICKER_COINS = 3;
+const bossLook = { parts: ['ghost', 'crown', 'meteor'], colors: { body:'#3A2E55', head:'#FF6A2B', limbs:'#FF3B4E' }, style: 'shadow', weapon: 'red', gun: null };
+const STICKERS = [
+  { id:'firstwin', name:'First Win',     hint:'Win a battle',                   bg:'#FFD23F', art: () => TROPHY.replace('width="20" height="20"', ''), test: () => save.wins >= 1 },
+  { id:'wins10',   name:'Ten Wins',      hint:'Win 10 battles',                 bg:'#5BC0F8', art: () => STAR(true), tag:'10', test: () => save.wins >= 10 },
+  { id:'wins50',   name:'Fifty Wins',    hint:'Win 50 battles',                 bg:'#FF6FB5', art: () => STAR(true), tag:'50', test: () => save.wins >= 50 },
+  { id:'boss',     name:'Boss Beater',   hint:'Beat a boss',                    bg:'#FF4D5E', art: () => robotSVG(bossLook), test: () => (save.bossesBeaten || 0) >= 1 },
+  { id:'world3',   name:'Explorer',      hint:'Reach the Army Base',            bg:'#6B8E3A', art: () => worldArt(WORLDS[2], 80), test: () => save.world >= 2 || save.lap > 0 },
+  { id:'world6',   name:'Space Hero',    hint:'Reach the Space Station',        bg:'#7B5CFF', art: () => worldArt(WORLDS[5], 80), test: () => save.world >= 5 || save.lap > 0 },
+  { id:'champion', name:'Champion',      hint:'Beat the Galaxy Emperor',        bg:'#FFB020', art: () => iconSvg('crown', 80), test: () => save.lap > 0 },
+  { id:'dog',      name:'Best Friend',   hint:'Get a battle dog',               bg:'#C98A45', art: () => dogSVG({ breed:'dachshund' }), test: () => Object.keys(save.dogs).length >= 1 },
+  { id:'dogs5',    name:'Dog Lover',     hint:'Have 5 dogs',                    bg:'#F2A04A', art: () => dogSVG({ breed:'corgi', acc:'party' }), test: () => Object.keys(save.dogs).length >= 5 },
+  { id:'dogs10',   name:'Top Kennel',    hint:'Have all 10 dogs',               bg:'#8A97A8', art: () => dogSVG({ breed:'dane', acc:'crown' }), test: () => Object.keys(save.dogs).length >= DOGS.length },
+  { id:'dogmax',   name:'Top Dog',       hint:'Train a dog to level 10',        bg:'#2E2A33', art: () => dogSVG({ breed:'rottweiler', acc:'gradcap', level:10 }), test: () => Object.values(save.dogs).some(d => d.level >= MAX_DOG_LEVEL) },
+  { id:'fashion',  name:'Fashion Dog',   hint:'Buy 5 dog accessories',          bg:'#F6C1D9', art: () => dogSVG({ breed:'poodle', acc:'shades' }), test: () => save.accs.length >= 5 },
+  { id:'swords',   name:'Sword Master',  hint:'Own 5 laser swords',             bg:'#251D4D', art: () => weaponIcon('rainbow', 80), test: () => save.weapons.length >= 5 },
+  { id:'blasters', name:'Blaster Boss',  hint:'Own 5 blasters',                 bg:'#4E6B2A', art: () => gunIcon('rocket', 80), test: () => save.guns.length >= 5 },
+  { id:'combos',   name:'Combo Master',  hint:'Find 5 secret combos',           bg:'#2EC4A0', art: () => iconSvg('magnet', 80), test: () => save.combos.length >= 5 },
+  { id:'parts',    name:'Part Hunter',   hint:'Find 20 parts',                  bg:'#9AA6B2', art: () => iconSvg('gear', 80), test: () => save.unlocked.length >= 20 },
+  { id:'level10',  name:'Level 10',      hint:'Get your robot to level 10',     bg:'#B46BFF', art: () => XPI(80), tag:'10', test: () => save.level >= 10 },
+  { id:'maxpart',  name:'Maxed Out',     hint:'Upgrade a part to level 10',     bg:'#2EC4A0', art: () => UP(80), test: () => Object.values(save.levels).some(v => v >= MAX_PART_LEVEL) },
+  { id:'streak5',  name:'On Fire',       hint:'Win 5 battles in a row',         bg:'#FF8A2B', art: () => FLAME(80), test: () => !!save.flags.streak5 },
+  { id:'crit',     name:'Critical!',     hint:'Land a critical hit',            bg:'#FF3B4E', art: () => iconSvg('meteor', 80), test: () => !!save.flags.crit },
+  { id:'transform',name:'Transformer',   hint:'Transform in a battle',          bg:'#6B8E3A', art: () => vehicleSVG({ colors:{ body:'#6B8E3A', head:'#9AA6B2', limbs:'#3A3550' }, vehicle:'tank' }), test: () => !!save.flags.transform },
+  { id:'live',     name:'Live Champ',    hint:'Win a live battle with a friend', bg:'#5B6CFF', art: () => iconSvg('storm', 80), tag:'LIVE', test: () => !!save.flags.liveWin },
+  { id:'mission',  name:'Mission Star',  hint:'Finish all 3 daily missions',    bg:'#FFD23F', art: () => STAR(true), tag:'3/3', test: () => !!save.flags.mission },
+  { id:'flawless', name:'Flawless',      hint:'Win without getting hurt',       bg:'#7FF3FF', art: () => iconSvg('diamond', 80), test: () => !!save.flags.flawless },
+];
+function checkStickers(){
+  if (stickerBusy || !save || !save.flags) return;
+  stickerBusy = true;
+  try {
+    const got = STICKERS.filter(k => !save.stickers.includes(k.id) && k.test());
+    if (got.length){
+      got.forEach(k => save.stickers.push(k.id));
+      save.coins += got.length * STICKER_COINS;
+      persist(); renderHeader(); sfx('reveal');
+      toast(got.length === 1 ? `New sticker: ${got[0].name}! +${STICKER_COINS} coins` : `${got.length} new stickers! +${got.length * STICKER_COINS} coins`);
+      if (page === 'stickers') renderStickers();
+    }
+  } catch (e){}
+  stickerBusy = false;
+}
+function stickerHTML(k, have, i){
+  return `<div class="stkcell${have ? ' got' : ''}"><div class="stk" style="--bg:${k.bg};--r:${[-6, 4, -3, 7, -5, 3][i % 6]}deg"><span class="art">${k.art()}</span>${k.tag ? `<span class="stag">${k.tag}</span>` : ''}${have ? '' : '<span class="sq">?</span>'}</div>
+    <b>${have ? k.name : '???'}</b><span>${k.hint}</span></div>`;
+}
+function renderStickers(){
+  const box = $('stickerBox'); if (!box) return;
+  $('stickerCount').textContent = `${save.stickers.length} / ${STICKERS.length}`;
+  box.innerHTML = `<p class="knote">Collect them all! Every new sticker gives you ${STICKER_COINS} coins.</p>
+    <div class="stkgrid">${STICKERS.map((k, i) => stickerHTML(k, save.stickers.includes(k.id), i)).join('')}</div>`;
+}
+
+/* ---------- adventure map ---------- */
+const MAP_POS = [[22, 88], [70, 74], [30, 58], [72, 42], [28, 26], [66, 10]];
+function worldArt(W, size){
+  // a little round picture of each world
+  const sc = {
+    junk: '<rect width="80" height="80" fill="#FFB98A"/><rect y="50" width="80" height="30" fill="#8A6A4A"/><path d="M0 52 Q14 30 30 50 Q40 34 56 50 Q68 36 80 50 V54 H0Z" fill="#9A7A5A" stroke="#2B1D3A" stroke-width="2"/><circle cx="24" cy="46" r="7" fill="#3A3550" stroke="#2B1D3A" stroke-width="2"/><circle cx="24" cy="46" r="3" fill="#8A6A4A"/>',
+    desert: '<rect width="80" height="80" fill="#FFC98A"/><circle cx="58" cy="24" r="10" fill="#FFD23F" stroke="#E0A400" stroke-width="2"/><path d="M0 56 Q20 44 40 54 Q60 42 80 54 V80 H0Z" fill="#DC9152"/><path d="M18 56 v-14 M18 48 h-5 v-6 M18 50 h5 v-8" stroke="#3FBF6A" stroke-width="4" stroke-linecap="round" fill="none"/>',
+    base: '<rect width="80" height="80" fill="#A9C6D9"/><rect y="52" width="80" height="28" fill="#7A8C48"/><path d="M10 52 V24" stroke="#2B1D3A" stroke-width="2.5"/><rect x="10" y="24" width="18" height="11" fill="#FF4D5E" stroke="#2B1D3A" stroke-width="2"/>' + [8, 26, 44, 62].map(x => `<ellipse cx="${x + 8}" cy="52" rx="9" ry="5" fill="#C8B27A" stroke="#2B1D3A" stroke-width="2"/>`).join(''),
+    ice: '<rect width="80" height="80" fill="#CFEFFF"/><path d="M0 56 L20 26 L34 44 L52 18 L80 56Z" fill="#9FC3DD" stroke="#2B1D3A" stroke-width="2"/><path d="M14 35 L20 26 L26 35 Z M46 27 L52 18 L58 27Z" fill="#fff"/><rect y="54" width="80" height="26" fill="#F4FBFF"/>',
+    volcano: '<rect width="80" height="80" fill="#5A1E2E"/><path d="M8 60 L32 22 H48 L72 60Z" fill="#3A1A22" stroke="#2B1D3A" stroke-width="2"/><path d="M32 22 Q40 10 48 22 Z" fill="#FF6A2B"/><path d="M38 24 Q36 36 40 44" stroke="#FF6A2B" stroke-width="3" fill="none"/><rect y="58" width="80" height="22" fill="#2A1418"/><path d="M0 66 Q20 62 40 68 T80 66" stroke="#FF6A2B" stroke-width="3" fill="none"/>',
+    space: '<rect width="80" height="80" fill="#0D0A24"/><circle cx="52" cy="28" r="12" fill="#B46BFF" stroke="#0A0718" stroke-width="2"/><ellipse cx="52" cy="28" rx="20" ry="5" fill="none" stroke="#FFD23F" stroke-width="2.5" transform="rotate(-16 52 28)"/><circle cx="14" cy="16" r="1.5" fill="#fff"/><circle cx="26" cy="40" r="1.2" fill="#fff"/><circle cx="70" cy="56" r="1.5" fill="#fff"/><rect y="58" width="80" height="22" fill="#3B3270"/>',
+  }[W.theme];
+  return `<svg viewBox="0 0 80 80" width="${size}" height="${size}" aria-hidden="true"><clipPath id="wc-${W.id}-${size}"><circle cx="40" cy="40" r="38"/></clipPath><g clip-path="url(#wc-${W.id}-${size})">${sc}</g><circle cx="40" cy="40" r="38" fill="none" stroke="#2B1D3A" stroke-width="4"/></svg>`;
+}
+function renderMap(){
+  const box = $('mapBox'); if (!box) return;
+  const cur = save.world, st = stageNo();
+  const path = MAP_POS.map(([x, y], i) => `${i ? 'L' : 'M'}${x} ${y}`).join(' ');
+  box.innerHTML = `<div class="maphead"><b>${save.lap ? `Champion Lap ${save.lap + 1}` : 'Adventure'}</b><span>Beat the boss at stage 10 to open the next world</span></div>
+    <div class="mapfield"><svg class="mappath" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="${path}" fill="none" stroke="#fff" stroke-width="2.4" stroke-dasharray="1 3.2" stroke-linecap="round" vector-effect="non-scaling-stroke"/></svg>
+    ${WORLDS.map((W, i) => {
+      const done = i < cur || save.lap > 0, now = i === cur, locked = i > cur && !save.lap;
+      return `<button class="mnode${now ? ' now' : ''}${locked ? ' locked' : ''}" type="button" data-world="${i}" style="left:${MAP_POS[i][0]}%;top:${MAP_POS[i][1]}%;--wc:${W.color}">
+        <span class="mart">${worldArt(W, 76)}${locked ? `<span class="mlock">${LOCK(30)}</span>` : ''}${now ? `<span class="mme">${robotSVG(myRobot())}</span>` : ''}</span>
+        <span class="mname">${i + 1}. ${W.name}</span><span class="mstat">${now ? `Stage ${st} / ${BOSS_EVERY}` : done && !now ? 'Complete!' : 'Locked'}</span></button>`;
+    }).join('')}</div>
+    <div class="stack"><button class="btn big ready${bossDue() ? ' bossbtn' : ''}" id="mapFight" type="button">${bossDue() ? 'BOSS BATTLE!' : `FIGHT STAGE ${st}!`}</button></div>`;
+  $('mapFight').onclick = () => { if (!save.robot.parts.length){ toast('Put a part on your robot first!'); return; } sfx('pop'); startBattle(myRobot(), nextFoe()); };
+  box.querySelectorAll('[data-world]').forEach(b => b.onclick = () => {
+    const i = Number(b.dataset.world), W = WORLDS[i], locked = i > cur && !save.lap;
+    sfx('pop');
+    showOverlay(`<div class="ribbon" style="background:${W.color}">${W.name.toUpperCase()}</div>
+      <div class="stage small">${worldArt(W, 150)}</div>
+      <p class="muted">${W.blurb}</p>
+      <p class="muted">Boss: <b>${W.boss}</b></p>
+      <p class="note">${locked ? 'Locked. Beat the boss of the world before it to get here!' : i === cur ? `You are on stage ${st} of ${BOSS_EVERY}.` : 'You beat this world!'}</p>
+      <div class="stack"><button class="btn big green" id="wOk" type="button">OK</button></div>`, { dismiss: true });
+    $('wOk').onclick = hideOverlay;
+  });
 }
 function tileHTML(o){
   const usable = isUsable(o.id);
@@ -3076,6 +3643,7 @@ function openPart(id, upgraded = false){
     const c = upgradeCost(partLevel(id));
     if (save.coins < c) return;
     save.coins -= c; save.levels[id] = partLevel(id) + 1;
+    track('upgrade');
     persist(); sfx('upgrade'); renderAll(); bump($('coinPill'));
     openPart(id, true);
     sparksAt($('sheetIc'));
@@ -3277,6 +3845,28 @@ async function spinBot(f){
 }
 function shakeArena(){
   arena.animate([{transform:'translate(0,0)'},{transform:'translate(-6px,3px)'},{transform:'translate(6px,-3px)'},{transform:'translate(-4px,2px)'},{transform:'translate(0,0)'}],{duration:320});
+}
+// Extra background pictures for the newer arenas.
+function renderScenery(){
+  const t = arena.dataset.theme, el = $('scenery');
+  const svg = inner => `<svg viewBox="0 0 400 240" preserveAspectRatio="xMidYMax slice" aria-hidden="true">${inner}</svg>`;
+  const I = '#2B1D3A';
+  if (t === 'junk') el.innerHTML = svg(`<path d="M-10 142 Q30 92 70 138 Q96 104 128 140 Z" fill="#9A7A5A" stroke="${I}" stroke-width="3"/>
+      <path d="M268 142 Q300 86 340 136 Q370 100 412 142 Z" fill="#8A6A4A" stroke="${I}" stroke-width="3"/>
+      <circle cx="46" cy="124" r="14" fill="#3A3550" stroke="${I}" stroke-width="3"/><circle cx="46" cy="124" r="6" fill="#8A6A4A" stroke="${I}" stroke-width="2"/>
+      <rect x="300" y="104" width="44" height="22" rx="6" fill="#4FA3E0" stroke="${I}" stroke-width="3" transform="rotate(-12 322 115)"/><rect x="306" y="98" width="22" height="10" rx="3" fill="#BFF6FF" stroke="${I}" stroke-width="2.5" transform="rotate(-12 322 115)"/>
+      <g transform="translate(100 118)"><circle r="12" fill="#B8C4D0" stroke="${I}" stroke-width="3"/><circle r="5" fill="#8A6A4A" stroke="${I}" stroke-width="2"/></g>
+      <path d="M356 110 l10 -26 l8 4 l-10 26z" fill="#FF8A2B" stroke="${I}" stroke-width="2.5"/>`);
+  else if (t === 'ice') el.innerHTML = svg(`<path d="M-10 142 L60 50 L110 110 L170 30 L250 140 Z" fill="#9FC3DD" stroke="${I}" stroke-width="3"/>
+      <path d="M44 72 L60 50 L76 70 L68 66 L60 74 L52 66Z M152 54 L170 30 L188 54 L178 50 L170 58 L162 50Z" fill="#fff" stroke="${I}" stroke-width="2.5"/>
+      <path d="M230 142 L310 64 L410 142 Z" fill="#B7D7EC" stroke="${I}" stroke-width="3"/><path d="M294 80 L310 64 L326 80 L316 76 L310 84 L304 76Z" fill="#fff" stroke="${I}" stroke-width="2.5"/>
+      ${Array.from({ length: 16 }, (_, i) => `<circle class="snow" cx="${(i * 53) % 400}" cy="${(i * 37) % 130}" r="${2 + (i % 3)}" fill="#fff" style="animation-delay:-${(i * .7).toFixed(1)}s"/>`).join('')}`);
+  else if (t === 'volcano') el.innerHTML = svg(`<path d="M190 142 L250 40 H290 L350 142 Z" fill="#3A1A22" stroke="${I}" stroke-width="3"/>
+      <path d="M250 40 Q270 14 290 40 Z" fill="#FF6A2B" stroke="${I}" stroke-width="3"/><path class="lavaglow" d="M262 42 Q258 80 270 110 Q276 80 278 42Z" fill="#FF6A2B"/>
+      <path d="M-10 142 L50 80 L100 142Z" fill="#4A2230" stroke="${I}" stroke-width="3"/>
+      <path class="lavaglow" d="M0 196 Q60 186 120 200 T240 194 T400 200" stroke="#FF6A2B" stroke-width="6" fill="none"/>
+      ${Array.from({ length: 10 }, (_, i) => `<circle class="ember" cx="${230 + (i * 17) % 90}" cy="60" r="${2 + (i % 2)}" fill="#FFB020" style="animation-delay:-${(i * .5).toFixed(1)}s"/>`).join('')}`);
+  else el.innerHTML = '';
 }
 async function ko(f){
   const c = center(f);
@@ -3584,7 +4174,7 @@ const logEl = $('log'), actionsEl = $('actions'), turnEl = $('turn');
 function setLog(t){ logEl.textContent = t; }
 function setTurn(who){
   turnEl.className = 'turn' + (who === 'you' ? ' you' : who === 'them' ? ' them' : '');
-  turnEl.textContent = who === 'you' ? 'YOUR TURN' : who === 'them' ? 'ENEMY TURN' : '';
+  turnEl.textContent = who === 'you' ? 'YOUR TURN' : who === 'them' ? (live ? 'THEIR TURN' : 'ENEMY TURN') : '';
 }
 function fighter(robot, side){
   return { robot, side, name: robot.name, hp: robot.hp, maxHp: robot.hp, pow: robot.pow, spd: robot.spd, def: robot.def,
@@ -3609,12 +4199,33 @@ function updateHP(){
     f.el.style.opacity = (f.ghostly && f.dodge > 0 && f.hp > 0) ? '.55' : '';
   });
 }
+let finishing = false, replaying = false;
+function startFinisher(f){
+  finishing = true; timeScale = 2.4;
+  const v = document.createElement('div'); v.className = 'vignette'; v.id = 'vignette'; arena.appendChild(v);
+  v.animate([{opacity:0},{opacity:1}],{duration:200,fill:'forwards'});
+  const t = document.createElement('div'); t.className = 'finishtxt outline'; t.textContent = f === E ? 'FINISHING MOVE!' : 'OH NO!'; arena.appendChild(t);
+  t.animate([{transform:'translate(-50%,-50%) scale(2.4) rotate(-8deg)',opacity:0},{transform:'translate(-50%,-50%) scale(1) rotate(-4deg)',opacity:1,offset:.3},
+    {transform:'translate(-50%,-50%) scale(1.05) rotate(-4deg)',opacity:1,offset:.85},{transform:'translate(-50%,-50%) scale(1.3) rotate(-4deg)',opacity:0}],{duration:1500,fill:'forwards'});
+  sfx('crit');
+}
+function endFinisher(){
+  timeScale = 1; finishing = false;
+  arena.querySelectorAll('.vignette,.finishtxt').forEach(n => n.remove());
+}
 function hurt(f, dmg, crit = false){
-  f.hp = Math.max(0, f.hp - dmg); sfx('hit'); hitFlash(f); burst(f, crit ? 14 : 8);
+  f.hp = Math.max(0, f.hp - dmg);
+  if (f.hp === 0 && !finishing && !replaying && P && E && f.el) startFinisher(f);
+  sfx('hit'); hitFlash(f); burst(f, crit ? 14 : 8);
   popText(f, '-' + dmg, crit ? 'dmg critp' : 'dmg');
   if (crit){ popText(f, 'CRITICAL!', 'big', -52); sfx('crit'); shakeArena(); }
   else if (dmg >= 22) shakeArena();
   updateHP();
+  if (f === E && !replaying){ track('damage', dmg); if (crit){ track('crit'); save.flags.crit = true; } }
+  if (f.hp > 0 && f.dogF){
+    if (f.howl && f.hp < f.maxHp * .5){ f.howl = false; f.energy = Math.min(ENERGY_MAX, f.energy + 1); popText(f.dogF, 'AWOOO!'); popText(f, '+1 CHARGE', 'heal', -30); if (f === P) updateActions(); }
+    if (f.pupEyes && f.hp < f.maxHp * .35){ f.pupEyes = false; popText(f.dogF, 'PUPPY EYES!'); heal(f, Math.round(f.maxHp * .2)); }
+  }
 }
 function burst(f, n){
   const c = center(f), cols = ['#FFD23F','#fff','#FF8A2B'];
@@ -3635,6 +4246,11 @@ function heal(f, n){
 async function strike(a, b, o = {}){
   if (o.anim) await o.anim();
   else { await lunge(a); if (a.robot.weapon){ sfx('saber'); slash(a, b); } }
+  if (b.playDead && b.dogF){
+    b.playDead = false; popText(b.dogF, 'PLAY DEAD!'); popText(b, 'MISSED!', 'status', -24);
+    b.dogF.el.animate([{transform:'rotate(0)'},{transform:'rotate(180deg) translateY(-14px)',offset:.25},{transform:'rotate(180deg) translateY(-14px)',offset:.75},{transform:'rotate(0)'}],{duration:1200});
+    await dodgeAnim(b); updateHP(); return 0;
+  }
   const canDodge = o.canDodge !== false;
   if (canDodge && b.dodge > 0){ b.dodge--; popText(b, 'MISSED!'); updateHP(); await dodgeAnim(b); return 0; }
   const flyDodge = b.transformed && VEHICLE[b.form] ? (VEHICLE[b.form].dodge || 0) : 0;
@@ -3655,6 +4271,11 @@ async function strike(a, b, o = {}){
   return dmg;
 }
 async function takeTurn(a, b, action){
+  if (a === P && !replaying){
+    if (SPECIALS[action]) track('special');
+    else if (action === 'fire' && a.ammo > 0) track('fire');
+    else if (action === 'transform' && !a.usedForm){ track('transform'); save.flags.transform = true; }
+  }
   if (a.poison > 0){
     a.poison--; setLog(`${a.name} is ${a.poisonName.toLowerCase()}!`);
     if (a.poisonName === 'Stinky') await puff(a, '#B5E86B'); else await wait(250);
@@ -3731,6 +4352,7 @@ async function dogBite(a, b, mult = 1, o = {}){
   df.el.animate([{transform:'translateX(0)'},{transform:`translate(${dir * dist * .5}px,-22px)`,offset:.3},{transform:`translateX(${dir * dist}px)`,offset:.45},
     {transform:`translateX(${dir * dist}px)`,offset:.6},{transform:'translateX(0)'}],{duration:880,easing:'ease-in-out'});
   await wait(400); sfx('chomp'); popText(b, o.label || 'CHOMP!', 'status', -20);
+  if (a === P && !replaying) track('bite');
   const dmg = dogDamage(a, b, mult, o);
   dogAfterBite(a, b);
   await wait(500);
@@ -3769,6 +4391,10 @@ async function dogTurn(a, b){
     setLog(lucky ? `${d.name} does a LUCKY BITE!` : `${d.name} bites!`);
     await dogBite(a, b, BITE[d.breed] || 1, { crit: lucky, label: lucky ? 'LUCKY!' : undefined });
   }
+  if (a.dogTurns === 1 && (d.tricks || []).includes('zoomies') && b.hp > 0){
+    setLog(`${d.name} has the ZOOMIES!`);
+    for (let i = 0; i < 2 && b.hp > 0; i++) await dogBite(a, b, .6, { label: 'ZOOMIES!' });
+  }
   if (d.acc === 'cape' && a.hp > 0 && b.hp > 0 && Math.random() < .3){ setLog(`${d.name} bites again!`); await dogBite(a, b, .8, { label: 'SUPER BITE!' }); }
   updateHP();
 }
@@ -3791,7 +4417,12 @@ function renderActions(){
     </div>` : ''}
     <div class="specials" style="grid-template-columns:repeat(${n <= 3 ? n : 2},minmax(0,1fr))">${P.robot.specials.map(k => `<button class="btn special" type="button" data-act="${k}" aria-label="${SPECIALS[k].name}">
       ${specIcon(k, 38)}<span class="sp-name">${SPECIALS[k].name}</span><span class="pips" aria-hidden="true">${'<i></i>'.repeat(ENERGY_MAX)}</span></button>`).join('')}</div>
-    <p class="charge-hint" id="chargeHint"></p>`;
+    <p class="charge-hint" id="chargeHint"></p>
+    ${live ? '<button class="btn plain small liveleave" id="liveLeave" type="button">Leave battle</button>' : ''}`;
+  if ($('liveLeave')) $('liveLeave').onclick = e => {
+    if (!e.target.dataset.sure){ e.target.dataset.sure = '1'; e.target.textContent = 'Tap again to leave'; return; }
+    if (live) api('live-leave', { mid: live.mid }).catch(() => {}); backToGarage();
+  };
 }
 function updateActions(){
   const charged = P.energy >= ENERGY_MAX;
@@ -3827,15 +4458,27 @@ function readyPlayer(msg){
   busy = false; setTurn('you'); updateActions();
   setLog(msg || (P.energy >= ENERGY_MAX ? 'Special power ready! Tap a glowing button!' : P.transformed ? `${VEHICLE[P.form].name} mode! ${P.formTurns} turn${P.formTurns === 1 ? '' : 's'} left` : P.ammo > 0 ? 'Your turn! BASH or FIRE!' : 'Your turn! Tap BASH!'));
 }
+let bestHit = null;
+const actionName = a => a === 'bash' ? 'Bash' : a === 'fire' ? (GUN[P.robot.gun] ? GUN[P.robot.gun].name : 'Blaster') : a === 'transform' ? 'Transform' : SPECIALS[a] ? SPECIALS[a].name : 'Attack';
+// Runs one of the player's turns with a seed, and remembers it if it was the biggest hit so far.
+async function myTurn(action){
+  const seed = newSeed(), pre = { p: snapFighter(P), e: snapFighter(E) }, hp0 = E.hp;
+  await seededTurn(seed, () => takeTurn(P, E, action));
+  const dealt = hp0 - E.hp;
+  if (dealt > 0 && action !== 'transform' && !pre.p.transformed && !pre.e.transformed && (!bestHit || dealt >= bestHit.dmg))
+    bestHit = { dmg: dealt, action, name: actionName(action), seed, pre };
+  return seed;
+}
 async function playerAct(action){
   if (busy) return; busy = true; updateActions();
-  await takeTurn(P, E, action);
+  if (live) return liveAct(action);
+  await myTurn(action);
   if (await checkEnd()) return;
   if (P.extra){ P.extra = false; return readyPlayer('Ring ring! You get another turn!'); }
   await enemyPhase();
   if (await checkEnd()) return;
   while (P.stun > 0){
-    setTurn('you'); await wait(350); await takeTurn(P, E, 'bash');
+    setTurn('you'); await wait(350); await myTurn('bash');
     if (await checkEnd()) return;
     await enemyPhase();
     if (await checkEnd()) return;
@@ -3846,8 +4489,8 @@ async function checkEnd(){
   if (E.hp > 0 && P.hp > 0) return false;
   setTurn(''); updateHP(); stopMusic();
   const sadDog = f => { if (f.dogF) f.dogF.el.animate([{opacity:1},{opacity:.35}],{duration:600,fill:'forwards'}); };
-  if (E.hp <= 0){ sadDog(E); await ko(E); await jump(P); await wait(150); victory(); }
-  else { sadDog(P); await ko(P); await jump(E); await wait(150); defeat(); }
+  if (E.hp <= 0){ sadDog(E); await ko(E); endFinisher(); await jump(P); await wait(150); battleOver(true); }
+  else { sadDog(P); await ko(P); endFinisher(); await jump(E); await wait(150); battleOver(false); }
   return true;
 }
 function showScreen(name){
@@ -3855,11 +4498,46 @@ function showScreen(name){
   document.body.dataset.screen = name;
   window.scrollTo(0, 0);
 }
-function backToGarage(){ currentChallenge = null; stopMusic(); hideOverlay(); showScreen('workshop'); goHome(); renderAll(); }
-function startBattle(robot, foe, challenge = null){
+function backToGarage(){ currentChallenge = null; endLive(); endFinisher(); stopMusic(); hideOverlay(); showScreen('workshop'); goHome(); renderAll(); }
+function battleOver(won){
+  if (live) return liveResult(won);
+  return won ? victory() : defeat();
+}
+// Replays the best hit of the battle in slow motion, then puts the win screen back.
+async function replayBest(){
+  const b = bestHit; if (!b || replaying) return;
+  replaying = true;
+  const after = { p: snapFighter(P), e: snapFighter(E) };
+  overlay.hidden = true;
+  [P, E].forEach(f => { f.el.getAnimations().forEach(a => a.cancel()); f.el.style.opacity = '';
+    if (f.dogF){ f.dogF.el.getAnimations().forEach(a => a.cancel()); f.dogF.el.style.opacity = ''; } });
+  applySnap(P, b.pre.p); applySnap(E, b.pre.e); updateHP();
+  const tag = document.createElement('div'); tag.className = 'replaytag'; tag.textContent = 'REPLAY'; arena.appendChild(tag);
+  arena.classList.add('replay'); setTurn(''); setLog(`Best hit: ${b.name}!`);
+  timeScale = 1.7;
+  await wait(250);
+  await seededTurn(b.seed, () => takeTurn(P, E, b.action));
+  if (E.hp <= 0){ popText(E, 'K.O.!', 'big'); sfx('ko'); await E.el.animate([{transform:'rotate(0)'},{transform:`rotate(${dirOf(E) * -85}deg) translate(${dirOf(E) * -30}px,40px)`, opacity:.45}],{duration:700,fill:'forwards'}).finished; }
+  else await wait(500);
+  timeScale = 1;
+  applySnap(P, after.p); applySnap(E, after.e); updateHP();
+  tag.remove(); arena.classList.remove('replay');
+  overlay.hidden = false; replaying = false;
+}
+function bestHitHTML(){
+  if (!bestHit) return '';
+  return `<div class="besthit"><span class="bh-lbl">BEST HIT</span><b>${esc(bestHit.name)}</b><span class="bh-dmg">${bestHit.dmg} damage!</span>
+    <button class="pillbtn go" id="replayBtn" type="button">${PLAY_ICON} Watch replay</button></div>`;
+}
+const PLAY_ICON = `<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" style="vertical-align:-3px"><path d="M7 4 L20 12 L7 20 Z" fill="currentColor"/></svg>`;
+function startBattle(robot, foe, challenge = null, opts = {}){
   currentChallenge = challenge;
+  bestHit = null; endFinisher(); replaying = false;
   battleRobot = robot; enemyRobot = foe || makeEnemy();
   P = fighter(battleRobot, 'player'); E = fighter(enemyRobot, 'enemy');
+  [P, E].forEach(f => { const t = f.robot.dog ? f.robot.dog.tricks || [] : [];
+    if (t.includes('sit')) f.shield = Math.max(f.shield, 1);
+    f.playDead = t.includes('playdead'); f.howl = t.includes('howl'); f.pupEyes = t.includes('puppyeyes'); });
   $('pBox').innerHTML = hpBox(P); $('eBox').innerHTML = hpBox(E);
   [[P, $('pF')], [E, $('eF')]].forEach(([f, el]) => {
     el.getAnimations().forEach(a => a.cancel());
@@ -3875,23 +4553,27 @@ function startBattle(robot, foe, challenge = null){
     f.dogF = d ? { el, svg: el.querySelector('svg'), side: f.side } : null;
   });
   arena.querySelectorAll('.fx,.beam,.flash').forEach(n => n.remove());
-  arena.dataset.theme = pick(['sky','space','desert','base']);
+  const adventure = !challenge && !opts.live && !opts.random;
+  arena.dataset.theme = adventure ? curWorld().theme : pick(['sky','space','desert','base','junk','ice','volcano']);
+  renderScenery();
   renderActions(); busy = true; setTurn(''); updateHP(); updateActions(); setLog('Get ready...');
   showScreen('battle');
   const icons = r => `<div class="iconrow">${r.parts.map(id => iconSvg(id, 28)).join('')}</div>`;
   const boss = !!E.robot.boss;
   if (boss) sfx('siren');
-  showOverlay(`<div class="ribbon${boss ? ' boss' : ''}">${boss ? 'BOSS BATTLE!' : currentChallenge ? 'CHALLENGE!' : 'BATTLE ' + (save.wins + save.losses + 1)}</div>
-    ${boss ? `<p class="bosswarn">A giant boss robot appears! Beat it to win a golden treasure chest.</p>` : ''}
+  showOverlay(`<div class="ribbon${boss ? ' boss' : ''}">${boss ? 'BOSS BATTLE!' : opts.live ? 'LIVE BATTLE!' : currentChallenge ? 'CHALLENGE!' : `${curWorld().name.toUpperCase()} · STAGE ${stageNo()}`}</div>
+    ${boss ? `<p class="bosswarn">${adventure ? `${esc(E.name)}, boss of the ${curWorld().name}, appears!` : 'A giant boss robot appears!'} Beat it to win a golden treasure chest.</p>` : ''}
     <div class="vsrow">
       <div class="side"><div class="vsbot">${robotSVG(P.robot)}${P.robot.dog ? `<span class="vsdog">${dogSVG(P.robot.dog)}</span>` : ''}</div><span class="nm">${esc(P.name)}</span>${icons(P.robot)}<span class="tagline">YOU · LEVEL ${P.robot.level}</span></div>
       <div class="vsbig outline">VS</div>
       <div class="side"><div class="vsbot flip">${robotSVG(E.robot)}${E.robot.dog ? `<span class="vsdog">${dogSVG(E.robot.dog)}</span>` : ''}</div><span class="nm">${esc(E.name)}</span>${icons(E.robot)}<span class="tagline">${boss ? 'BOSS' : currentChallenge ? 'PLAYER' : 'ENEMY'} · LEVEL ${E.robot.level}</span></div>
     </div>
     <div class="stack"><button class="btn big ready" id="goBtn" type="button">GO!</button><button class="btn plain" id="fleeBtn" type="button">Back to my robot</button></div>`, { wide: true });
-  $('fleeBtn').onclick = backToGarage;
+  $('fleeBtn').onclick = () => { if (live) api('live-leave', { mid: live.mid }).catch(() => {}); backToGarage(); };
+  if (live) $('fleeBtn').textContent = 'Leave the battle';
   $('goBtn').onclick = async () => {
     hideOverlay(); sfx('pop'); startMusic(boss);
+    if (live){ liveNext(); return; }
     if (E.spd > P.spd){
       setLog(`${E.name} is faster and goes first!`); await wait(700);
       await enemyPhase();
@@ -3935,7 +4617,7 @@ function dogResultHTML(dx){
   if (!dx) return '';
   const d = save.dogs[save.dog], need = dogXpNeeded(d.level), maxed = d.level >= MAX_DOG_LEVEL;
   return `<div class="dogres"><span class="dogpic">${dogSVG(myDog())}</span><div><b id="dogResName"></b>
-    <span>${dx.levelUp ? `LEVEL UP! Now level ${d.level}` : `+${dx.gained} dog XP · Level ${d.level}`}</span>
+    <span>${dx.levelUp ? `LEVEL UP! Now level ${d.level}${TRICK_LEVELS.includes(d.level) ? '. New trick to learn!' : ''}` : `+${dx.gained} dog XP · Level ${d.level}`}</span>
     <div class="dxbar"><i style="width:${maxed ? 100 : d.xp / need * 100}%"></i></div></div></div>`;
 }
 function extrasHTML(lv, next){
@@ -3964,11 +4646,17 @@ function victory(){
   save.wins++;
   const hpLeft = P.hp / P.maxHp, stars = hpLeft > .6 ? 3 : hpLeft > .25 ? 2 : 1;
   const boss = !!enemyRobot.boss;
-  if (boss){ save.sinceBoss = 0; save.bossTries = 0; } else save.sinceBoss++;
+  const worldDone = boss && !ch ? curWorld() : null;
+  if (boss){ save.sinceBoss = 0; save.bossTries = 0; save.bossesBeaten = (save.bossesBeaten || 0) + 1;
+    if (!ch){ save.world++; if (save.world >= WORLDS.length){ save.world = 0; save.lap = (save.lap || 0) + 1; } } }
+  else if (!ch) save.sinceBoss++;
   save.streak = (save.streak || 0) + 1;
+  if (save.streak >= 5) save.flags.streak5 = true;
+  if (P.hp >= P.maxHp) save.flags.flawless = true;
   const streakBonus = save.streak >= 2 ? Math.min(save.streak - 1, 5) : 0, bossBonus = boss ? 10 : 0;
-  const md = myDog(), dogBonus = md ? (md.acc === 'party' ? 2 : 0) + (md.breed === 'beagle' ? 3 : 0) : 0;
+  const md = myDog(), dogBonus = md ? (md.acc === 'party' ? 2 : 0) + (md.breed === 'beagle' ? 3 : 0) + (md.tricks.includes('fetch') ? 2 : 0) : 0;
   const coins = winCoins(stars) + streakBonus + bossBonus + dogBonus;
+  track('win'); if (stars === 3) track('stars3');
   save.coins += coins;
   const lv = addXP(boss ? WIN_XP * 2 : WIN_XP);
   const dx = addDogXP(boss ? 12 : 6);
@@ -3991,6 +4679,8 @@ function victory(){
     ${rewardsHTML(coins, boss ? WIN_XP * 2 : WIN_XP)}
     ${bonuses ? `<div class="bonuses">${bonuses}</div>` : ''}
     ${chest.kind ? `<button class="chest closed ${chest.kind}" id="chestBtn" type="button" aria-label="Open the treasure chest">${chestSVG(chest.kind, false)}<span class="chest-tag">Tap to open!</span></button>` : ''}
+    ${worldDone ? `<div class="worlddone" style="--wc:${curWorld().color}"><span class="bh-lbl">${worldDone.name.toUpperCase()} COMPLETE!</span><b>Next: ${save.lap && save.world === 0 ? 'Champion Lap ' + (save.lap + 1) + '! Everything is tougher' : curWorld().name}</b></div>` : ''}
+    ${bestHitHTML()}
     ${dogResultHTML(dx)}
     ${extrasHTML(lv, next)}
     <div class="stack">
@@ -4001,6 +4691,7 @@ function victory(){
   if ($('dogResName')) $('dogResName').textContent = dx.name;
   if (dx && dx.levelUp) setTimeout(() => sfx('levelup'), 1500);
   if ($('chestBtn')) $('chestBtn').onclick = () => openChest(true);
+  if ($('replayBtn')) $('replayBtn').onclick = replayBest;
   $('toWorkshop').onclick = () => { openChest(false); backToGarage(); };
   $('nextFight').onclick = () => { openChest(false); hideOverlay(); renderAll(); startBattle(myRobot(), nextFoe()); };
 }
@@ -4073,6 +4764,7 @@ $('g2').innerHTML = COIN(42);
 $('g3').innerHTML = UP(42);
 document.body.dataset.screen = 'workshop';
 renderSound(); renderAll(); renderBoard(); routePage(); initBoard();
+setTimeout(checkStickers, 1200);
 if (!save.welcomed) openRename(true);
 </script>
 
