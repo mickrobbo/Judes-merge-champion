@@ -27,7 +27,8 @@ const STYLE_IDS = new Set(["classic", "knight", "shadow", "pilot", "scout", "com
 const GUN_IDS = new Set(["pea", "minigun", "goo", "flame", "lightning", "rocket", "grenade", "freeze", "shotgun", "mega", "sniper"]);
 const VEHICLE_IDS = new Set(["tank", "car", "jet", "rocket"]);
 const WEAPON_IDS = new Set(["blue", "green", "purple", "red", "spear", "gold", "axe", "ice", "twin", "hammer", "rainbow"]);
-const DOG_IDS = new Set(["dachshund", "corgi", "rottweiler", "dane"]);
+const DOG_IDS = new Set(["dachshund", "corgi", "rottweiler", "dane", "pug", "husky", "dalmatian", "poodle", "shepherd", "beagle"]);
+const ACC_IDS = new Set(["bowtie", "party", "shades", "bandana", "gradcap", "cape", "pirate", "wizard", "scarf", "crown"]);
 const GADGET_IDS = new Set(["laser", "rockets", "ice", "armour", "mega"]);
 const HEX = /^#[0-9a-fA-F]{6}$/;
 const PLAYER_ID = /^p[0-9a-f]{16}$/;
@@ -51,7 +52,7 @@ async function sha256(text) {
 function cleanDog(d) {
   if (!d || typeof d !== "object" || !DOG_IDS.has(d.breed)) return null;
   const name = String(d.name ?? "").replace(/[\u0000-\u001f\u007f<>]/g, "").replace(/\s+/g, " ").trim().slice(0, 14) || "Good Dog";
-  return { breed: d.breed, gadget: GADGET_IDS.has(d.gadget) ? d.gadget : null, level: num(d.level, 1, 10), name };
+  return { breed: d.breed, gadget: GADGET_IDS.has(d.gadget) ? d.gadget : null, acc: ACC_IDS.has(d.acc) ? d.acc : null, level: num(d.level, 1, 10), name };
 }
 
 // A robot as other players will see and fight it.

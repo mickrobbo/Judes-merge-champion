@@ -310,6 +310,15 @@ body[data-screen="battle"] #menuBtn{display:none}
 .dcard b{font-family:var(--display);font-weight:400;font-size:19px;line-height:1.1}
 .dpow{font-weight:800;font-size:13px;color:#B5652B}
 .ddesc{font-size:13px;font-weight:700;color:var(--muted);line-height:1.25}
+.agrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:18px 12px;padding-bottom:12px}
+.acard{position:relative;display:flex;flex-direction:column;align-items:center;gap:2px;background:#FFF6E8;border:3px solid var(--ink);border-radius:16px;box-shadow:0 4px 0 var(--ink);padding:6px 8px 22px;cursor:pointer;font:inherit;color:var(--ink);min-width:0;text-align:center}
+.acard.on{background:#FFF1A8;outline:4px solid var(--sun)}
+.acard .apic{width:100%;max-width:130px}
+.acard .apic svg{width:100%;height:auto;display:block}
+.acard b{font-family:var(--display);font-weight:400;font-size:17px;line-height:1.1}
+.aperk{font-size:12.5px;font-weight:700;color:var(--muted);line-height:1.25}
+:is(.stile,.dcard,.gcard,.acard) .price{position:absolute;bottom:-13px;left:50%;transform:translateX(-50%)}
+.dbtns{display:flex;flex-wrap:wrap;gap:8px}
 .ggrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:18px 12px;padding-bottom:12px}
 .gcard{position:relative;display:grid;grid-template-columns:58px minmax(0,1fr);gap:10px;align-items:center;background:#251D4D;color:#fff;border:3px solid #0A0718;border-radius:16px;box-shadow:0 4px 0 #0A0718;padding:8px 12px 18px 8px;cursor:pointer;font:inherit;text-align:left;min-width:0}
 .gcard.on{outline:4px solid var(--sun)}
@@ -564,11 +573,11 @@ body[data-screen="battle"] #menuBtn{display:none}
 .stile .ic svg{width:62px;height:62px}
 .stile .nm{font-family:var(--display);font-size:clamp(13px,3.4vw,16px);line-height:1.1;text-align:center}
 .stile.on{border-color:#7FF3FF;box-shadow:0 0 0 3px rgba(127,243,255,.35),0 4px 0 #0A0718}
-:is(.stile,.dcard,.gcard) .price{position:absolute;bottom:-13px;left:50%;transform:translateX(-50%);display:inline-flex;align-items:center;gap:3px;white-space:nowrap;
+:is(.stile,.dcard,.gcard,.acard) .price{position:absolute;bottom:-13px;left:50%;transform:translateX(-50%);display:inline-flex;align-items:center;gap:3px;white-space:nowrap;
   background:var(--sun);color:var(--ink);border:2.5px solid var(--ink);border-radius:999px;padding:0 9px 0 3px;font-family:var(--display);font-size:13px;line-height:20px}
-:is(.stile,.dcard,.gcard) .price.own{background:var(--paper);padding:0 9px}
-:is(.stile,.dcard,.gcard) .price.hold{background:#7FF3FF;padding:0 9px}
-:is(.stile,.dcard,.gcard) .price.cant{background:#C9C3D8;color:#5A5270}
+:is(.stile,.dcard,.gcard,.acard) .price.own{background:var(--paper);padding:0 9px}
+:is(.stile,.dcard,.gcard,.acard) .price.hold{background:#7FF3FF;padding:0 9px}
+:is(.stile,.dcard,.gcard,.acard) .price.cant{background:#C9C3D8;color:#5A5270}
 :is(.dcard,.gcard) .price.free{background:var(--mint);color:#fff;padding:0 12px}
 .anote{color:#BDB6E0;font-size:14px;font-weight:700;text-align:center}
 .sword-stage{width:100%;height:170px;border:3px solid var(--ink);border-radius:18px;display:grid;place-items:center}
@@ -981,7 +990,28 @@ const DOGS = [
   {id:'corgi',      name:'Corgi',      pet:'Biscuit', power:'Lucky Bite',  desc:'Super lucky. Often bites for double damage!'},
   {id:'rottweiler', name:'Rottweiler', pet:'Tank',    power:'Mega Bite',   desc:'Big and strong. The hardest bites of all!'},
   {id:'dane',       name:'Great Dane', pet:'Duke',    power:'Guard Dog',   desc:'A giant guard. Your robot takes less damage.'},
+  {id:'pug',        name:'Pug',        pet:'Pickles', power:'Snort Attack', desc:'A snorty bite that can confuse them.'},
+  {id:'husky',      name:'Husky',      pet:'Blizzard', power:'Frost Bite',  desc:'Icy bites that can freeze them.'},
+  {id:'dalmatian',  name:'Dalmatian',  pet:'Spots',   power:'Fire Dog',     desc:'Hot bites that can set them on fire.'},
+  {id:'poodle',     name:'Poodle',     pet:'Fifi',    power:'Pom-pom Shield', desc:'Fluffy and fancy. Can give your robot a shield.'},
+  {id:'shepherd',   name:'German Shepherd', pet:'Ranger', power:'Police Dog', desc:'Can stop their powers from charging.'},
+  {id:'beagle',     name:'Beagle',     pet:'Scout',   power:'Treasure Sniffer', desc:'Sniffs out 3 extra coins every win.'},
 ];
+const BITE = { dachshund:1.24, corgi:1, rottweiler:1.35, dane:1.05, pug:.95, husky:1, dalmatian:1, poodle:.95, shepherd:1.1, beagle:1 };
+// Accessories: one at a time. Each one looks cool and gives a small bonus.
+const ACCS = [
+  {id:'bowtie',  name:'Bow Tie',          cost:4,  perk:'Fancy! Your robot gets +3 armour'},
+  {id:'party',   name:'Party Hat',        cost:6,  perk:'+2 extra coins every win'},
+  {id:'shades',  name:'Cool Shades',      cost:8,  perk:'Bites do 15% more damage'},
+  {id:'bandana', name:"Doctor's Bandana", cost:10, perk:'Every bite heals your robot a little'},
+  {id:'gradcap', name:'Graduation Cap',   cost:12, perk:'Your dog learns twice as fast'},
+  {id:'cape',    name:'Superhero Cape',   cost:14, perk:'Sometimes bites twice'},
+  {id:'pirate',  name:'Pirate Hat',       cost:16, perk:'More lucky double-damage bites'},
+  {id:'wizard',  name:'Wizard Hat',       cost:20, perk:'Uses its gadget every 2nd turn'},
+  {id:'scarf',   name:'Fire Scarf',       cost:24, perk:'Bites set them on fire'},
+  {id:'crown',   name:'Royal Crown',      cost:35, perk:'Bites do 30% more damage'},
+];
+const ACC = Object.fromEntries(ACCS.map(a => [a.id, a]));
 const DOG = Object.fromEntries(DOGS.map(d => [d.id, d]));
 const DOG_COST = 25, MAX_DOG_LEVEL = 10, DOG_GADGET_EVERY = 3;
 const dogXpNeeded = lvl => 6 + lvl * 4;
@@ -1546,7 +1576,9 @@ function dogSVG(d){
   const breed = DOG[d && d.breed] ? d.breed : 'dachshund', gad = d && GADGET[d.gadget] ? d.gadget : null, lvl = (d && d.level) || 1;
   const S = `stroke="${INK}" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"`;
   const sh = (tag, a, fill, sw = 3.5) => shaded(tag, a, fill, sw);
-  const eye = (x, y, r = 5.5) => `<g class="eyes" style="animation-delay:-${(Math.random() * 4.6).toFixed(2)}s"><circle cx="${x}" cy="${y}" r="${r}" fill="#fff" ${S} stroke-width="2.5"/><circle cx="${x + r * .3}" cy="${y + .5}" r="${r * .56}" fill="${INK}"/><circle cx="${x + r * .5}" cy="${y - r * .25}" r="${r * .22}" fill="#fff"/></g>`;
+  const acc = d && ACC[d.acc] ? d.acc : null;
+  const eye = (x, y, r = 5.5, iris = null) => `<g class="eyes" style="animation-delay:-${(Math.random() * 4.6).toFixed(2)}s"><circle cx="${x}" cy="${y}" r="${r}" fill="#fff" ${S} stroke-width="2.5"/>${iris ? `<circle cx="${x + r * .3}" cy="${y + .5}" r="${r * .66}" fill="${iris}"/>` : ''}<circle cx="${x + r * .3}" cy="${y + .5}" r="${r * (iris ? .36 : .56)}" fill="${INK}"/><circle cx="${x + r * .5}" cy="${y - r * .25}" r="${r * .22}" fill="#fff"/></g>`;
+  const pom = (x, y, r, col) => [[-.45, .2], [.45, .2], [0, -.35], [0, .25]].map(([dx, dy]) => `<circle cx="${x + dx * r}" cy="${y + dy * r}" r="${r * .62}" fill="${col}" ${S} stroke-width="2.5"/>`).join('') + `<circle cx="${x}" cy="${y}" r="${r * .62}" fill="${col}"/>`;
   const nose = (x, y) => `<ellipse cx="${x}" cy="${y}" rx="5.2" ry="4" fill="${INK}"/><ellipse cx="${x - 1.5}" cy="${y - 1.4}" rx="1.7" ry="1" fill="#fff" opacity=".8"/>`;
   const leg = (x, y, h, fill, sock) => sh('rect', `x="${x}" y="${y}" width="11" height="${h}" rx="5"`, fill, 3)
     + (sock ? `<rect x="${x + 1.5}" y="${y + h - 9}" width="8" height="7.5" rx="3" fill="${sock}"/>` : '');
@@ -1554,7 +1586,7 @@ function dogSVG(d){
   let g, back = '', body = '', head = '';
   if (breed === 'dachshund'){
     const M = '#B5652B', T = '#E8A766', D = '#7A3F18';
-    g = { body:[14,52,94,30], head:[111,44,17], neck:[101,58], back:[58,52] };
+    g = { body:[14,52,94,30], head:[111,44,17], neck:[101,58], back:[58,52], eye:[116,39] };
     back = tail('M20 62 Q4 54 6 38', M) + leg(24, 72, 28, D) + leg(84, 72, 28, D);
     body = sh('rect', 'x="14" y="52" width="94" height="30" rx="15"', M)
       + `<path d="M30 78 Q60 86 96 78" fill="none" stroke="${T}" stroke-width="5" stroke-linecap="round" opacity=".9"/>`
@@ -1564,7 +1596,7 @@ function dogSVG(d){
       + sh('path', 'd="M102 32 Q88 34 90 52 Q92 66 102 64 Q108 52 108 36 Z"', D, 3);
   } else if (breed === 'corgi'){
     const M = '#F2A04A', W = '#FFF6E8', D = '#C9782E', P = '#FFB3C1';
-    g = { body:[20,48,86,34], head:[108,38,19], neck:[97,54], back:[60,48] };
+    g = { body:[20,48,86,34], head:[108,38,19], neck:[97,54], back:[60,48], eye:[113,34] };
     back = sh('circle', 'cx="21" cy="56" r="9"', M, 3) + leg(28, 72, 28, D) + leg(80, 72, 28, D);
     body = sh('rect', 'x="20" y="48" width="86" height="34" rx="17"', M)
       + `<ellipse cx="96" cy="66" rx="12" ry="13" fill="${W}"/>` + leg(40, 74, 26, M, W) + leg(92, 74, 26, M, W);
@@ -1576,7 +1608,7 @@ function dogSVG(d){
       + `<path d="M124 52 q5 4 10 0" fill="none" ${S} stroke-width="2.5"/>` + eye(113, 34) + `<circle cx="102" cy="46" r="3.5" fill="#FF9DB8" opacity=".8"/>`;
   } else if (breed === 'rottweiler'){
     const M = '#2E2A33', T = '#C77B3B', D = '#1C1820';
-    g = { body:[18,40,88,38], head:[110,32,21], neck:[97,48], back:[60,40] };
+    g = { body:[18,40,88,38], head:[110,32,21], neck:[97,48], back:[60,40], eye:[117,29] };
     back = sh('rect', 'x="10" y="44" width="14" height="11" rx="5"', M, 3) + leg(26, 68, 32, D, T) + leg(82, 68, 32, D, T);
     body = sh('rect', 'x="18" y="40" width="88" height="38" rx="19"', M)
       + `<path d="M90 50 Q104 56 101 74 Q90 72 87 58Z" fill="${T}"/>` + leg(38, 70, 30, M, T) + leg(94, 70, 30, M, T);
@@ -1584,9 +1616,75 @@ function dogSVG(d){
       + sh('ellipse', 'cx="127" cy="41" rx="15" ry="11"', T) + nose(141, 37)
       + `<path d="M126 48 q6 4 12 0" fill="none" ${S} stroke-width="2.5"/>`
       + `<circle cx="112" cy="21" r="3.2" fill="${T}"/><circle cx="123" cy="22" r="2.8" fill="${T}"/>` + eye(117, 29);
+  } else if (breed === 'pug'){
+    const M = '#E3C18F', K = '#3A3036', D = '#C9A574';
+    g = { body:[22,50,80,34], head:[106,40,20], neck:[95,56], back:[60,50], eye:[109,35] };
+    back = tail('M24 58 q-14 -4 -9 -16 q7 -7 12 2', M) + leg(30, 74, 26, D) + leg(78, 74, 26, D);
+    body = sh('rect', 'x="22" y="50" width="80" height="34" rx="17"', M) + leg(42, 76, 24, M) + leg(90, 76, 24, M);
+    head = sh('path', 'd="M90 26 Q88 18 98 20 L102 30Z"', K, 3) + sh('circle', 'cx="106" cy="40" r="20"', M)
+      + sh('path', 'd="M112 20 Q120 16 122 26 L113 28Z"', K, 3)
+      + `<path d="M98 26 q6 -3 12 0 M100 31 q5 -2 10 0" fill="none" stroke="${D}" stroke-width="2.5" stroke-linecap="round"/>`
+      + sh('ellipse', 'cx="119" cy="47" rx="12" ry="11"', K) + `<ellipse cx="125" cy="43" rx="4.5" ry="3.4" fill="#5A4E58"/>`
+      + `<ellipse cx="121" cy="58" rx="3.5" ry="4.5" fill="#FF8FA3" ${S} stroke-width="2"/>` + eye(109, 35, 7);
+  } else if (breed === 'husky'){
+    const G = '#6F7E90', W = '#F4F7FA', D = '#566374';
+    g = { body:[20,44,86,36], head:[110,34,20], neck:[98,50], back:[60,44], eye:[115,30] };
+    back = sh('path', 'd="M26 54 Q4 46 10 26 Q22 16 27 31 Q18 36 30 47Z"', G, 3) + `<path d="M12 28 Q20 22 24 30" fill="none" stroke="${W}" stroke-width="4" stroke-linecap="round"/>`
+      + leg(28, 70, 30, D, W) + leg(82, 70, 30, D, W);
+    body = sh('rect', 'x="20" y="44" width="86" height="36" rx="18"', G)
+      + `<ellipse cx="64" cy="75" rx="34" ry="5" fill="${W}"/><ellipse cx="98" cy="62" rx="11" ry="14" fill="${W}"/>` + leg(40, 72, 28, G, W) + leg(94, 72, 28, G, W);
+    head = sh('path', 'd="M96 26 L93 -1 L110 16Z"', G, 3) + `<path d="M98 20 L97 7 L105 16Z" fill="${W}"/>`
+      + sh('path', 'd="M112 14 L125 -5 L127 23Z"', G, 3) + `<path d="M116 14 L123 3 L124 18Z" fill="${W}"/>`
+      + sh('circle', 'cx="110" cy="34" r="20"', G)
+      + `<path d="M97 38 Q103 26 110 32 Q117 24 124 34 Q127 50 112 54 Q98 52 97 38Z" fill="${W}"/>`
+      + sh('ellipse', 'cx="126" cy="43" rx="14" ry="9"', W) + nose(139, 40)
+      + `<path d="M126 49 q6 4 12 0" fill="none" ${S} stroke-width="2.5"/>` + eye(115, 30, 5.5, '#4FC3F7');
+  } else if (breed === 'dalmatian'){
+    const W = '#FFFFFF', L = '#E8ECF0';
+    g = { body:[22,40,86,36], head:[110,30,19], neck:[98,46], back:[62,40], eye:[115,26] };
+    const spots = pts => pts.map(([x, y, r]) => `<circle cx="${x}" cy="${y}" r="${r}" fill="${INK}"/>`).join('');
+    back = tail('M24 48 Q8 52 6 70', W, 4) + leg(30, 66, 34, L) + leg(84, 66, 34, L);
+    body = sh('rect', 'x="22" y="40" width="86" height="36" rx="18"', W)
+      + spots([[38, 52, 4], [54, 63, 3.5], [70, 50, 5], [86, 63, 3], [46, 70, 3], [96, 52, 3.5], [62, 69, 2.5]])
+      + leg(42, 68, 32, W) + leg(96, 68, 32, W) + spots([[47, 82, 2.5], [101, 88, 2.5]]);
+    head = sh('path', 'd="M96 18 Q85 22 87 38 Q91 47 100 41 L104 24Z"', INK, 3) + sh('circle', 'cx="110" cy="30" r="19"', W)
+      + sh('ellipse', 'cx="127" cy="38" rx="14" ry="9"', W) + nose(140, 35)
+      + `<path d="M126 45 q6 4 12 0" fill="none" ${S} stroke-width="2.5"/>` + spots([[104, 33, 3], [113, 17, 2.5], [122, 32, 2]]) + eye(115, 26);
+  } else if (breed === 'poodle'){
+    const P = '#F6C1D9', D = '#E39BBE';
+    g = { body:[28,46,72,30], head:[108,30,18], neck:[97,44], back:[62,46], eye:[113,28] };
+    back = `<path d="M30 52 L18 34" stroke="${INK}" stroke-width="8" stroke-linecap="round"/><path d="M30 52 L18 34" stroke="${D}" stroke-width="3.5" stroke-linecap="round"/>` + pom(16, 30, 10, P)
+      + leg(34, 70, 30, D) + leg(80, 70, 30, D) + pom(39.5, 96, 8, D) + pom(85.5, 96, 8, D);
+    body = sh('rect', 'x="28" y="46" width="72" height="30" rx="15"', P) + pom(96, 58, 15, P)
+      + leg(44, 72, 28, P) + leg(90, 72, 28, P) + pom(49.5, 96, 8, P) + pom(95.5, 96, 8, P);
+    head = sh('ellipse', 'cx="100" cy="40" rx="8" ry="14"', D, 3) + sh('circle', 'cx="108" cy="30" r="18"', P) + pom(106, 11, 12, P)
+      + sh('ellipse', 'cx="124" cy="36" rx="13" ry="8"', P) + nose(136, 33)
+      + `<path d="M123 42 q5 4 10 0" fill="none" ${S} stroke-width="2.5"/>` + eye(113, 28);
+  } else if (breed === 'shepherd'){
+    const T = '#C98A45', K = '#2E2A33', D = '#A86E30';
+    g = { body:[20,40,88,36], head:[112,28,19], neck:[99,46], back:[62,40], eye:[117,24] };
+    back = sh('path', 'd="M24 48 Q4 54 8 78 Q18 76 22 62 Q26 54 32 54Z"', T, 3) + `<path d="M8 78 Q12 70 16 72" fill="none" stroke="${K}" stroke-width="5" stroke-linecap="round"/>`
+      + leg(28, 66, 34, D) + leg(84, 66, 34, D);
+    body = sh('rect', 'x="20" y="40" width="88" height="36" rx="18"', T)
+      + `<path d="M26 47 Q30 42 40 42 H92 Q101 43 100 49 Q90 59 62 59 Q34 59 26 47Z" fill="${K}"/>` + leg(40, 68, 32, T) + leg(96, 68, 32, T);
+    head = sh('path', 'd="M100 16 L97 -11 L114 6Z"', T, 3) + `<path d="M102 10 L100 -3 L108 6Z" fill="${K}"/>`
+      + sh('path', 'd="M114 6 L128 -13 L129 16Z"', T, 3) + sh('circle', 'cx="112" cy="28" r="19"', T)
+      + sh('ellipse', 'cx="130" cy="34" rx="15" ry="9"', K) + nose(143, 31)
+      + `<path d="M129 41 q6 4 12 0" fill="none" ${S} stroke-width="2.5"/>` + eye(117, 24);
+  } else if (breed === 'beagle'){
+    const W = '#FFF6E8', B = '#B5652B', K = '#2E2A33', E = '#8A4A1E';
+    g = { body:[22,44,84,34], head:[110,34,18], neck:[98,50], back:[62,44], eye:[115,30] };
+    back = tail('M26 50 Q14 40 16 26', K) + `<circle cx="16" cy="24" r="4.5" fill="${W}" ${S} stroke-width="2"/>` + leg(30, 70, 30, '#EDE3D3') + leg(82, 70, 30, '#EDE3D3');
+    body = sh('rect', 'x="22" y="44" width="84" height="34" rx="17"', W)
+      + `<path d="M28 51 Q30 46 40 46 H86 Q94 47 94 53 Q84 61 60 61 Q36 61 28 51Z" fill="${K}"/><path d="M24 58 Q24 48 33 47 L36 64 Q26 66 24 58Z" fill="${B}"/>`
+      + leg(42, 72, 28, W) + leg(94, 72, 28, W);
+    head = sh('circle', 'cx="110" cy="34" r="18"', B) + `<path d="M108 17 Q113 29 111 38 L121 45 Q119 30 115 17Z" fill="${W}"/>`
+      + sh('ellipse', 'cx="126" cy="42" rx="13" ry="9"', W) + nose(138, 39)
+      + `<path d="M125 48 q5 4 10 0" fill="none" ${S} stroke-width="2.5"/>` + eye(115, 30)
+      + sh('path', 'd="M101 24 Q88 28 90 48 Q94 58 102 54 Q108 40 106 28Z"', E, 3);
   } else {
     const M = '#8A97A8', L = '#D3DBE4', D = '#6E7A8A';
-    g = { body:[24,26,82,34], head:[116,-4,16], neck:[103,16], back:[64,26] };
+    g = { body:[24,26,82,34], head:[116,-4,16], neck:[103,16], back:[64,26], eye:[119,-10] };
     back = tail('M26 34 Q8 44 12 70', M, 4) + leg(32, 52, 50, D) + leg(84, 52, 50, D);
     body = sh('rect', 'x="24" y="26" width="82" height="34" rx="17"', M)
       + `<ellipse cx="99" cy="46" rx="9" ry="12" fill="${L}"/>` + leg(44, 54, 48, M, L) + leg(96, 54, 48, M, L)
@@ -1618,8 +1716,25 @@ function dogSVG(d){
       + `<rect x="${px - 6}" y="${by - 4}" width="12" height="8" rx="2" fill="#3A3550" ${S} stroke-width="2"/>`;
   }
   if (gad === 'mega') extraTop = `<g transform="translate(${nx + 4} ${ny + 10})"><rect x="-7" y="-7" width="11" height="14" rx="2" fill="#3A3550" ${S} stroke-width="2"/><path d="M4 -6 L16 -13 V13 L4 6 Z" fill="#B46BFF" ${S} stroke-width="2"/><path d="M20 -6 q5 6 0 12" fill="none" ${S} stroke-width="2"/></g>`;
+  // accessory
+  const [ex, ey] = g.eye, hatY = hy - hr + 3 - (gad === 'armour' ? 8 : 0);
+  let aBack = '', aNeck = '', aTop = '';
+  const hat = inner => `<g transform="translate(${hx + 1} ${hatY}) rotate(-10) scale(1.35)">${inner}</g>`;
+  if (acc === 'cape') aBack = `<path d="M${nx - 2} ${ny - 14} Q${nx - 34} ${ny - 26} ${bx + 8} ${by - 2} Q${bx + 2} ${by + bh * .55} ${bx + 14} ${by + bh * .75} Q${(bx + nx) / 2} ${by + bh * .4} ${nx + 2} ${ny - 2} Z" fill="#FF4D5E" ${S}/>`
+    + `<path transform="translate(${(bx + nx) / 2 - 6} ${by + 4}) scale(.7)" d="M0 -10 l3 6.5 7 .8 -5.2 4.8 1.4 7 -6.2-3.6 -6.2 3.6 1.4-7 -5.2-4.8 7-.8z" fill="#FFD23F" stroke="${INK}" stroke-width="2.4"/>`;
+  if (acc === 'bandana') aNeck = `<path d="M${nx - 13} ${ny - 6} L${nx + 13} ${ny + 2} L${nx - 3} ${ny + 22} Z" fill="#FF4D5E" ${S}/><path d="M${nx - 6} ${ny + 6} h7 M${nx - 2.5} ${ny + 2.5} v7" stroke="#fff" stroke-width="3" stroke-linecap="round"/>`;
+  if (acc === 'scarf') aNeck = `<path d="M${nx - 4} ${ny - 4} Q${nx - 26} ${ny - 18} ${nx - 44} ${ny - 6}" fill="none" stroke="${INK}" stroke-width="13" stroke-linecap="round"/><path d="M${nx - 4} ${ny - 4} Q${nx - 26} ${ny - 18} ${nx - 44} ${ny - 6}" fill="none" stroke="#FF8A2B" stroke-width="8" stroke-linecap="round"/>`
+    + `<path class="flame" d="M${nx - 46} ${ny - 6} q-6 -10 2 -16 q-1 7 5 8 q2 -6 0 -10 q9 6 3 18 z" fill="#FFD23F" ${S} stroke-width="2"/>`
+    + `<path d="M${nx - 9} ${ny - 13} Q${nx + 1} ${ny} ${nx + 7} ${ny + 12}" fill="none" stroke="${INK}" stroke-width="14" stroke-linecap="round"/><path d="M${nx - 9} ${ny - 13} Q${nx + 1} ${ny} ${nx + 7} ${ny + 12}" fill="none" stroke="#FF8A2B" stroke-width="9" stroke-linecap="round"/>`;
+  if (acc === 'bowtie') aTop = `<g transform="translate(${nx + 8} ${ny + 6})"><path d="M0 0 L-11 -8 V8 Z M0 0 L11 -8 V8 Z" fill="#FF4D9E" ${S} stroke-width="2.4"/><circle r="3.8" fill="#FF4D9E" ${S} stroke-width="2.2"/></g>`;
+  if (acc === 'shades') aTop = `<path d="M${ex - 26} ${ey - 6} L${ex - 10} ${ey - 3}" stroke="${INK}" stroke-width="3.5" stroke-linecap="round"/><path d="M${ex - 12} ${ey - 9} H${ex + 14} Q${ex + 14} ${ey + 8} ${ex + 1} ${ey + 8} Q${ex - 12} ${ey + 8} ${ex - 12} ${ey - 9} Z" fill="${INK}"/><path d="M${ex - 6} ${ey - 5} l8 0" stroke="#fff" stroke-width="2.6" stroke-linecap="round" opacity=".85"/>`;
+  if (acc === 'party') aTop = hat(`<path d="M-12 0 L0 -32 L12 0 Z" fill="#5B6CFF" ${S}/><path d="M-8 -9 L8 -9 M-4.5 -19 L4.5 -19" stroke="#FFD23F" stroke-width="3"/><circle cx="0" cy="-33" r="5" fill="#FF4D5E" ${S} stroke-width="2"/>`);
+  if (acc === 'gradcap') aTop = hat(`<path d="M-9 2 v-8 h18 v8z" fill="#2B1D3A"/><path d="M-21 -8 L0 -17 L21 -8 L0 1 Z" fill="#2B1D3A" ${S}/><path d="M0 -8 L17 -6 V6" stroke="#FFD23F" stroke-width="2.5" fill="none"/><circle cx="17" cy="8" r="3.2" fill="#FFD23F"/>`);
+  if (acc === 'pirate') aTop = hat(`<path d="M-21 0 Q-17 -23 0 -23 Q17 -23 21 0 Q0 -8 -21 0Z" fill="#2B1D3A" ${S}/><path d="M-19 -1 Q0 -8 19 -1" stroke="#FFD23F" stroke-width="2.5" fill="none"/><circle cx="0" cy="-13" r="4.5" fill="#fff"/><path d="M-3.5 -7 l7 3.5 M3.5 -7 l-7 3.5" stroke="#fff" stroke-width="2"/>`);
+  if (acc === 'wizard') aTop = hat(`<path d="M-11 -1 Q-4 -24 4 -40 Q8 -47 17 -45 Q8 -38 10 -22 Q11 -10 11 -1 Z" fill="#7B5CFF" ${S}/><ellipse cx="0" cy="0" rx="18" ry="5" fill="#7B5CFF" ${S}/><path transform="translate(1 -16) scale(.55)" d="M0 -10 l3 6.5 7 .8 -5.2 4.8 1.4 7 -6.2-3.6 -6.2 3.6 1.4-7 -5.2-4.8 7-.8z" fill="#FFD23F" stroke="${INK}" stroke-width="2.5"/><circle cx="-4" cy="-29" r="1.8" fill="#FFD23F"/>`);
+  if (acc === 'crown') aTop = hat(`<path d="M-14 0 L-16 -18 L-7 -9 L0 -22 L7 -9 L16 -18 L14 0 Z" fill="#FFD23F" ${S}/><circle cx="0" cy="-6" r="3" fill="#FF4D5E"/><circle cx="-8" cy="-5" r="2" fill="#3FA9FF"/><circle cx="8" cy="-5" r="2" fill="#3FBF6A"/>`);
   const shadow = `<ellipse cx="70" cy="103" rx="54" ry="5" fill="${INK}" opacity=".16"/>`;
-  return `<svg viewBox="-8 -32 160 140" class="dogsvg" aria-hidden="true" style="overflow:visible">${shadow}${back}${body}${extraBody}${collar}${head}${extraTop}</svg>`;
+  return `<svg viewBox="-8 -40 160 148" class="dogsvg" aria-hidden="true" style="overflow:visible">${shadow}${back}${body}${aBack}${extraBody}${collar}${aNeck}${head}${extraTop}${aTop}</svg>`;
 }
 // Small picture of a gadget for the kennel shop.
 function gadgetIcon(id, size){
@@ -1657,7 +1772,7 @@ function isUsable(id){ return OBJ[id].power ? save.level >= powerLevel(id) : sav
 function cleanDog(d){
   if (!d || typeof d !== 'object' || !DOG[d.breed]) return null;
   const name = String(d.name || DOG[d.breed].pet).replace(/[\u0000-\u001f<>]/g, '').trim().slice(0, 14) || DOG[d.breed].pet;
-  return { breed: d.breed, gadget: GADGET[d.gadget] ? d.gadget : null, level: clamp(Math.floor(Number(d.level) || 1), 1, MAX_DOG_LEVEL), name };
+  return { breed: d.breed, gadget: GADGET[d.gadget] ? d.gadget : null, acc: ACC[d.acc] ? d.acc : null, level: clamp(Math.floor(Number(d.level) || 1), 1, MAX_DOG_LEVEL), name };
 }
 function buildRobot({parts, lv, level, colors, name, weapon = null, style = 'classic', gun = null, vehicle = null, dog = null}){
   let pow = 0, spd = 0, def = 0;
@@ -1674,10 +1789,12 @@ function buildRobot({parts, lv, level, colors, name, weapon = null, style = 'cla
   if (w) specials.push(w.special);
   return { parts: parts.slice(), name, colors, level, pow, spd, def, hp, combos, specials,
            weapon: w ? w.id : null, style: STYLE[style] ? style : 'classic', gun: g ? g.id : null, vehicle: VEHICLE[vehicle] ? vehicle : null, dog: cleanDog(dog) };
+  if (r.dog && r.dog.acc === 'bowtie') r.def += 3;
 }
 function myDog(){
   const d = save.dog && save.dogs[save.dog]; if (!d) return null;
-  return { breed: save.dog, gadget: save.dogGadget && save.gadgets.includes(save.dogGadget) ? save.dogGadget : null, level: d.level, name: d.name };
+  return { breed: save.dog, gadget: save.dogGadget && save.gadgets.includes(save.dogGadget) ? save.dogGadget : null,
+           acc: save.dogAcc && save.accs.includes(save.dogAcc) ? save.dogAcc : null, level: d.level, name: d.name };
 }
 const myGun = () => save.robot.gun && save.guns.includes(save.robot.gun) ? save.robot.gun : null;
 const myWeapon = () => !myGun() && save.robot.weapon && save.weapons.includes(save.robot.weapon) ? save.robot.weapon : null;
@@ -1691,7 +1808,7 @@ function enemyDog(boss){
   const mine = myDog();
   if (!mine || !(boss || Math.random() < .4)) return null;
   const level = clamp(mine.level + (boss ? 0 : Math.round(rand(-1, .4))), 1, MAX_DOG_LEVEL);
-  return { breed: boss ? 'rottweiler' : pick(DOGS).id, level, name: boss ? 'Fang' : pick(['Chomper','Growler','Spike','Rex','Snapper','Rusty']),
+  return { breed: boss ? 'rottweiler' : pick(DOGS).id, level, acc: boss ? 'crown' : Math.random() < .3 ? pick(ACCS.slice(0, 6)).id : null, name: boss ? 'Fang' : pick(['Chomper','Growler','Spike','Rex','Snapper','Rusty']),
            gadget: boss || (save.gadgets.length && Math.random() < .5) ? pick(GADGETS.slice(0, Math.max(1, save.gadgets.length + (boss ? 1 : 0)))).id : null };
 }
 const BOSS_EVERY = 10; // a boss after every 9 wins
@@ -1737,7 +1854,7 @@ const STARTERS = OBJECTS.filter(o => o.starter).map(o => o.id);
 function freshSave(){
   const parts = ['battery','spring'];
   return { coins: 0, wins: 0, losses: 0, xp: 0, level: 1, unlocked: STARTERS.slice(), fresh: [], combos: [], seen: [], levels: {}, welcomed: false, sinceBoss: 0, bossTries: 0,
-           weapons: ['blue'], guns: ['pea'], dogs: {}, dog: null, gadgets: [], dogGadget: null,
+           weapons: ['blue'], guns: ['pea'], dogs: {}, dog: null, gadgets: [], dogGadget: null, accs: [], dogAcc: null,
            robot: { name: makeName(parts.map(id => OBJ[id])), colors: { body:'#5B6CFF', head:'#FFD23F', limbs:'#FF4D5E' }, parts, weapon: 'blue', style: 'classic', gun: null, vehicle: 'tank' } };
 }
 
@@ -1768,6 +1885,7 @@ const saveProfiles = () => lsSet(PROFILES_KEY, JSON.stringify(profiles));
 const lookOf = s => ({ name: s.robot.name, colors: s.robot.colors, parts: s.robot.parts, style: s.robot.style, weapon: s.robot.weapon || null, gun: s.robot.gun || null });
 function addDogXP(n){
   const d = save.dog && save.dogs[save.dog]; if (!d) return null;
+  if (save.dogAcc === 'gradcap') n *= 2;
   const before = d.level; d.xp += n;
   while (d.level < MAX_DOG_LEVEL && d.xp >= dogXpNeeded(d.level)){ d.xp -= dogXpNeeded(d.level); d.level++; }
   if (d.level >= MAX_DOG_LEVEL) d.xp = 0;
@@ -1812,6 +1930,9 @@ if (!save.dogs[save.dog]) save.dog = null;
 if (!Array.isArray(save.gadgets)) save.gadgets = [];
 save.gadgets = save.gadgets.filter(id => GADGET[id]);
 if (!save.gadgets.includes(save.dogGadget)) save.dogGadget = null;
+if (!Array.isArray(save.accs)) save.accs = [];
+save.accs = save.accs.filter(id => ACC[id]);
+if (!save.accs.includes(save.dogAcc)) save.dogAcc = null;
 function persist(){
   save.savedAt = Date.now();
   lsSet(MY_SAVE_KEY, JSON.stringify(save));
@@ -2507,7 +2628,7 @@ function renderAll(pop = -1){ renderHeader(); renderRobot(pop); renderTray(); re
 function renderDogSlot(){
   const d = myDog(), slot = $('dogSlot'), pd = $('pdog');
   slot.innerHTML = d
-    ? `<span class="wic">${dogSVG(d)}</span><span><b id="dogSlotName"></b><span class="ws">${DOG[d.breed].name} · Level ${d.level}${d.gadget ? ' · ' + GADGET[d.gadget].name : ''}</span></span><span class="chg">Kennel</span>`
+    ? `<span class="wic">${dogSVG(d)}</span><span><b id="dogSlotName"></b><span class="ws">${DOG[d.breed].name} · Level ${d.level}${d.gadget ? ' · ' + GADGET[d.gadget].name : ''}${d.acc ? ' · ' + ACC[d.acc].name : ''}</span></span><span class="chg">Kennel</span>`
     : `<span class="wic">${dogSVG({ breed: 'dachshund' })}</span><span><b>Get a battle dog!</b><span class="ws">Your first dog is free</span></span><span class="chg">Kennel</span>`;
   if (d) $('dogSlotName').textContent = `${d.name} the ${DOG[d.breed].name}`;
   slot.setAttribute('aria-label', d ? `Battle dog: ${d.name}. Open the kennel` : 'Get a battle dog');
@@ -2542,8 +2663,9 @@ function renderKennel(){
         <span class="dline">${DOG[d.breed].name} · <b>${DOG[d.breed].power}</b></span>
         <div class="dlv"><span>Lv ${rec.level}</span><div class="dxbar"><i style="width:${maxed ? 100 : rec.xp / need * 100}%"></i></div><span>${maxed ? 'MAX' : `Lv ${rec.level + 1}`}</span></div>
         <span class="dline">${maxed ? 'Top dog! Fully trained.' : `${need - rec.xp} dog XP to the next level. Dogs learn in every battle.`}</span>
-        <span class="dline">Bites for about <b>${Math.round(dogBase(rec.level) * ({ dachshund: 1.24, corgi: 1, rottweiler: 1.35, dane: 1.05 })[d.breed])}</b> damage after each of your turns${d.gadget ? `. Uses the <b>${GADGET[d.gadget].name}</b> every ${DOG_GADGET_EVERY}rd turn` : ''}.</span>
-        ${d.gadget ? '<button class="pillbtn" id="gadgetOff" type="button">Take gadget off</button>' : ''}
+        <span class="dline">Bites for about <b>${Math.round(dogBase(rec.level) * (BITE[d.breed] || 1) * (d.acc === 'crown' ? 1.3 : d.acc === 'shades' ? 1.15 : 1))}</b> damage after each of your turns${d.gadget ? `. Uses the <b>${GADGET[d.gadget].name}</b> every ${d.acc === 'wizard' ? '2nd' : DOG_GADGET_EVERY + 'rd'} turn` : ''}.</span>
+        ${d.acc ? `<span class="dline">Wearing the <b>${ACC[d.acc].name}</b>: ${ACC[d.acc].perk.charAt(0).toLowerCase() + ACC[d.acc].perk.slice(1)}.</span>` : ''}
+        <div class="dbtns">${d.gadget ? '<button class="pillbtn" id="gadgetOff" type="button">Take gadget off</button>' : ''}${d.acc ? '<button class="pillbtn" id="accOff" type="button">Take accessory off</button>' : ''}</div>
       </div></div>`;
   } else {
     hero = `<div class="dhero empty"><div class="dbig">${dogSVG({ breed: 'corgi' })}</div><div class="dinfo"><b class="dhey">Pick a battle dog!</b>
@@ -2551,9 +2673,28 @@ function renderKennel(){
   }
   box.innerHTML = hero
     + `<h3 class="ksub">Dogs</h3><div class="dgrid">${DOGS.map(dogCardHTML).join('')}</div>`
-    + `<h3 class="ksub">Dog gadgets</h3><p class="knote">${d ? 'Fit one gadget on your dog. It uses it every ' + DOG_GADGET_EVERY + 'rd turn.' : 'Get a dog first, then fit it with a gadget.'}</p><div class="ggrid">${GADGETS.map(gadgetCardHTML).join('')}</div>`;
+    + `<h3 class="ksub">Dog gadgets</h3><p class="knote">${d ? 'Fit one gadget on your dog. It uses it every ' + DOG_GADGET_EVERY + 'rd turn.' : 'Get a dog first, then fit it with a gadget.'}</p><div class="ggrid">${GADGETS.map(gadgetCardHTML).join('')}</div>`
+    + `<h3 class="ksub">Accessories</h3><p class="knote">${d ? 'Dress up your dog! One at a time. Each one gives a bonus too.' : 'Get a dog first, then dress it up.'}</p><div class="agrid">${ACCS.map(accCardHTML).join('')}</div>`;
   if (d){ $('kDogName').textContent = d.name; $('dogRename').onclick = () => { sfx('pop'); openDogRename(); }; }
   if ($('gadgetOff')) $('gadgetOff').onclick = () => { save.dogGadget = null; persist(); sfx('remove'); renderAll(); };
+  if ($('accOff')) $('accOff').onclick = () => { save.dogAcc = null; persist(); sfx('remove'); renderAll(); };
+}
+function accCardHTML(x){
+  const own = save.accs.includes(x.id), on = save.dogAcc === x.id, d = myDog() || { breed: 'dachshund' };
+  const tag = on ? '<span class="price hold">Wearing</span>' : own ? '<span class="price own">Wear it</span>'
+    : `<span class="price${save.coins < x.cost ? ' cant' : ''}">${COIN(16)}${x.cost}</span>`;
+  return `<button class="acard${on ? ' on' : ''}" type="button" data-acc="${x.id}"><span class="apic">${dogSVG({ ...d, gadget: null, acc: x.id })}</span>
+    <b>${x.name}</b><span class="aperk">${x.perk}</span>${tag}</button>`;
+}
+function chooseAcc(id){
+  const x = ACC[id];
+  if (!save.dog){ sfx('full'); toast('Get a dog first!'); return; }
+  if (save.dogAcc === id){ sfx('pop'); return; }
+  if (!save.accs.includes(id)){
+    if (save.coins < x.cost){ sfx('full'); toast(`You need ${x.cost - save.coins} more coins for the ${x.name}`); return; }
+    save.coins -= x.cost; save.accs.push(id); bump($('coinPill'));
+  }
+  save.dogAcc = id; persist(); sfx('reveal'); renderAll(); toast(`${myDog().name} looks awesome in the ${x.name}!`);
 }
 function openDogRename(){
   const rec = save.dogs[save.dog]; if (!rec) return;
@@ -2599,7 +2740,8 @@ function chooseGadget(id){
 }
 document.addEventListener('click', e => {
   const dc = e.target.closest('[data-dog]'); if (dc){ chooseDog(dc.dataset.dog); return; }
-  const gc = e.target.closest('[data-gadget]'); if (gc) chooseGadget(gc.dataset.gadget);
+  const gc = e.target.closest('[data-gadget]'); if (gc){ chooseGadget(gc.dataset.gadget); return; }
+  const ac = e.target.closest('[data-acc]'); if (ac) chooseAcc(ac.dataset.acc);
 });
 function swordTile(w){
   const owned = save.weapons.includes(w.id), on = myWeapon() === w.id;
@@ -3564,11 +3706,24 @@ async function takeTurn(a, b, action){
 // Dog bites skip dodges and shields: the dog always gets its teeth in.
 function dogDamage(a, b, mult, o = {}){
   const d = a.robot.dog;
-  let dmg = dogBase(d.level) * mult * rand(.85, 1.15) - (o.pierce ? 0 : b.def * .12);
+  const accMult = d.acc === 'crown' ? 1.3 : d.acc === 'shades' ? 1.15 : 1;
+  let dmg = dogBase(d.level) * mult * accMult * rand(.85, 1.15) - (o.pierce ? 0 : b.def * .12);
   dmg = Math.max(1, Math.round(dmg));
   if (o.crit) dmg *= 2;
   hurt(b, dmg, !!o.crit);
+  if (d.acc === 'bandana' && a.hp > 0) heal(a, Math.max(1, Math.round(dmg * .4)));
   return dmg;
+}
+// What happens after a bite lands, from the breed and the accessory.
+function dogAfterBite(a, b){
+  const d = a.robot.dog; if (b.hp <= 0) return;
+  const r = Math.random();
+  if (d.breed === 'pug' && r < .25 && !b.confused){ b.confused = true; popText(b, 'Confused?!'); }
+  if (d.breed === 'husky' && r < .25){ b.stun = Math.max(b.stun, 1); puff(b, '#BFF6FF'); popText(b, 'FROZEN!'); }
+  if ((d.acc === 'scarf' || (d.breed === 'dalmatian' && r < .35)) && b.poison <= 0) poison(b, 2, Math.max(2, Math.round(dogBase(d.level) * .4)), 'Burning');
+  if (d.breed === 'poodle' && r < .25 && !a.shield){ a.shield = 1; popText(a, 'POM-POM SHIELD!'); }
+  if (d.breed === 'shepherd' && r < .35 && b.energy > 0){ b.energy--; popText(b, 'NO POWERS!'); updateActions(); }
+  updateHP();
 }
 async function dogBite(a, b, mult = 1, o = {}){
   const df = a.dogF, dir = dirOf(a);
@@ -3577,6 +3732,7 @@ async function dogBite(a, b, mult = 1, o = {}){
     {transform:`translateX(${dir * dist}px)`,offset:.6},{transform:'translateX(0)'}],{duration:880,easing:'ease-in-out'});
   await wait(400); sfx('chomp'); popText(b, o.label || 'CHOMP!', 'status', -20);
   const dmg = dogDamage(a, b, mult, o);
+  dogAfterBite(a, b);
   await wait(500);
   return dmg;
 }
@@ -3593,21 +3749,27 @@ async function dogTurn(a, b){
   const d = a.robot.dog;
   a.dogTurns = (a.dogTurns || 0) + 1;
   await wait(180);
-  if (GADGET[d.gadget] && a.dogTurns % DOG_GADGET_EVERY === 0){
+  const every = d.acc === 'wizard' ? 2 : DOG_GADGET_EVERY;
+  const luck = d.acc === 'pirate' ? .25 : 0;
+  if (GADGET[d.gadget] && a.dogTurns % every === 0){
     setLog(`${d.name} uses the ${GADGET[d.gadget].name.toUpperCase()}!`);
     await DOG_GADGET[d.gadget](a, b); await wait(350);
   } else if (d.breed === 'dachshund'){
     setLog(`${d.name} bites twice!`);
-    await dogBite(a, b, .62); if (b.hp > 0) await dogBite(a, b, .62);
+    await dogBite(a, b, .62, { crit: Math.random() < luck }); if (b.hp > 0) await dogBite(a, b, .62);
   } else if (d.breed === 'corgi'){
-    const lucky = Math.random() < .35;
+    const lucky = Math.random() < 1 - .65 * (1 - luck);
     setLog(lucky ? `${d.name} does a LUCKY BITE!` : `${d.name} bites!`);
     await dogBite(a, b, 1, { crit: lucky, label: lucky ? 'LUCKY!' : 'CHOMP!' });
   } else if (d.breed === 'rottweiler'){
-    setLog(`${d.name} does a MEGA BITE!`); await dogBite(a, b, 1.35, { label: 'MEGA BITE!' });
+    const lucky = Math.random() < luck;
+    setLog(`${d.name} does a MEGA BITE!`); await dogBite(a, b, 1.35, { label: lucky ? 'LUCKY!' : 'MEGA BITE!', crit: lucky });
   } else {
-    setLog(`${d.name} bites!`); await dogBite(a, b, 1.05);
+    const lucky = Math.random() < luck;
+    setLog(lucky ? `${d.name} does a LUCKY BITE!` : `${d.name} bites!`);
+    await dogBite(a, b, BITE[d.breed] || 1, { crit: lucky, label: lucky ? 'LUCKY!' : undefined });
   }
+  if (d.acc === 'cape' && a.hp > 0 && b.hp > 0 && Math.random() < .3){ setLog(`${d.name} bites again!`); await dogBite(a, b, .8, { label: 'SUPER BITE!' }); }
   updateHP();
 }
 function enemyChoice(){
@@ -3805,7 +3967,8 @@ function victory(){
   if (boss){ save.sinceBoss = 0; save.bossTries = 0; } else save.sinceBoss++;
   save.streak = (save.streak || 0) + 1;
   const streakBonus = save.streak >= 2 ? Math.min(save.streak - 1, 5) : 0, bossBonus = boss ? 10 : 0;
-  const coins = winCoins(stars) + streakBonus + bossBonus;
+  const md = myDog(), dogBonus = md ? (md.acc === 'party' ? 2 : 0) + (md.breed === 'beagle' ? 3 : 0) : 0;
+  const coins = winCoins(stars) + streakBonus + bossBonus + dogBonus;
   save.coins += coins;
   const lv = addXP(boss ? WIN_XP * 2 : WIN_XP);
   const dx = addDogXP(boss ? 12 : 6);
@@ -3818,7 +3981,8 @@ function victory(){
   if (lv.levelUp) setTimeout(() => sfx('levelup'), 1100);
   const isNew = !!(next || lv.power.length);
   const bonuses = (bossBonus ? `<span class="bonus">${STAR(true).replace('<svg ', '<svg width="20" height="20" ')}Boss beaten! +${bossBonus}</span>` : '')
-    + (streakBonus ? `<span class="bonus">${FLAME(20)}${save.streak} wins in a row! +${streakBonus}</span>` : '');
+    + (streakBonus ? `<span class="bonus">${FLAME(20)}${save.streak} wins in a row! +${streakBonus}</span>` : '')
+    + (dogBonus ? `<span class="bonus">${COIN(18)}${esc(md.name)} found +${dogBonus}</span>` : '');
   showOverlay(`<div class="ribbon win">${boss ? 'BOSS DEFEATED!' : 'YOU WIN!'}</div>
     <div class="stars">${[0,1,2].map(i => STAR(i < stars)).join('')}</div>
     <div class="stage small"><div class="bigbot popin">${robotSVG(battleRobot)}</div></div>
