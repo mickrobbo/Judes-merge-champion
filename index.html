@@ -260,7 +260,9 @@ body[data-screen="battle"] #menuBtn{display:none}
   background:var(--c,var(--cloud));border:4px solid var(--ink);border-radius:20px;box-shadow:0 5px 0 var(--ink);cursor:pointer;font:inherit;color:var(--ink)}
 .mtile:active{transform:translateY(3px);box-shadow:0 2px 0 var(--ink)}
 .mtile .mic{width:56px;height:56px;display:grid;place-items:center}
-.mtile .mic svg{max-width:100%;max-height:100%}
+.mtile .mic svg{max-width:100%;max-height:100%;width:auto;height:auto}
+.mtile .mic > span{max-height:56px;display:grid;place-items:center}
+.mtile .mic > span svg{max-height:56px}
 .mtile b{font-family:var(--display);font-weight:400;font-size:20px;line-height:1.05;text-align:center}
 .mtile small{font-weight:800;font-size:13px;opacity:.75;text-align:center;line-height:1.2}
 .mtile .mbadge{position:absolute;top:-8px;right:-6px;min-width:28px;height:28px;padding:0 6px;border-radius:999px;background:var(--tomato);color:#fff;border:3px solid var(--ink);font-family:var(--display);font-size:15px;display:grid;place-items:center}
@@ -278,7 +280,8 @@ body[data-screen="battle"] #menuBtn{display:none}
 .dog.right .dogbob{animation-delay:-.7s}
 .vsbot{position:relative;width:min(140px,100%)}
 .vsrow .side .vsbot .bot{width:100%}
-.vsdog{position:absolute;right:-10%;bottom:-4%;width:50%}
+.vsdog{position:absolute;left:-22%;bottom:-2%;width:50%;z-index:-1}
+.vsbot{isolation:isolate}
 .vsdog svg{width:100%;height:auto;display:block}
 .bigdog{width:min(220px,70%);margin-inline:auto}
 .bigdog svg{width:100%;height:auto}
@@ -302,7 +305,7 @@ body[data-screen="battle"] #menuBtn{display:none}
 .dinfo .pillbtn{align-self:flex-start}
 .ksub{font-family:var(--display);font-weight:400;font-size:22px;margin:6px 0 0}
 .knote{margin:-4px 0 0;font-weight:700;color:var(--muted);font-size:14px}
-.dgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.dgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:18px 12px;padding-bottom:6px}
 .dcard{position:relative;display:flex;flex-direction:column;align-items:center;gap:3px;background:var(--cloud);border:3px solid var(--ink);border-radius:18px;box-shadow:0 4px 0 var(--ink);padding:8px 8px 26px;cursor:pointer;font:inherit;color:var(--ink);min-width:0;text-align:center}
 .dcard.on{background:#FFF1A8}
 .dcard .dpic{width:100%;max-width:150px}
@@ -375,6 +378,7 @@ body[data-screen="battle"] #menuBtn{display:none}
 .mapfield{position:relative;height:min(140vw,640px);border:4px solid var(--ink);border-radius:20px;overflow:hidden;
   background:radial-gradient(circle at 20% 30%,rgba(255,255,255,.25),transparent 30%),radial-gradient(circle at 80% 70%,rgba(255,255,255,.2),transparent 30%),linear-gradient(#7FD4F5,#4FB0E8)}
 .mappath{position:absolute;inset:0;width:100%;height:100%}
+.mcloud{position:absolute;width:84px;height:26px;border-radius:999px;background:rgba(255,255,255,.85);box-shadow:24px -12px 0 -2px rgba(255,255,255,.85),-18px -6px 0 -6px rgba(255,255,255,.85);transform-origin:left top;pointer-events:none}
 .mnode{position:absolute;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:0;padding:0;cursor:pointer;font:inherit;color:var(--ink);width:120px}
 .mnode .mart{position:relative;display:block;width:76px;height:76px;border-radius:50%;box-shadow:0 5px 0 var(--ink)}
 .mnode.now .mart{box-shadow:0 0 0 5px #FFD23F,0 5px 0 5px var(--ink);animation:pulse 1.4s ease-in-out infinite}
@@ -473,7 +477,12 @@ body[data-screen="battle"] #menuBtn{display:none}
 .hpbox.right .hpname{text-align:right}
 .mini{display:flex;gap:2px;flex:0 0 auto}
 .mini svg{width:22px;height:22px}
-@media (max-width:560px){ .mini{display:none} }
+@media (max-width:560px){
+  .mini{display:none}
+  .hp-top{align-items:flex-start}
+  .hpname{white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;font-size:15px;line-height:1.05;min-height:2.1em}
+  .lvchip{margin-top:1px}
+}
 .hpbar{height:28px;border:3px solid var(--ink);border-radius:14px;background:#fff;overflow:hidden;position:relative;display:flex}
 .hpbox.right .hpbar{justify-content:flex-end}
 .hpfill{height:100%;width:100%;background:var(--mint);transition:width .45s ease-out,background .3s;flex:0 0 auto}
@@ -552,7 +561,7 @@ body[data-screen="battle"] #menuBtn{display:none}
   animation:cardin .35s cubic-bezier(.3,1.4,.5,1)}
 @keyframes cardin{from{transform:translateY(30px) scale(.94);opacity:0}}
 .card.wide{width:min(520px,100%)}
-.close{position:absolute;top:14px;right:12px;width:40px;height:40px}
+.close{position:absolute;top:-14px;right:-12px;width:44px;height:44px;z-index:2;background:var(--paper);box-shadow:0 4px 0 var(--ink)}
 .ribbon{position:absolute;top:0;left:50%;transform:translate(-50%,-55%) rotate(-2deg);white-space:nowrap;max-width:calc(100% - 20px);overflow:hidden;
   font-family:var(--display);font-size:clamp(24px,7vw,32px);color:#fff;background:var(--tomato);border:4px solid var(--ink);border-radius:16px;
   padding:4px 20px 6px;box-shadow:0 5px 0 var(--ink);text-shadow:0 3px 0 rgba(43,29,58,.4)}
@@ -563,6 +572,8 @@ body[data-screen="battle"] #menuBtn{display:none}
 .bigbot{position:relative;width:min(180px,50vw)}
 .stage.small .bigbot{width:min(140px,40vw)}
 .stage.small::before{width:min(170px,48vw)}
+.dailychest{width:150px;margin:-6px auto 0}
+.dailychest svg{width:100%;height:auto;display:block}
 .popin{animation:popin .6s cubic-bezier(.3,1.6,.5,1)}
 @keyframes popin{0%{transform:scale(.2) rotate(-20deg);opacity:0}100%{transform:scale(1);opacity:1}}
 .botname{font-family:var(--display);font-weight:400;font-size:clamp(24px,6.8vw,30px);line-height:1.05;text-wrap:balance;overflow-wrap:anywhere}
@@ -654,7 +665,7 @@ body[data-screen="battle"] #menuBtn{display:none}
 .armtab{font-family:var(--display);font-size:17px;color:#BDB6E0;background:#251D4D;border:3px solid #0A0718;border-radius:14px;padding:8px 6px;cursor:pointer}
 .armtab[aria-selected="true"]{background:#7FF3FF;color:var(--ink)}
 .vehicles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;width:100%}
-.vcard{position:relative;background:var(--cloud);border:3px solid var(--ink);border-radius:18px;box-shadow:0 4px 0 var(--ink);padding:8px 8px 10px;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;font:inherit;color:var(--ink);min-width:0}
+.vcard{position:relative;overflow:hidden;background:var(--cloud);border:3px solid var(--ink);border-radius:18px;box-shadow:0 4px 0 var(--ink);padding:8px 8px 10px;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;font:inherit;color:var(--ink);min-width:0}
 .vcard .vpic{width:100%;max-width:130px;aspect-ratio:200/240}
 .vcard .vpic svg{width:100%;height:100%}
 .vcard b{font-family:var(--display);font-weight:400;font-size:18px;line-height:1.1}
@@ -670,7 +681,9 @@ body[data-screen="battle"] #menuBtn{display:none}
   background:radial-gradient(circle at 50% 40%,rgba(127,243,255,.18),transparent 70%),#140F2E}
 .weaponslot .wic svg{width:48px;height:48px}
 .weaponslot b{font-family:var(--display);font-weight:400;font-size:19px;display:block;line-height:1.1}
-.weaponslot span.ws{font-size:13px;font-weight:700;color:#BDB6E0}
+.weaponslot span.ws{font-size:13px;font-weight:700;color:#BDB6E0;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.weaponslot > span:nth-child(2){min-width:0}
+.weaponslot b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .weaponslot .chg{font-family:var(--display);font-size:15px;background:#7FF3FF;color:var(--ink);border-radius:999px;padding:3px 12px;white-space:nowrap}
 .armoury{overflow:hidden}
 .armoury .phead{background:#1E1A3A;color:#7FF3FF}
@@ -1916,9 +1929,9 @@ function dogSVG(d){
 function gadgetIcon(id, size){
   const S = `stroke="${INK}" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"`;
   const art = {
-    laser: `<path d="M8 40 Q32 54 56 40" fill="none" stroke="${INK}" stroke-width="12" stroke-linecap="round"/><path d="M8 40 Q32 54 56 40" fill="none" stroke="#3A3550" stroke-width="7" stroke-linecap="round"/>
-      ${[18, 32, 46].map((x, i) => `<circle cx="${x}" cy="${[45, 48, 45][i]}" r="5" fill="#FF3B7F" filter="url(#mcGlow)"/><circle cx="${x}" cy="${[45, 48, 45][i]}" r="4" fill="#FFC2D6" stroke="${INK}" stroke-width="2"/>`).join('')}
-      <path d="M32 40 V8" stroke="#FF3B7F" stroke-width="6" stroke-linecap="round" filter="url(#mcGlow)"/><path d="M32 40 V8" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>`,
+    laser: `<path d="M44 38 L64 22" stroke="#FF3B7F" stroke-width="9" stroke-linecap="round" filter="url(#mcGlow)"/><path d="M44 38 L64 22" stroke="#FFC2D6" stroke-width="3.5" stroke-linecap="round"/>
+      <ellipse cx="28" cy="34" rx="22" ry="11" fill="none" stroke="${INK}" stroke-width="12"/><ellipse cx="28" cy="34" rx="22" ry="11" fill="none" stroke="#3A3550" stroke-width="7"/>
+      ${[[14, 41], [28, 45], [42, 41]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="6" fill="#FF3B7F" filter="url(#mcGlow)"/><circle cx="${x}" cy="${y}" r="4.6" fill="#FF8FB3" stroke="${INK}" stroke-width="2"/><circle cx="${x - 1.4}" cy="${y - 1.6}" r="1.4" fill="#fff"/>`).join('')}`,
     rockets: [0, 1].map(i => `<g transform="translate(${16 + i * 22} 8)"><path class="flame" d="M2 40 L6 54 L10 40Z" fill="#FFB020" ${S} stroke-width="2"/><rect x="0" y="12" width="12" height="30" rx="5" fill="#D6DEE7" ${S}/><path d="M0 14 L6 0 L12 14Z" fill="#FF4D5E" ${S}/></g>`).join(''),
     ice: `<circle cx="32" cy="32" r="20" fill="none" stroke="${INK}" stroke-width="12"/><circle cx="32" cy="32" r="20" fill="none" stroke="#4FC3F7" stroke-width="7"/>
       ${[0, 60, 120, 180, 240, 300].map(a => `<path transform="rotate(${a} 32 32)" d="M28 6 L32 -2 L36 6Z" fill="#E8FDFF" ${S} stroke-width="2"/>`).join('')}`,
@@ -1962,7 +1975,7 @@ function buildRobot({parts, lv, level, colors, name, weapon = null, style = 'cla
   if (w){ pow += w.pow; spd += w.spd; def += w.def; }
   const g = GUN[gun] || null;
   if (g){ pow += g.pow; spd += g.spd; def += g.def; }
-  const hp = Math.round((30 + Math.round(def * 1.5) + parts.length * 6 + (level - 1) * 5) * 1.25);
+  const hp = Math.round((30 + Math.round(def * 1.5) + parts.length * 6 + (level - 1) * 5) * 1.8); // tuned so fights last about 5 to 8 turns
   const specials = [...new Set(parts.map(id => OBJ[id].special))];
   if (w) specials.push(w.special);
   return { parts: parts.slice(), name, colors, level, pow, spd, def, hp, combos, specials,
@@ -1985,8 +1998,8 @@ function myRobot(){
 function enemyDog(boss){
   const mine = myDog();
   if (!mine || !(boss || Math.random() < .4)) return null;
-  const level = clamp(mine.level + (boss ? 0 : Math.round(rand(-1, .4))), 1, MAX_DOG_LEVEL);
-  return { breed: boss ? 'rottweiler' : pick(DOGS).id, level, acc: boss ? 'crown' : Math.random() < .3 ? pick(ACCS.slice(0, 6)).id : null, name: boss ? 'Fang' : pick(['Chomper','Growler','Spike','Rex','Snapper','Rusty']),
+  const level = clamp(mine.level - 1 + (boss ? 0 : Math.round(rand(-1, .4))), 1, MAX_DOG_LEVEL);
+  return { breed: boss ? 'rottweiler' : pick(DOGS).id, level, acc: boss ? 'party' : Math.random() < .3 ? pick(ACCS.slice(0, 6)).id : null, name: boss ? 'Fang' : pick(['Chomper','Growler','Spike','Rex','Snapper','Rusty']),
            gadget: boss || (save.gadgets.length && Math.random() < .5) ? pick(GADGETS.slice(0, Math.max(1, save.gadgets.length + (boss ? 1 : 0)))).id : null };
 }
 const BOSS_EVERY = 10; // each world has 10 stages; stage 10 is the boss
@@ -2030,15 +2043,15 @@ function makeEnemy(opts = {}){
                          gun: !useGun ? null : boss ? pick(W.guns.concat(['rocket','mega'])) : pick(W.guns),
                          vehicle: boss ? 'tank' : save.wins >= 1 && Math.random() < .5 ? pick(VEHICLES.filter(v => v.level <= save.level + 1)).id : null,
                          dog: enemyDog(boss) });
-  const m = Math.min(1, .78 + save.wins * .03) * (1 + .1 * (save.lap || 0));
+  const m = Math.min(.92, .74 + save.wins * .025) * (1 + .1 * (save.lap || 0)); // normal enemies stay a little weaker than you
   r.pow = Math.round(r.pow * m); r.spd = Math.round(r.spd * m); r.def = Math.round(r.def * m);
   r.hp = Math.round(r.hp * (m * .5 + .5));
   if (boss){
     // A boss is matched to your robot: a bit tougher than you, and a bit weaker each time it beats you.
     const me = myRobot(), ease = clamp(1 - .1 * (save.bossTries || 0), .7, 1);
     r.boss = true; r.level = save.level;
-    r.hp = Math.round(me.hp * 1.3 * ease);
-    r.pow = Math.max(1, Math.round(Math.max(me.pow, 2) * 1.05 * ease));
+    r.hp = Math.round(me.hp * 1.1 * ease);
+    r.pow = Math.max(1, Math.round(Math.max(me.pow, 2) * .94 * ease));
     r.spd = Math.round(me.spd * ease); r.def = Math.round(me.def * ease);
   }
   return r;
@@ -2307,12 +2320,12 @@ function openMenu(){
     `<button class="mtile" type="button" data-go="${id}" style="--c:${color}">${badge ? `<span class="mbadge">${badge}</span>` : ''}<span class="mic">${icon}</span><b>${name}</b><small>${sub}</small></button>`;
   showOverlay(`<div class="ribbon purple">MENU</div>
     <div class="menugrid">
-      ${tile('parts', iconSvg('gear', 52), 'Parts', `${save.unlocked.length} of ${OBJECTS.length} found`, '#FFF1A8', fresh)}
-      ${tile('armoury', weaponIcon('blue', 54), 'Armoury', 'Swords and blasters', '#E3DBFF')}
       ${tile('map', worldArt(curWorld(), 54), 'Adventure', `World ${save.world + 1} · Stage ${stageNo()}`, '#CFF3E3')}
       ${tile('daily', chestSVG('gold', !dailyChestReady()), 'Daily', `${ensureDaily().missions.filter(m => m.done).length} / 3 missions`, '#FFF1A8', dailyChestReady() ? '!' : 0)}
-      ${tile('stickers', `<span style="width:50px;display:block">${STAR(true)}</span>`, 'Stickers', `${save.stickers.length} / ${STICKERS.length} collected`, '#FFE3F0')}
+      ${tile('parts', iconSvg('gear', 52), 'Parts', `${save.unlocked.length} of ${OBJECTS.length} found`, '#FFF1A8', fresh)}
+      ${tile('armoury', weaponIcon('blue', 54), 'Armoury', 'Swords and blasters', '#E3DBFF')}
       ${tile('kennel', `<span style="width:58px;display:block">${dogSVG(myDog() || { breed: 'dachshund' })}</span>`, 'Kennel', myDog() ? `${esc(myDog().name)} · Lv ${myDog().level}` : 'Get a battle dog!', '#FFE9C7', save.dog ? (trickReady() ? '!' : 0) : (save.wins >= 1 ? '!' : 0))}
+      ${tile('stickers', `<span style="width:50px;display:block">${STAR(true)}</span>`, 'Stickers', `${save.stickers.length} / ${STICKERS.length} collected`, '#FFE3F0')}
       ${tile('leaderboard', `<svg viewBox="0 0 24 24" width="50" height="50" aria-hidden="true">${TROPHY.replace(/^<svg[^>]*>|<\/svg>$/g, '')}</svg>`, 'Leaderboard', 'Most wins', '#D7F5EC', chal)}
       ${net ? tile('player', `<span style="width:46px;display:block">${robotSVG(myRobot())}</span>`, 'Player', 'Profile code, switch player', '#FFD9E6') : ''}
       ${tile('book', `<svg viewBox="0 0 24 24" width="50" height="50" aria-hidden="true"><path d="M4 5c3-1 6-1 8 1v14c-2-2-5-2-8-1z" fill="#FF4D5E" stroke="#2B1D3A" stroke-width="2" stroke-linejoin="round"/><path d="M20 5c-3-1-6-1-8 1v14c2-2 5-2 8-1z" fill="#FFD23F" stroke="#2B1D3A" stroke-width="2" stroke-linejoin="round"/></svg>`, 'Combo Book', `${save.combos.length} of ${COMBOS.length} combos`, '#FFE3D6')}
@@ -2992,9 +3005,9 @@ function renderAll(pop = -1){ renderHeader(); renderRobot(pop); renderTray(); re
 function renderDogSlot(){
   const d = myDog(), slot = $('dogSlot'), pd = $('pdog');
   slot.innerHTML = d
-    ? `<span class="wic">${dogSVG(d)}</span><span><b id="dogSlotName"></b><span class="ws">${DOG[d.breed].name} · Level ${d.level}${d.gadget ? ' · ' + GADGET[d.gadget].name : ''}${d.acc ? ' · ' + ACC[d.acc].name : ''}</span></span><span class="chg">Kennel</span>`
+    ? `<span class="wic">${dogSVG(d)}</span><span><b id="dogSlotName"></b><span class="ws">${DOG[d.breed].name} · Lv ${d.level}</span></span><span class="chg">Kennel</span>`
     : `<span class="wic">${dogSVG({ breed: 'dachshund' })}</span><span><b>Get a battle dog!</b><span class="ws">Your first dog is free</span></span><span class="chg">Kennel</span>`;
-  if (d) $('dogSlotName').textContent = `${d.name} the ${DOG[d.breed].name}`;
+  if (d) $('dogSlotName').textContent = d.name;
   slot.setAttribute('aria-label', d ? `Battle dog: ${d.name}. Open the kennel` : 'Get a battle dog');
   pd.hidden = !d; pd.innerHTML = d ? dogSVG(d) : '';
 }
@@ -3149,12 +3162,12 @@ function renderSwords(){
   document.querySelectorAll('.armtab').forEach(t => t.setAttribute('aria-selected', t.dataset.tab === armTab));
   $('swordCount').textContent = `${save.weapons.length + save.guns.length} / ${WEAPONS.length + GUNS.length}`;
   const w = WEAPON[myWeapon()], g = GUN[myGun()], slot = $('weaponSlot');
-  slot.innerHTML = g ? `<span class="wic">${gunIcon(g.id, 48)}</span><span><b>${g.name}</b><span class="ws">Blaster · ${g.ammo} shot${g.ammo === 1 ? '' : 's'} a battle</span></span><span class="chg">Change</span>`
+  slot.innerHTML = g ? `<span class="wic">${gunIcon(g.id, 48)}</span><span><b>${g.name}</b><span class="ws">Blaster · ${g.ammo} shot${g.ammo === 1 ? '' : 's'}</span></span><span class="chg">Change</span>`
     : w ? `<span class="wic">${weaponIcon(w.id, 48)}</span><span><b>${w.name}</b><span class="ws">Laser sword · +${w.pow} power</span></span><span class="chg">Change</span>`
     : `<span class="wic"></span><span><b>No weapon</b><span class="ws">Tap to pick a sword or a blaster</span></span><span class="chg">Pick</span>`;
   slot.setAttribute('aria-label', g ? `Weapon: ${g.name}. Change weapon` : w ? `Weapon: ${w.name}. Change weapon` : 'Pick a weapon');
   const v = VEHICLE[myVehicle()], fs = $('formSlot');
-  fs.innerHTML = `<span class="wic">${v ? vehicleSVG({ ...myRobot(), vehicle: v.id }) : ''}</span><span><b>${v ? 'Transforms into: ' + v.name : 'No vehicle form'}</b><span class="ws">${v ? 'Tap TRANSFORM in battle' : 'Tap to pick one'}</span></span><span class="chg">Change</span>`;
+  fs.innerHTML = `<span class="wic">${v ? vehicleSVG({ ...myRobot(), vehicle: v.id }) : ''}</span><span><b>${v ? v.name : 'No vehicle form'}</b><span class="ws">${v ? 'Transforms in battle' : 'Tap to pick one'}</span></span><span class="chg">Change</span>`;
   fs.setAttribute('aria-label', v ? `Vehicle form: ${v.name}. Change vehicle` : 'Pick a vehicle form');
 }
 function openArmoury(tab){
@@ -3172,7 +3185,7 @@ function openGun(id){
   const row = (label, v, color) => `<div class="srow"><b>${label}</b><div class="sbar"><i style="width:${Math.min(100, v / 10 * 100)}%;background:${color}"></i></div><span class="val">${v ? '+' + v : '–'}</span></div>`;
   let actions;
   if (on) actions = `<button class="btn plain" id="gOff" type="button">Put the blaster away</button>`;
-  else if (owned) actions = `<button class="btn big green ready" id="gOn" type="button">${myWeapon() ? 'Swap my sword for this' : 'Hold this blaster'}</button>`;
+  else if (owned) actions = `<button class="btn big green ready" id="gOn" type="button">${myWeapon() ? 'Use this instead' : 'Hold this blaster'}</button>`;
   else actions = `<button class="btn big yellow" id="gBuy" type="button" ${short > 0 ? 'disabled' : ''}>Buy <span class="cost">${COIN(24)}${g.cost}</span></button>
     <p class="note">${short > 0 ? `You need ${short} more coin${short === 1 ? '' : 's'}. Win battles to get coins!` : `You have ${save.coins} coins.`}</p>`;
   showOverlay(`<div class="ribbon purple">${g.name.toUpperCase()}</div>
@@ -3210,7 +3223,7 @@ function openWeapon(id){
   const row = (label, v, color) => `<div class="srow"><b>${label}</b><div class="sbar"><i style="width:${Math.min(100, v / 10 * 100)}%;background:${color}"></i></div><span class="val">${v ? '+' + v : '–'}</span></div>`;
   let actions;
   if (on) actions = `<button class="btn plain" id="wOff" type="button">Put the sword away</button>`;
-  else if (owned) actions = `<button class="btn big green ready" id="wOn" type="button">${myGun() ? 'Swap my blaster for this' : 'Hold this sword'}</button>`;
+  else if (owned) actions = `<button class="btn big green ready" id="wOn" type="button">${myGun() ? 'Use this instead' : 'Hold this sword'}</button>`;
   else actions = `<button class="btn big yellow" id="wBuy" type="button" ${short > 0 ? 'disabled' : ''}>Buy <span class="cost">${COIN(24)}${w.cost}</span></button>
     <p class="note">${short > 0 ? `You need ${short} more coin${short === 1 ? '' : 's'}. Win battles to get coins!` : `You have ${save.coins} coins.`}</p>`;
   showOverlay(`<div class="ribbon purple">${w.name.toUpperCase()}</div>
@@ -3344,7 +3357,7 @@ function openDailyChest(){
   save.coins += coins; persist();
   sfx('chest'); confetti();
   showOverlay(`<div class="ribbon win">DAILY CHEST!</div>
-    <div class="chest">${chestSVG('gold', true)}</div>
+    <div class="dailychest popin">${chestSVG('gold', true)}</div>
     <h2 class="botname">Day ${d.streak} streak!</h2>
     <p class="muted">${d.streak >= 7 ? 'Wow, a whole week! Maximum chest!' : `Come back tomorrow for an even bigger chest. Day ${Math.min(d.streak + 1, 7)} gives ${5 + Math.min(d.streak + 1, 7) * 2} coins.`}</p>
     <div class="rewards one"><div class="reward" id="coinReward">${COIN(36)}<div><b>+${coins}</b><br><span>coins</span></div></div></div>
@@ -3448,7 +3461,7 @@ function renderMap(){
   const cur = save.world, st = stageNo();
   const path = MAP_POS.map(([x, y], i) => `${i ? 'L' : 'M'}${x} ${y}`).join(' ');
   box.innerHTML = `<div class="maphead"><b>${save.lap ? `Champion Lap ${save.lap + 1}` : 'Adventure'}</b><span>Beat the boss at stage 10 to open the next world</span></div>
-    <div class="mapfield"><svg class="mappath" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="${path}" fill="none" stroke="#fff" stroke-width="2.4" stroke-dasharray="1 3.2" stroke-linecap="round" vector-effect="non-scaling-stroke"/></svg>
+    <div class="mapfield"><span class="mcloud" style="left:6%;top:6%"></span><span class="mcloud" style="left:58%;top:30%;transform:scale(.8)"></span><span class="mcloud" style="left:8%;top:44%;transform:scale(.7)"></span><span class="mcloud" style="left:62%;top:62%;transform:scale(.9)"></span><svg class="mappath" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><path d="${path}" fill="none" stroke="#fff" stroke-width="2.4" stroke-dasharray="1 3.2" stroke-linecap="round" vector-effect="non-scaling-stroke"/></svg>
     ${WORLDS.map((W, i) => {
       const done = i < cur || save.lap > 0, now = i === cur, locked = i > cur && !save.lap;
       return `<button class="mnode${now ? ' now' : ''}${locked ? ' locked' : ''}" type="button" data-world="${i}" style="left:${MAP_POS[i][0]}%;top:${MAP_POS[i][1]}%;--wc:${W.color}">
